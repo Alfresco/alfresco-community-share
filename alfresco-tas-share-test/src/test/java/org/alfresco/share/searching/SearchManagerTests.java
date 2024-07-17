@@ -8,6 +8,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.dataprep.CMISUtil;
+import org.alfresco.dataprep.ContentActions;
+import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
@@ -33,6 +36,7 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.report.Bug;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -87,9 +91,21 @@ public class SearchManagerTests extends BaseTest
     private String documentName = String.format("Doc%s", RandomData.getRandomAlphanumeric());
     private String filterId;
     private String filterName;
+    @Autowired
+    protected UserService userService;
+    @Autowired
+    protected ContentActions contentAction;
 
     @BeforeMethod (alwaysRun = true)
     public void setupTest(){
+
+        log.info("Step 1: user creation using admin user.");
+        getCmisApi().authenticateUser(getAdminUser());
+        authenticateUsingLoginPage(getAdminUser());
+        testUser1 = dataUser.usingAdmin().createRandomTestUser();
+        testUser2 = dataUser.usingAdmin().createRandomTestUser();
+        testUser3 = dataUser.usingAdmin().createRandomTestUser();
+
         editUserPage = new EditUserPage(webDriver);
         documentLibraryPage = new DocumentLibraryPage(webDriver);
         siteMembersPage = new SiteMembersPage(webDriver);
@@ -108,12 +124,7 @@ public class SearchManagerTests extends BaseTest
         toolbar = new Toolbar(webDriver);
         searchPage = new SearchPage(webDriver);
         userProfileAdminToolsPage = new UserProfileAdminToolsPage(webDriver);
-        log.info("Step 1: user creation using admin user.");
-        getCmisApi().authenticateUser(getAdminUser());
-        authenticateUsingLoginPage(getAdminUser());
-        testUser1 = dataUser.usingAdmin().createRandomTestUser();
-        testUser2 = dataUser.usingAdmin().createRandomTestUser();
-        testUser3 = dataUser.usingAdmin().createRandomTestUser();
+
         log.info("Step 2: Editing all the three users and also adding user1 to ALFRESCO_SEARCH_ADMINISTRATORS GROUP");
         UserModel editUser1 = testUser1;
         editUserPage.navigate(editUser1).editFirstName(firstName1).editLastNameField(lastName1).addGroup(groupName).clickSaveChanges();
@@ -122,158 +133,42 @@ public class SearchManagerTests extends BaseTest
         UserModel editUser3 = testUser3;
         editUserPage.navigate(editUser3).editFirstName(firstName3).editLastNameField(lastName3).clickSaveChanges();
         authenticateUsingLoginPage(editUser1);
+
         log.info("Step 3: Creating three different data site using user1 ");
         testSite1 = dataSite.usingUser(editUser1).createPublicRandomSite();
         testSite2 = dataSite.usingUser(editUser1).createPublicRandomSite();
         testSite3 = dataSite.usingUser(editUser1).createPublicRandomSite();
-        log.info("Step 4: Making user2 & user3 as manager role for site1");
-        documentLibraryPage.navigate(testSite1);
-        siteDashboardPage.clickSiteMembers();
-        siteMembersPage.clickAddUsersIcon();
-        addUserDialog.addUserToSite(editUser2.getUsername()).clickSelect();
-        addUserDialog.setUserRole();
-        addUserDialog.clickAddUser();
-        addUserDialog.addUserToSite(editUser3.getUsername()).clickSelect();
-        addUserDialog.setUserRole();
-        addUserDialog.clickAddUser();
-        log.info("Step 5: creating documents using user1, user2 & user3 in testsite 1");
-        documentLibraryPage.navigateToDocumentLibraryPage();
-        documentLibraryPage
-            .clickCreateContentOption(DocumentLibraryPage.CreateMenuOption.PLAIN_TEXT);
-        createContent
-            .typeName(documentName + "1")
-            .typeContent(documentName + "content")
-            .clickCreate();
-        documentLibraryPage.navigate(testSite1);
-        documentLibraryPage
-            .clickCreateContentOption(DocumentLibraryPage.CreateMenuOption.PLAIN_TEXT);
-        createContent
-            .typeName(documentName + "2")
-            .typeContent(documentName + "content")
-            .clickCreate();
-        documentLibraryPage.navigate(testSite1);
-        authenticateUsingLoginPage(editUser2);
-        documentLibraryPage.navigate(testSite1);
-        documentLibraryPage
-            .clickCreateContentOption(DocumentLibraryPage.CreateMenuOption.PLAIN_TEXT);
-        createContent
-            .typeName(documentName + "21")
-            .typeContent(documentName + "content")
-            .clickCreate();
-        documentLibraryPage.navigate(testSite1);
-        documentLibraryPage
-            .clickCreateContentOption(DocumentLibraryPage.CreateMenuOption.PLAIN_TEXT);
-        createContent
-            .typeName(documentName + "22")
-            .typeContent(documentName + "content")
-            .clickCreate();
-        documentLibraryPage.navigate(testSite1);
-        documentLibraryPage
-            .clickCreateContentOption(DocumentLibraryPage.CreateMenuOption.PLAIN_TEXT);
-        createContent
-            .typeName(documentName + "23")
-            .typeContent(documentName + "content")
-            .clickCreate();
-        documentLibraryPage.navigate(testSite1);
-        authenticateUsingLoginPage(editUser3);
-        documentLibraryPage.navigate(testSite1);
-        documentLibraryPage
-            .clickCreateContentOption(DocumentLibraryPage.CreateMenuOption.PLAIN_TEXT);
-        createContent
-            .typeName(documentName + "31")
-            .typeContent(documentName + "content")
-            .clickCreate();
-        documentLibraryPage.navigate(testSite1);
-        authenticateUsingLoginPage(editUser1);
-        documentLibraryPage.navigate(testSite1);
-        documentLibraryPage.clickOnFile(documentName + "1");
-        documentDetailsPage.clickEditProperties();
-        editPropertiesPage.clickSelectButton()
-            .typeTag("tag1")
-            .clickCreateNewIcon()
-            .clickOk()
-            .clickSave();
-        documentLibraryPage.navigate(testSite1);
-        authenticateUsingLoginPage(editUser1);
-        documentLibraryPage.navigate(testSite1);
-        documentLibraryPage.clickOnFile(documentName + "2");
-        documentDetailsPage.clickEditProperties();
-        editPropertiesPage.clickSelectButton()
-            .typeTag("tag2")
-            .clickCreateNewIcon()
-            .clickOk()
-            .clickSave();
-        documentLibraryPage.navigate(testSite1);
-        log.info("Step 6: creating documents using user1 in testsite 2");
-        authenticateUsingLoginPage(editUser1);
-        documentLibraryPage.navigate(testSite2);
-        documentLibraryPage
-            .clickCreateContentOption(DocumentLibraryPage.CreateMenuOption.PLAIN_TEXT);
-        createContent
-            .typeName(documentName + "3")
-            .typeContent(documentName + "content")
-            .clickCreate();
-        documentLibraryPage.navigate(testSite2);
-        documentLibraryPage
-            .clickCreateContentOption(DocumentLibraryPage.CreateMenuOption.PLAIN_TEXT);
-        createContent
-            .typeName(documentName + "4")
-            .typeContent(documentName + "content")
-            .clickCreate();
-        documentLibraryPage.navigate(testSite2);
-        documentLibraryPage.clickOnFile(documentName + "3");
-        documentDetailsPage.clickEditProperties();
-        editPropertiesPage.clickSelectButton()
-            .typeTag("tag3")
-            .clickCreateNewIcon()
-            .clickOk()
-            .clickSave();
-        documentLibraryPage.navigate(testSite2);
-        documentLibraryPage.clickOnFile(documentName + "4");
-        documentDetailsPage.clickEditProperties();
-        editPropertiesPage.clickSelectButton()
-            .typeTag("tag4")
-            .clickCreateNewIcon()
-            .clickOk()
-            .clickSave();
-        documentLibraryPage.navigate(testSite2);
-        log.info("Step 7: creating documents using user1 in testsite 3");
-        authenticateUsingLoginPage(editUser1);
-        documentLibraryPage.navigate(testSite3);
-        documentLibraryPage
-            .clickCreateContentOption(DocumentLibraryPage.CreateMenuOption.PLAIN_TEXT);
-        createContent
-            .typeName(documentName + "5")
-            .typeContent(documentName + "content")
-            .clickCreate();
-        documentLibraryPage.navigate(testSite3);
-        documentLibraryPage
-            .clickCreateContentOption(DocumentLibraryPage.CreateMenuOption.PLAIN_TEXT);
-        createContent
-            .typeName(documentName + "6")
-            .typeContent(documentName + "content")
-            .clickCreate();
-        documentLibraryPage.navigate(testSite3);
-        documentLibraryPage.clickOnFile(documentName + "5");
-        documentDetailsPage.clickEditProperties();
-        editPropertiesPage.clickSelectButton()
-            .typeTag("tag5")
-            .clickCreateNewIcon()
-            .clickOk()
-            .clickSave();
-        documentLibraryPage.navigate(testSite3);
-        documentLibraryPage.clickOnFile(documentName + "6");
-        documentDetailsPage.clickEditProperties();
-        editPropertiesPage.clickSelectButton()
-            .typeTag("tag6")
-            .clickCreateNewIcon()
-            .clickOk()
-            .clickSave();
+
+        // site1 members
+        userService.createSiteMember(editUser1.getUsername(), editUser1.getPassword(), editUser2.getUsername(), testSite1.getId(), "SiteManager");
+        userService.createSiteMember(editUser1.getUsername(), editUser1.getPassword(), editUser3.getUsername(), testSite1.getId(), "SiteManager");
+
+        // site1 documents
+        contentService.createDocument(editUser1.getUsername(), editUser1.getPassword(), testSite1.getId(), CMISUtil.DocumentType.TEXT_PLAIN, documentName + "1", documentName + " content");
+        contentService.createDocument(editUser1.getUsername(), editUser1.getPassword(), testSite1.getId(), CMISUtil.DocumentType.TEXT_PLAIN, documentName + "2", documentName + " content");
+        contentService.createDocument(editUser2.getUsername(), editUser2.getPassword(), testSite1.getId(), CMISUtil.DocumentType.TEXT_PLAIN, documentName + "21", documentName + " content");
+        contentService.createDocument(editUser2.getUsername(), editUser2.getPassword(), testSite1.getId(), CMISUtil.DocumentType.TEXT_PLAIN, documentName + "22", documentName + " content");
+        contentService.createDocument(editUser2.getUsername(), editUser2.getPassword(), testSite1.getId(), CMISUtil.DocumentType.TEXT_PLAIN, documentName + "23", documentName + " content");
+        contentService.createDocument(editUser3.getUsername(), editUser3.getPassword(), testSite1.getId(), CMISUtil.DocumentType.TEXT_PLAIN, documentName + "31", documentName + " content");
+        contentAction.addSingleTag(editUser1.getUsername(), editUser1.getPassword(), testSite1.getId(), documentName + "1", "tag1");
+        contentAction.addSingleTag(editUser1.getUsername(), editUser1.getPassword(), testSite1.getId(), documentName + "2", "tag2");
+
+        // site2 documents
+        contentService.createDocument(editUser1.getUsername(), editUser1.getPassword(), testSite2.getId(), CMISUtil.DocumentType.TEXT_PLAIN, documentName + "3", documentName + " content");
+        contentService.createDocument(editUser1.getUsername(), editUser1.getPassword(), testSite2.getId(), CMISUtil.DocumentType.TEXT_PLAIN, documentName + "4", documentName + " content");
+        contentAction.addSingleTag(editUser1.getUsername(), editUser1.getPassword(), testSite2.getId(), documentName + "3", "tag3");
+        contentAction.addSingleTag(editUser1.getUsername(), editUser1.getPassword(), testSite2.getId(), documentName + "4", "tag4");
+
+        // site3 documents
+        contentService.createDocument(editUser1.getUsername(), editUser1.getPassword(), testSite3.getId(), CMISUtil.DocumentType.TEXT_PLAIN, documentName + "5", documentName + " content");
+        contentService.createDocument(editUser1.getUsername(), editUser1.getPassword(), testSite3.getId(), CMISUtil.DocumentType.TEXT_PLAIN, documentName + "6", documentName + " content");
+        contentAction.addSingleTag(editUser1.getUsername(), editUser1.getPassword(), testSite3.getId(), documentName + "5", "tag5");
+        contentAction.addSingleTag(editUser1.getUsername(), editUser1.getPassword(), testSite3.getId(), documentName + "6", "tag6");
+
         authenticateUsingLoginPage(editUser1);
         userDashboardPage.navigate(editUser1);
 
     }
-
 
     @AfterMethod
     public void removeAddedFiles()
@@ -289,9 +184,8 @@ public class SearchManagerTests extends BaseTest
 
 
     @TestRail (id = "C6274")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
-    public void verifySearchManagerPage()
-    {
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 3)
+    public void verifySearchManagerPage() {
         List<String> expectedTableColumns = Arrays.asList("Filter ID", "Filter Name", "Filter Property", "Filter Type", "Show with Search Results",
             "Default Filter", "Filter Availability");
         List<String> defaultFilters = Arrays.asList("faceted-search.facet-menu.facet.creator", "faceted-search.facet-menu.facet.formats",
@@ -301,7 +195,8 @@ public class SearchManagerTests extends BaseTest
         log.info("Step 1: Open 'Advanced Search' page and click 'Search' button.");
         advancedSearchPage.navigate();
         advancedSearchPage.clickOnFirstSearchButtons();
-        searchPage.assertSearchManagerButtonIsDisplayed();
+
+        assertTrue(searchPage.SearchManagerButtonDisplayed());
 
         log.info("Step 2: Click on 'Search Manager' link.");
         searchPage.clickSearchManagerLink();
@@ -373,9 +268,8 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6283")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
-    public void verifyFilterAvailabilityProperty()
-    {
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 4)
+    public void verifyFilterAvailabilityProperty() throws InterruptedException {
         filterId = String.format("tag-filter%s", RandomData.getRandomAlphanumeric());
         filterName = String.format("tagFilter%s", RandomData.getRandomAlphanumeric());
 
@@ -445,7 +339,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6307")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 5)
     public void verifyNumberOfFiltersProperty() {
         modifier1 = firstName1+" "+lastName1;
         modifier2 = firstName2+" "+lastName2;
@@ -464,7 +358,7 @@ public class SearchManagerTests extends BaseTest
         createNewFilterPopup.clickSave();
 
         log.info("STEP 3: Type '" + documentName + "' on the search box from 'Alfresco Toolbar' and press 'Enter' key.");
-        toolbar.search(documentName);
+        toolbar.searchAndEnterAgain(documentName);
 
         log.info("STEP 4: Verify 'Modifier' filter from 'Filter by' section.");
         assertTrue(searchPage.isTheFilterOptionVisible(modifier1), modifier1 + " option is displayed under the Modifier filter.");
@@ -512,9 +406,11 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6309")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
-    public void verifyMinimumRequiredResultsProperty()
-    {
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 6)
+    public void verifyMinimumRequiredResultsProperty() throws InterruptedException {
+        modifier1 = firstName1+" "+lastName1;
+        modifier2 = firstName2+" "+lastName2;
+
         filterId = "filter_modifier";
 
         searchManagerPage.navigate();
@@ -530,15 +426,15 @@ public class SearchManagerTests extends BaseTest
         createNewFilterPopup.clickSave();
 
         log.info("STEP 3: Type '" + documentName + "' on the search box from 'Alfresco Toolbar' and press 'Enter' key.");
-        toolbar.search(documentName);
+        toolbar.searchAndEnterAgain(documentName);
 
         log.info("STEP 4: Verify 'Modifier' filter from 'Filter by' section.");
-        assertTrue(searchPage.isTheFilterOptionVisible(modifier1), modifier1 + " option is not displayed under the Modifier filter.");
-        assertTrue(searchPage.isTheFilterOptionVisible(modifier2), modifier2 + " option is displayed under the Modifier filter.");
+        assertTrue(searchPage.isFilterOptionDisplayed(filterId, modifier1), modifier1 + " option is displayed under the Modifier filter.");
+        assertTrue(searchPage.isFilterOptionDisplayed(filterId, modifier2), modifier1 + " option is displayed under the Modifier filter.");
     }
 
     @TestRail (id = "C6288")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 7)
     public void createNewSearchFilterWithoutSaving()
     {
         filterId = String.format("close-filter%s", RandomData.getRandomAlphanumeric());
@@ -562,7 +458,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6287")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 8)
     public void cancelCreatingNewSearchFilter()
     {
         filterId = String.format("cancel-filter%s", RandomData.getRandomAlphanumeric());
@@ -586,7 +482,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6284")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 9)
     public void modifyExistingSearchFilter()
     {
         filterId = String.format("filterC6284%s", RandomData.getRandomAlphanumeric());
@@ -643,12 +539,10 @@ public class SearchManagerTests extends BaseTest
         assertEquals(createNewFilterPopup.getMiniFilterLength(), "3", "Minimum Filter Length: 3");
         assertEquals(createNewFilterPopup.getMiniRequiredResults(), "3", "Minimum Required Results: 3");
         assertEquals(createNewFilterPopup.getFilterAvailability(), "Selected sites", "Filter Availability: Selected Sites");
-      //  String[] expectedSelectedSites = { testSite1.getTitle(), testSite2.getTitle() };
-       // assertEquals(createNewFilterPopup.getCurrentSelectedSites(), expectedSelectedSites, "Selected Sites (Sites: site1, site2)");
     }
 
     @TestRail (id = "C6314")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 10)
     public void modifySearchFilterWithoutSaving()
     {
         filterId = String.format("filterC6314%s", RandomData.getRandomAlphanumeric());
@@ -708,7 +602,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6299")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 11)
     public void cancelModifyingExistingSearchFilter()
     {
         filterId = String.format("filterC6299%s", RandomData.getRandomAlphanumeric());
@@ -768,7 +662,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6286")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 12)
     public void switchOnOffShowWithSearchResults()
     {
         filterId = "filter_creator";
@@ -807,7 +701,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6311")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 13)
     public void modifySearchFilterName()
     {
         filterId = String.format("filterC6311%s", RandomData.getRandomAlphanumeric());
@@ -830,7 +724,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6312")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 14)
     public void cancelModifyingSearchFilterName()
     {
         filterId = String.format("filterC6312%s", RandomData.getRandomAlphanumeric());
@@ -853,7 +747,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6303")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 15)
     public void deleteSearchFilter()
     {
         filterId = String.format("filterC6303%s", RandomData.getRandomAlphanumeric());
@@ -884,7 +778,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6305")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 16)
     public void cancelDeletingSearchFilter()
     {
         filterId = String.format("filterC6305%s", RandomData.getRandomAlphanumeric());
@@ -921,7 +815,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6285")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 1)
     public void changeSearchFiltersOrder()
     {
         filterId = "filter_creator";
@@ -969,7 +863,7 @@ public class SearchManagerTests extends BaseTest
         assertEquals(searchManagerPage.getFilterPosition(filterId2), filterId2Position, "Filter " + filterId2 + " should be on a different row!");
 
         log.info("STEP 4: Type '" + documentName + "' on the search box from 'Alfresco Toolbar' and press 'Enter' key.");
-        toolbar.search(documentName);
+        toolbar.searchAndEnterSearch(documentName);
         if (result)
         {
             assertTrue(searchPage.getFilterTypePosition(filterName) < searchPage.getFilterTypePosition(filterName2), "The 'Created' filter should be on top of the 'Modifier' filter.");
@@ -981,7 +875,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6313")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 2)
     public void verifySitesSection(){
 
         searchManagerPage.navigate();
