@@ -975,7 +975,7 @@ public abstract class WebElementInteraction
 
     protected WebElement findFirstElementWithValue(By locator, String value)
     {
-        List<WebElement> elementList = waitUntilElementsAreVisible(locator);
+        List<WebElement> elementList = findElements(locator);
         return elementList.stream().filter(element -> element.getText().contains(value)).findFirst().orElse(null);
     }
 
