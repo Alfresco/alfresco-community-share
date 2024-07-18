@@ -26,6 +26,7 @@ public class SocialFeatures extends DocumentLibraryPage
     protected String gEmail = "test.alfresco5@gmail.com";
     protected String gPassword = "Ness2015*";
     private final By commentContent = By.cssSelector("[class=comment-content]");
+    public final By likeButton = By.cssSelector("a.like-action");
     @FindBy (css = ".section input[id*='input']")
     private WebElement publicLinkInputField;
     @FindBy (css = "a.quickshare-action-view")
