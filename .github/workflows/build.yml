@@ -104,41 +104,6 @@ jobs:
              bash scripts/travis/${{ matrix.stage }}.sh
         continue-on-error: true
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    if: >
-      ((!contains(github.event.head_commit.message, '[skip tests]')
-      && inputs.commitMessage != '[skip tests]') || (contains(github.event.head_commit.message, '[delete env]') ||
-      inputs.commitMessage == '[delete env]'))
-      &&
-      ((contains(github.event.head_commit.message, '[create env]') ||
-      inputs.commitMessage == '[create env]'))
-      &&
-      ((!contains(github.event.head_commit.message, '[force')
-      && inputs.commitMessage != '[force'))
-      &&
-      (github.event.repository.fork==false)
-    steps:
-      - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
-      - uses: azure/setup-kubectl@v2.0
-      - name: "Configure AWS credentials for Cluster"
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.ACS_CLUSTER_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.ACS_CLUSTER_AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-1
-      - name: "Init"
-        run: bash scripts/travis/init.sh
-      - name: show namespaces statuses
-        run: kubectl get all --all-namespaces
-      - name: "Deploy on K8s"
-        timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
-        run: bash scripts/travis/deploy_k8s.sh
-
   test:
     runs-on: ubuntu-latest
     needs: build
@@ -329,15 +294,21 @@ jobs:
           export PATH=/opt/firefox/firefox:$PATH
           firefox --version
       - name: Set S3_BUCKET_NAME
+        if: ${{ matrix.test == 'wormTestSuite'}}
         env:
           VERSION: ${{ github.run_number }}
         run: |
           echo "S3_BUCKET_NAME=travis-ags-$VERSION" >> $GITHUB_ENV
           echo $S3_BUCKET_NAME
+      - name: "Configure AWS credentials"
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AGS_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AGS_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.S3_BUCKET_REGION }}
       - name: Build Docker image
         run: |
           firefox --version
-          echo $S3_BUCKET_NAME
           export TAG_NAME="latest"
           bash scripts/travis/create_swap.sh "5"
           bash scripts/travis/build.sh
@@ -379,36 +350,6 @@ jobs:
             share.log
       - name: Get logs
         run: bash amps/ags/travis/scripts/getLogs.sh
-
-  teardown:
-    runs-on: ubuntu-latest
-    needs: test
-    if: >
-      ((!contains(github.event.head_commit.message, '[skip tests]')
-      && inputs.commitMessage != '[skip tests]') || (contains(github.event.head_commit.message, '[delete env]') ||
-      inputs.commitMessage == '[delete env]'))
-      &&
-      ((contains(github.event.head_commit.message, '[create env]') ||
-      inputs.commitMessage == '[create env]'))
-      &&
-      ((!contains(github.event.head_commit.message, '[force')
-      && inputs.commitMessage != '[force'))
-      &&
-      github.event.repository.fork == false
-    steps:
-      - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
-      - uses: azure/setup-kubectl@v2.0
-      - name: "Configure AWS credentials for Cluster"
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.ACS_CLUSTER_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.ACS_CLUSTER_AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-1
-      - name: "Init"
-        run: bash scripts/travis/init.sh
-      - name: Delete Enviornment
-        timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
-        run: bash scripts/travis/delete-env.sh
+      - name: Clean S3 bucket
+        if: ${{ always() && matrix.test == 'wormTestSuite'}}
+        run: bash scripts/travis/cleanup.sh
