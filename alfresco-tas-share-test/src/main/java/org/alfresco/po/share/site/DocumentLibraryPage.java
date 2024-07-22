@@ -823,6 +823,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public String getFavoriteTooltip(String fileName)
     {
+        waitInSeconds(2);
         return selectDocumentLibraryItemRow(fileName).findElement(favoriteLink).getAttribute("title");
     }
 
