@@ -409,6 +409,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public boolean isFilterOptionDisplayed(String filterId, String filterOption)
     {
+        waitInSeconds(3);
         WebElement filterElement = findElement(By.id("FCTSRCH_" + filterId));
         return findFirstElementWithValue(filterElement.findElements(By.cssSelector(".filterLabel")), filterOption) != null;
     }
@@ -416,7 +417,8 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public String getFilterOptionHits(String filterOption)
     {
         waitInSeconds(3);
-        return findFirstElementWithValue(allOptions, filterOption).findElement(By.xpath("following-sibling::*[1]")).getText();
+        List<WebElement> optionList = findElements(allOptions);
+        return findFirstElementWithValue(optionList, filterOption).findElement(By.xpath("following-sibling::*[1]")).getText();
     }
 
     public void clickSortDropdown()
@@ -616,6 +618,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public int getFilterTypePosition(String filter)
     {
+        waitInSeconds(2);
         return findFirstElementWithValue(filterTypeList, filter)
             .findElements(By.xpath("ancestor::div[contains(@id, 'FCTSRCH_filter_')]/preceding-sibling::*")).size() + 1;
     }
@@ -1136,5 +1139,19 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
         waitInSeconds(5);
         getWebDriver().navigate().refresh();
         return this;
+    }
+
+    public boolean SearchManagerButtonDisplayed() {
+        {
+            for (int i = 0; i < 6; i++) {
+                if (isElementDisplayed(searchManager)) {
+                    return true;
+                } else {
+                    refresh();
+                    waitInSeconds(3);
+                }
+            }
+        }
+        return false;
     }
 }
