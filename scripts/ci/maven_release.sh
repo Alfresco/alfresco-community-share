@@ -6,8 +6,7 @@ pushd "$(dirname "${BASH_SOURCE[0]}")/../../"
 
 # Use full history for release
 git checkout -B "${BRANCH_NAME}"
-# Get the latest changes on branch
-git pull
+
 # Add email to link commits to user
 git config user.email "${GIT_EMAIL}"
 git config user.name "${GIT_USERNAME}"
