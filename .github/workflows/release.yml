@@ -70,6 +70,8 @@ jobs:
       !(failure() || cancelled())
     steps:
       - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
         with:
           java-version: "11"
