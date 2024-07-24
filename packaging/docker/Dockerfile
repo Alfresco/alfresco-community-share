@@ -1,4 +1,9 @@
-FROM alfresco/alfresco-base-tomcat:tomcat10-jre17-rockylinux8-202306291245
+# tomcat10-jre17-rockylinux9 (17/07/2024)
+FROM alfresco/alfresco-base-tomcat@sha256:dcc57342f22d1b919dd8388b30183c189bd073515691b0b8fbfa6aaaf4f4fc16
+
+# Needed for installation but make sure another USER directive is added after
+# this with a non-root user
+USER root
 
 RUN mkdir -p /usr/local/tomcat/shared/classes/alfresco/web-extension
 RUN mkdir -p /usr/local/tomcat/amps_share
