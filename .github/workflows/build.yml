@@ -327,15 +327,21 @@ jobs:
           export PATH=/opt/firefox/firefox:$PATH
           firefox --version
       - name: Set S3_BUCKET_NAME
+        if: ${{ matrix.test == 'wormTestSuite'}}
         env:
           VERSION: ${{ github.run_number }}
         run: |
           echo "S3_BUCKET_NAME=travis-ags-$VERSION" >> $GITHUB_ENV
           echo $S3_BUCKET_NAME
+      - name: "Configure AWS credentials"
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AGS_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AGS_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.S3_BUCKET_REGION }}
       - name: Build Docker image
         run: |
           firefox --version
-          echo $S3_BUCKET_NAME
           export TAG_NAME="latest"
           bash scripts/ci/build.sh
       - name: Tag Docker image
@@ -377,3 +383,6 @@ jobs:
             share.log
       - name: Get logs
         run: bash amps/ags/ci/scripts/getLogs.sh
+      - name: Clean S3 bucket
+        if: ${{ always() && matrix.test == 'wormTestSuite'}}
+        run: bash scripts/ci/cleanup.sh
