@@ -1,5 +1,5 @@
-# tomcat10-jre17-rockylinux9 (17/07/2024)
-FROM alfresco/alfresco-base-tomcat@sha256:dcc57342f22d1b919dd8388b30183c189bd073515691b0b8fbfa6aaaf4f4fc16
+# tomcat10-jre17-rockylinux9 (29/07/2024)
+FROM alfresco/alfresco-base-tomcat@sha256:8a0f62fd86123abbb38d3492ea5ce8caa8b586f2e19d25c47be7b413f9f0bc07
 
 # Needed for installation but make sure another USER directive is added after
 # this with a non-root user
