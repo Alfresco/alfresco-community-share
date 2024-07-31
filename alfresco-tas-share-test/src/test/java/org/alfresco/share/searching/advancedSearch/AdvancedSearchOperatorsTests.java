@@ -88,7 +88,7 @@ public class AdvancedSearchOperatorsTests extends BaseTest
     }
 
     @TestRail (id = "C7288")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests" })
     public void extendedSearch()  {
         log.info("STEP 1: A file with name file is created");
         documentLibraryPage
@@ -153,7 +153,7 @@ public class AdvancedSearchOperatorsTests extends BaseTest
     }
 
     @TestRail (id = "C5991")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests" })
     public void wildcards()
     {
         documentLibraryPage
