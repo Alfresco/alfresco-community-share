@@ -339,7 +339,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6307")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 5)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests" }, priority = 5)
     public void verifyNumberOfFiltersProperty() {
         modifier1 = firstName1+" "+lastName1;
         modifier2 = firstName2+" "+lastName2;
@@ -406,7 +406,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6309")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 6)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests" }, priority = 6)
     public void verifyMinimumRequiredResultsProperty() throws InterruptedException {
         modifier1 = firstName1+" "+lastName1;
         modifier2 = firstName2+" "+lastName2;
