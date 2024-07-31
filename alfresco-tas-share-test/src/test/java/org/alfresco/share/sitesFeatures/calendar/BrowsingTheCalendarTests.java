@@ -125,7 +125,7 @@ public class BrowsingTheCalendarTests extends BaseTest
 
     @TestRail (id = "C5806")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void moveForwardThroughTheCalendar() throws InterruptedException {
+    public void moveForwardThroughTheCalendar() {
         String eventTitle1 = "testEvent1";
         String eventTitle2 = "testEvent2";
         String eventTitle3 = "testEvent3";
@@ -193,7 +193,7 @@ public class BrowsingTheCalendarTests extends BaseTest
         if (calendarUtility.currentMonth() != calendarUtility.monthOfNextWeek())
         {
             Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.refferenceNextMonth());
-            calendarPage.assertCalendarEventTitleEquals(eventTitle);
+            calendarPage.assertCalendarEventTitleEquals(eventTitle1);
         } else
         {
             Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.currentMonthReference());
