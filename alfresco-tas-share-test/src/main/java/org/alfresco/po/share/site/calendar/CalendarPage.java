@@ -127,6 +127,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public CalendarPage assertCalendarEventTitleEquals(String expectedCalendarEventTitle)
     {
         log.info("Assert calendar event title equals: {}", expectedCalendarEventTitle);
+        waitInSeconds(2);
         assertEquals(getEventTitleFromCalendar(expectedCalendarEventTitle).getText(), expectedCalendarEventTitle,
         String.format("Calendar event title not equals %s ", expectedCalendarEventTitle));
 
