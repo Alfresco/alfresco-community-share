@@ -200,7 +200,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test: [ user, user-and-site-dashboard, admin-tools, content-actions, content-filters, site-members, user-dashboard, userRolesAndPermissions, sanity0, sanity1, sanity2, sanity3, sanity4, sanity5, sanity6, sanity7, sanity8, sanity9  ]
+        test: [ user, user-and-site-dashboard, admin-tools, content-actions, content-filters, site-members, user-dashboard, userRolesAndPermissions, sanity0, sanity1, sanity2, sanity3, sanity4, sanity5, sanity6, sanity7, sanity8, sanity9, sanity10  ]
     steps:
       - uses: actions/checkout@v3
       - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
