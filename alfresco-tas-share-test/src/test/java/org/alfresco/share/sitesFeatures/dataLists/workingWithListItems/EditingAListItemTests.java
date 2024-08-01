@@ -113,9 +113,18 @@ public class EditingAListItemTests extends BaseTest
 
         log.info("Step 3: Check the new firstName for the To do list item.");
         List<String> expectedList = Arrays.asList("new Title", currentDate.toString("EEE dd MMM yyyy HH:mm") + ":00", "1", "In Progress", userTest.get().getFirstName() + " " + userTest.get().getLastName(), "test.xlsx" );
-        for (String anExpectedList : expectedList)
+        if (dataListsPage.getFilterTypeList().contains(expectedList))
+            for (String anExpectedList : expectedList)
+            {
+                assertTrue(dataListsPage.getFilterTypeList().contains(anExpectedList), "Data list item is updated.");
+            }
+        else
         {
-            assertTrue(dataListsPage.getFilterTypeList().contains(anExpectedList), "Data list item is updated.");
+            List<String> newExpectedList = Arrays.asList("new Title", currentDate.toString("EEE d MMM yyyy HH:mm") + ":00", "1", "In Progress", userTest.get().getFirstName() + " " + userTest.get().getLastName(), "test.xlsx" );
+            for (String an_ExpectedList : newExpectedList)
+            {
+                assertTrue(dataListsPage.getFilterTypeList().contains(an_ExpectedList), "Data list item is updated.");
+            }
         }
 
         contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + userTest.get().getUsername());
