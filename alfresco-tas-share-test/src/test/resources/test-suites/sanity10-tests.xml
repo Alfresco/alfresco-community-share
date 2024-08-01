@@ -27,8 +27,8 @@
          </run>
       </groups>
       <packages>
-         <package name="org.alfresco.share.searching.advancedSearch"></package>
-         <package name="org.alfresco.share.searching.facetedSearch"></package>
+         <package name="org.alfresco.share.searching.peopleFinder"></package>
+         <package name="org.alfresco.share.searching"></package>
       </packages>
    </test>
 </suite>
