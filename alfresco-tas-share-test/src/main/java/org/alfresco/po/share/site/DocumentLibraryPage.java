@@ -474,6 +474,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      */
     public List<String> getFoldersList()
     {
+        waitInSeconds(3);
         waitUntilElementIsDisplayedWithRetry(foldersList, WAIT_5.getValue());
         waitForRows();
         List<String> foldersName = new ArrayList<>();
@@ -926,6 +927,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      */
     public void clickCheckBox(String contentName)
     {
+        waitInSeconds(3);
         selectDocumentLibraryItemRow(contentName).findElement(checkBoxSelector).click();
         waitInSeconds(1);
     }
