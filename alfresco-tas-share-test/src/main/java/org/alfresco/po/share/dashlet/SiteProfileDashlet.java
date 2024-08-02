@@ -95,4 +95,31 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
         }
         return siteProfileRows.get(0);
     }
+
+    public SiteProfileDashlet assert_SiteVisibilityEquals(String expectedSiteVisibilityLabel,String expectedSiteVisibilityValue)
+    {
+        log.info("Assert site visibility equals: {}", expectedSiteVisibilityValue);
+        String actualSiteManager = get_SiteProfileRow(
+            expectedSiteVisibilityLabel.concat(expectedSiteVisibilityValue)).getText();
+
+        assertEquals(actualSiteManager.toLowerCase(),
+            expectedSiteVisibilityLabel.concat(expectedSiteVisibilityValue).toLowerCase(),
+            String.format("Site manager not equals %s ",
+                expectedSiteVisibilityLabel.concat(expectedSiteVisibilityValue)));
+
+        return this;
+    }
+
+    private WebElement get_SiteProfileRow(String searchedSiteLabel)
+    {
+        List<WebElement> siteProfileRows = waitUntilElementsAreVisible(siteProfileRowLocator);
+        for (WebElement currentRow : siteProfileRows)
+        {
+            if (currentRow.getText().equalsIgnoreCase(searchedSiteLabel))
+            {
+                return currentRow;
+            }
+        }
+        return siteProfileRows.get(2);
+    }
 }
