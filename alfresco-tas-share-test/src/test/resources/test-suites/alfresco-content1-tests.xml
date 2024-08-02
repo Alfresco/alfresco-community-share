@@ -1,0 +1,34 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Sanity Test Suite1" parallel="classes" thread-count="3">
+   <listeners>
+      <listener class-name="org.alfresco.share.RetryListener"/>
+   </listeners>
+
+   <test name="Sanity Tests1">
+      <groups>
+         <run>
+            <include name="sanity"/>
+            <include name="share"/>
+            <include name="regression"/>
+            <exclude name="integration"></exclude>
+            <exclude name="unit"/>
+            <exclude name="SmartFolders"/>
+            <exclude name="ExternalUsers"/>
+            <exclude name="office"/>
+            <exclude name="TransformationServer"/>
+            <exclude name="xsstests"/>
+            <exclude name="admin-tools"></exclude>
+            <include name="sites"/>
+            <exclude name="user-dashboard"/>
+            <exclude name="site-dashboard"/>
+            <exclude name="user"/>
+            <exclude name="auth"/>
+         </run>
+      </groups>
+      <packages>
+         <package name="org.alfresco.share.alfrescoContent.socialFeatures"></package>
+         <package name="org.alfresco.share.alfrescoContent.viewingContent"></package>
+         <package name="org.alfresco.share.RebrandTests"></package>
+      </packages>
+   </test>
+</suite>

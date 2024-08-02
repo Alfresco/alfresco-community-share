@@ -125,7 +125,7 @@ public class BrowsingTheCalendarTests extends BaseTest
 
     @TestRail (id = "C5806")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void moveForwardThroughTheCalendar() throws InterruptedException {
+    public void moveForwardThroughTheCalendar() {
         String eventTitle1 = "testEvent1";
         String eventTitle2 = "testEvent2";
         String eventTitle3 = "testEvent3";
@@ -152,13 +152,15 @@ public class BrowsingTheCalendarTests extends BaseTest
 
         log.info("Step 1: Open Calendar page - Day view.");
         calendarPage.navigate(siteName.get().getId());
+        calendarPage.clickDayButton();
         Assert.assertTrue(calendarPage.isEventPresentInCalendars(eventTitle1));
-        String dayRefferenceToday = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH).format(Calendar.getInstance().getTime());
-        Assert.assertEquals(calendarPage.getCalendarHeader(), dayRefferenceToday);
+        String dayRefferenceToday = new SimpleDateFormat("EE, dd, MMMM yyyy", Locale.ENGLISH).format(Calendar.getInstance().getTime());
+        Assert.assertEquals(calendarPage.getCalendarHeader(), dayRefferenceToday, "Current day is displayed on the Calendar page.");
 
         log.info("Step 2: Click on Next button (next to Agenda tab).");
-        calendarPage.assertCalendarEventTitleEquals(eventTitle5);
-        String dayRefferenceTomorrow = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH).format(calendarUtility.tomorrow());
+        calendarPage.clickOnNextButton();
+        calendarPage.assertCalendarEventTitleEquals(eventTitle2);
+        String dayRefferenceTomorrow = new SimpleDateFormat("EE, dd, MMMM yyyy", Locale.ENGLISH).format(calendarUtility.tomorrow());
         Assert.assertEquals(calendarPage.getCalendarHeader(), dayRefferenceTomorrow);
 
         log.info("Step 3: Switch to Week view.");
@@ -193,7 +195,7 @@ public class BrowsingTheCalendarTests extends BaseTest
         if (calendarUtility.currentMonth() != calendarUtility.monthOfNextWeek())
         {
             Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.refferenceNextMonth());
-            calendarPage.assertCalendarEventTitleEquals(eventTitle);
+            calendarPage.assertCalendarEventTitleEquals(eventTitle1);
         } else
         {
             Assert.assertEquals(calendarPage.getCalendarHeader(), calendarUtility.currentMonthReference());

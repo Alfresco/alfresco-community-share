@@ -372,7 +372,7 @@ public class LiveSearchTests extends BaseTest
         Assert.assertEquals(searchPage.getSearchInDropdownSelectedValue(), "Repository", "Repository is not the context displayed on the search results page");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, "SearchTests" })
     public void testLiveSearchNoResultsInSite()
     {
         String searchTerm = "jpg";

@@ -1,0 +1,27 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Flaky tests" parallel="classes" thread-count="3">
+   <listeners>
+      <listener class-name="org.alfresco.share.RetryListener"/>
+   </listeners>
+
+   <test name="Flaky Tests">
+      <groups>
+         <run>
+            <include name="TimeZoneTests"/>
+            <include name="SearchTests"/>
+            <include name="FlakyTests"/>
+            <include name="RSSFeedDashletTest"/>
+         </run>
+      </groups>
+      <packages>
+         <package name="org.alfresco.share.sitesFeatures.calendar.TimeZone"/>
+         <package name="org.alfresco.share.searching"/>
+         <package name="org.alfresco.share.searching.advancedSearch"/>
+         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions"/>
+         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository"/>
+         <package name="org.alfresco.share.userDashboard.dashlets"/>
+      </packages>
+      <classes>
+      </classes>
+   </test>
+</suite>
