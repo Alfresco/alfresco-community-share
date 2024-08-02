@@ -37,6 +37,7 @@ public class DeleteDialog extends BaseDialogComponent
 
     public String getMessage()
     {
+        waitInSeconds(3);
         return getElementText(message);
     }
 
