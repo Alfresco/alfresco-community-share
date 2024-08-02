@@ -287,7 +287,7 @@ public class CreateTests extends BaseTest
     }
 
     @TestRail (id = "C7932")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "FlakyTests" })
     public void sharedFilesCreateDocumentFromTemplate()
     {
         log.info("Precondition: Login as admin user and create a file template.");
