@@ -20,6 +20,7 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
     private final By inheritButton = By.cssSelector("button[id*='inheritButton']");
     private final By inheritRulesMessage = By.cssSelector("#message .bd");
     private final By inheritRuleInfoMessage = By.cssSelector("div .rules-info span");
+    private final By createRule = By.cssSelector(".dialog-options > div:nth-child(2) a");
 
     public ManageRulesPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -175,5 +176,11 @@ public class ManageRulesPage extends SiteCommon<ManageRulesPage>
         log.info("Verify 'Link to Rule Set' description {}", description);
         assertEquals(getLinkToRuleSetDescription(), description, String.format("Link to Rule Set description should be 'Reuse an existing rule set defined for another folder(s)' not matched %s ", description));
         return this;
+    }
+
+    public void clickCreateRules()
+    {
+        waitUntilElementIsVisible(createRule);
+        findElement(createRule).click();
     }
 }
