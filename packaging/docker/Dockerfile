@@ -1,5 +1,5 @@
-# tomcat10-jre17-rockylinux9 (29/07/2024)
-FROM alfresco/alfresco-base-tomcat@sha256:8a0f62fd86123abbb38d3492ea5ce8caa8b586f2e19d25c47be7b413f9f0bc07
+# More infos about this image: https://github.com/Alfresco/alfresco-docker-base-tomcat
+FROM alfresco/alfresco-base-tomcat:tomcat10-jre17-rockylinux9@sha256:395664f9d9be0c9f73d3b722a58fd559ee7231609b263dfe19502617652740e3
 
 # Needed for installation but make sure another USER directive is added after
 # this with a non-root user
