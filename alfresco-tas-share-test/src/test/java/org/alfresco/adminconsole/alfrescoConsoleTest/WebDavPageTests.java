@@ -1,36 +1,37 @@
 package org.alfresco.adminconsole.alfrescoConsoleTest;
 
-import org.alfresco.po.adminconsole.consoles.WebDavConsolePage;
-import org.alfresco.adminconsole.ContextAwareWebAdminConsoleTest;
+import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.adminconsole.consoles.WebDavConsolePages;
+import org.alfresco.share.BaseTest;
 import org.alfresco.utility.model.TestGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 
 /**
  * Created by Mirela Tifui on 11/1/2017.
  */
-public class WebDavPageTests extends ContextAwareWebAdminConsoleTest
+@Slf4j
+public class WebDavPageTests extends BaseTest
 {
-    @Autowired
-    private WebDavConsolePage webDavConsolePage;
+    private WebDavConsolePages webDavConsolePages;
 
     @Test (groups = { TestGroup.SHARE, "AlfrescoConsoles", "Acceptance" })
     public void webDavPageTest()
     {
-        webDavConsolePage.navigate()
-            .assertPageHeaderRootIsCorrect()
-            .assertDirectoryIsDisplayed("Shared")
-            .assertDirectoryIsDisplayed("Imap Attachments")
-            .assertDirectoryIsDisplayed("Guest Home")
-            .assertDirectoryIsDisplayed("User Homes")
-            .assertDirectoryIsDisplayed("Sites")
-            .assertDirectoryIsDisplayed("Data Dictionary")
-            .assertDirectoryIsDisplayed("IMAP Home")
-                .clickSharedLink()
-                    .assertPageHeaderForDirectoryIsCorrect("Shared")
-                    .assertUpALevelLinkIsDisplayed()
-                .clickUpToLevel()
-                    .assertPageHeaderRootIsCorrect()
-                    .assertUpALevelLinkIsNotDisplayed();
+        webDavConsolePages = new WebDavConsolePages(webDriver);
+        webDavConsolePages.navigate();
+        webDavConsolePages.assertPageHeaderRootIsCorrect();
+        webDavConsolePages.isNameHighlighted("Shared");
+        webDavConsolePages.isNameHighlighted("Imap Attachments");
+        webDavConsolePages.isNameHighlighted("Guest Home");
+        webDavConsolePages.isNameHighlighted("User Homes");
+        webDavConsolePages.isNameHighlighted("Sites");
+        webDavConsolePages.isNameHighlighted("Data Dictionary");
+        webDavConsolePages.isNameHighlighted("IMAP Home");
+        webDavConsolePages.clickSharedLink();
+        webDavConsolePages.assertPageHeaderForDirectoryIsCorrect("Shared");
+        webDavConsolePages.assertUpALevelLinkIsDisplayed();
+        webDavConsolePages.clickUpToLevel();
+        webDavConsolePages.assertPageHeaderRootIsCorrect();
+        webDavConsolePages.assertUpALevelLinkIsNotDisplayed();
     }
 }
