@@ -14,7 +14,7 @@ import static org.alfresco.utility.report.log.Step.STEP;
 public class WebDavConsolePages<T> extends SharePage2<WebDavConsolePages<T>>  {
 
     private By pageHeader = By.cssSelector("td.textLocation");
-    private By nameHighlight = By.cssSelector("table.listingTable");
+    private By listingTable = By.cssSelector("table.listingTable");
     private By sharedLink = By.cssSelector("a[href='/alfresco/webdav/Shared']");
     private By upALevelLink = By.cssSelector("a[href='/alfresco/webdav']");
 
@@ -86,9 +86,9 @@ public class WebDavConsolePages<T> extends SharePage2<WebDavConsolePages<T>>  {
         findElement(upALevelLink).click();
     }
 
-    public boolean isNameHighlighted(String name)
+    public boolean assertDirectoryIsDisplayed(String name)
     {
-        List<WebElement> allNameHighlights = findElements(nameHighlight);
+        List<WebElement> allNameHighlights = findElements(listingTable);
         for (WebElement eachNameHighlight : allNameHighlights)
         {
             if (eachNameHighlight.getText().equals(name))
