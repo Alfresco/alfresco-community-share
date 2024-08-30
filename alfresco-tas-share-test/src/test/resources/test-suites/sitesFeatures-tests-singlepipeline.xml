@@ -1,0 +1,35 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Site Features tests" parallel="classes" thread-count="3">
+   <listeners>
+      <listener class-name="org.alfresco.share.RetryListener"/>
+   </listeners>
+
+   <test name="Site Features tests">
+      <groups>
+         <run>
+            <include name="sanity"/>
+            <include name="share"/>
+            <include name="regression"/>
+            <exclude name="integration"></exclude>
+            <exclude name="unit"/>
+            <exclude name="SmartFolders"/>
+            <exclude name="ExternalUsers"/>
+            <exclude name="office"/>
+            <exclude name="TransformationServer"/>
+            <exclude name="xsstests"/>
+            <exclude name="admin-tools"></exclude>
+            <include name="sites"/>
+            <exclude name="user-dashboard"/>
+            <exclude name="site-dashboard"/>
+            <exclude name="user"/>
+            <exclude name="auth"/>
+            <exclude name="singlePipelineFailure"></exclude>
+         </run>
+      </groups>
+      <packages>
+         <package name="org.alfresco.share.sitesFeatures.discussions"/>
+         <package name="org.alfresco.share.sitesFeatures.Links"/>
+         <package name="org.alfresco.share.sitesFeatures.blog.*"/>
+      </packages>
+   </test>
+</suite>
