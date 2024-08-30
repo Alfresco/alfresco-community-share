@@ -173,7 +173,7 @@ public class EditingTheListDetailsTests extends BaseTest
     {
         log.info("Preconditions: Create a user with 'Contributor' role");
         userService.createSiteMember(userName.get().getUsername(), password, contributor.get().getUsername(), siteName.get().getId(), "SiteContributor");
-        authenticateUsingLoginPage(contributor.get());
+        authenticateUsingCookies(contributor.get());
         dataListsPage.navigate(siteName.get().getId());
 
         log.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
@@ -189,7 +189,7 @@ public class EditingTheListDetailsTests extends BaseTest
     {
         log.info("Preconditions: Create a user with 'Consumer' role");
         userService.createSiteMember(userName.get().getUsername(), password, consumer.get().getUsername(), siteName.get().getId(), "SiteConsumer");
-        authenticateUsingLoginPage(consumer.get());
+        authenticateUsingCookies(consumer.get());
         dataListsPage.navigate(siteName.get().getId());
 
         log.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the Edit button.");
