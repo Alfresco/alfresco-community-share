@@ -318,7 +318,7 @@ public class ViewingStartedWorkflowTests extends BaseTest
         getCmisApi().authenticateUser(getAdminUser());
 
         workflowService.startNewTask(c284893testUser.get().getUsername(), c284893testUser.get().getPassword(), workflowName, new Date(), c284893user2.get().getUsername(), CMISUtil.Priority.Normal, null, false);
-        authenticateUsingCookies(c284893user2.get());
+        authenticateUsingLoginPage(c284893user2.get());
 
         log.info("STEP 1: From 'Tasks' dropdown click 'My Tasks' option.");
         myTasksPage.navigateByMenuBar();
