@@ -74,7 +74,7 @@ public class SiteFinderTests extends BaseTest
         searchPage = new SearchPage(webDriver);
         userProfileAdminToolsPage = new UserProfileAdminToolsPage(webDriver);
         getCmisApi().authenticateUser(getAdminUser());
-        authenticateUsingLoginPage(getAdminUser());
+        authenticateUsingCookies(getAdminUser());
     }
 
     @AfterMethod
@@ -88,7 +88,7 @@ public class SiteFinderTests extends BaseTest
 
 
     @TestRail (id = "C5876")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE })
     public void siteFinderPage()
     {
         testUser1 = dataUser.usingAdmin().createRandomTestUser();
@@ -146,7 +146,7 @@ public class SiteFinderTests extends BaseTest
     {
         testUser1 = dataUser.usingAdmin().usingUserHome(userName).createRandomTestUser();
         log.info("Edit user data & give specific name to " + testUser1);
-        authenticateUsingLoginPage(testUser1);
+        authenticateUsingCookies(testUser1);
         log.info("STEP1: Click \"Sites\" -> \"Site Finder\" link from the toolbar");
         toolbar.clickSites().clickSiteFinder();
         assertEquals(siteFinderPage.getPageTitle(), "Alfresco » Site Finder", "Site Finder page is displayed");
@@ -158,7 +158,7 @@ public class SiteFinderTests extends BaseTest
     {
         testUser1 = dataUser.usingAdmin().createRandomTestUser();
         testSite1 = dataSite.usingUser(testUser1).createModeratedRandomSite();
-        authenticateUsingLoginPage(testUser1);
+        authenticateUsingCookies(testUser1);
         siteFinderPage.navigate();
 
         log.info("STEP1: Enter the partial site name in the search field and click the search button");
@@ -176,7 +176,7 @@ public class SiteFinderTests extends BaseTest
     {
         testUser1 = dataUser.usingAdmin().createRandomTestUser();
         testSite1 = dataSite.usingUser(testUser1).createModeratedRandomSite();
-        authenticateUsingLoginPage(testUser1);
+        authenticateUsingCookies(testUser1);
         siteFinderPage.navigate();
 
         log.info("STEP1: Enter the moderated site's name into the search field and click the search button");
@@ -192,7 +192,7 @@ public class SiteFinderTests extends BaseTest
         testUser1 = dataUser.usingAdmin().createRandomTestUser();
         testUser2 = dataUser.usingAdmin().createRandomTestUser();
         testSite2 = dataSite.usingUser(testUser1).createPrivateRandomSite();
-        authenticateUsingLoginPage(testUser1);
+        authenticateUsingCookies(testUser1);
         siteFinderPage.navigate();
 
         log.info("STEP1: Enter the private site's name into the search field and click the search button");
@@ -201,7 +201,7 @@ public class SiteFinderTests extends BaseTest
         assertEquals(siteFinderPage.getVisibilityLabel(), "Private", " \"Private\" label is displayed below " + testSite2.getTitle() + " site");
 
         log.info("STEP2: Logout and log in as user2");
-        authenticateUsingLoginPage(testUser2);
+        authenticateUsingCookies(testUser2);
         log.info("STEP3: Open \"Site Finder\" page");
         siteFinderPage.navigate();
 

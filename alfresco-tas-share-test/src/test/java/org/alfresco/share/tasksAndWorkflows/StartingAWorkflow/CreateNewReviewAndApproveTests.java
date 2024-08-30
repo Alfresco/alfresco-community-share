@@ -107,7 +107,7 @@ public class CreateNewReviewAndApproveTests extends BaseTest
         String firstName2 = user2.get().getFirstName();
         String lastName2 = user2.get().getLastName();
         log.info("Precondition");
-        authenticateUsingLoginPage(user1.get());
+        authenticateUsingCookies(user1.get());
         documentLibraryPage.navigate(siteName.get());
 
         log.info("STEP 1: Hover over a file, click More then Start Workflow");
@@ -129,7 +129,7 @@ public class CreateNewReviewAndApproveTests extends BaseTest
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         log.info("STEP 5: logout then login as user2.");
-        authenticateUsingLoginPage(user2.get());
+        authenticateUsingCookies(user2.get());
         userDashboardPage.navigate(user2.get());
         myTasksDashlet.assertTaskNameEqualsTo("WorkflowTest");
     }
@@ -145,7 +145,7 @@ public class CreateNewReviewAndApproveTests extends BaseTest
         String lastName3 = user3.get().getLastName();
 
         log.info("Precondition");
-        authenticateUsingLoginPage(user1.get());
+        authenticateUsingCookies(user1.get());
         documentLibraryPage.navigate(siteName.get());
 
         log.info("STEP 1: Hover over a file, click More then Start Workflow");
@@ -169,13 +169,13 @@ public class CreateNewReviewAndApproveTests extends BaseTest
         Assert.assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         log.info("STEP 5: logout then login as user2.");
-        authenticateUsingLoginPage(user2.get());
+        authenticateUsingCookies(user2.get());
 
         userDashboardPage.navigate(user2.get().getUsername());
         myTasksDashlet.assertTaskNameEqualsTo("WorkflowTest");
 
         log.info("STEP 6: logout then login as user3.");
-        authenticateUsingLoginPage(user3.get());
+        authenticateUsingCookies(user3.get());
         userDashboardPage.navigate(user3.get());
         myTasksDashlet.assertTaskNameEqualsTo("WorkflowTest");
     }
@@ -185,7 +185,7 @@ public class CreateNewReviewAndApproveTests extends BaseTest
     public void createNewReviewAndApproveGroupReview()
     {
         log.info("Precondition");
-        authenticateUsingLoginPage(user1.get());
+        authenticateUsingCookies(user1.get());
 
         documentLibraryPage.navigate(siteName.get());
 
@@ -218,7 +218,7 @@ public class CreateNewReviewAndApproveTests extends BaseTest
     public void createNewReviewAndApprovePooledReview()
     {
         log.info("Precondition");
-        authenticateUsingLoginPage(user1.get());
+        authenticateUsingCookies(user1.get());
         documentLibraryPage.navigate(siteName.get());
 
         log.info("STEP 1: Hover over a file, click More then Start Workflow");

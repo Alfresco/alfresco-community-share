@@ -88,7 +88,7 @@ public class SearchHighlightTests extends BaseTest
         blogPage = new BlogPostListPage(webDriver);
         createBlogPost = new CreateBlogPostPage(webDriver);
 
-        authenticateUsingLoginPage(user.get());
+        authenticateUsingCookies(user.get());
         List<DashboardCustomization.Page> pagesToAdd = new ArrayList<>();
         pagesToAdd.add(DashboardCustomization.Page.BLOG);
 

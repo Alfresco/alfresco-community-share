@@ -318,7 +318,7 @@ public class ViewingStartedWorkflowTests extends BaseTest
         getCmisApi().authenticateUser(getAdminUser());
 
         workflowService.startNewTask(c284893testUser.get().getUsername(), c284893testUser.get().getPassword(), workflowName, new Date(), c284893user2.get().getUsername(), CMISUtil.Priority.Normal, null, false);
-        authenticateUsingLoginPage(c284893user2.get());
+        authenticateUsingCookies(c284893user2.get());
 
         log.info("STEP 1: From 'Tasks' dropdown click 'My Tasks' option.");
         myTasksPage.navigateByMenuBar();
@@ -340,7 +340,7 @@ public class ViewingStartedWorkflowTests extends BaseTest
         Assert.assertTrue(myTasksPage.getStatusCompleted(workflowName).contains("Completed"));
 
         log.info("STEP 5: log in with " + c284893testUser + ", open My task page");
-        authenticateUsingLoginPage(c284893testUser.get());
+        authenticateUsingCookies(c284893testUser.get());
         myTasksPage.navigateByMenuBar();
         myTasksPage.assertBrowserPageTitleIs("Alfresco » My Tasks");
 
