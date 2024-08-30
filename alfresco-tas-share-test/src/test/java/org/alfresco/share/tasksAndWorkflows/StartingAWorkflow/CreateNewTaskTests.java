@@ -148,6 +148,7 @@ public class CreateNewTaskTests extends BaseTest
     @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
+        contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/" + folderName);
         contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + testUser.get().getUsername());
         contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + testUser2.get().getUsername());
 
