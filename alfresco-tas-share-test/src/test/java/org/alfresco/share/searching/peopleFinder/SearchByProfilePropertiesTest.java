@@ -35,7 +35,7 @@ public class SearchByProfilePropertiesTest extends BaseTest
         deleteUsersIfNotNull(testUser2);
     }
     @TestRail (id = "C6655")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE })
     public void searchByUsernameOrName()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -123,7 +123,7 @@ public class SearchByProfilePropertiesTest extends BaseTest
     }
 
     @TestRail (id = "C6451")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed", TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE })
     public void searchByFullUsername()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -176,7 +176,7 @@ public class SearchByProfilePropertiesTest extends BaseTest
     }
 
     @TestRail (id = "C6455")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE })
     public void searchByPartialUsername()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -230,7 +230,7 @@ public class SearchByProfilePropertiesTest extends BaseTest
     }
 
     @TestRail (id = "C5822")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE })
     public void searchByFullName()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -293,7 +293,7 @@ public class SearchByProfilePropertiesTest extends BaseTest
     }
 
     @TestRail (id = "C5832")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE })
     public void searchByPartialName()
     {
         String identifier = RandomData.getRandomAlphanumeric();
