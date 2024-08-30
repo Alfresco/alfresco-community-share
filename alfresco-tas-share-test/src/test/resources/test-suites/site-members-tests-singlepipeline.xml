@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Site members tests" parallel="classes" thread-count="3">
+   <listeners>
+      <listener class-name="org.alfresco.share.RetryListener"/>
+   </listeners>
+
+   <test name="Site members tests">
+      <groups>
+         <run>
+            <include name="sites"/>
+            <exclude name="integration"/>
+         </run>
+      </groups>
+      <packages>
+         <package name="org.alfresco.share.site.members.*"/>
+      </packages>
+   </test>
+
+</suite>
