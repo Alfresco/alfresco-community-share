@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>alfresco-share-parent</artifactId>
-    <version>23.4.0.1-SNAPSHOT</version>
+    <version>23.4.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Alfresco Share Parent</name>
 
@@ -30,12 +30,12 @@
         <version.revision>0</version.revision>
         <amp.min.version>${version.major}.0.0</amp.min.version>
 
-        <dependency.alfresco-community-repo.version>23.3.0.98</dependency.alfresco-community-repo.version>
-        <dependency.alfresco-enterprise-repo.version>23.3.0.83</dependency.alfresco-enterprise-repo.version>
+        <dependency.alfresco-community-repo.version>23.4.0.3</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-enterprise-repo.version>23.4.0.3</dependency.alfresco-enterprise-repo.version>
 
         <dependency.alfresco-transform-service.version>4.1.4</dependency.alfresco-transform-service.version>
         <dependency.alfresco-transform-core.version>5.1.4</dependency.alfresco-transform-core.version>
-        <alfresco.api-explorer.version>23.2.0</alfresco.api-explorer.version>
+        <alfresco.api-explorer.version>23.3.0</alfresco.api-explorer.version>
         <dependency.jakarta-annotation-api.version>2.1.1</dependency.jakarta-annotation-api.version>
 
         <image.registry>quay.io</image.registry>
