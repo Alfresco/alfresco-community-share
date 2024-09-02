@@ -214,7 +214,7 @@ public class AdvancedSearchPageTest extends BaseTest
         advancedSearchPage
             .typeKeywords("test*");
         advancedSearchPage
-            .clickFirstSearchButton();
+            .clickFirstSearchButtonAndRefresh();
         searchPage
             .assertCreatedDataIsDisplayed("test" + identifier + "_wiki_1");
         searchPage
