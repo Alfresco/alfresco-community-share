@@ -153,8 +153,8 @@ public class AIMSFilter implements Filter
 
     public static final String ALFRESCO_ENDPOINT_ID = "alfresco";
     public static final String ALFRESCO_API_ENDPOINT_ID = "alfresco-api";
-    public static final String SHARE_AIMS_LOGOUT = "/share/page/aims/logout";
-
+    public static final String SHARE_AIMS_LOGOUT = "/page/aims/logout";
+    public static final String SHARE_PAGE = "/page";
     public static final String DEFAULT_AUTHORIZATION_REQUEST_BASE_URI = "/oauth2/authorization";
     private ClientRegistrationRepository clientRegistrationRepository;
     private OAuth2AuthorizedClientService oauth2ClientService;
@@ -174,6 +174,7 @@ public class AIMSFilter implements Filter
     private final OAuth2UserService<OidcUserRequest, OidcUser> userService = new OidcUserService();
     private String clientId;
     private String audience;
+    private String shareContext;
 
     public AIMSFilter()
     {
@@ -212,6 +213,7 @@ public class AIMSFilter implements Filter
                                                                                        config);
             this.authorizationRequestRepository = new HttpSessionOAuth2AuthorizationRequestRepository();
             this.throwableAnalyzer = new SecurityUtils.DefaultThrowableAnalyzer();
+            this.shareContext = config.getShareContext();
         }
         this.connectorService = (ConnectorService) context.getBean("connector.service");
         this.loginController = (SlingshotLoginController) context.getBean("loginController");
@@ -270,7 +272,7 @@ public class AIMSFilter implements Filter
                                          + oauth2AuthenticationException.getMessage());
                         session.invalidate();
                         if (!request.getRequestURI()
-                            .contains(SHARE_AIMS_LOGOUT))
+                            .contains(this.shareContext + SHARE_AIMS_LOGOUT))
                         {
                             isAuthenticated = false;
                         }
@@ -279,7 +281,7 @@ public class AIMSFilter implements Filter
             }
         }
 
-        if (!isAuthenticated && this.enabled)
+        if (!isAuthenticated && this.enabled && (request.getRequestURI().contains(this.shareContext + SHARE_PAGE) || request.getRequestURI().contains(this.shareContext + SHARE_AIMS_LOGOUT)))
         {
             /**
              // Match the request that came from Idp (redirect uri)
