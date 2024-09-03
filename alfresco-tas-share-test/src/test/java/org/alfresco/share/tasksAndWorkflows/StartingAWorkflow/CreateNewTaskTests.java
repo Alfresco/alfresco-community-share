@@ -201,7 +201,7 @@ public class CreateNewTaskTests extends BaseTest
         String C8345lastName = C8345username.get().getLastName();
 
         log.info("Precondition");
-        authenticateUsingLoginPage(testUser.get());
+        authenticateUsingCookies(testUser.get());
         documentLibraryPage.navigate(siteName.get());
 
         log.info("STEP 1: Hover over a file, click More then Start Workflow");
@@ -223,7 +223,7 @@ public class CreateNewTaskTests extends BaseTest
         assertTrue(documentLibraryPage.isActiveWorkflowsIconDisplayed(docName), "Missing start workflow icon for" + docName);
 
         log.info("STEP 5: logout then login as '" + C8345username + "'.");
-        authenticateUsingLoginPage(C8345username.get());
+        authenticateUsingCookies(C8345username.get());
         userDashboard.navigate(C8345username.get());
         myTasksDashlet.assertTaskNameEqualsTo(workflowMessage);
     }
@@ -303,7 +303,7 @@ public class CreateNewTaskTests extends BaseTest
         String C286291lastNameB = C286291usernameB.get().getLastName();
 
         log.info("Precondition 1: login as first user '" + C286291usernameA + "'.");
-        authenticateUsingLoginPage(C286291usernameA.get());
+        authenticateUsingCookies(C286291usernameA.get());
         documentLibraryPage.navigate(C286291siteName.get());
 
         log.info("Precondition 2:  Hover over a file, click More then Start Workflow");
@@ -373,7 +373,7 @@ public class CreateNewTaskTests extends BaseTest
         documentLibraryPage.assertBrowserPageTitleIs("Alfresco » Document Library");
 
         log.info("STEP 7: login as Assignee user.");
-        authenticateUsingLoginPage(C286291usernameB.get());
+        authenticateUsingCookies(C286291usernameB.get());
         userDashboard.navigate(C286291usernameB.get());
 
         log.info("STEP 8: Check if 'My Task' dashlet is displayed in user dashboard.");
@@ -401,7 +401,7 @@ public class CreateNewTaskTests extends BaseTest
         String lastName2 = testUser2.get().getLastName();
 
         log.info("Precondition 1: Any user logged in Share;");
-        authenticateUsingLoginPage(testUser.get());
+        authenticateUsingCookies(testUser.get());
 
         log.info("Precondition 2: Add My Tasks dashlet to My Dashboard;");
         addMyTaskDashletToDashboard();
@@ -458,7 +458,7 @@ public class CreateNewTaskTests extends BaseTest
         documentLibraryPage.assertBrowserPageTitleIs("Alfresco » Document Library");
 
         log.info("STEP 14: log in as assignee user.");
-        authenticateUsingLoginPage(testUser2.get());
+        authenticateUsingCookies(testUser2.get());
 
         log.info("STEP 15: Add My tasks dahslet to My Dashboard;");
         addMyTaskDashletToDashboard();
@@ -475,7 +475,7 @@ public class CreateNewTaskTests extends BaseTest
         String lastName2 = testUser2.get().getLastName();
 
         log.info("Precondition 1: Any user logged in Share;");
-        authenticateUsingLoginPage(testUser.get());
+        authenticateUsingCookies(testUser.get());
 
         log.info("Precondition 2: Add My Tasks dashlet to My Dashboard;");
         addMyTaskDashletToDashboard();
@@ -530,7 +530,7 @@ public class CreateNewTaskTests extends BaseTest
             "After starting the workflow the browser wasn't redirected to 'Document Library' page.");
 
         log.info("STEP 12: log in as assignee user;");
-        authenticateUsingLoginPage(testUser2.get());
+        authenticateUsingCookies(testUser2.get());
 
         log.info("STEP 13: Add My tasks dahslet to My Dashboard;");
         addMyTaskDashletToDashboard();

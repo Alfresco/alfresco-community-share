@@ -118,7 +118,7 @@ public class WorkingWithLinksTests extends BaseTest
     }
 
     @TestRail (id = "C42625")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
     public void linkToFileRedirectsToDocDetailsPage()
     {
         log.info("From Document actions, click on [Copy to] option and Select a destination folder and click [Create Link] button");
@@ -194,7 +194,7 @@ public class WorkingWithLinksTests extends BaseTest
     }
 
     @TestRail (id = "C42627")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION})
     public void linkToLockedDocRedirectsToOriginalDoc()
     {
         log.info("Precondition1: Login to Share/Google Docs and navigate to Document Library page for the test site; upload a .docx file"
@@ -234,7 +234,7 @@ public class WorkingWithLinksTests extends BaseTest
             .clickOnDeleteButtonOnDeletePrompt();
     }
     @TestRail (id = "C42628")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
     public void linkToMultipleVersionsDocRedirectsToLastVersion()
     {
         log.info("Precondition1: 'Upload new version' for a file");

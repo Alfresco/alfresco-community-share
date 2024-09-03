@@ -184,7 +184,7 @@ public class SearchManagerTests extends BaseTest
 
 
     @TestRail (id = "C6274")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 3)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 3)
     public void verifySearchManagerPage() {
         List<String> expectedTableColumns = Arrays.asList("Filter ID", "Filter Name", "Filter Property", "Filter Type", "Show with Search Results",
             "Default Filter", "Filter Availability");
@@ -212,7 +212,7 @@ public class SearchManagerTests extends BaseTest
 
     @Bug (id = "ACE-5698")
     @TestRail (id = "C6275")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, enabled = false)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, enabled = false)
     public void createNewSearchFilter()
     {
         filterId = String.format("filter.site%s", RandomData.getRandomAlphanumeric());
@@ -268,7 +268,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6283")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 4)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 4)
     public void verifyFilterAvailabilityProperty() throws InterruptedException {
         filterId = String.format("tag-filter%s", RandomData.getRandomAlphanumeric());
         filterName = String.format("tagFilter%s", RandomData.getRandomAlphanumeric());
@@ -339,7 +339,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6307")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests" }, priority = 5)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 5)
     public void verifyNumberOfFiltersProperty() {
         modifier1 = firstName1+" "+lastName1;
         modifier2 = firstName2+" "+lastName2;
@@ -378,7 +378,7 @@ public class SearchManagerTests extends BaseTest
 
 
     @TestRail (id = "C6308")
-    @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE })
     public void verifyMinimumFilterLengthProperty() {
         //test skipped due to edge case where minimufilterlengthproperty does not work, but no bug was opened
         filterId = "filter_modifier";
@@ -406,7 +406,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6309")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests" }, priority = 6)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 6)
     public void verifyMinimumRequiredResultsProperty() throws InterruptedException {
         modifier1 = firstName1+" "+lastName1;
         modifier2 = firstName2+" "+lastName2;
@@ -434,7 +434,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6288")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 7)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 7)
     public void createNewSearchFilterWithoutSaving()
     {
         filterId = String.format("close-filter%s", RandomData.getRandomAlphanumeric());
@@ -458,7 +458,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6287")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 8)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 8)
     public void cancelCreatingNewSearchFilter()
     {
         filterId = String.format("cancel-filter%s", RandomData.getRandomAlphanumeric());
@@ -482,7 +482,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6284")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 9)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 9)
     public void modifyExistingSearchFilter()
     {
         filterId = String.format("filterC6284%s", RandomData.getRandomAlphanumeric());
@@ -542,7 +542,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6314")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 10)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 10)
     public void modifySearchFilterWithoutSaving()
     {
         filterId = String.format("filterC6314%s", RandomData.getRandomAlphanumeric());
@@ -602,7 +602,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6299")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 11)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 11)
     public void cancelModifyingExistingSearchFilter()
     {
         filterId = String.format("filterC6299%s", RandomData.getRandomAlphanumeric());
@@ -662,7 +662,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6286")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 12)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 12)
     public void switchOnOffShowWithSearchResults()
     {
         filterId = "filter_creator";
@@ -701,7 +701,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6311")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 13)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 13)
     public void modifySearchFilterName()
     {
         filterId = String.format("filterC6311%s", RandomData.getRandomAlphanumeric());
@@ -724,7 +724,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6312")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 14)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 14)
     public void cancelModifyingSearchFilterName()
     {
         filterId = String.format("filterC6312%s", RandomData.getRandomAlphanumeric());
@@ -747,7 +747,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6303")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 15)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 15)
     public void deleteSearchFilter()
     {
         filterId = String.format("filterC6303%s", RandomData.getRandomAlphanumeric());
@@ -778,7 +778,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6305")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 16)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 16)
     public void cancelDeletingSearchFilter()
     {
         filterId = String.format("filterC6305%s", RandomData.getRandomAlphanumeric());
@@ -815,7 +815,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6285")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 1)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 1)
     public void changeSearchFiltersOrder()
     {
         filterId = "filter_creator";
@@ -875,7 +875,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6313")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, priority = 2)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 2)
     public void verifySitesSection(){
 
         searchManagerPage.navigate();

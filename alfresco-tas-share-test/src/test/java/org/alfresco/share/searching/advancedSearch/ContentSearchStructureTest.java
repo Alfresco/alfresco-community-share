@@ -310,7 +310,7 @@ public class ContentSearchStructureTest extends BaseTest
 
     @Bug (id = "ACE-5789")
     @TestRail (id = "C5971")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH }, enabled = true)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SinglePipelineFailure" }, enabled = true)
     public void searchByAnyWords()
     {
         siteModel.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
@@ -614,7 +614,7 @@ public class ContentSearchStructureTest extends BaseTest
     }
 
     @TestRail (id = "C5940")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SinglePipelineFailure" })
     public void searchByPropertyCreator()
     {
         siteModel.set(getDataSite().usingUser(user.get()).createPublicRandomSite());

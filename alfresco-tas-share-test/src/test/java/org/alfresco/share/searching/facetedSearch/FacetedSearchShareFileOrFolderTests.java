@@ -61,7 +61,6 @@ public class FacetedSearchShareFileOrFolderTests extends BaseTest
         user.set(getDataUser().usingAdmin().createRandomTestUser());
         authenticateUsingCookies(user.get());
 
-        authenticateUsingLoginPage(user.get());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         testSite = site.get().getTitle();
 

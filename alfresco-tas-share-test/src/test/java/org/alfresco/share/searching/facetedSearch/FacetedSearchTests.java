@@ -74,7 +74,6 @@ public class FacetedSearchTests extends BaseTest
         user.set(getDataUser().usingAdmin().createRandomTestUser());
         authenticateUsingCookies(user.get());
 
-        authenticateUsingLoginPage(user.get());
         site1.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         siteName = site1.get().getTitle();
 
