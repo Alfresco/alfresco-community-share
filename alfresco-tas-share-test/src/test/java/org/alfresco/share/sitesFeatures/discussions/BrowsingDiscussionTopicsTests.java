@@ -112,7 +112,7 @@ public class BrowsingDiscussionTopicsTests extends BaseTest
     }
 
     @TestRail (id = "6204")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "singlePipelineFailure" })
     public void browseTopicsByTags()
     {
         topicListPage.navigate(siteName.get().getId());

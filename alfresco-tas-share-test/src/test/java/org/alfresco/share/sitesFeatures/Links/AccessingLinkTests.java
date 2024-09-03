@@ -70,7 +70,7 @@ public class AccessingLinkTests extends BaseTest
         deleteUsersIfNotNull(user1.get());
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "singlePipelineFailure" })
     @TestRail (id = "C6250")
     public void accessingTheSiteLinks()
     {

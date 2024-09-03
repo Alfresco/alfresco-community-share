@@ -161,7 +161,7 @@ public class BrowsingWikiPagesTests extends BaseTest
         }
 
         log.info("Logging in as user 1 and navigating to wiki list page for site");
-        authenticateUsingLoginPage(userName1.get());
+        authenticateUsingCookies(userName1.get());
         wikiListPage.navigate(siteName.get());
         wikiListPage.clickAllPagesFilter();
 
@@ -207,7 +207,7 @@ public class BrowsingWikiPagesTests extends BaseTest
         }
 
         log.info("Logging in as user 1 and navigate to wiki list page for site");
-        authenticateUsingLoginPage(userName1.get());
+        authenticateUsingCookies(userName1.get());
         wikiListPage.navigate(siteName.get());
 
         log.info("STEP1: Click \"My Pages\" from Pages section");

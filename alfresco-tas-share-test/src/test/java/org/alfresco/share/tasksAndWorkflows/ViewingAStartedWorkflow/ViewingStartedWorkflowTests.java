@@ -340,7 +340,7 @@ public class ViewingStartedWorkflowTests extends BaseTest
         Assert.assertTrue(myTasksPage.getStatusCompleted(workflowName).contains("Completed"));
 
         log.info("STEP 5: log in with " + c284893testUser + ", open My task page");
-        authenticateUsingLoginPage(c284893testUser.get());
+        authenticateUsingCookies(c284893testUser.get());
         myTasksPage.navigateByMenuBar();
         myTasksPage.assertBrowserPageTitleIs("Alfresco » My Tasks");
 

@@ -1,16 +1,16 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Sanity Test Suite9" parallel="classes" thread-count="3">
+<suite name="Alfresco content and site features tests" parallel="classes" thread-count="3">
    <listeners>
       <listener class-name="org.alfresco.share.RetryListener"/>
    </listeners>
 
-   <test name="Sanity Tests9">
+   <test name="Alfresco content and site features tests">
       <groups>
          <run>
             <include name="sanity"/>
             <include name="share"/>
             <include name="regression"/>
-            <include name="integration"/>
+            <exclude name="integration"></exclude>
             <exclude name="unit"/>
             <exclude name="SmartFolders"/>
             <exclude name="ExternalUsers"/>

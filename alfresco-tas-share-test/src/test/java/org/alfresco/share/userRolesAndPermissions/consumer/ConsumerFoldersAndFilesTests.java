@@ -317,7 +317,7 @@ public class ConsumerFoldersAndFilesTests extends BaseTest
     }
 
     @TestRail (id = "C8784")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, TestGroup.INTEGRATION })
     public void consumerEditAndDeleteCommentForContent()
     {
         contentAction.addComment(getAdminUser().getUsername(),getAdminUser().getPassword(), siteName.get().getId(), fileC8784, comment);
@@ -336,7 +336,7 @@ public class ConsumerFoldersAndFilesTests extends BaseTest
     }
 
     @TestRail (id = "C8865")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, TestGroup.INTEGRATION })
     public void consumerPermissionRetention()
     {
         authenticateUsingLoginPage(user8865.get());
