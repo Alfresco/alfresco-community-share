@@ -52,7 +52,7 @@ public class DownloadingContentTests extends BaseTest
         deleteSitesIfNotNull(site.get());
     }
     @TestRail (id = "C7080")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "DownloadTest" })
     public void downloadFileFromAlfresco()
     {
         log.info("Create a file into site document library");
@@ -81,7 +81,7 @@ public class DownloadingContentTests extends BaseTest
     }
 
     @TestRail (id = "C7087")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "DownloadTest" })
     public void nonEmptyFolderDownloadAsZip()
     {
         log.info("Create Folder in document library.");

@@ -72,7 +72,7 @@ public class ViewFileInfoAndOptionsTest extends BaseTest
         deleteSitesIfNotNull(site.get());
     }
     @TestRail (id = "C5883")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "DownloadTest" })
     public void viewFileInfoAndOptions()
     {
         log.info("STEP 1: Navigate to 'Document Library' page for 'siteName' and verify folder name");

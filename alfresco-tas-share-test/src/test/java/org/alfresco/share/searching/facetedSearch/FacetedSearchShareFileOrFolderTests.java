@@ -361,7 +361,7 @@ public class FacetedSearchShareFileOrFolderTests extends BaseTest
             .assertIsContentHighlighted(FILE_CONTENT1);
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH },enabled = true)
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, "SinglePipelineFailure" },enabled = true)
     public void testHighlightedSearchByWildcardAsterisk() {
         log.info("Step 1: Search using * and check that the properties are highlighted on search results");
         String searchExpression = "file*";
@@ -455,7 +455,7 @@ public class FacetedSearchShareFileOrFolderTests extends BaseTest
         Assert.assertFalse(searchPage.isDescriptionHighlighted(description), description + " is highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH },enabled = true)
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, "Searching" },enabled = true)
     public void testGalleryViewIsNotHighlighted() {
         log.info("Step 1: Search in Gallery view and check that no item is highlighted");
         String searchExpression = "faceted*";
