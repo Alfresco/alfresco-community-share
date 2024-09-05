@@ -550,7 +550,7 @@ public class CreateNewTaskTests extends BaseTest
         log.info("Precondition 2: Any content is added to the folder;");
 
         log.info("Precondition 3: Any user logged in Share;");
-        authenticateUsingLoginPage(testUser.get());
+        authenticateUsingCookies(testUser.get());
 
         log.info("Precondition 4: Add My Tasks dashlet to My Dashboard;");
         addMyTaskDashletToDashboard();
@@ -596,7 +596,7 @@ public class CreateNewTaskTests extends BaseTest
         startWorkflowPage.clickStartWorkflow();
 
         log.info("STEP 3: login as Assignee user;");
-        authenticateUsingLoginPage(testUser2.get());
+        authenticateUsingCookies(testUser2.get());
 
         log.info("STEP 4: Add My Tasks dashlet to My Dashboard;");
         addMyTaskDashletToDashboard();
@@ -610,7 +610,7 @@ public class CreateNewTaskTests extends BaseTest
     @Test (groups = { TestGroup.REGRESSION, TestGroup.TASKS })
     public void startWorkflowViaMore() {
         log.info("Precondition: My Tasks dashlet is added to My Dashboard;");
-        authenticateUsingLoginPage(testUser.get());
+        authenticateUsingCookies(testUser.get());
 
         addMyTaskDashletToDashboard();
 
@@ -675,7 +675,7 @@ public class CreateNewTaskTests extends BaseTest
             "Missing start workflow icon for" + documentName);
 
         log.info("STEP 13: log in as assignee user.");
-        authenticateUsingLoginPage(testUser2.get());
+        authenticateUsingCookies(testUser2.get());
 
         log.info("STEP 14: Add My tasks dahslet to My Dashboard.");
         userDashboard.navigate(testUser2.get());
