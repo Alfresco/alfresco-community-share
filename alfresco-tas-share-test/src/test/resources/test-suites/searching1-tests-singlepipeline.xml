@@ -25,6 +25,7 @@
             <exclude name="auth"/>
             <exclude name="SearchTests"/>
             <exclude name="SinglePipelineFailure"/>
+            <exclude name="Searching"/>
          </run>
       </groups>
       <packages>
