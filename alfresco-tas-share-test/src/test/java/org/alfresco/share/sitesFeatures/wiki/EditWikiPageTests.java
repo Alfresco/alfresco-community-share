@@ -212,7 +212,7 @@ public class EditWikiPageTests extends BaseTest
         editWikiPage.refreshBrowser();
         editWikiPage.clickInsertLibraryImage();
         Assert.assertTrue(editWikiPage.islibraryImagesTitlebarDisplayed(), "Missing library images title bar!");
-        Assert.assertTrue(editWikiPage.isImageDisplayed(image), "Missing image thumbnail.");
+        Assert.assertTrue(editWikiPage.is_ImageDisplayed(image), "Missing image thumbnail.");
 
         log.info("STEP 3: Click the image thumbnail");
         editWikiPage.clickOnImage(image);
