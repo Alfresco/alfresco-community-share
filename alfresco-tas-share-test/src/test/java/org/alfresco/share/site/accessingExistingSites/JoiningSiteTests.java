@@ -113,7 +113,7 @@ public class JoiningSiteTests extends BaseTest
         String user2FirstName = user2.get().getFirstName();
         String user2LastName = user2.get().getLastName();
 
-        authenticateUsingLoginPage(user2.get());
+        authenticateUsingCookies(user2.get());
         siteFinderPage.navigate();
 
         log.info("STEP 1: Enter site name (" + siteNameC2823 + ") in textbox and click on 'Search' button.");
@@ -153,7 +153,7 @@ public class JoiningSiteTests extends BaseTest
         String user2FirstName = user2.get().getFirstName();
         String user2LastName = user2.get().getLastName();
 
-        authenticateUsingLoginPage(user2.get());
+        authenticateUsingCookies(user2.get());
 
         log.info("STEP 1: Open " + siteNameC3053 + " dashboard  and click 'Site configuration options' -> 'Join Site'.");
         siteDashboardPage
@@ -189,7 +189,7 @@ public class JoiningSiteTests extends BaseTest
         String user2FirstName = user2.get().getFirstName();
         String user2LastName = user2.get().getLastName();
 
-        authenticateUsingLoginPage(user2.get());
+        authenticateUsingCookies(user2.get());
         siteFinderPage.navigate();
 
         log.info("STEP 1: Enter site name (" + siteNameC2831 + ") in textbox and click on 'Search' button.");
@@ -206,7 +206,7 @@ public class JoiningSiteTests extends BaseTest
             .assertIsButtonDisplayedForSite(siteNameC2831.get().getId(), "Cancel Request"); //"'Cancel Request' button appears in place of 'Request to Join' button for " + siteNameC2831)
 
         log.info("STEP 3: logout and login to Share as " + user1 + ". Open 'My Tasks' page.");
-        authenticateUsingLoginPage(user1.get());
+        authenticateUsingCookies(user1.get());
         myTasksPage
             .navigate()
             .assertTaskNameEqualsTo(siteNameC2831.get().getId());
@@ -229,7 +229,7 @@ public class JoiningSiteTests extends BaseTest
             .assertSelectedRoleEqualsTo("Consumer", user2FirstName + " " + user2LastName);
 
         log.info("STEP 7: logout and login to Share as " + user2 + ".");
-        authenticateUsingLoginPage(user2.get());
+        authenticateUsingCookies(user2.get());
 
         log.info("STEP 8: Verify 'My Sites' dashlet from 'User Dashboard' page.");
         assertTrue(mySitesDashlet.isSitePresent(siteNameC2831.get().getId()), siteNameC2831 + " is displayed on 'My Sites' dashlet.");
@@ -243,7 +243,7 @@ public class JoiningSiteTests extends BaseTest
         String user2LastName = user2.get().getLastName();
 
         String dialogMessage = String.format(language.translate("requestToJoin.dialogMessage"), siteNameC3059.get().getId());
-        authenticateUsingLoginPage(user2.get());
+        authenticateUsingCookies(user2.get());
 
         log.info("STEP 1: Open 'Site Dashboard' page for " + siteNameC3059);
         siteDashboardPage.navigate(siteNameC3059.get().getId());
@@ -264,7 +264,7 @@ public class JoiningSiteTests extends BaseTest
         assertFalse(mySitesDashlet.isSitePresent(siteNameC3059.get().getId()), siteNameC3059 + " is not displayed on 'My Sites' dashlet.");
 
         log.info("STEP 6: logout and login to Share as " + user1 + ". Open 'My Tasks' page.");
-        authenticateUsingLoginPage(user1.get());
+        authenticateUsingCookies(user1.get());
         myTasksPage.navigateByMenuBar();
         myTasksPage.assertTaskNameEqualsTo(siteNameC3059.get().getId()); // "'Request to join " + siteNameC3059 + " site' task is expected to be displayed in 'Active Tasks'"
 
@@ -282,7 +282,7 @@ public class JoiningSiteTests extends BaseTest
         siteUsersPage.assertSelectedRoleEqualsTo("Consumer", user2FirstName + " " + user2LastName); // user2 + " should have Consumer role.
 
         log.info("STEP 10: logout and login to Share as " + user2 + ".");
-        authenticateUsingLoginPage(user2.get());
+        authenticateUsingCookies(user2.get());
         log.info("STEP 11: Verify 'My Sites' dashlet from 'User Dashboard' page.");
         assertTrue(mySitesDashlet.isSitePresent(siteNameC3059.get().getId()), siteNameC3059 + " is displayed on 'My Sites' dashlet.");
 
@@ -296,7 +296,7 @@ public class JoiningSiteTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void cancelRequestToJoinModeratedSite()
     {
-        authenticateUsingLoginPage(user2.get());
+        authenticateUsingCookies(user2.get());
         siteFinderPage.navigate();
 
         log.info("STEP 1: Enter site name (" + siteNameC2833 + ") in textbox and click on 'Search' button.");
@@ -310,13 +310,13 @@ public class JoiningSiteTests extends BaseTest
             .clickSiteButton(siteNameC2833.get().getId(), "Request to Join");
 
         log.info("STEP 3: logout and login to Share as " + user1 + ". Open 'My Tasks' page.");
-        authenticateUsingLoginPage(user1.get());
+        authenticateUsingCookies(user1.get());
         myTasksPage
             .navigateByMenuBar()
             .assertTaskNameEqualsTo(siteNameC2833.get().getId()); //"'Request to join " + siteNameC2833 + " site' task is expected to be displayed in 'Active Tasks'."
 
         log.info("STEP 4: logout and login to Share as " + user2 + ". Open again 'Site Finder' page.");
-        authenticateUsingLoginPage(user2.get());
+        authenticateUsingCookies(user2.get());
         siteFinderPage.navigate();
 
         log.info("STEP 5: Search site name (" + siteNameC2833 + ") and click on 'Cancel Request' button. ");
@@ -328,7 +328,7 @@ public class JoiningSiteTests extends BaseTest
             .isButtonDisplayedForSite(siteNameC2833.get().getId(), "Request to Join"); // "'Request to Join' button appears in place of 'Cancel Request' button for " + siteNameC2833
 
         log.info("STEP 6: logout and login to Share as " + user1 + ". Open 'My Tasks' page.");
-        authenticateUsingLoginPage(user1.get());
+        authenticateUsingCookies(user1.get());
         myTasksPage.navigateByMenuBar().assertNoTaskIsDisplayed();
     }
 }

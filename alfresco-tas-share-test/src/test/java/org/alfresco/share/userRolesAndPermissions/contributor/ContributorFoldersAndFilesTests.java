@@ -127,7 +127,7 @@ public class ContributorFoldersAndFilesTests extends BaseTest
     }
 
     @TestRail (id = "C8788")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, TestGroup.INTEGRATION })
     public void favoriteAndUnfavorite()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());
@@ -370,7 +370,7 @@ public class ContributorFoldersAndFilesTests extends BaseTest
     }
 
     @TestRail (id = "C8804")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, TestGroup.INTEGRATION })
     public void changeTypeForContentCreatedBySelf()
     {
         String fileName = String.format("fileName%s", RandomData.getRandomAlphanumeric());

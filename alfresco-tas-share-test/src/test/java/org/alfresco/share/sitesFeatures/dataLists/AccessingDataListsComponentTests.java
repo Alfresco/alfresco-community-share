@@ -85,7 +85,7 @@ public class AccessingDataListsComponentTests extends BaseTest
     }
 
     @TestRail (id = "C5844")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, TestGroup.INTEGRATION })
     public void onlySiteManagerIsAbleToRenameDataListsFeatures() throws DataPreparationException
     {
         log.info("Preconditions: Create userCollaborator, userContributor and userConsumer");
