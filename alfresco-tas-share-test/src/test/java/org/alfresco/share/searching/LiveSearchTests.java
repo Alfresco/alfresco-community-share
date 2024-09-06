@@ -84,7 +84,7 @@ public class LiveSearchTests extends BaseTest
         deleteSitesIfNotNull(testSite);
     }
 
-    @Test (groups = { TestGroup.SHARE, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE })
     public void testCheckNoLiveSearchResults()
     {
         log.info("Step 1: Search for info that does not exist and check that results are not displayed in search results");
@@ -115,7 +115,7 @@ public class LiveSearchTests extends BaseTest
 
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE  })
     public void testCheckLiveSearchScopeOptionsSiteContext()
     {
         log.info("Step 1: Check that when not in site context, the Live Search dropdown does not contain the scope options");
@@ -139,7 +139,7 @@ public class LiveSearchTests extends BaseTest
         Assert.assertFalse(liveSearchPageSupport.isScopeSitesDisplayed(), "Scope Sites is displayed");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE  })
     public void testCheckLiveSearchScopeOptionsRepoContext()
     {
         log.info("Step 1: Check that when in site, the Live Search dropdown contains the scope options");
@@ -165,7 +165,7 @@ public class LiveSearchTests extends BaseTest
 
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE  })
     public void testCheckSiteScopeSiteName()
     {
         log.info("Step 1: Check the site name in Search Site scope option");
@@ -184,7 +184,7 @@ public class LiveSearchTests extends BaseTest
         Assert.assertEquals(liveSearchPageSupport.getScopeSiteText(testSite.getTitle()), expectedInfo, testSite + " is not available in scope site");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE  })
     public void testLiveSearchDocumentResult()
     {
         log.info("Step 1: Check that the document search result contains document name, site name and user name");
@@ -205,7 +205,7 @@ public class LiveSearchTests extends BaseTest
 
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE  })
     public void testExpandLiveSearchDocumentResult()
     {
         log.info("Step 1: Expand document search results");
@@ -223,7 +223,7 @@ public class LiveSearchTests extends BaseTest
 
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE  })
     public void testClickOnDocumentTitle()
     {
         log.info("Step 1: Clicks on the document name in the document search result and checks that the document's details page is displayed");
@@ -245,7 +245,7 @@ public class LiveSearchTests extends BaseTest
 
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE  })
     public void testClickOnDocumentSiteName()
     {
         log.info("Step 1: Clicks on document site name in the document search result and checks that document site library page is displayed");
@@ -266,7 +266,7 @@ public class LiveSearchTests extends BaseTest
         Assert.assertEquals(documentLibraryPage.getSiteName(), testSite.getTitle(), "User is not redirected to " + siteName + " document library");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH,TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE  })
     public void testClickOnDocumentUserName()
     {
         log.info("Step 1: Click on document user name in document search result and checks that user profile page is displayed");
@@ -286,7 +286,7 @@ public class LiveSearchTests extends BaseTest
         Assert.assertEquals(userProfilePage.getWebDriver().getTitle(), "Alfresco » User Profile Page", "User is not redirected to User Profile page");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE  })
     public void testLiveSearchPeopleResult()
     {
         String expected = "[faceted "+ testUser.getLastName()+" (" + testUser.getUsername() + ")]";
@@ -301,7 +301,7 @@ public class LiveSearchTests extends BaseTest
         Assert.assertEquals(userProfilePage.getWebDriver().getTitle(), "Alfresco » User Profile Page", "User not redirected to user page");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE  })
     public void testLiveSearchSitesResult()
     {
         log.info("Step 1: Search for site and checks that site name is displayed in site results");
@@ -318,7 +318,7 @@ public class LiveSearchTests extends BaseTest
         Assert.assertEquals(siteDashboardPage.getSiteName(), testSite.getTitle(), "Site dashboard is not displayed");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE  })
     public void testLiveSearchInSiteResults()
     {
         String searchTerm = "docName";
@@ -331,7 +331,7 @@ public class LiveSearchTests extends BaseTest
         Assert.assertFalse(liveSearchPageSupport.areResultsFromOtherSitesReturned(testSite.getTitle()), "Other sites content is displayed: " + liveSearchPageSupport.getSites());
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE  })
     public void testLiveSearchInRepositoryResults()
     {
         String searchTerm = "docName";
@@ -344,7 +344,7 @@ public class LiveSearchTests extends BaseTest
         Assert.assertFalse(liveSearchPageSupport.areResultsFromOtherSitesReturned(testSite.getTitle()), "Other sites content is displayed: " + liveSearchPageSupport.getSites());
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE  })
     public void testLiveSearchToFacetedInSiteScope()
     {
         String searchTerm = "docName";
@@ -358,7 +358,7 @@ public class LiveSearchTests extends BaseTest
         Assert.assertEquals(searchPage.getSearchInDropdownSelectedValue(), testSite.getTitle(), testSite.getTitle() + " is not the context displayed on the search results page");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE  })
     public void testLiveSearchToFacetedInRepositoryScope()
     {
         String searchTerm = "docName";
@@ -372,7 +372,7 @@ public class LiveSearchTests extends BaseTest
         Assert.assertEquals(searchPage.getSearchInDropdownSelectedValue(), "Repository", "Repository is not the context displayed on the search results page");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, "SearchTests" })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, "SearchTests", TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE  })
     public void testLiveSearchNoResultsInSite()
     {
         String searchTerm = "jpg";

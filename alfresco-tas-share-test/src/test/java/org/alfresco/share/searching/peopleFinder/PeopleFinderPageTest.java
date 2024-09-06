@@ -59,7 +59,7 @@ public class PeopleFinderPageTest extends BaseTest
     public void verifyPeopleFinderPage()
     {
 
-        authenticateUsingLoginPage(testUser2);
+        authenticateUsingCookies(testUser2);
 
         getPeopleFinderPage.navigateToPeopleFinderPage();
 
@@ -96,7 +96,7 @@ public class PeopleFinderPageTest extends BaseTest
     public void noResultsFound()
     {
 
-        authenticateUsingLoginPage(testUser1);
+        authenticateUsingCookies(testUser1);
         getPeopleFinderPage.navigateToPeopleFinderPage();
 
         log.info("STEP 1 - Fill in 'search' field with an nonexistent user");

@@ -148,7 +148,7 @@ public class ApprovingUsersTests extends BaseTest
     }
 
     @TestRail (id = "C2463")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, TestGroup.INTEGRATION})
     public void shouldRejectUserFromMyTasksPage()
     {
         UserModel userModel = dataUser.usingAdmin().createRandomTestUser();
@@ -187,7 +187,7 @@ public class ApprovingUsersTests extends BaseTest
     }
 
     @TestRail (id = "C2464")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, TestGroup.INTEGRATION})
     public void shouldRejectUserFromMyTasksDashlet()
     {
         UserModel userModel = dataUser.usingAdmin().createRandomTestUser();

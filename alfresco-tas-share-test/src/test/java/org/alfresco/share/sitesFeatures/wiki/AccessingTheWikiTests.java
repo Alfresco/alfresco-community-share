@@ -73,7 +73,7 @@ public class AccessingTheWikiTests extends BaseTest
     }
 
     @TestRail (id = "C5493")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, TestGroup.INTEGRATION })
     public void accessWikiMainPageTest() throws DataPreparationException
     {
         log.info("Step 1 : Click on wiki tab and inspect the elements on the wiki main page");
