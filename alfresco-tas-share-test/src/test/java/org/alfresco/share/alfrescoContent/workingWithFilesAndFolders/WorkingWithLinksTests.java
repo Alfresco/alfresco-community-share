@@ -85,7 +85,7 @@ public class WorkingWithLinksTests extends BaseTest
     }
 
     @TestRail (id = "C42624")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
     public void verifyDisabledActionsForCreatedLink()
     {
         log.info("STEP1: Go to Document Library of the site"

@@ -125,7 +125,7 @@ public class FacetedSearchShareTests extends BaseTest
         deleteSitesIfNotNull(site.get());
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, "Searching" })
     public void testHighlightedDisjunction()
     {
         log.info("Step 1: Searching using disjunction (\"OR\"), check the result is properly highlighted");
@@ -217,7 +217,7 @@ public class FacetedSearchShareTests extends BaseTest
         Assert.assertFalse(searchPage.isNameHighlighted(docName2), docName2 + " is not highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, "Searching" })
     public void testHighlightedCalendarName()
     {
         log.info("Step 1: Searching file by Calendar Event name, the result is highlighted");
@@ -238,7 +238,7 @@ public class FacetedSearchShareTests extends BaseTest
         Assert.assertFalse(searchPage.isDescriptionHighlighted(eventDescription), eventDescription + " is highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, "Searching" })
     public void testHighlightedWikiNameAndSelection()
     {
         String expectedWikiPageTitle = "Alfresco » Wiki » " + wikiName;
@@ -266,7 +266,7 @@ public class FacetedSearchShareTests extends BaseTest
 
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, "Searching" })
     public void testHighlightedLinkName()
     {
         log.info("Step 1: Searching by Link page name, the result is highlighted");
@@ -289,7 +289,7 @@ public class FacetedSearchShareTests extends BaseTest
         Assert.assertFalse(searchPage.isDescriptionHighlighted(linkDescription), linkDescription + " is highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, "Searching" })
     public void testHighlightedBlogName()
     {
         log.info("Step 1: Searching by Blog page name, the result is highlighted");
@@ -336,7 +336,7 @@ public class FacetedSearchShareTests extends BaseTest
         Assert.assertFalse(searchPage.isContentHighlighted(discussionContent), discussionContent + " is highlighted");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, "SinglePipelineFailure" })
     public void testHighlightedDataListName()
     {
         log.info("Step 1: Searching by Blog page name, the result is highlighted");

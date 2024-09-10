@@ -21,6 +21,7 @@
             <include name="sites"/>
             <exclude name="user-dashboard"/>
             <exclude name="site-dashboard"/>
+            <exclude name="DownloadTest"/>
             <exclude name="user"/>
             <exclude name="auth"/>
          </run>

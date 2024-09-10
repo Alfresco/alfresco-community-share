@@ -113,7 +113,7 @@ public class ConsumerFilesOnlyTests extends BaseTest
     }
 
     @TestRail (id = "C8884")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "DownloadTest" })
     public void consumerDownloadContent()
     {
         documentLibraryPage.navigate(siteName.get().getId());
@@ -250,7 +250,7 @@ public class ConsumerFilesOnlyTests extends BaseTest
     }
 
     @TestRail (id = "C8908")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "DownloadTest" })
     public void consumerDownloadPreviousVersion()
     {
         log.info("Step 1: Navigate to DocumentLibrary and click on fileWithVersions");

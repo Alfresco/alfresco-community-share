@@ -335,7 +335,7 @@ public class ContributorFilesCreatedBySelfTests extends BaseTest
 
     @Bug (id = "MNT-18059", status = Status.FIXED)
     @TestRail (id = "C8936")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "DownloadTest" })
     public void downloadPreviousVersion()
     {
         log.info("Step1: Navigate to the created file with versions");

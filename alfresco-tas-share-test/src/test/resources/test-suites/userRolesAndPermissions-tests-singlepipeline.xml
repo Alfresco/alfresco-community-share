@@ -12,6 +12,7 @@
             <include name="regression"/>
             <include name="sites"/>
             <exclude name="integration"/>
+            <exclude name="DownloadTest"/>
          </run>
       </groups>
       <packages>

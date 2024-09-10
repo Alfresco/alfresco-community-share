@@ -156,7 +156,7 @@ public class FacetedSearchResultsPageTest extends BaseTest
         Assert.assertTrue(currentResultNo >= searchResultsNo, "Result number is lower than the one before scrolling");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, "Searching" })
     public void testSearchSortDescTest()
     {
 
@@ -183,7 +183,7 @@ public class FacetedSearchResultsPageTest extends BaseTest
         Assert.assertFalse(searchPage.getResultsListSize() == 0, "No results are displayed");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, "Searching" })
     public void testSearchSortTest()
     {
         log.info("Step 1: Search for files, sort by name and check that the list of results is arranged by name");
@@ -255,7 +255,7 @@ public class FacetedSearchResultsPageTest extends BaseTest
         Assert.assertEquals(searchPage.getResultsListSize(), 1, "Results number is not correct");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Regression", TestGroup.SEARCH, "Searching" })
     public void testSelectFacet()
     {
         log.info("Step 1: Search for files then filter by mimeType, check that results are filtered correctly");
