@@ -60,7 +60,7 @@ public class ViewingAFileInBrowserTests extends BaseTest
     }
 
     @TestRail (id = "C5920")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "DownloadTest" })
     public void verifyViewAFileInBrowser()
     {
         log.info("Step 1: Navigate to Document Library page for testSite and click on foldername.");

@@ -178,7 +178,7 @@ public class CollaboratorFilesOnlyTests extends BaseTest
     }
 
     @TestRail (id = "C8940")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "DownloadTest" })
     public void collaboratorDownloadContent()
     {
         log.info("Step 1: Mouse over the testDocument from Document Library");

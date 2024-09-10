@@ -209,7 +209,7 @@ public class SiteFinderTests extends BaseTest
         siteFinderPage.searchSiteName(testSite2.getTitle());
         assertEquals(siteFinderPage.getSearchMessage(), language.translate("siteFinder.noResults"), "Displayed message:");
         assertFalse(siteFinderPage.checkSiteWasFound(testSite2.getTitle()), "No results displayed in search result section");
-        authenticateUsingLoginPage(testUser1);
+        authenticateUsingCookies(testUser1);
 
     }
 }

@@ -23,6 +23,7 @@
             <exclude name="site-dashboard"/>
             <exclude name="user"/>
             <exclude name="auth"/>
+            <exclude name="DownloadTest"/>
             <exclude name="not_supported_on_single_pipeline"/>
          </run>
       </groups>

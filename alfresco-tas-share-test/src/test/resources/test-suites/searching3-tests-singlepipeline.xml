@@ -1,0 +1,18 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Searching3 tests" parallel="classes" thread-count="3">
+   <listeners>
+      <listener class-name="org.alfresco.share.RetryListener"/>
+   </listeners>
+
+   <test name="Searching1 tests">
+      <groups>
+         <run>
+            <include name="Searching"/>
+         </run>
+      </groups>
+      <packages>
+         <package name="org.alfresco.share.searching.advancedSearch"></package>
+         <package name="org.alfresco.share.searching.facetedSearch"></package>
+      </packages>
+   </test>
+</suite>

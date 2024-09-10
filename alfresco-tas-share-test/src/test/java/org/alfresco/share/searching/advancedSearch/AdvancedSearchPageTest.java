@@ -364,7 +364,7 @@ public class AdvancedSearchPageTest extends BaseTest
     }
 
     @TestRail (id = "C5909")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "Searching"})
     public void searchByDescription() {
 
         String identifier = RandomData.getRandomAlphanumeric();

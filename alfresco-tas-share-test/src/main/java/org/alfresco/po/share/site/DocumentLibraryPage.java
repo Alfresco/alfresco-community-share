@@ -1723,7 +1723,6 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
                 "The action " + action.getActionName() + " could not be found for list item " + contentItem);
         }
         scrollToElement(actionElement);
-        mouseOver(actionElement);
         clickElement(actionElement);
     }
 
