@@ -101,6 +101,64 @@ jobs:
         run: bash scripts/travis/${{ matrix.stage }}.sh
         continue-on-error: true
 
+  veracode_sast_share:
+    name: "Pipeline SAST Scan  - Share"
+    runs-on: ubuntu-latest
+    if: >
+      (github.ref_name == 'master' || startsWith(github.ref_name, 'release/') || github.event_name == 'pull_request') &&
+      github.actor != 'dependabot[bot]' &&
+      !contains(github.event.head_commit.message, '[skip tests]')
+    steps:
+      - uses: actions/checkout@v3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
+      - name: "Init"
+        run: bash scripts/travis/init.sh
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.34.0
+      - name: "Build"
+        timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+        run: bash scripts/travis/build.sh
+      - name: "Prepare Share War for SAST Scan"
+        run: |
+          sudo mkdir sast_scan
+          sudo cp share/target/share.war sast_scan
+          cd sast_scan
+          sudo jar -xvf share.war
+          sudo rm -r WEB-INF/lib
+          sudo rm -rf share.war
+          sudo jar -cvf share.war *
+      - uses: Alfresco/alfresco-build-tools/.github/actions/github-download-file@v5.6.0
+        with:
+          token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          repository: "Alfresco/veracode-baseline-archive"
+          file-path: "alfresco-enterprise-share/enterprise-share-baseline.json"
+          target: "baseline.json"
+      - name: "Run SAST Scan"
+        uses: veracode/Veracode-pipeline-scan-action@v1.0.16
+        with:
+          vid: '${{ secrets.VERACODE_API_ID }}'
+          vkey: '${{ secrets.VERACODE_API_KEY }}'
+          file: "sast_scan/share.war"
+          include: "share.war"
+          fail_build: true
+          project_name: enterprise-share
+          issue_details: true
+          veracode_policy_name: Alfresco Default
+          summary_output: true
+          summary_output_file: results.json
+          summary_display: true
+          baseline_file: baseline.json
+      - name: Upload scan result
+        if: success() || failure()
+        run: zip readable_output.zip results.json
+      - name: Upload Artifact
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Veracode Pipeline-Scan Results - Share (Human Readable)
+          path: readable_output.zip
+      - name: "Clean Maven cache"
+        run: bash ./scripts/travis/cleanup_cache.sh
+
   pmd_scan:
     name: "PMD Scan"
     runs-on: ubuntu-latest
