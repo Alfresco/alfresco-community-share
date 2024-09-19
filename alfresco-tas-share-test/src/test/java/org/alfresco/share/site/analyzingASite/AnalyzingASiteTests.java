@@ -173,7 +173,7 @@ public class AnalyzingASiteTests extends BaseTest
     }
 
     @TestRail (id = "C2233")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES, "PieChartTests" })
 
     public void verifySiteFileTypeBreakdownDashlet() {
         authenticateUsingLoginPage(user.get());
