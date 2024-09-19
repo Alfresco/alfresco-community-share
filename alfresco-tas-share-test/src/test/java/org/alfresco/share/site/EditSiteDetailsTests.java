@@ -117,6 +117,6 @@ public class EditSiteDetailsTests extends BaseTest
         editSiteDetailsDialog.clickCancelButton();
         siteProfileDashlet.assertSiteWelcomeMessageEquals("Welcome to " + site.get().getId());
         siteProfileDashlet.assertSiteDescriptionEquals(site.get().getDescription());
-        siteProfileDashlet.assert_SiteVisibilityEquals(language.translate(VISIBILITY_LABEL)+" ", site.get().getVisibility().name());
+        siteProfileDashlet.assert_SiteVisibilityEquals(language.translate(VISIBILITY_LABEL)+" ", site.get().getVisibility().name(), 2);
     }
 }
