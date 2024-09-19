@@ -11,6 +11,7 @@
             <include name="SearchTests"/>
             <include name="FlakyTests"/>
             <include name="RSSFeedDashletTest"/>
+            <include name="PieChartTests"/>
          </run>
       </groups>
       <packages>
@@ -22,6 +23,8 @@
          <package name="org.alfresco.share.userDashboard.dashlets"/>
       </packages>
       <classes>
-      </classes>
+         <class name="org.alfresco.share.site.analyzingASite.AnalyzingASiteTests"></class>
+         <class name="org.alfresco.share.site.siteDashboard.SiteFileTypeBreakdownDashletTests"></class>
+         </classes>
    </test>
 </suite>
