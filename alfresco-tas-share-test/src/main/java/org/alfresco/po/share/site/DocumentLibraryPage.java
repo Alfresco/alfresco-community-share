@@ -1195,7 +1195,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      */
     public void clickEditTagIcon(String contentName)
     {
-        waitInSeconds(1);
+        waitInSeconds(3);
         WebElement editTagIcon = selectDocumentLibraryItemRow(contentName).findElement(editTagSelector);
         clickElement(editTagIcon);
     }
@@ -1745,6 +1745,18 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         breadcrumbTextList.add(findElement(breadcrumbList1).getText());
         breadcrumbTextList.add(findElement(breadcumbCurrentFolder).getText());
         return breadcrumbTextList.toString();
+    }
+
+    public DocumentLibraryPage clickAction(String option)
+    {
+        List<WebElement> clickOption = findElements(editTagButtons);
+        waitInSeconds(3);
+        for (WebElement clickButton : clickOption)
+        {
+            if (clickButton.getText().equals(option))
+                clickButton.click();
+        }
+        return this;
     }
 }
 
