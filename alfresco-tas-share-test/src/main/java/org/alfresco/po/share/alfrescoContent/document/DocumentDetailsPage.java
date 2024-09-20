@@ -262,6 +262,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public String getCommentContent()
     {
+        waitInSeconds(2);
         return getElementText(commentContent);
     }
 
@@ -608,6 +609,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public void clickOnSaveButtonEditComment()
     {
+        waitInSeconds(2);
         clickElement(saveButtonEditComment);
     }
 

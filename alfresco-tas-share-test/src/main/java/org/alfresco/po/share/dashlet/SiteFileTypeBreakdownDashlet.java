@@ -91,6 +91,8 @@ public class SiteFileTypeBreakdownDashlet extends Dashlet<SiteFileTypeBreakdownD
 
     public SiteFileTypeBreakdownDashlet assertPieChartFileTypeNameEquals(String expectedFileTypeName)
     {
+        waitWithRetryAndReturnWebElement(pieChartSlices, WAIT_10.getValue(), RETRY_TIME_80.getValue());
+
         log.info("Assert pie chart file type name equals: {}", expectedFileTypeName);
         assertEquals(findElement(By.xpath(String.format(fileTypeNameLocator, expectedFileTypeName))).getText(),
             expectedFileTypeName, String.format("Pie chart file type name not equals %s", expectedFileTypeName));
