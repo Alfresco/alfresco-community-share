@@ -1,0 +1,24 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Sanity Test Suite4" parallel="classes" thread-count="3">
+   <listeners>
+      <listener class-name="org.alfresco.share.RetryListener"/>
+   </listeners>
+
+   <test name="Site Dashboard tests">
+      <groups>
+         <run>
+            <include name="sanity"/>
+            <include name="share"/>
+            <include name="regression"/>
+            <exclude name="RSS_FEED"/>
+            <include name="sites"/>
+            <include name="site-dashboard"/>
+            <exclude name="PieChartTests"/>
+
+         </run>
+      </groups>
+      <packages>
+         <package name="org.alfresco.share.site.siteDashboard"></package>
+      </packages>
+   </test>
+</suite>

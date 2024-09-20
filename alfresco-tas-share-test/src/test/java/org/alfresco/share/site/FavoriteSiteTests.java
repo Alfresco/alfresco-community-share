@@ -127,7 +127,7 @@ public class FavoriteSiteTests extends BaseTest
         toolbar.clickSites().assertRemoveCurrentSiteFromFavoritesIsDisplayed();
 
         log.info("STEP 2 - Click \"Remove current site from Favorites\". Click again \"Sites\" menu");
-        toolbar.clickSites().clickRemoveCurrentSiteFromFavorites();
+        toolbar.clickSites().click_RemoveCurrentSiteFromFavorites();
         toolbar.clickSites().assertAddCurrentSiteToFavoritesDisplayed();
 
         log.info("STEP 3 - Click on \"Favorites\" icon");

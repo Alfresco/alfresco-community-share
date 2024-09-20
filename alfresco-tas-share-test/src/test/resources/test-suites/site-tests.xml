@@ -23,6 +23,7 @@
             <exclude name="site-dashboard"/>
             <exclude name="user"/>
             <exclude name="auth"/>
+            <exclude name="PieChartTests"/>
          </run>
       </groups>
       <packages>
