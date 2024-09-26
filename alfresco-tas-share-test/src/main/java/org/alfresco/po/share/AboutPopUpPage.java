@@ -14,7 +14,7 @@ import org.openqa.selenium.WebDriver;
 public class AboutPopUpPage extends BaseDialogComponent
 {
     private final String alfrescoUrl = "https://www.alfresco.com/";
-    private final String hylandUrl = "https://www.hyland.com/en/products/alfresco-platform";
+    private final String hylandUrl = "https://www.hyland.com/en/solutions/products/alfresco-platform";
     private final String hylandLegalAgreementsUrl = "https://www.hyland.com/en/legal/alfresco-agreements";
     private final By shareVersion = By.cssSelector(".about>.header:nth-child(1)");
     private final By alfrescoVersion = By.cssSelector(".about>.header:nth-child(3)");

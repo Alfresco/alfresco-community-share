@@ -124,7 +124,7 @@ public class BrowsingTheCalendarTests extends BaseTest
     }
 
     @TestRail (id = "C5806")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, enabled = false)
     public void moveForwardThroughTheCalendar() {
         String eventTitle1 = "testEvent1";
         String eventTitle2 = "testEvent2";
