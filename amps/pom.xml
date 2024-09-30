@@ -11,7 +11,7 @@
     </parent>
 
     <!-- When adding a new AMP, create a profile for it here to add the module. The AMPS environment variable may
-         then be used in aliases to optionally build it. The profile will however need to be added to the Travis
+         then be used in aliases to optionally build it. The profile will however need to be added to the CI
          build scripts. -->
     <profiles>
         <profile>

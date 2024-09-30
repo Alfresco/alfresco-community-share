@@ -63,9 +63,9 @@ jobs:
     if: (!contains(github.event.head_commit.message, '[no lint]') && inputs.commitMessage != '[no lint]')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.34.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v1.4.0
+      - uses: actions/checkout@v4
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v7.1.0
 
   build:
     runs-on: ubuntu-latest
@@ -79,12 +79,15 @@ jobs:
       matrix:
         stage: [ source_clear ]
     steps:
-      - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
       - name: "Init"
-        run: bash scripts/travis/init.sh
+        run: bash scripts/ci/init.sh
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: 3.x
       - name: "Prepare before Test"
@@ -92,13 +95,12 @@ jobs:
           export TAG_NAME="$(echo "${BRANCH_NAME}" | tr / - )"
           export NAMESPACE="travis-share-$GITHUB_RUN_NUMBER"
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.34.0
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
-        run: bash scripts/travis/build.sh
+        run: bash scripts/ci/build.sh
       - name: Run ${{ matrix.stage }}
         if: ${{ ( matrix.stage != 'source_clear' && github.ref_name != 'company_release') || matrix.stage == 'source_clear'  }}
-        run: bash scripts/travis/${{ matrix.stage }}.sh
+        run: bash scripts/ci/${{ matrix.stage }}.sh
         continue-on-error: true
 
   veracode_sast_share:
@@ -109,14 +111,14 @@ jobs:
       github.actor != 'dependabot[bot]' &&
       !contains(github.event.head_commit.message, '[skip tests]')
     steps:
-      - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
+      - uses: actions/checkout@v4
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
       - name: "Init"
-        run: bash scripts/travis/init.sh
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.34.0
+        run: bash scripts/ci/init.sh
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1.0
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
-        run: bash scripts/travis/build.sh
+        run: bash scripts/ci/build.sh
       - name: "Prepare Share War for SAST Scan"
         run: |
           sudo mkdir sast_scan
@@ -157,7 +159,7 @@ jobs:
           name: Veracode Pipeline-Scan Results - Share (Human Readable)
           path: readable_output.zip
       - name: "Clean Maven cache"
-        run: bash ./scripts/travis/cleanup_cache.sh
+        run: bash ./scripts/ci/cleanup_cache.sh
 
   pmd_scan:
     name: "PMD Scan"
@@ -190,14 +192,16 @@ jobs:
       matrix:
         testModule: [ share, share-encryption, web-framework-commons ]
     steps:
-      - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.34.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
       - name: "Init"
-        run: bash scripts/travis/init.sh
+        run: bash scripts/ci/init.sh
       - name: "Build"
-        run: mvn -B clean install -DskipTests -Dmaven.javadoc.skip=true
+        run: bash scripts/ci/build.sh
       - name: Run Unit Tests
         uses: nick-fields/retry@v2
         with:
@@ -207,7 +211,7 @@ jobs:
           retry_on: error
           command: mvn -B test -pl ${{ matrix.testModule }} -DfailIfNoTests=false
       - name: "Clean Maven cache"
-        run: bash ./scripts/travis/cleanup_cache.sh
+        run: bash ./scripts/ci/cleanup_cache.sh
 
   ags_unit_tests:
     name: "AGS Unit tests"
@@ -225,14 +229,16 @@ jobs:
       matrix:
         testModule: [ alfresco-governance-services-community-share, alfresco-governance-services-enterprise-share ]
     steps:
-      - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.34.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
       - name: "Init"
-        run: bash scripts/travis/init.sh
+        run: bash scripts/ci/init.sh
       - name: "Build"
-        run: mvn -B clean install -Pags -DskipTests -Dmaven.javadoc.skip=true
+        run: bash scripts/ci/build.sh
       - name: Run ${{ matrix.testModule }} Unit Tests
         uses: nick-fields/retry@v2
         with:
@@ -242,7 +248,7 @@ jobs:
           retry_on: error
           command: mvn -B test -Pags -pl :${{ matrix.testModule }} -DfailIfNoTests=false
       - name: "Clean Maven cache"
-        run: bash ./scripts/travis/cleanup_cache.sh
+        run: bash ./scripts/ci/cleanup_cache.sh
 
 
   test:
@@ -260,17 +266,14 @@ jobs:
       matrix:
         test: [ user, user-and-site-dashboard, admin-tools, admin-console ,content-actions, content-filters, user-dashboard, userRolesAndPermissions, applying-rules, searching1, searching2, alfresco-content1, alfresco-content2, alfresco-content-and-site-features, task-and-workflows, site, site-dashboard, sitesFeatures-calendar, site-members, sitesFeatures-dataLists, sitesFeatures ]
     steps:
-      - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
-      - name: "Set up Java"
-        uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8 # v4.1.0
+      - uses: actions/checkout@v4
         with:
-          java-version: 17
-          distribution: temurin
-          overwrite-settings: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
+          persist-credentials: false
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: 3.x
       - name: Downgrade google chrome version
@@ -284,20 +287,20 @@ jobs:
           sudo dpkg -i google-chrome-stable_122.0.6261.111-1_amd64.deb
           google-chrome --version
       - name: "Init"
-        run: bash scripts/travis/init.sh
+        run: bash scripts/ci/init.sh
       - name:  "Prepare before Test"
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - name: Build Docker image
         run: |
           export TAG_NAME="latest"
-          bash scripts/travis/create_swap.sh "5"
-          bash scripts/travis/build.sh
+          bash scripts/ci/create_swap.sh "5"
+          bash scripts/ci/build.sh
       - name: Start Alfresco
-        run: bash amps/ags/travis/scripts/startAlfresco.sh packaging/docker/docker-compose
+        run: bash amps/ags/ci/scripts/startAlfresco.sh packaging/docker/docker-compose
       - name: Wait for Alfresco to start
         run: |
-          bash amps/ags/travis/scripts/waitForAlfrescoToStart.sh
+          bash amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           sudo free -m -t
       - name: Run ${{ matrix.test }} Test
         uses: nick-fields/retry@v2
@@ -306,7 +309,13 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
-          command: sudo --preserve-env bash scripts/travis/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml"
+          command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml"
+      - name: Clean-up leftover test data
+        if: ${{ matrix.test == 'alfresco-content1' || matrix.test == 'alfresco-content-and-site-features' || matrix.test == 'userRolesAndPermissions' || matrix.test == 'site-dashboard' || matrix.test == 'alfresco-content2' }}
+        run: |
+            # Clean up leftover test data which causes issues with Post Run setup-java-build step
+            sudo rm -rf ./alfresco-tas-share-test/target/testdata
+        continue-on-error: true
       - name: "Upload artifacts"
         uses: actions/upload-artifact@v4
         with:
@@ -335,23 +344,25 @@ jobs:
       matrix:
         test: [communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests]
     steps:
-      - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.34.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: 3.x
       - name: "Init"
-        run: bash scripts/travis/init.sh
+        run: bash scripts/ci/init.sh
       - name: "Prepare before Test"
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - name: Build Docker image
         run: |
           export TAG_NAME="latest"
-          bash scripts/travis/create_swap.sh "5"
-          bash scripts/travis/build.sh
+          bash scripts/ci/create_swap.sh "5"
+          bash scripts/ci/build.sh
       - name: Tag Docker image
         run: |
           docker images
@@ -369,8 +380,8 @@ jobs:
           firefox --version
       - name: Start Alfresco
         run: |
-          bash amps/ags/travis/scripts/startAlfresco.sh amps/ags/rm-community/rm-community-share
-          bash amps/ags/travis/scripts/waitForAlfrescoToStart.sh
+          bash amps/ags/ci/scripts/startAlfresco.sh amps/ags/rm-community/rm-community-share
+          bash amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           sudo free -m -t
       - name: Run tests
         uses: nick-fields/retry@v2
@@ -416,15 +427,17 @@ jobs:
       matrix:
         test: [communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, wormTestSuite]
     steps:
-      - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.34.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: 3.x
       - name: "Init"
-        run: bash scripts/travis/init.sh
+        run: bash scripts/ci/init.sh
       - name: "Prepare before Test"
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
@@ -446,7 +459,7 @@ jobs:
           echo "S3_BUCKET_NAME=travis-ags-$VERSION" >> $GITHUB_ENV
           echo $S3_BUCKET_NAME
       - name: "Configure AWS credentials"
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AGS_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AGS_AWS_SECRET_ACCESS_KEY }}
@@ -455,8 +468,8 @@ jobs:
         run: |
           firefox --version
           export TAG_NAME="latest"
-          bash scripts/travis/create_swap.sh "5"
-          bash scripts/travis/build.sh
+          bash scripts/ci/create_swap.sh "5"
+          bash scripts/ci/build.sh
       - name: Tag Docker image
         run: |
           docker images
@@ -465,14 +478,14 @@ jobs:
       - name: Start Alfresco
         if: ${{ matrix.test != 'wormTestSuite'}}
         run: |
-          bash amps/ags/travis/scripts/startAlfresco.sh amps/ags/rm-enterprise/rm-enterprise-share
-          bash amps/ags/travis/scripts/waitForAlfrescoToStart.sh
+          bash amps/ags/ci/scripts/startAlfresco.sh amps/ags/rm-enterprise/rm-enterprise-share
+          bash amps/ags/ci/scripts/waitForAlfrescoToStart.sh
       - name: Start Alfresco for Worm
         if: ${{ matrix.test == 'wormTestSuite'}}
         run: |
-          bash amps/ags/travis/scripts/create-worm-bucket.sh
-          bash amps/ags/travis/scripts/start-compose.sh amps/ags/rm-enterprise/rm-enterprise-share/docker-compose-worm-support-ui.yml
-          bash amps/ags/travis/scripts/waitForAlfrescoToStart.sh
+          bash amps/ags/ci/scripts/create-worm-bucket.sh
+          bash amps/ags/ci/scripts/start-compose.sh amps/ags/rm-enterprise/rm-enterprise-share/docker-compose-worm-support-ui.yml
+          bash amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           sudo free -m -t
       - name: Run tests
         uses: nick-fields/retry@v2
@@ -494,7 +507,7 @@ jobs:
             solr.log
             share.log
       - name: Get logs
-        run: bash amps/ags/travis/scripts/getLogs.sh
+        run: bash amps/ags/ci/scripts/getLogs.sh
       - name: Clean S3 bucket
         if: ${{ always() && matrix.test == 'wormTestSuite'}}
-        run: bash scripts/travis/cleanup.sh
+        run: bash scripts/ci/cleanup.sh
