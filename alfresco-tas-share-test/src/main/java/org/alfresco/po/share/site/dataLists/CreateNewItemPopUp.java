@@ -13,7 +13,6 @@ public class CreateNewItemPopUp extends BaseDialogComponent
 {
     private final By saveButton = By.cssSelector("button[id$='submit-button']");
     private final By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
-
     protected final String fieldLocator = "div[class*='form-field'] [id*='%s']";
     private final String dropDownLocator = "select[id*='%s']";
     private final String selectAttachmentButtonLocator = "div[id*='attachments-cntrl-itemGroupActions'] button";
@@ -778,6 +777,22 @@ public class CreateNewItemPopUp extends BaseDialogComponent
                 public String toString()
                 {
                     return "simpletaskDueDate-cntrl-date";
+                }
+            },
+
+        Priority
+            {
+                public String toString()
+                {
+                    return "simpletaskPriority";
+                }
+            },
+
+        Status
+            {
+                public String toString()
+                {
+                    return "simpletaskStatus";
                 }
             },
 
