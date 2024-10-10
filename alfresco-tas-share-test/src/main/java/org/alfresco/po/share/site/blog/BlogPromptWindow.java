@@ -14,6 +14,7 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
 {
     private final By addCommentButton = By.xpath("//button[contains(@id, '_default-add-submit-button')]");
     private final By saveButtonEditCommentWindow = By.xpath("//button[text()='Save']");
+    private final By cancelButtonEditCommentWindow = By.xpath("(//button[text()='Cancel'])[2]");
     private final By editorIframe = By.xpath("//div[@class = 'comment-form']//form[contains(@id, '_default-add-form')]//div[@class = 'mce-tinymce mce-container mce-panel']//iframe");
     private final By editor = By.id("tinymce");
 
@@ -60,6 +61,13 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
     {
         log.info("Save edited comment");
         clickElement(saveButtonEditCommentWindow);
+        waitUntilNotificationMessageDisappears();
+    }
+
+    public void cancelEditedComment()
+    {
+        log.info("Save edited comment");
+        clickElement(cancelButtonEditCommentWindow);
         waitUntilNotificationMessageDisappears();
     }
 
