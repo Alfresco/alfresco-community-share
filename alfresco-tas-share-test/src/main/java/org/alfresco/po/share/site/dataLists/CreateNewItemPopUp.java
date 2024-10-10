@@ -780,22 +780,6 @@ public class CreateNewItemPopUp extends BaseDialogComponent
                 }
             },
 
-        Priority
-            {
-                public String toString()
-                {
-                    return "simpletaskPriority";
-                }
-            },
-
-        Status
-            {
-                public String toString()
-                {
-                    return "simpletaskStatus";
-                }
-            },
-
         Comments
             {
                 public String toString()
