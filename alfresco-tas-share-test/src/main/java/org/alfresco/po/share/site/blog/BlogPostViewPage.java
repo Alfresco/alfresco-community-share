@@ -16,6 +16,7 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
 {
     public final By noCommentsText = By.xpath("//tbody[@class = 'yui-dt-message']//div[@class = 'yui-dt-liner']");
     private final By commentText = By.cssSelector("div[class ='comment-content'] p");
+    private final By blogCommentText = By.cssSelector("div[class ='comment-content']");
     private final By blogPostTitle = By.cssSelector("div[id*='_blog-postview'] div.nodeTitle>a");
     private final By blogPostContent = By.cssSelector("div[id*='_blog-postview'] div.content");
     private final By blogPostStatus = By.cssSelector(".nodeTitle .nodeStatus");
@@ -27,11 +28,17 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
     private final By deleteCommentButton = By.xpath("//a[@title = 'Delete Comment']");
     private final By newPostButton = By.cssSelector("button[id$='_default-create-button-button']");
     private final By nodeTitle = By.xpath("//div[@class = 'nodeTitle']//a");
+    private final By blogTitle = By.xpath("//span[@class = 'nodeTitle']//a");
+    private final By blogContent =  By.xpath("//div[@class='content yuieditor']");
 
     private final String postRowPath = "//div[@class = 'nodeContent']//div[@class='nodeTitle']//a[text()= '%s']/../../../..";
+    private final String blogPostRowPath = "//div[@class='node post']//span[@class = 'nodeTitle']//a[text()= '%s']/../../../..";
+
     private final String valuePath = "//div[@class='published']//span[@class='nodeAttrValue' and normalize-space() = '%s']";
     private final String labelPath = "//div[@class='published']//span[@class='nodeAttrLabel' and normalize-space() = '%s']";
     private final String labelTagPath = "//div[@class='published']//span[@class='nodeAttrLabel tagLabel' and normalize-space() = '%s']";
+    private final String blogLabelTagPath = "//div[@class='nodeFooter']//span[@class='nodeAttrLabel tagLabel' and normalize-space() = '%s']";
+    private final String blogValueTagPath = "(//div[@class='nodeFooter']//span[@class='nodeAttrValue' = '%s'])[3]";
     private final String valueTagPath = "//span[@class='tag']//a[normalize-space()='%s']";
     private final String userRow = "//tr[contains(@class, 'yui-dt-rec ')]//a[text() = '%s']/../..";
 
@@ -189,6 +196,54 @@ public class BlogPostViewPage extends SiteCommon<BlogPostViewPage>
         log.info("Assert no comments label equals to {}", expectedLabel);
         String actualLabel = getElementText(noCommentsText);
         assertEquals(actualLabel, expectedLabel, String.format("Label not equals %s ", expectedLabel));
+        return this;
+    }
+
+    public BlogPostViewPage assertBlogTitleEquals(String expectedBlogTitle)
+    {
+        log.info("Assert blog title equals to {}", expectedBlogTitle);
+        String actualBlogTitle = findElement(blogTitle).getText();
+        assertEquals(actualBlogTitle, expectedBlogTitle, String.format("Blog title not equals %s ", expectedBlogTitle));
+        return this;
+    }
+
+    public BlogPostViewPage assertBlogPostContentEquals(String expectedContent)
+    {
+        log.info("Assert blog content equals to {}", expectedContent);
+        String actualContent = getElementText(blogContent);
+        assertEquals(actualContent, expectedContent);
+        return this;
+    }
+
+    public BlogPostViewPage assertBlogPostTagEquals(String blogTitle, String expectedTagsLabel, String expectedTagsValue)
+    {
+        log.info("Assert blog tags equals to {}", expectedTagsValue);
+        String label = getBlogTags(blogTitle, expectedTagsLabel, blogLabelTagPath);
+        String value = getBlogTags(blogTitle, expectedTagsValue, blogValueTagPath);
+        String actualAuthorValue = label.concat(value);
+
+        assertEquals(actualAuthorValue, expectedTagsLabel.concat(expectedTagsValue),
+            String.format("Blog author not equals %s ", expectedTagsValue));
+        return this;
+    }
+
+    private String getBlogTags(String blogTitle, String tagsLabel, String labelPath)
+    {
+        return getElementText(getBlogPost(blogTitle)
+            .findElement(By.xpath(String.format(labelPath, tagsLabel))));
+    }
+
+    private WebElement getBlogPost(String blogTitle)
+    {
+        return waitWithRetryAndReturnWebElement(By.xpath(String.format(blogPostRowPath, blogTitle)),
+            WAIT_1.getValue(), RETRY_TIME_30.getValue());
+    }
+
+    public BlogPostViewPage assertCommentEquals(String user, String expectedComment)
+    {
+        log.info("Assert comment equals {}", expectedComment);
+        String actualComment = getElementText(getCommentUserRow(user).findElement(blogCommentText));
+        assertEquals(actualComment, expectedComment, String.format("Comment not equals %s ", expectedComment));
         return this;
     }
 }
