@@ -94,6 +94,33 @@ public class EditContactListItemTest extends BaseTest
 
     }
 
+    @TestRail (id = "C6540")
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    public void verifyPossibilityToCancelEditItem() {
+        log.info("STEP1: Click the 'Edit' icon for the contact list item to be edited");
+        dataListsPage.clickEditButtonForListItem();
+
+        log.info("STEP2: Edit All Contact List Item fields");
+        editItemPopUp
+            .editContent(ContactListFields.FirstName.toString(), editedFirstName)
+            .editContent(ContactListFields.LastName.toString(), editedLastName)
+            .editContent(ContactListFields.Email.toString(), editedEmail)
+            .editContent(ContactListFields.Company.toString(), editedCompany)
+            .editContent(ContactListFields.JobTitle.toString(), editedJobTitle)
+            .editContent(ContactListFields.PhoneOffice.toString(), editedPhoneOffice)
+            .editContent(ContactListFields.PhoneMobile.toString(), editedPhoneMobile)
+            .editContent(ContactListFields.Notes.toString(), editedNotes);
+
+        log.info("STEP3: Click Cancel button & Verify Edited details are not saved");
+        editItemPopUp.clickCancel();
+        List<String> expectedList = Arrays.asList("firstName", "lastName", "test@test.com", "companyName", "jobTitle",
+            "123456", "+41256422", "testNotes");
+        for (String anExpectedList : expectedList)
+        {
+            assertTrue(dataListsPage.getFilterTypeList().contains(anExpectedList), "Data list item is not updated.");
+        }
+    }
+
     @TestRail (id = "C6549")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void verifyPossibilityToEditItem() throws InterruptedException {
