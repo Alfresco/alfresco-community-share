@@ -103,6 +103,38 @@ public class EditSimpleTaskListItemTest extends BaseTest
         deleteUsersIfNotNull(userName.get());
     }
 
+    @TestRail (id = "C6587")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES})
+    public void VerifyEditDataItemForSimpleTaskItem() {
+        log.info("STEP1: Click 'Edit' icon for the simple task list item to be edited");
+        dataListsPage
+            .clickEditButtonForListItem();
+
+        log.info("STEP2: Verify Edit Data item form");
+        editItemPopUp
+            .verifyDataItemForm(SimpleTaskAgendaFields.Title.toString())
+            .verifyDataItemForm(SimpleTaskAgendaFields.Description.toString())
+            .verifyDataItemForm(SimpleTaskAgendaFields.DueDate.toString())
+            .verifyDataItemForm(SimpleTaskAgendaFields.Priority.toString())
+            .verifyDataItemForm(SimpleTaskAgendaFields.Status.toString())
+            .verifyDataItemForm(SimpleTaskAgendaFields.Comments.toString());
+        editItemPopUp
+            .assertCalendarIconIsDisplayed()
+            .assertSaveButtonIsDisplayed()
+            .assertCancelButtonIsDisplayed()
+            .assertCloseIconIsDisplayed();
+        editItemPopUp
+            .assertVerifyDropDownOptions("High")
+            .assertVerifyDropDownOptions("Normal")
+            .assertVerifyDropDownOptions("Low");
+        editItemPopUp
+            .assertVerifyDropDownOptions("Not Started")
+            .assertVerifyDropDownOptions("In Progress")
+            .assertVerifyDropDownOptions("Complete")
+            .assertVerifyDropDownOptions("On Hold");
+
+    }
+
     @TestRail (id = "C6588")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES})
     public void verifyEditDataItem()
