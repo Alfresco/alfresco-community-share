@@ -15,6 +15,7 @@ import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.SiteService;
 
+import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.SimpleTaskAgendaFields;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditItemPopUp;
@@ -115,8 +116,8 @@ public class EditSimpleTaskListItemTest extends BaseTest
             .verifyDataItemForm(SimpleTaskAgendaFields.Title.toString())
             .verifyDataItemForm(SimpleTaskAgendaFields.Description.toString())
             .verifyDataItemForm(SimpleTaskAgendaFields.DueDate.toString())
-            .verifyDataItemForm(SimpleTaskAgendaFields.Priority.toString())
-            .verifyDataItemForm(SimpleTaskAgendaFields.Status.toString())
+            .verifyDataItemForm(CreateNewItemPopUp.DropDownLists.simpletaskPriority.toString())
+            .verifyDataItemForm(CreateNewItemPopUp.DropDownLists.simpletaskPriority.toString())
             .verifyDataItemForm(SimpleTaskAgendaFields.Comments.toString());
         editItemPopUp
             .assertCalendarIconIsDisplayed()
