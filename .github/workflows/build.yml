@@ -115,10 +115,11 @@ jobs:
       !contains(github.event.head_commit.message, '[skip tests]') &&
       !contains(github.event.head_commit.message, '[force]')
     steps:
-      - uses: Alfresco/ya-pmd-scan@v2.0.5
+      - uses: Alfresco/ya-pmd-scan@v4.1.0
         with:
           fail-on-new-issues: "false"
           create-github-annotations: "false"
+          classpath-enable: "false"
 
   deploy:
     runs-on: ubuntu-latest
@@ -201,6 +202,7 @@ jobs:
             rm -rf ~/.config/google-chrome
             rm -rf ~/.cache/google-chrome
             wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_122.0.6261.111-1_amd64.deb
+            sudo apt-get install libu2f-udev
             sudo dpkg -i google-chrome-stable_122.0.6261.111-1_amd64.deb
             google-chrome --version
       - name: "Init"
@@ -227,7 +229,7 @@ jobs:
           retry_on: error
           command: sudo bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml"
       - name: "Upload artifacts"
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.test }}-tests
           path: alfresco-tas-share-test/target/surefire-reports alfresco-tas-share-test/target/reports
@@ -301,7 +303,7 @@ jobs:
           retry_on: error
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ags/${GITHUB_RUN_NUMBER}/${JOB_NAME}
           path:
@@ -404,7 +406,7 @@ jobs:
           retry_on: error
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ags/${GITHUB_RUN_NUMBER}/${JOB_NAME}
           path:

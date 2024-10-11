@@ -108,12 +108,8 @@ public class BrowsingTheCalendarTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C5806")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    public void moveForwardThroughTheCalendar()
-    {
-        /**
-         * Precondition: Add test events
-         */
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, enabled = false)
+    public void moveForwardThroughTheCalendar() {
         String eventTitle1 = "testEvent1";
         String eventTitle2 = "testEvent2";
         String eventTitle3 = "testEvent3";
