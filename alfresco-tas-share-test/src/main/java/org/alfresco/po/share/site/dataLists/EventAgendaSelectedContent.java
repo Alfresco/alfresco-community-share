@@ -107,10 +107,10 @@ public class EventAgendaSelectedContent extends ListItemSelectedContent
 
     public enum EventAgendaColumns
     {
-        Reference("Reference"),
-        StartTime("Start Time"),
-        EndTime("End Time"),
-        SessionName("Session Name"),
+        Reference("eventAgendaRef"),
+        StartTime("StartTime"),
+        EndTime("EndTime"),
+        SessionName("SessionName"),
         Presenter("Presenter"),
         Audience("Audience"),
         Attachments("Attachments"),
