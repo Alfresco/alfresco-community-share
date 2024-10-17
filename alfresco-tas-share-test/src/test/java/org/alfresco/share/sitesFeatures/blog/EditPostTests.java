@@ -78,6 +78,37 @@ public class EditPostTests extends BaseTest
         editBlogPostPage = new EditBlogPostPage(webDriver);
     }
 
+    @TestRail(id = "C5555")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
+    public void cancellingEditingBlogPost() {
+        sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
+            siteModel.get().getId(), postTitle, postContent, false, null);
+
+        blogPostListPage
+            .navigate(siteModel.get())
+            .assertPostInfoBarTitleEqualsTo(LATEST_POSTS.getExpectedFilterLabel());
+
+        blogPostListPage
+            .openEditForm(postTitle);
+
+        editBlogPostPage
+            .assertPageFormHeaderEqualsTo(EDIT_BLOG_POST);
+
+        editBlogPostPage
+            .setTitle(postTitleEdited)
+            .setContent(postContent)
+            .setTag(postTag)
+            .addTag();
+
+        editBlogPostPage
+            .clickCancelButton();
+
+        blogPostViewPage
+            .assertBlogTitleEquals(postTitle)
+            .assertBlogPostContentEquals(postContent)
+            .assertBlogPostTagEquals(postTitle, language.translate(TAGS_LABEL), "(None)");
+    }
+
     @TestRail(id = "C5560")
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
     public void shouldDisplayBlogPostDetailsWhenEditFromBlogPage()
