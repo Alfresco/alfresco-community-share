@@ -80,10 +80,10 @@ public class Sorting extends BaseTest {
         dataListsPage.clickEventAgendaListItem(listName);
 
         log.info("Step 2: In the table click column headings and check the items are sorted");
-        assertTrue(dataListsPage.areItemsSortedByColumnAfterClickingTheColumn(EventAgendaSelectedContent.EventAgendaColumns.Reference.toString()), "The Event Agenda data list items are sorted by First Name");
-        assertTrue(dataListsPage.areItemsSortedByColumnAfterClickingTheColumn(EventAgendaSelectedContent.EventAgendaColumns.SessionName.toString()), "The Event Agenda data list items are sorted by Session Name");
-        assertTrue(dataListsPage.areItemsSortedByColumnAfterClickingTheColumn(EventAgendaSelectedContent.EventAgendaColumns.StartTime.toString()), "The Event Agenda data list items are sorted by Start time");
-        assertTrue(dataListsPage.areItemsSortedByColumnAfterClickingTheColumn(EventAgendaSelectedContent.EventAgendaColumns.EndTime.toString()), "The Event Agenda data list items are sorted by End time");
+        assertTrue(dataListsPage.areItemsSortedByColumnAfterClickingTheColumn(EventAgendaSelectedContent.EventAgendaColumn.eventAgendaRef.toString()), "The Event Agenda data list items are sorted by First Name");
+        assertTrue(dataListsPage.areItemsSortedByColumnAfterClickingTheColumn(EventAgendaSelectedContent.EventAgendaColumn.SessionName.toString()), "The Event Agenda data list items are sorted by Session Name");
+        assertTrue(dataListsPage.areItemsSortedByColumnAfterClickingTheColumn(EventAgendaSelectedContent.EventAgendaColumn.StartTime.toString()), "The Event Agenda data list items are sorted by Start time");
+        assertTrue(dataListsPage.areItemsSortedByColumnAfterClickingTheColumn(EventAgendaSelectedContent.EventAgendaColumn.EndTime.toString()), "The Event Agenda data list items are sorted by End time");
 
     }
 }
