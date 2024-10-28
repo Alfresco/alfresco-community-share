@@ -457,7 +457,7 @@ jobs:
           aws-region: ${{ env.S3_BUCKET_REGION }}
       - name: Build Docker image
         run: |
-          firefox --version
+          chrome --version
           export TAG_NAME="latest"
           bash scripts/ci/create_swap.sh "5"
           bash scripts/ci/build.sh
@@ -466,6 +466,11 @@ jobs:
           docker images
           docker image tag alfresco/alfresco-governance-repository-enterprise-base:$(docker images | grep '^alfresco/alfresco-governance-repository-enterprise-base ' | head -1 | awk '{print $2}') alfresco/alfresco-governance-repository-enterprise-base:latest
           docker images
+      - name: "Install and Setup WebDriverManager"
+        run: |
+         mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:get -Dartifact=io.github.bonigarcia:webdrivermanager:5.7.0
+        # Setup WebDriverManager for Selenium
+         mvn exec:java -Dexec.mainClass="io.github.bonigarcia.wdm.WebDriverManager" -Dwebdriver.chrome.driver.setup
       - name: Start Alfresco
         if: ${{ matrix.test != 'wormTestSuite'}}
         run: |
@@ -485,7 +490,7 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
-          command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
+          command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
