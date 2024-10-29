@@ -157,6 +157,12 @@ public class CreateNewItemPopUp extends BaseDialogComponent
         addAttachment(folder, file);
     }
 
+    public void fillCreateNewEventItemFields(List<String> fieldsValue, String file )
+    {
+        fillCreateNewItemPopupFields(EventListFields.class, fieldsValue);
+        addAttachmentFromDocumentLibrary(file);
+    }
+
     /**
      * Method used to fill the fields from 'Create New Item' popup for 'Issue List' type.
      *

@@ -13,6 +13,7 @@ import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.SiteService;
 
+import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.EventListFields;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditItemPopUp;
@@ -48,7 +49,7 @@ public class EditEventListItemTest extends BaseTest
 
     //@Autowired
     EditItemPopUp editItemPopUp;
-
+    private CreateNewItemPopUp createNewItemPopUp;
     String random = RandomData.getRandomAlphanumeric();
     String listName = "List name" + random;
     String itemTitle = "Item title";
@@ -81,6 +82,7 @@ public class EditEventListItemTest extends BaseTest
 
         dataListsPage = new DataListsPage(webDriver);
         editItemPopUp = new EditItemPopUp(webDriver);
+        createNewItemPopUp = new CreateNewItemPopUp(webDriver);
 
         siteService.addPageToSite(userName.get().getUsername(), userName.get().getPassword(), siteName.get().getId(), Page.DATALISTS, null);
         dataListsService.createDataList(getAdminUser().getUsername(), getAdminUser().getPassword(), siteName.get().getId(), DataListsService.DataList.EVENT_LIST, listName, "Event List description");
@@ -101,6 +103,33 @@ public class EditEventListItemTest extends BaseTest
         contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + userName.get().getUsername());
         deleteSitesIfNotNull(siteName.get());
         deleteUsersIfNotNull(userName.get());
+    }
+
+    @TestRail (id = "C6657")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    public void addingNewItemInEventList()
+    {
+        log.info("Preconditions: Create a new Event List");
+        String eventName = "event" + System.currentTimeMillis();
+        dataListsService.createDataList(userName.get().getUsername(), userName.get().getPassword(), siteName.get().getId(), DataListsService.DataList.EVENT_LIST, eventName, "event list description");
+        dataListsPage.navigate(siteName.get().getId());
+        dataListsPage.clickEventListItem(eventName);
+
+        log.info("Step 1: Click the 'New Item' button");
+        dataListsPage.clickNewItemButtons();
+
+        log.info("Step 2: Provide data in all Event Item Fields");
+        createNewItemPopUp.fillCreateNewEventItemFields(Arrays.asList("test", "description", "location", "1/1/2017", "12:00", "2/2/2017", "12:00", "test", "testNotes"), attachedFile);
+
+        log.info("Step 3: Click the 'Save' button.");
+
+        log.info("Step 4: Verify Event Item Field data");
+        createNewItemPopUp.clickSave();
+        List<String> expectedList = Arrays.asList("test", "description", "location", "Sun 1 Jan 2017 12:00:00", "Thu 2 Feb 2017 12:00:00", "test", attachedFile , "testNotes");
+        for (String anExpectedList : expectedList)
+        {
+            assertTrue(dataListsPage.getFilterTypeList().contains(anExpectedList), "Data list item is updated.");
+        }
     }
 
     @TestRail (id = "C6696")
