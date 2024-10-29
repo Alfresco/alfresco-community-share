@@ -1,0 +1,5 @@
+<webscript>
+    <shortname>AIMS Login</shortname>
+    <description>AIMS Login page for pre-processing redirect</description>
+    <url>/components/guest/aims-login</url>
+</webscript>
