@@ -128,6 +128,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import java.util.Collection;
 import java.util.Base64;
 import java.util.LinkedHashSet;
@@ -156,6 +157,9 @@ public class AIMSFilter implements Filter
     public static final String SHARE_AIMS_LOGOUT = "/page/aims/logout";
     public static final String SHARE_PAGE = "/page";
     public static final String DEFAULT_AUTHORIZATION_REQUEST_BASE_URI = "/oauth2/authorization";
+    public static final String SHARE_AIMS_LOGIN_PAGE = "/page/aims-login";
+    public static final String SHARE_AIMS_DOLOGIN = "/page/aims-dologin";
+
     private ClientRegistrationRepository clientRegistrationRepository;
     private OAuth2AuthorizedClientService oauth2ClientService;
     private final RedirectStrategy authorizationRedirectStrategy;
@@ -294,6 +298,22 @@ public class AIMSFilter implements Filter
             {
                 try
                 {
+
+                    // Bypass the AIMS login page where we handle the redirect url to include query and fragments
+                    if (request.getRequestURI().contains(SHARE_AIMS_LOGIN_PAGE))
+                    {
+                        chain.doFilter(request, response);
+                        return;
+                    }
+
+                    // Check if the request is to aims-dologin where we have the correct redirect URL, if not, redirect
+                    // to the aims login page
+                    if (!request.getRequestURI().contains(SHARE_AIMS_DOLOGIN))
+                    {
+                        this.sendRedirectForPreLogin(request, response);
+                        return;
+                    }
+
                     this.requestCache.saveRequest(request, response);
                     OAuth2AuthorizationRequest authorizationRequest =
                         this.authorizationRequestResolver.resolve(request, this.clientId);
@@ -360,6 +380,13 @@ public class AIMSFilter implements Filter
         }
         else
         {
+            // OAUTH redirected to aims-dologin, so now we need to redirect back to the original URL
+            if (request.getRequestURI().contains(SHARE_AIMS_DOLOGIN))
+            {
+                this.sendRedirectToOriginalTarget(request, response);
+                return;
+            }
+
             chain.doFilter(sreq, sres);
         }
     }
@@ -776,6 +803,52 @@ public class AIMSFilter implements Filter
     {
         response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                            HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
+    }
+
+    /**
+     * Redirect to the aims-login page that is not filtered so we can add the fragments to the redirect URL as a query
+     * parameter. This will redirect to /share/aims-login?{original query params if present&}redirectUrl={the
+     * originalURL that was called, including the query params}.
+     *
+     * We are keeping the original query params in the URI due to the OAuth2AuthorizationRequest reading at least the
+     * action param.
+     *
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    private void sendRedirectForPreLogin(HttpServletRequest request, HttpServletResponse response) throws IOException
+    {
+        String originalQueryString = request.getQueryString();
+        String redirectUrl = request.getRequestURL().toString()
+                + (originalQueryString != null ? "?".concat(originalQueryString) : "");
+        UriComponents loginUri = UriComponentsBuilder.fromUriString(SHARE_AIMS_LOGIN_PAGE).query(originalQueryString)
+                .queryParam("redirectUrl", Encode.forJava(redirectUrl)).build();
+        this.redirectStrategy.sendRedirect(request, response, loginUri.toUriString());
+    }
+
+    /**
+     * After we have sucessfully authenticated with the IdP, the IDP sent the redirect back to the aims-login page. We
+     * need to redirect back to the original URL that was called and include the framents if present
+     *
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    private void sendRedirectToOriginalTarget(HttpServletRequest request, HttpServletResponse response) throws IOException
+    {
+        String originalUrl = request.getParameter("redirectUrl");
+
+        // If we don't have redirect URL, redirect to the home page
+        if (originalUrl == null || originalUrl.isEmpty())
+        {
+            this.redirectStrategy.sendRedirect(request, response, "/");
+            return;
+        }
+
+        String originalFragment = request.getParameter("fragment");
+        UriComponents redirectUri = UriComponentsBuilder.fromUriString(originalUrl).fragment(originalFragment).build();
+        this.redirectStrategy.sendRedirect(request, response, redirectUri.toUriString());
     }
 
     private synchronized void refreshToken(SecurityContext attribute, HttpSession session)
