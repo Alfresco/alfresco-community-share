@@ -159,4 +159,32 @@ public class EditEventAgendaItemTest extends BaseTest
             assertTrue(dataListsPage.getFilterTypeList().contains(anExpectedList), "Data list item is updated.");
         }
     }
+
+    @TestRail (id = "C10538")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    public void CancelEditingEventAgenda() {
+        log.info("STEP1: Click Edit icon for the item");
+        dataListsPage.clickEditButtonForListItem();
+
+        log.info("STEP2: Provide new input for the Reference field");
+        editItemPopUp.editContent(EventAgendaFields.Reference.toString(), newItemReference);
+        editItemPopUp.editContent(EventAgendaFields.StartTime.toString(), startTime);
+        editItemPopUp.editContent(EventAgendaFields.EndTime.toString(), endTime);
+        editItemPopUp.editContent(EventAgendaFields.SessionName.toString(), newItemSessionName);
+        editItemPopUp.editContent(EventAgendaFields.Presenter.toString(), newItemPresenter);
+        editItemPopUp.editContent(EventAgendaFields.Audience.toString(), newItemAudience);
+        editItemPopUp.editContent(EventAgendaFields.Notes.toString(), newItemNotes);
+
+        log.info("STEP3: Click Attachments/Select button and select doc. Click on the + button to add the attachment and then Ok to confirm");
+        editItemPopUp.removeAttachments(file);
+
+        log.info("STEP4: Click on Cancel button");
+        editItemPopUp.clickCancel();
+
+        List<String> expectedList = Arrays.asList(itemReference, itemSessionName, file);
+        for (String anExpectedList : expectedList)
+        {
+            assertTrue(dataListsPage.getFilterTypeList().contains(anExpectedList), "Data list item is updated.");
+        }
+    }
 }
