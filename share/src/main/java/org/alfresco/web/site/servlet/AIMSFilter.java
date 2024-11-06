@@ -822,9 +822,9 @@ public class AIMSFilter implements Filter
         String originalQueryString = request.getQueryString();
         String redirectUrl = request.getRequestURL().toString()
                 + (originalQueryString != null ? "?".concat(originalQueryString) : "");
-        UriComponents loginUri = UriComponentsBuilder.fromUriString(SHARE_AIMS_LOGIN_PAGE).query(originalQueryString)
+        UriComponents loginUri = UriComponentsBuilder.fromUriString(request.getContextPath() + SHARE_AIMS_LOGIN_PAGE).query(originalQueryString)
                 .queryParam("redirectUrl", Encode.forJava(redirectUrl)).build();
-        this.redirectStrategy.sendRedirect(request, response, loginUri.toUriString());
+        response.sendRedirect(loginUri.toUriString());
     }
 
     /**
