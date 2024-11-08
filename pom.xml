@@ -35,7 +35,7 @@
 
         <dependency.alfresco-transform-service.version>4.1.5-A3</dependency.alfresco-transform-service.version>
         <dependency.alfresco-transform-core.version>5.1.5-A3</dependency.alfresco-transform-core.version>
-        <alfresco.api-explorer.version>23.3.0</alfresco.api-explorer.version>
+        <alfresco.api-explorer.version>23.4.0-A1</alfresco.api-explorer.version>
         <dependency.jakarta-annotation-api.version>2.1.1</dependency.jakarta-annotation-api.version>
 
         <image.registry>quay.io</image.registry>
