@@ -76,7 +76,7 @@
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
         <dependency.org-json.version>20231013</dependency.org-json.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
-        <spring.security.version>6.3.3</spring.security.version>
+        <spring.security.version>6.3.4</spring.security.version>
 
         <alfresco.googledrive.version>4.1.0</alfresco.googledrive.version>
 
