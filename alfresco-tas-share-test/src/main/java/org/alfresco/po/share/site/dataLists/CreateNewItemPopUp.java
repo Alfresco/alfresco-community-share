@@ -163,6 +163,15 @@ public class CreateNewItemPopUp extends BaseDialogComponent
         addAttachmentFromDocumentLibrary(file);
     }
 
+    public void fillCreateNewIssueListItemFields(List<String> fieldsValue, String file, String ItemStatus, String ItemPriority, String username )
+    {
+        fillCreateNewItemPopupFields(IssueFields.class, fieldsValue);
+        selectDropDownItem(ItemStatus, "issueStatus");
+        selectDropDownItem(ItemPriority, "issuePriority");
+        addAttachmentFromDocumentLibrary(file);
+        addAssignedTo(username);
+    }
+
     /**
      * Method used to fill the fields from 'Create New Item' popup for 'Issue List' type.
      *
