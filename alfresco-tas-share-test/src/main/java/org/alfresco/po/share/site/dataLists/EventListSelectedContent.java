@@ -93,4 +93,28 @@ public class EventListSelectedContent extends ListItemSelectedContent
         tableRow = new EventListItemsTable(findRow(listDetails).get(0), browser);
         tableRow.getDeleteButton().click();
     }
+
+    public enum EventListColumns
+    {
+        Tittle("cm_title"),
+        Location("eventLocation"),
+        StartDate("eventStartDate"),
+        EndDate("eventEndDate"),
+        Description("cm_description"),
+        Registrations("eventRegistrations"),
+        EventNote("eventNote");
+
+        public final String name;
+
+        EventListColumns(String name)
+        {
+            this.name = name;
+        }
+
+        @Override
+        public String toString()
+        {
+            return this.name;
+        }
+    }
 }
