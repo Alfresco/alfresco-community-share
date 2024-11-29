@@ -194,11 +194,11 @@ function nextARelease() {
 
   ACS_RELEASE=$(echo "${ACS_VERSION}" | sed "s|\([0-9.]*\).*|\1|g")
   LATEST_A_NUMBER=0
-  if [[ $(listRemoteTags | grep "${ACS_RELEASE}-A") != "" ]]; then
-    LATEST_A_NUMBER=$(listRemoteTags | grep "${ACS_RELEASE}-A" | sed "s|${ACS_RELEASE}-A||g" | sort -n | tail -1 | sed "s|\([0-9]+\).*|\1|g")
+  if [[ $(listRemoteTags | grep "${ACS_RELEASE}-A.") != "" ]]; then
+    LATEST_A_NUMBER=$(listRemoteTags | grep "${ACS_RELEASE}-A." | sed "s|${ACS_RELEASE}-A.||g" | sort -n | tail -1 | sed "s|\([0-9]+\).*|\1|g")
   fi
   NEXT_A_NUMBER=$((LATEST_A_NUMBER+1))
-  echo "${ACS_RELEASE}-A${NEXT_A_NUMBER}"
+  echo "${ACS_RELEASE}-A.${NEXT_A_NUMBER}"
 }
 
 set -vx
