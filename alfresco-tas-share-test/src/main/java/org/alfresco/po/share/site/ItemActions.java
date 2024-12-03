@@ -1,7 +1,6 @@
 package org.alfresco.po.share.site;
 
-public enum ItemActions
-{
+public enum ItemActions {
     DOWNLOAD("document-download", "Download"),
     VIEW_IN_BROWSER("document-view-content", "View In Browser"),
     VIEW_WORKING_COPY("document-view-working-copy", "View Working Copy"),
@@ -27,7 +26,8 @@ public enum ItemActions
 
     LOCATE_LINKED_ITEM("document-locate", "Locate Linked Item"),
     DELETE_LINK("document-delete", "Delete Link"),
-
+    EDIT_ACTION("edit-link", "Edit"),
+    DELETE_ACTION("delete-link", "Delete"),
     LOCATE_FOLDER("document-locate", "Locate Folder"),
     DELETE_FOLDER("document-delete", "Delete Folder"),
     DOWNLOAD_AS_ZIP("folder-download", "Download as Zip"),
@@ -37,19 +37,16 @@ public enum ItemActions
     private String actionLocator;
     private String actionName;
 
-    ItemActions(String actionLocator, String actionName)
-    {
+    ItemActions(String actionLocator, String actionName) {
         this.actionLocator = actionLocator;
         this.actionName = actionName;
     }
 
-    public String getActionLocator()
-    {
+    public String getActionLocator() {
         return actionLocator;
     }
 
-    public String getActionName()
-    {
+    public String getActionName() {
         return actionName;
     }
 }
