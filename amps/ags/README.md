@@ -126,23 +126,18 @@ To run the automated UI tests, change to the rm-automation directory and run:
 mvn clean install -Dskip.automationtests=false
 ```
 
-Note: due to Selenium Firefox driver changes, the highest supported Firefox version for UI tests is 43.0.4 (with Selenium 2.52.0).
+```
+Selenium Upgrade and Browser Configuration
+```
+With the upgrade from Selenium version 2.52 to 3.141.59, UI tests can now be executed in Chrome, Firefox, and Edge.
 
-It is possible to have multiple versions of Firefox installed onto your workstation (e.g. one for running the UI tests and the other, kept
-up to date, for everyday browsing) but beware Firefox auto-updates. In this scenario the best approach is to create a non-default profile
-(default profiles will be shared between your Firefox installations!) for which auto-updates are disabled and forcing the use of this
-profile in your tests (`-Dwebdriver.firefox.profile="ProfileName"`). If your Firefox 43 install isn't in your path, you can use the
-`-Dwebdriver.firefox.profile` option set to the full path of its "firefox-bin" executable.
+Users can specify the desired browser by setting the browser.name property in the browser.properties file.
 
-MacOS X Sierra users: if you experience by order of magnitude slower performance when connected to a WiFi network (e.g. office WiFi)
-add your workstation to your local /etc/hosts file as described on https://github.com/SeleniumHQ/selenium/issues/2824.
+Additionally, browser-related settings, such as enabling or disabling headless mode (headless=true/false) and password management options, can also be configured in the same file.
 
-To use Chrome instead of Firefox:
-1. copy webdriver.properties from https://github.com/AlfrescoTestAutomation/selenium-grid/tree/master/src/main/resources
-2. put it under src/test/resource in rm-automation-ui project
-3. download the chrome driver from http://chromedriver.storage.googleapis.com and extract it
-4. change the following properties in webdriver.properties: webdriver.browser (Chrome) and webdriver.chrome.server.path (path/to/chrome/driver)
-5. run the tests as usual
+Ensure to update the browser.properties file as per your testing requirements to customize the test execution environment.
+
+After that run UI test cases as usual
 
 ## Updating License Headers
 In order to refesh out of date license source headers run the following command:
