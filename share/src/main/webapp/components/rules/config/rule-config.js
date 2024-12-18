@@ -2024,11 +2024,11 @@
             }
             else if (Alfresco.util.arrayContains(["d:boolean"], type))
             {
-               if (paramValue == true)
+               if (paramValue === "true")
                {
                   return true;
                }
-               else if (paramValue == false)
+               else if (paramValue === "false")
                {
                   return false;
                }
