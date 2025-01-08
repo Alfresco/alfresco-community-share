@@ -55,6 +55,7 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>> {
     private final By hideBreadcrumbOption = By.cssSelector(".hidePath");
     private final By showBreadcrumbOption = By.cssSelector(".showPath");
     private final By filmstripViewOption = By.cssSelector("span[class='view filmstrip']");
+    private final By simpleViewOption = By.cssSelector("span[class='view simple']");
     private final By tableViewOption = By.cssSelector("span[class='view table']");
     private final By setDefaultViewLocator = By.cssSelector("span[class='setDefaultView']");
     private final By removeDefaultViewLocator = By.cssSelector("span[class='removeDefaultView']");
@@ -328,6 +329,12 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>> {
         log.info("Select Filmstrip view");
         clickElement(filmstripViewOption);
         return new FilmstripViewComponent(webDriver);
+    }
+
+    public AlfrescoContentPage<T> selectSimpleView() {
+        log.info("Select Simple view");
+        clickElement(simpleViewOption);
+        return this;
     }
 
     public ContentTableViewComponent selectTableView() {
