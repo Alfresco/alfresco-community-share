@@ -50,6 +50,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private final By createButton = By.cssSelector("button[id$='createContent-button-button']");
     private final String contentTableRow = "//td[contains(@class, 'yui-dt-col-name')]//a[text()='%s']/../../../..";
     private final String contentNameInTableRow = "//td[contains(@class, 'yui-dt-col-name')]//a[text()='%s']";
+    private final String contentNameInRow = "//td[contains(@class, 'yui-dt-col-fileName')]//a[text()='%s']";
     public By createContentMenu = By.cssSelector("div[id*='_default-createContent-menu'].visible");
     public By editTagSelector = By.cssSelector("td .detail span[class='insitu-edit']:first-child");
     public By uploadButton = By.cssSelector("[id$='default-fileUpload-button-button']");
@@ -600,6 +601,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      */
     private List<WebElement> getAvailableActions(String libraryItem) {
         WebElement itemRow = mouseOverContentItem(libraryItem);
+        waitInSeconds(5);
         clickOnMoreActions(itemRow);
         return itemRow.findElements(actionsSet);
     }
@@ -1565,6 +1567,23 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         By contentRowElement = By.xpath(String.format(contentNameInTableRow, folderName));
         WebElement folderElement = selectDocumentLibraryItemRow(folderName);
         clickElement(folderElement.findElement(contentRowElement));
+        return this;
+    }
+
+    public DocumentLibraryPage mouseOverSimpleViewRow(String contentName) {
+        try {
+            By contentRowElement = By.xpath(String.format(contentNameInRow, contentName));
+            mouseOver(selectDocumentLibraryItemRow(contentName).findElement(contentRowElement));
+        } catch (TimeoutException e) {
+        }
+        return this;
+    }
+
+    public DocumentLibraryPage assertActionsAvailableForLibrary(String contantName, List<String> actions) {
+        log.info(
+            "Verify that the given actions are available in more  ");
+        Assert.assertTrue(areActionsAvailableForLibraryItem(contantName, actions),
+            "Not Expected actions");
         return this;
     }
 
