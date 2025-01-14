@@ -463,4 +463,12 @@ public class DataListsPage extends SiteCommon<DataListsPage>
         clickOnSpecificColumn(column);
         return currentOrder.equals(retrieveSpecificColumnItems(column));
     }
+
+    public boolean isAttachmentsUpdated(String attachment)
+    {
+        if (getFilterTypeList().contains(attachment)){
+            return true;
+        }
+        return false;
+    }
 }

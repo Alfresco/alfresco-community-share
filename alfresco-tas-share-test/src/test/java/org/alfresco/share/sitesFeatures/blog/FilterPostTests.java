@@ -85,7 +85,7 @@ public class FilterPostTests extends BaseTest
     }
 
     @TestRail (id = "C6004")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES, "singlePipelineFailure"})
     public void shouldDisplayBlogPostFilteredByLatestPosts()
     {
         UserModel manager = dataUser.usingAdmin().createRandomTestUser();

@@ -87,7 +87,7 @@ public class ContributorFilesCreatedByOthersTests extends BaseTest
     }
 
     @TestRail (id = "C8912")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "DownloadTest" })
     public void downloadContent()
     {
         log.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");
@@ -99,7 +99,7 @@ public class ContributorFilesCreatedByOthersTests extends BaseTest
     }
 
     @TestRail (id = "C8913")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, "DownloadTest" })
     public void viewInBrowser()
     {
         log.info("Preconditions: Create test user, test site and test file. Navigate to Document Library page for the test site, as Contributor user.");

@@ -1,0 +1,25 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="UserRolesAndPermissions tests" parallel="classes" thread-count="3">
+   <listeners>
+      <listener class-name="org.alfresco.share.RetryListener"/>
+   </listeners>
+
+   <test name="UserRolesAndPermissions">
+      <groups>
+         <run>
+            <include name="sanity"/>
+            <include name="share"/>
+            <include name="regression"/>
+            <include name="sites"/>
+            <exclude name="integration"/>
+            <exclude name="DownloadTest"/>
+         </run>
+      </groups>
+      <packages>
+         <package name="org.alfresco.share.userRolesAndPermissions.collaborator"></package>
+         <package name="org.alfresco.share.userRolesAndPermissions.consumer"></package>
+         <package name="org.alfresco.share.userRolesAndPermissions.contributor"></package>
+         <package name="org.alfresco.share.userRolesAndPermissions.DashboardPermissions"></package>
+      </packages>
+   </test>
+</suite>

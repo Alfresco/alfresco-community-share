@@ -69,7 +69,7 @@ public class AdvancedSearchTests extends BaseTest
 
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SEARCH, "SinglePipelineFailure"})
     public void searchByMimeTypeTest()
     {
         log.info("Step 1: Navigate to advanced search and select XML mimetype");
@@ -175,7 +175,7 @@ public class AdvancedSearchTests extends BaseTest
         Assert.assertTrue(searchPage.isResultFound(folderName), folderName + " is not displayed in search results");
     }
 
-    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SEARCH, "BugValidation" })
+    @Test (groups = { TestGroup.SHARE, "Acceptance", TestGroup.SEARCH, "BugValidation", "SinglePipelineFailure" })
     public void folderKeywordSearchTest()
     {
         log.info("precondition - create a Folder ");

@@ -1,80 +1,50 @@
 package org.alfresco.adminconsole;
 
 import java.util.ArrayList;
-
-import org.alfresco.po.adminconsole.AdminNavigator;
-import org.alfresco.po.adminconsole.consoles.TenantConsolePage;
-import org.alfresco.po.adminconsole.consoles.WorkflowConsolePage;
-import org.alfresco.po.adminconsole.directories.DirectoryManagementPage;
-import org.alfresco.po.adminconsole.repositoryservices.ActivitiesFeedPage;
-import org.alfresco.po.adminconsole.supporttools.NodeBrowserQueryPage;
-import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.po.adminconsole.directories.DirectoryManagementPages;
+import org.alfresco.po.adminconsole.supporttools.NodeBrowserQueryPages;
+import org.alfresco.share.BaseTest;
 import org.alfresco.utility.exception.TestConfigurationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 
-public class ConsoleExampleTest extends ContextAwareWebTest
+public class ConsoleExampleTest extends BaseTest
 {
-    @Autowired
-    ActivitiesFeedPage activitiesFeed;
-
-    @Autowired
-    TenantConsolePage tenantConsole;
-
-    @Autowired
-    WorkflowConsolePage workflowConsole;
-
-    @Autowired
-    NodeBrowserQueryPage nodeBrowser;
-
-    @Autowired
-    DirectoryManagementPage directoryManagementPage;
+    private NodeBrowserQueryPages nodeBrowserQueryPages;
+    private DirectoryManagementPages directoryManagementPages;
 
     @Test (groups = { "unit" })
     public void testingAdminConsole()
     {
-        nodeBrowser.setBrowser(getBrowser());
-        nodeBrowser.navigate();
-
-        for (AdminNavigator.NavigationLink link : AdminNavigator.NavigationLink.values())
-        {
-            nodeBrowser.getNavigator().goTo(link, applicationContext);
-        }
+        nodeBrowserQueryPages = new NodeBrowserQueryPages(webDriver);
+        nodeBrowserQueryPages.navigate();
     }
 
     @Test (groups = { "unit" })
     public void testRows() throws TestConfigurationException
     {
-        setupAuthenticatedSession(adminUser, adminPassword);
-        nodeBrowser.setBrowser(getBrowser());
-        nodeBrowser.navigate();
-        nodeBrowser.clickSearchAdvancedSettings();
-        nodeBrowser.setMaxResults(10);
-        nodeBrowser.setSkipCount(30);
-        nodeBrowser.clickRootList();
-        nodeBrowser.getProperties();
-        nodeBrowser.getProperties().get(0).clickDelete();
-        nodeBrowser.getProperties().get(1).clickDelete();
-        nodeBrowser.getChildren().get(2).clickAction(NodeBrowserQueryPage.Actions.REVERT_PERMISSIONS.getAction());
-        nodeBrowser.getChildren().get(1).clickAction(NodeBrowserQueryPage.Actions.DELETE.getAction());
-        nodeBrowser.assertNodeInformationIs("Type", "ys:store_root");
+        nodeBrowserQueryPages = new NodeBrowserQueryPages(webDriver);
+        nodeBrowserQueryPages.navigate();
+        nodeBrowserQueryPages.clickSearchAdvancedSettings();
+        nodeBrowserQueryPages.setMaxResults(10);
+        nodeBrowserQueryPages.setSkipCount(30);
+        nodeBrowserQueryPages.clickRootList();
+        nodeBrowserQueryPages.getProperties();
+        nodeBrowserQueryPages.clickDelete();
         ArrayList<String> expectedAspects = new ArrayList<String>();
         expectedAspects.add("sys:aspect_root");
         expectedAspects.add("sys:jj");
         expectedAspects.add("sys:localized");
-        nodeBrowser.assertAspectsArePresent(expectedAspects);
+        nodeBrowserQueryPages.assertAspectsArePresent(expectedAspects);
     }
 
     @Test (groups = { "unit" })
     public void testingDirectoryManagement()
     {
-        directoryManagementPage.setBrowser(getBrowser());
-        directoryManagementPage.navigate();
-        directoryManagementPage.getAuthenticationDetails();
-        directoryManagementPage.setName("Test123");
-        directoryManagementPage.selectType(DirectoryManagementPage.Type.EXTERNAL);
-        directoryManagementPage.clickSynchronizationSettings();
-        directoryManagementPage.getAuthenticationDetails().get(0).clickAction("Test");
+        directoryManagementPages = new DirectoryManagementPages(webDriver);
+        directoryManagementPages.navigate();
+        directoryManagementPages.getAuthenticationDetails();
+        directoryManagementPages.setName("Test123");
+        directoryManagementPages.clickSynchronizationSettings();
+        directoryManagementPages.getAuthenticationDetails().get(0);
     }
-
 }

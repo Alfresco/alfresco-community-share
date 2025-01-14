@@ -385,7 +385,7 @@ public class MyFilesTaggingTests extends BaseTest
         myFilesPage
             .typeTagName(tagName);
         myFilesPage
-            .clickEditTagLink(language.translate("documentLibrary.tag.link.save"))
+            .clickAction(language.translate("documentLibrary.tag.link.save"))
             .assertCheckAddedTagsList(tagName.toLowerCase(), fileToCheck.getName());
 
         myFilesPage.navigate();
@@ -423,7 +423,7 @@ public class MyFilesTaggingTests extends BaseTest
         myFilesPage
             .typeTagName(tagName2);
         myFilesPage
-            .clickEditTagLink(language.translate("documentLibrary.tag.link.save"))
+            .clickAction(language.translate("documentLibrary.tag.link.save"))
             .assertCheckAddedTagsList(tagName2.toLowerCase(), fileToCheck.getName());
     }
 }

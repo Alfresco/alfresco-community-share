@@ -146,7 +146,7 @@ public class CollaboratorFoldersAndFilesTests extends BaseTest {
     }
 
     @TestRail (id = "C8815")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, TestGroup.INTEGRATION })
     public void collaboratorFavoriteUnfavorite()
     {
         String testContentC8815 = String.format("FileC8815%s", RandomData.getRandomAlphanumeric());

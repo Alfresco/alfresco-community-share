@@ -13,7 +13,6 @@ public class CreateNewItemPopUp extends BaseDialogComponent
 {
     private final By saveButton = By.cssSelector("button[id$='submit-button']");
     private final By cancelButton = By.cssSelector("button[id$='form-cancel-button']");
-
     protected final String fieldLocator = "div[class*='form-field'] [id*='%s']";
     private final String dropDownLocator = "select[id*='%s']";
     private final String selectAttachmentButtonLocator = "div[id*='attachments-cntrl-itemGroupActions'] button";
@@ -156,6 +155,21 @@ public class CreateNewItemPopUp extends BaseDialogComponent
     {
         fillCreateNewItemPopupFields(EventListFields.class, fieldsValue);
         addAttachment(folder, file);
+    }
+
+    public void fillCreateNewEventItemFields(List<String> fieldsValue, String file )
+    {
+        fillCreateNewItemPopupFields(EventListFields.class, fieldsValue);
+        addAttachmentFromDocumentLibrary(file);
+    }
+
+    public void fillCreateNewIssueListItemFields(List<String> fieldsValue, String file, String ItemStatus, String ItemPriority, String username )
+    {
+        fillCreateNewItemPopupFields(IssueFields.class, fieldsValue);
+        selectDropDownItem(ItemStatus, "issueStatus");
+        selectDropDownItem(ItemPriority, "issuePriority");
+        addAttachmentFromDocumentLibrary(file);
+        addAssignedTo(username);
     }
 
     /**

@@ -10,7 +10,7 @@
             <include name="sanity"/>
             <include name="share"/>
             <include name="regression"/>
-            <exclude name="integration"></exclude>
+            <include name="integration"/>
             <exclude name="unit"/>
             <exclude name="SmartFolders"/>
             <exclude name="ExternalUsers"/>

@@ -525,7 +525,7 @@
                             <manifestEntries>
                                 <Specification-Version>${version.major}.${version.minor}.${version.revision}</Specification-Version>
                                 <Implementation-Version>${project.version}</Implementation-Version>
-                                <Build-Number>${env.TRAVIS_BUILD_NUMBER}</Build-Number>
+                                <Build-Number>${env.BUILD_NUMBER}</Build-Number>
                             </manifestEntries>
                         </archive>
                     </configuration>
@@ -538,7 +538,7 @@
                             <manifestEntries>
                                 <Specification-Version>${version.major}.${version.minor}.${version.revision}</Specification-Version>
                                 <Implementation-Version>${project.version}</Implementation-Version>
-                                <Build-Number>${env.TRAVIS_BUILD_NUMBER}</Build-Number>
+                                <Build-Number>${env.BUILD_NUMBER}</Build-Number>
                             </manifestEntries>
                         </archive>
                         <warSourceDirectory>src/main/webapp</warSourceDirectory>

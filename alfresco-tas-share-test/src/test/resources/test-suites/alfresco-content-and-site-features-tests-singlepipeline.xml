@@ -1,0 +1,51 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Alfresco content and site features tests" parallel="classes" thread-count="3">
+   <listeners>
+      <listener class-name="org.alfresco.share.RetryListener"/>
+   </listeners>
+
+   <test name="Alfresco content and site features tests">
+      <groups>
+         <run>
+            <include name="sanity"/>
+            <include name="share"/>
+            <include name="regression"/>
+            <exclude name="integration"></exclude>
+            <exclude name="unit"/>
+            <exclude name="SmartFolders"/>
+            <exclude name="ExternalUsers"/>
+            <exclude name="office"/>
+            <exclude name="TransformationServer"/>
+            <exclude name="xsstests"/>
+            <exclude name="admin-tools"></exclude>
+            <include name="sites"/>
+            <exclude name="user-dashboard"/>
+            <exclude name="site-dashboard"/>
+            <exclude name="DownloadTest"/>
+            <exclude name="user"/>
+            <exclude name="auth"/>
+         </run>
+      </groups>
+      <classes>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ApplyingAspectsTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.BecomeContentOwnerTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.RestrictingMobileAccessTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.DownloadingContentTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.ManageFileAndFolderPermissionsTest"></class>
+         <class name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.WorkingWithLinksTests"></class>
+         <class name="org.alfresco.share.alfrescoContent.ContentFormatPageTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.dataLists.AccessingDataListsComponentTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.dataLists.CreateDataListsTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.dataLists.DataListTableActionsTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.dataLists.DeletingADataListTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.dataLists.EditingTheListDetailsTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.dataLists.ViewingDataListsTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.wiki.AccessingTheWikiTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.wiki.BrowsingWikiPagesTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.wiki.CreateNewWikiTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.wiki.DeleteWikiPageTests"></class>
+         <class name="org.alfresco.share.sitesFeatures.wiki.EditWikiPageTests"></class>
+      </classes>
+   </test>
+</suite>

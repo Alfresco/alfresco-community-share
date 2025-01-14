@@ -45,19 +45,18 @@ public class SiteProfileDashletTests extends AbstractSiteDashboardDashletsTests
         siteDashboardPage.navigate(site.get());
         siteProfileDashlet
             .assertDashletTitleEquals(language.translate(EXPECTED_TITLE))
-            .assertSiteWelcomeMessageEquals(
-                language.translate(WELCOME_TO).concat(site.get().getId()));
+            .assertSiteWelcomeMessageEquals("Welcome to " + site.get().getId());
 
         siteProfileDashlet
             .assertSiteDescriptionEquals(
                 site.get().getTitle().concat(site.get().getVisibility().name()));
 
         siteProfileDashlet
-            .assertSiteManagerEquals(language.translate(MANAGER_LABEL),
+            .assert_SiteManagerEquals(language.translate(MANAGER_LABEL)+ " ",
                 user.get().getFirstName().concat(EMPTY_SPACE.concat(user.get().getLastName())));
 
         siteProfileDashlet
-            .assertSiteVisibilityEquals(language.translate(VISIBILITY_LABEL), site.get().getVisibility().name());
+            .assert_SiteVisibilityEquals(language.translate(VISIBILITY_LABEL)+" ", site.get().getVisibility().name(), 2);
 
         siteProfileDashlet
             .clickOnHelpIcon(DashletHelpIcon.SITE_PROFILE)

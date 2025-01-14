@@ -15,6 +15,7 @@ import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.SiteService;
 
+import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.SimpleTaskAgendaFields;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditItemPopUp;
@@ -101,6 +102,38 @@ public class EditSimpleTaskListItemTest extends BaseTest
         contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + userName.get().getUsername());
         deleteSitesIfNotNull(siteName.get());
         deleteUsersIfNotNull(userName.get());
+    }
+
+    @TestRail (id = "C6587")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES})
+    public void VerifyEditDataItemForSimpleTaskItem() {
+        log.info("STEP1: Click 'Edit' icon for the simple task list item to be edited");
+        dataListsPage
+            .clickEditButtonForListItem();
+
+        log.info("STEP2: Verify Edit Data item form");
+        editItemPopUp
+            .verifyDataItemForm(SimpleTaskAgendaFields.Title.toString())
+            .verifyDataItemForm(SimpleTaskAgendaFields.Description.toString())
+            .verifyDataItemForm(SimpleTaskAgendaFields.DueDate.toString())
+            .verifyDataItemForm(CreateNewItemPopUp.DropDownLists.simpletaskPriority.toString())
+            .verifyDataItemForm(CreateNewItemPopUp.DropDownLists.simpletaskPriority.toString())
+            .verifyDataItemForm(SimpleTaskAgendaFields.Comments.toString());
+        editItemPopUp
+            .assertCalendarIconIsDisplayed()
+            .assertSaveButtonIsDisplayed()
+            .assertCancelButtonIsDisplayed()
+            .assertCloseIconIsDisplayed();
+        editItemPopUp
+            .assertVerifyDropDownOptions("High")
+            .assertVerifyDropDownOptions("Normal")
+            .assertVerifyDropDownOptions("Low");
+        editItemPopUp
+            .assertVerifyDropDownOptions("Not Started")
+            .assertVerifyDropDownOptions("In Progress")
+            .assertVerifyDropDownOptions("Complete")
+            .assertVerifyDropDownOptions("On Hold");
+
     }
 
     @TestRail (id = "C6588")

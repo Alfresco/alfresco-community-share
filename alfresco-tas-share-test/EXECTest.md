@@ -2,7 +2,7 @@
 Share UI Tests are integrated using the infrastructure of: https://github.com/Alfresco/terraform-alfresco-pipeline
 
 ## Modules of alfresco-pipeline infrastructure
-1. **Travis**: The main source of configuration for the creation of the environment is in the root .travis.yml file. In this file is imported `share-test.yml`
+1. **CI**: The main source of configuration for the creation of the environment is in the .github/workflows/build.yml file. In this file is imported `share-test.yml`
 2. **Deploy**: The root folder for any architectural component of the alfresco infrastructure is `module` folder. In this modules are described Alfresco services and Amazon services/infrastructure needed to run the Alfresco platform in an `AWS EKS Cluster`. If you need to add alfresco global properties you have `modules/acs/main.tf` where is defined the recipe for deploy of acs and share modules.
 3. **Tests**: The run command for test are defined in scripts folder. For share we have `execute-share-web.sh`.
 The main run command is : 

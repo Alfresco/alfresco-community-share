@@ -130,4 +130,18 @@ public class EventAgendaSelectedContent extends ListItemSelectedContent
             return this.name;
         }
     }
+
+    public enum EventAgendaColumn {
+        eventAgendaRef("Event Reference"),
+        StartTime("StartTime"),
+        SessionName("Session Name"),
+        EndTime("EndTime");
+
+        public final String name;
+
+        EventAgendaColumn(String name)
+        {
+            this.name = name;
+        }
+    }
 }
