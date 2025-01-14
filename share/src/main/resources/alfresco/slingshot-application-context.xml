@@ -113,12 +113,6 @@
     <!-- Override Login Controller - get users group membership -->
     <bean id="loginController" class="org.alfresco.web.site.servlet.SlingshotLoginController">
         <property name="cacheSeconds" value="-1"/>
-        <property name="useExpiresHeader">
-            <value>true</value>
-        </property>
-        <property name="useCacheControlHeader">
-            <value>true</value>
-        </property>
         <property name="userFactory" ref="user.factory"></property>
         <property name="webFrameworkConfiguration" ref="webframework.config.element"></property>
         <property name="supportedMethods">
@@ -133,12 +127,6 @@
     <!-- Override Logout Controller - to expire Alfresco tickets -->
     <bean id="logoutController" class="org.alfresco.web.site.servlet.SlingshotLogoutController">
         <property name="cacheSeconds" value="-1"/>
-        <property name="useExpiresHeader">
-            <value>true</value>
-        </property>
-        <property name="useCacheControlHeader">
-            <value>true</value>
-        </property>
         <property name="connectorService" ref="connector.service"/>
         <property name="supportedMethods">
             <list>
@@ -163,12 +151,6 @@
     <bean id="slingshotProxyControllerInterceptor" class="org.alfresco.web.site.servlet.SlingshotProxyControllerInterceptor"/>
     <bean id="endpointController" class="org.springframework.extensions.webscripts.servlet.mvc.EndPointProxyController">
         <property name="cacheSeconds" value="-1"/>
-        <property name="useExpiresHeader">
-            <value>true</value>
-        </property>
-        <property name="useCacheControlHeader">
-            <value>true</value>
-        </property>
         <property name="configService" ref="web.config"/>
         <property name="connectorService" ref="connector.service"/>
         <property name="supportedMethods">
@@ -182,12 +164,6 @@
                add <parent-id>alfresco</parent-id> to the 'alfresco-feed' endpoint descriptor config -->
     <bean id="feedController" class="org.alfresco.web.site.servlet.SlingshotFeedController">
         <property name="cacheSeconds" value="-1"/>
-        <property name="useExpiresHeader">
-            <value>true</value>
-        </property>
-        <property name="useCacheControlHeader">
-            <value>true</value>
-        </property>
         <property name="connectorService" ref="connector.service"/>
         <property name="configService" ref="web.config"/>
     </bean>
