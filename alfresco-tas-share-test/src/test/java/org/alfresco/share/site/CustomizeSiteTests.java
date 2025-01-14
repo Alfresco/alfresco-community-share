@@ -50,7 +50,7 @@ public class CustomizeSiteTests extends BaseTest
         siteContentDashlet = new SiteContentDashlet(webDriver);
         siteDashboard = new SiteDashboardPage(webDriver);
 
-        authenticateUsingLoginPage(user1.get());
+        authenticateUsingCookies(user1.get());
     }
 
     @AfterMethod(alwaysRun = true)

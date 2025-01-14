@@ -1,15 +1,18 @@
 package org.alfresco.po.share.site.link;
 
+import static org.alfresco.common.Wait.WAIT_3;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import org.alfresco.common.Utils;
+import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
-public class LinkPage extends SiteCommon<LinkPage>
-{
+public class LinkPage extends SiteCommon<LinkPage> {
     private By linksTitleList = By.cssSelector("[class=link-title]");
     private By linksListTitle = By.cssSelector("[class=list-title]");
     private By newLinkButton = By.cssSelector("button[id*='default-create-link']");
@@ -37,25 +40,24 @@ public class LinkPage extends SiteCommon<LinkPage>
     private By myLinks_Filter = By.cssSelector("[class=user] a");
     private By recentLinks_Filter = By.cssSelector("[class=recent] a");
     private By links_List = By.cssSelector("[id*=default-links] tr");
+    private By linksItemsList = By.cssSelector("div[id$='default-links'] tbody[class$='data'] tr");
+    private By linkNameSelector = By.className("link-title");
+    private By linkActionsSet = By.cssSelector(".yui-dt-liner a span");
 
-    public LinkPage(ThreadLocal<WebDriver> webDriver)
-    {
+    public LinkPage(ThreadLocal<WebDriver> webDriver) {
         super(webDriver);
     }
 
     @Override
-    public String getRelativePath()
-    {
+    public String getRelativePath() {
         return String.format("share/page/site/%s/links", getCurrentSiteName());
     }
 
-    public String getLinksListTitle()
-    {
+    public String getLinksListTitle() {
         return findElement(linksListTitle).getText();
     }
 
-    public String get_LinksListTitle()
-    {
+    public String get_LinksListTitle() {
         return findElement(linksList_Title).getText();
     }
 
@@ -65,12 +67,10 @@ public class LinkPage extends SiteCommon<LinkPage>
      * @return
      */
 
-    public List<String> getLinksTitlesList()
-    {
+    public List<String> getLinksTitlesList() {
         waitInSeconds(2);
         List<String> linksTitles = new ArrayList<>();
-        for (WebElement linkTitle : findElements(links_TitleList))
-        {
+        for (WebElement linkTitle : findElements(links_TitleList)) {
             linksTitles.add(linkTitle.getText());
         }
         return linksTitles;
@@ -82,27 +82,22 @@ public class LinkPage extends SiteCommon<LinkPage>
      * @return
      */
 
-    public List<String> getLinksURL()
-    {
+    public List<String> getLinksURL() {
         List<String> linksURLs = new ArrayList<>();
-        for (WebElement linkURL : findElements(listOfLinksURL))
-        {
+        for (WebElement linkURL : findElements(listOfLinksURL)) {
             linksURLs.add(linkURL.getText());
         }
         return linksURLs;
     }
 
-    public WebElement selectLinkDetailsRow(String linkTitle)
-    {
+    public WebElement selectLinkDetailsRow(String linkTitle) {
         return findFirstElementWithValue(findElements(linksList), linkTitle);
     }
 
-    public List<String> getLinkTags(String linkTitle)
-    {
+    public List<String> getLinkTags(String linkTitle) {
         List<String> tags = new ArrayList<>();
         List<WebElement> webTags = selectLinkDetailsRow(linkTitle).findElements(linkTags);
-        for (WebElement webTag : webTags)
-        {
+        for (WebElement webTag : webTags) {
             tags.add(webTag.getText());
         }
 
@@ -119,8 +114,7 @@ public class LinkPage extends SiteCommon<LinkPage>
      * @param linkTitle
      * @return
      */
-    private List<String> getDetailsOfLink(String linkTitle)
-    {
+    private List<String> getDetailsOfLink(String linkTitle) {
         List<String> stringDetails = new ArrayList<>();
         List<WebElement> webDetails = selectLinkDetailsRow(linkTitle).findElements(linkDetails);
         if (webDetails.get(0).getText().contains("URL:"))
@@ -134,32 +128,27 @@ public class LinkPage extends SiteCommon<LinkPage>
         return stringDetails;
     }
 
-    public String getLinkURL(String linkTitle)
-    {
+    public String getLinkURL(String linkTitle) {
         List<String> details = getDetailsOfLink(linkTitle);
         return details.get(0);
     }
 
-    public String getLinkCreationDate(String linkTitle)
-    {
+    public String getLinkCreationDate(String linkTitle) {
         List<String> details = getDetailsOfLink(linkTitle);
         return details.get(1);
     }
 
-    public String getLinkAuthor(String linkTitle)
-    {
+    public String getLinkAuthor(String linkTitle) {
         List<String> details = getDetailsOfLink(linkTitle);
         return details.get(2);
     }
 
-    public String getLinkDescription(String linkTitle)
-    {
+    public String getLinkDescription(String linkTitle) {
         List<String> details = getDetailsOfLink(linkTitle);
         return details.get(3);
     }
 
-    public void changeViewMode()
-    {
+    public void changeViewMode() {
         findElement(viewModeButton).click();
     }
 
@@ -168,8 +157,7 @@ public class LinkPage extends SiteCommon<LinkPage>
      *
      * @param tagName
      */
-    public void clickSpecificTag(String tagName)
-    {
+    public void clickSpecificTag(String tagName) {
         waitInSeconds(3);
         findElement(By.cssSelector("li a[rel='" + tagName + "']")).click();
     }
@@ -180,10 +168,8 @@ public class LinkPage extends SiteCommon<LinkPage>
      * @param option
      * @return
      */
-    public LinkPage filterLinksBy(String option)
-    {
-        switch (option)
-        {
+    public LinkPage filterLinksBy(String option) {
+        switch (option) {
             case "All Links":
                 findElement(allLinksFilter).click();
                 waitUntilElementContainsText(linksListTitle, "All Links");
@@ -199,176 +185,158 @@ public class LinkPage extends SiteCommon<LinkPage>
                 waitUntilElementContainsText(linksList_Title, "All Links");
                 break;
 
-            default:break;
+            default:
+                break;
         }
         return this;
     }
 
-    public boolean isLinkDisplayed(String linkTitle)
-    {
+    public boolean isLinkDisplayed(String linkTitle) {
         return isElementDisplayed(selectLinkDetailsRow(linkTitle));
     }
 
-    public boolean is_LinkDisplayed(String linkTitle)
-    {
+    public boolean is_LinkDisplayed(String linkTitle) {
         waitInSeconds(2);
-        for (WebElement listItems : findElements(links_List))
-        {
-            if (listItems.getText().contains(linkTitle))
-            {
+        for (WebElement listItems : findElements(links_List)) {
+            if (listItems.getText()
+                .contains(linkTitle)) {
                 return true;
             }
         }
         return false;
     }
 
-    public LinkDetailsViewPage clickOnLinkName(String linkTitle)
-    {
-        selectLinkDetailsRow(linkTitle).findElement(By.cssSelector("[class=link-title] a")).click();
+    public LinkDetailsViewPage clickOnLinkName(String linkTitle) {
+        selectLinkDetailsRow(linkTitle).findElement(By.cssSelector("[class=link-title] a"))
+            .click();
         return new LinkDetailsViewPage(webDriver);
     }
 
-    public String getNoLinksFoundMsg()
-    {
+    public String getNoLinksFoundMsg() {
         waitUntilElementIsDisplayedWithRetry(By.cssSelector(".datatable-msg-empty"));
         return findElement(dataTableMsgEmpty).getText();
     }
 
-    public String get_NoLinksFoundMsg()
-    {
+    public String get_NoLinksFoundMsg() {
         waitInSeconds(2);
         return findElement(dataTableMsgEmpty).getText();
     }
 
-    public CreateLinkPage createLink()
-    {
+    public CreateLinkPage createLink() {
         findElement(newLinkButton).click();
         return new CreateLinkPage(webDriver);
     }
 
-    public void clickOnLinkURL(String linkURL)
-    {
+    public void clickOnLinkURL(String linkURL) {
         findElement(By.xpath("//a[@href ='" + linkURL + "']")).click();
     }
 
-    public EditLinkPage clickEditLink(String linkTitle)
-    {
+    public EditLinkPage clickEditLink(String linkTitle) {
         waitInSeconds(2);
         mouseOver(findFirstElementWithValue(findElements(linksList), linkTitle));
-        selectLinkDetailsRow(linkTitle).findElement(By.cssSelector(".edit-link span")).click();
+        selectLinkDetailsRow(linkTitle).findElement(By.cssSelector(".edit-link span"))
+            .click();
         return new EditLinkPage(webDriver);
     }
 
-    public boolean clickDeleteLink(String linkTitle)
-    {
+    public boolean clickDeleteLink(String linkTitle) {
         mouseOver(findFirstElementWithValue(findElements(linksList), linkTitle));
-        selectLinkDetailsRow(linkTitle).findElement(By.cssSelector(".delete-link span")).click();
+        selectLinkDetailsRow(linkTitle).findElement(By.cssSelector(".delete-link span"))
+            .click();
         return findElement(deleteLinkPrompt).isDisplayed();
     }
 
-    public List<String> getTagsFromTagsSection()
-    {
+    public List<String> getTagsFromTagsSection() {
         List<String> tags = new ArrayList<>();
         List<WebElement> tagsList = findElements(By.cssSelector("li [class=tag] a"));
-        for (WebElement tag : tagsList)
-        {
+        for (WebElement tag : tagsList) {
             tags.add(tag.getText());
         }
         return tags;
     }
 
-    public boolean isSelectedItemsButtonEnabled()
-    {
+    public boolean isSelectedItemsButtonEnabled() {
         return findElement(selectedItemsButton).isEnabled();
     }
 
-    public boolean selectLinkCheckBox(String linkTitle)
-    {
-        selectLinkDetailsRow(linkTitle).findElement(By.cssSelector("[class=checkbox-column]")).click();
-        return selectLinkDetailsRow(linkTitle).findElement(By.cssSelector("[class=checkbox-column]")).isSelected();
+    public boolean selectLinkCheckBox(String linkTitle) {
+        selectLinkDetailsRow(linkTitle).findElement(By.cssSelector("[class=checkbox-column]"))
+            .click();
+        return selectLinkDetailsRow(linkTitle).findElement(By.cssSelector("[class=checkbox-column]"))
+            .isSelected();
     }
 
-    public boolean isSelectLinkCheckBoxChecked(String linkTitle)
-    {
-        return selectLinkDetailsRow(linkTitle).findElement(By.cssSelector("[class=checkbox-column]")).isSelected();
+    public boolean isSelectLinkCheckBoxChecked(String linkTitle) {
+        return selectLinkDetailsRow(linkTitle).findElement(By.cssSelector("[class=checkbox-column]"))
+            .isSelected();
     }
 
-    public void clickSelectButton()
-    {
+    public void clickSelectButton() {
         findElement(selectButton).click();
     }
 
-    public void clickInvertSelectionOption()
-    {
+    public void clickInvertSelectionOption() {
         findElement(selectInvertSelectionOption).click();
     }
 
-    public void clickNoneOption()
-    {
+    public void clickNoneOption() {
         findElement(selectNoneOption).click();
     }
 
-    public void clickAllOption()
-    {
+    public void clickAllOption() {
         findElement(selectAllOption).click();
     }
 
-    public void clickOnSelectedItemsButton()
-    {
+    public void clickOnSelectedItemsButton() {
         findElement(selectedItemsButton).click();
     }
 
-    public void clickOnDeselectAllOption()
-    {
+    public void clickOnDeselectAllOption() {
         findElement(selectDeselectAllDeleteOption).click();
     }
 
-    public boolean clickOnSelectDeleteOption()
-    {
+    public boolean clickOnSelectDeleteOption() {
         findElement(selectDeleteOption).click();
         return findElement(deleteLinkPrompt).isDisplayed();
     }
 
-    public String getLinkTitle()
-    {
+    public String getLinkTitle() {
         return findElement(linkTitle).getText();
     }
 
-    public void browserRefresh()
-    {
+    public void browserRefresh() {
         waitInSeconds(7);
         refresh();
         waitInSeconds(5);
         refresh();
     }
-    public String getCurrentUrl()
-    {
+
+    public String getCurrentUrl() {
         return getWebDriver().getCurrentUrl();
     }
 
-    public void navigateBackBrowser()
-    {
-        getWebDriver().navigate().back();
+    public void navigateBackBrowser() {
+        getWebDriver().navigate()
+            .back();
     }
 
-    public void closeCurrentTabAndswitchToDefaultBrowserTab()
-    {
+    public void closeCurrentTabAndswitchToDefaultBrowserTab() {
         getWebDriver().close();
         waitInSeconds(4);
         ArrayList<String> tabs = new ArrayList(getWebDriver().getWindowHandles());
-        getWebDriver().switchTo().window(tabs.get(0));
+        getWebDriver().switchTo()
+            .window(tabs.get(0));
     }
+
     public void switchWindow() {
         String currentWindow = getWindowHandles().toString();
         clickOnLinkURL("https://www.google.com");
         waitInSeconds(5);
 
         // Switch to new window opened
-        for (String winHandle : getWindowHandles())
-        {
+        for (String winHandle : getWindowHandles()) {
             switchTo().window(winHandle);
-            if (getCurrentUrl().contains("google"))
-            {
+            if (getCurrentUrl().contains("google")) {
                 break;
             }
         }
@@ -376,13 +344,36 @@ public class LinkPage extends SiteCommon<LinkPage>
 
     public void switchToWindow(String URL) {
         waitInSeconds(2);
-        for (String winHandle : getWindowHandles())
-        {
+        for (String winHandle : getWindowHandles()) {
             switchTo().window(winHandle);
-            if (getCurrentUrl().contains(URL))
-            {
+            if (getCurrentUrl().contains(URL)) {
                 break;
             }
         }
+    }
+
+    public WebElement mouseOverContentItem(String contentItem) {
+        WebElement contentItemElement = selectDocumentLibraryItemRow(contentItem);
+        mouseOver(contentItemElement.findElement(linkNameSelector));
+
+        return Utils.retry(() -> {
+            mouseOver(contentItemElement);
+            return contentItemElement;
+        }, WAIT_3.getValue());
+    }
+
+    public WebElement selectDocumentLibraryItemRow(String linkItem) {
+        List<WebElement> itemsList = findElements(linksItemsList);
+        return findFirstElementWithValue(itemsList, linkItem);
+    }
+
+    public boolean checkActionAvailableForLibraryItem(String libraryItem, ItemActions action) {
+        waitInSeconds(3);
+        return isElementDisplayed(findFirstElementWithValue(get_AvailableActions(libraryItem), action.getActionName()));
+    }
+
+    private List<WebElement> get_AvailableActions(String libraryItem) {
+        WebElement itemRow = mouseOverContentItem(libraryItem);
+        return itemRow.findElements(linkActionsSet);
     }
 }

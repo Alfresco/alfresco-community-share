@@ -30,5 +30,8 @@
          <package name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithLinkedRules"/>
          <package name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASetOfRules"/>
       </packages>
+      <classes>
+         <class name="org.alfresco.share.alfrescoContent.applyingRulesToFolders.DefiningRulesForFolderTests"></class>
+      </classes>
    </test>
 </suite>

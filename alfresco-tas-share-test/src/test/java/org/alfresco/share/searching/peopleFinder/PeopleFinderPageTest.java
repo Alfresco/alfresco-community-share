@@ -59,7 +59,7 @@ public class PeopleFinderPageTest extends BaseTest
     public void verifyPeopleFinderPage()
     {
 
-        authenticateUsingLoginPage(testUser2);
+        authenticateUsingCookies(testUser2);
 
         getPeopleFinderPage.navigateToPeopleFinderPage();
 
@@ -76,7 +76,7 @@ public class PeopleFinderPageTest extends BaseTest
             language.translate("peopleFinder.searchResultsMessage"), "Search results message");
 
         log.info("STEP 3 - Fill in search field (e.g: user2) and click \"search\" button");
-        authenticateUsingLoginPage(testUser1);
+        authenticateUsingCookies(testUser1);
         getPeopleFinderPage.navigateToPeopleFinderPage();
         getPeopleFinderPage.search(userName2);
         Assert.assertEquals(getPeopleFinderPage.getSearchResultsInfo(),
@@ -96,7 +96,7 @@ public class PeopleFinderPageTest extends BaseTest
     public void noResultsFound()
     {
 
-        authenticateUsingLoginPage(testUser1);
+        authenticateUsingCookies(testUser1);
         getPeopleFinderPage.navigateToPeopleFinderPage();
 
         log.info("STEP 1 - Fill in 'search' field with an nonexistent user");
@@ -114,7 +114,7 @@ public class PeopleFinderPageTest extends BaseTest
     public void emptyInputSearchField()
     {
 
-        authenticateUsingLoginPage(testUser1);
+        authenticateUsingCookies(testUser1);
         getPeopleFinderPage.navigateToPeopleFinderPage();
 
         log.info("STEP 1 - Click \"Search\" button");

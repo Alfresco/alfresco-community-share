@@ -13,6 +13,7 @@ import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.SiteService;
 
+import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp;
 import org.alfresco.po.share.site.dataLists.CreateNewItemPopUp.EventAgendaFields;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditItemPopUp;
@@ -42,6 +43,7 @@ public class EditEventAgendaItemTest extends BaseTest
 
     @Autowired
     protected DataListsService dataListsService;
+    CreateNewItemPopUp createNewItemPopUp;
 
     //@Autowired
     DataListsPage dataListsPage;
@@ -78,6 +80,7 @@ public class EditEventAgendaItemTest extends BaseTest
 
         dataListsPage = new DataListsPage(webDriver);
         editItemPopUp = new EditItemPopUp(webDriver);
+        createNewItemPopUp = new CreateNewItemPopUp(webDriver);
 
         siteService.addPageToSite(userName.get().getUsername(), userName.get().getPassword(), siteName.get().getId(), Page.DATALISTS, null);
         dataListsService.createDataList(userName.get().getUsername(), userName.get().getPassword(), siteName.get().getId(), DataListsService.DataList.EVENT_AGENDA, listName, "Event Agenda list description.");
@@ -100,6 +103,28 @@ public class EditEventAgendaItemTest extends BaseTest
         deleteSitesIfNotNull(siteName.get());
         deleteUsersIfNotNull(userName.get());
 
+    }
+
+    @TestRail (id = "C6598, C6604, C6607")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    public void AddingNewItem() {
+        log.info("STEP1: Click New Item for the List item");
+        dataListsPage.clickNewItemButtons();
+
+        log.info("STEP2: Adding Items on Reference, Presenter & Other Fields");
+        createNewItemPopUp.fillCreateNewEventAgendaItem(Arrays.asList("testReference", "12", "13", "testSessionName", "testPresenterWithWildcards_{<%@#&>/?\\|}", "testAudience", "testNotes"));
+
+        log.info("STEP3: Adding Attachments");
+        createNewItemPopUp.addAttachmentFromDocumentLibrary(fileToAttach);
+        createNewItemPopUp.clickSave();
+
+        log.info("STEP4: Verify Added Items are saved in list item");
+        List<String> expectedList = Arrays.asList("testReference", "12", "13", "testSessionName", "testPresenterWithWildcards_{<%@#&>/?\\|}", "testAudience", "testNotes");
+        for (String anExpectedList : expectedList)
+        {
+            assertTrue(dataListsPage.getFilterTypeList().contains(anExpectedList), "Data list items updated.");
+            assertTrue(dataListsPage.isAttachmentsUpdated(fileToAttach), "Attachments added");
+        }
     }
 
     @TestRail (id = "C10537")
@@ -129,6 +154,34 @@ public class EditEventAgendaItemTest extends BaseTest
         assertEquals(dataListsPage.messageDisplayed(), "Data Item updated successfully", "Edited Data Item message");
         List<String> expectedList = Arrays.asList(newItemReference, startTime, endTime, newItemSessionName,
             newItemPresenter, newItemAudience, newItemNotes, fileToAttach);
+        for (String anExpectedList : expectedList)
+        {
+            assertTrue(dataListsPage.getFilterTypeList().contains(anExpectedList), "Data list item is updated.");
+        }
+    }
+
+    @TestRail (id = "C10538")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    public void CancelEditingEventAgenda() {
+        log.info("STEP1: Click Edit icon for the item");
+        dataListsPage.clickEditButtonForListItem();
+
+        log.info("STEP2: Provide new input for the Reference field");
+        editItemPopUp.editContent(EventAgendaFields.Reference.toString(), newItemReference);
+        editItemPopUp.editContent(EventAgendaFields.StartTime.toString(), startTime);
+        editItemPopUp.editContent(EventAgendaFields.EndTime.toString(), endTime);
+        editItemPopUp.editContent(EventAgendaFields.SessionName.toString(), newItemSessionName);
+        editItemPopUp.editContent(EventAgendaFields.Presenter.toString(), newItemPresenter);
+        editItemPopUp.editContent(EventAgendaFields.Audience.toString(), newItemAudience);
+        editItemPopUp.editContent(EventAgendaFields.Notes.toString(), newItemNotes);
+
+        log.info("STEP3: Click Attachments/Select button and select doc. Click on the + button to add the attachment and then Ok to confirm");
+        editItemPopUp.removeAttachments(file);
+
+        log.info("STEP4: Click on Cancel button");
+        editItemPopUp.clickCancel();
+
+        List<String> expectedList = Arrays.asList(itemReference, itemSessionName, file);
         for (String anExpectedList : expectedList)
         {
             assertTrue(dataListsPage.getFilterTypeList().contains(anExpectedList), "Data list item is updated.");

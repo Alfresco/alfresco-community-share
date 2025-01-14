@@ -195,7 +195,7 @@ public class ManagingTasksTests extends BaseTest
     public void editTaskFromTasksDashletReassign()
     {
         log.info("Precondition");
-        authenticateUsingLoginPage(testUser.get());
+        authenticateUsingCookies(testUser.get());
 
         log.info("STEP 1: From 'My Tasks' dashlet click 'Edit Task' icon.");
         myTasksDashlet.editTask(taskName);
@@ -206,7 +206,7 @@ public class ManagingTasksTests extends BaseTest
         selectAssigneePopUp.clickOnSearchButton();
         selectAssigneePopUp.clickOnSelectButton();
 
-        authenticateUsingLoginPage(C8521username.get());
+        authenticateUsingCookies(C8521username.get());
         userDashboardPage.navigate(C8521username.get());
         myTasksDashlet.assertTaskNameEqualsTo(taskName);
     }
@@ -215,7 +215,7 @@ public class ManagingTasksTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
     public void groupTaskSubgroup()
     {
-        authenticateUsingLoginPage(getAdminUser());
+        authenticateUsingCookies(getAdminUser());
 
         log.info("Precondition 1. Some users are added to the parent group.");
         groupService.addUserToGroup(getAdminUser().getUsername(),getAdminUser().getPassword(), C8551group, C8551usernameA.get().getUsername());
@@ -254,14 +254,14 @@ public class ManagingTasksTests extends BaseTest
 
         log.info("STEP 7: login Share as every subgroup member and verify task is displayed in My tasks dashlet");
         //Verify the first user:
-        authenticateUsingLoginPage(C8551usernameB.get());
+        authenticateUsingCookies(C8551usernameB.get());
 
         myTasksPage.navigate();
         Assert.assertTrue(myTasksPage.isActiveTasksBarDisplayed(), "Active Task page is not displayed as default when navigating to My Tasks page.");
         Assert.assertEquals(myTasksPage.getTaskTitle(), taskDescription, "The created task is not displayed in 'Active Tasks' list.");
 
         //Verify the second user:
-        authenticateUsingLoginPage(C8551usernameC.get());
+        authenticateUsingCookies(C8551usernameC.get());
 
         myTasksPage.navigate();
         Assert.assertTrue(myTasksPage.isActiveTasksBarDisplayed(), "Active Task page is not displayed as default when navigating to My Tasks page.");
@@ -278,7 +278,7 @@ public class ManagingTasksTests extends BaseTest
         String C8596fullNameB = C8596usernameB.get().getFirstName() + " " + C8596usernameB.get().getLastName();
 
         log.info("Precondition: login as '" + C8596usernameA + "' user.");
-        authenticateUsingLoginPage(C8596usernameA.get());
+        authenticateUsingCookies(C8596usernameA.get());
 
         log.info("STEP 1: Open task from My Tasks dashlet;");
         userDashboardPage.navigate(C8596usernameA.get());
@@ -293,7 +293,7 @@ public class ManagingTasksTests extends BaseTest
         editTaskPage.commentAndClickApprove(firstUserMessage);
 
         log.info("STEP 3: log in as '" + C8596usernameB + "' user;");
-        authenticateUsingLoginPage(C8596usernameB.get());
+        authenticateUsingCookies(C8596usernameB.get());
 
         log.info("STEP 4.1: Check if Workflow History block information that User1 has approved the task is present;");
         userDashboardPage.navigate(C8596usernameB.get());
@@ -324,7 +324,7 @@ public class ManagingTasksTests extends BaseTest
 //        Assert.assertFalse(myTasksDashlet.assertTaskNameEqualsTo(taskName), "'" + taskName + "' task is displayed in user's 'My Tasks' dashlet, but it shouldn't.");
 
         log.info("STEP 6: log in as '" + C8596usernameC + "' user;");
-        authenticateUsingLoginPage(C8596usernameC.get());
+        authenticateUsingCookies(C8596usernameC.get());
 
         log.info("STEP 7.1: Check if Workflow History block information that '" + C8596fullNameA + "' has approved and '" + C8596fullNameB + "' has rejected the task is present;");
         userDashboardPage.navigate(C8596usernameC.get());
@@ -358,7 +358,7 @@ public class ManagingTasksTests extends BaseTest
 //        Assert.assertFalse(myTasksDashlet.assertTaskNameEqualsTo(taskName), "'" + taskName + "' task is displayed in user's 'My Tasks' dashlet, but it shouldn't.");
 
         log.info("STEP 9: login Share as Creator task and verify task is displayed in My tasks dashlet;");
-        authenticateUsingLoginPage(C8596username.get());
+        authenticateUsingCookies(C8596username.get());
         userDashboardPage.navigate(C8596username.get());
         Assert.assertEquals(myTasksDashlet.getDashletTitle(), "My Tasks", "'My Tasks' dashlet is not displayed in user's dashboard.");
         myTasksDashlet.assertTaskNameEqualsTo("The document was reviewed and rejected.");

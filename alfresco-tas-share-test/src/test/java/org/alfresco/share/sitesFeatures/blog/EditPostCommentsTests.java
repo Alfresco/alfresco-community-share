@@ -93,6 +93,34 @@ public class EditPostCommentsTests extends BaseTest
             .assertCommentEqualsTo(fullUsername, editedComment);
     }
 
+    @TestRail(id = "C6058")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
+    public void cancelEditingCommentOfPost()
+    {
+        sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
+            siteModel.get().getId(), postTitle, postContent, false, null);
+
+        sitePagesService.commentBlog(userModel.get().getUsername(), userModel.get().getPassword(),
+            siteModel.get().getId(), postTitle, false, postComment);
+
+        blogPostListPage
+            .navigate(siteModel.get())
+            .assertPostInfoBarTitleEqualsTo(LATEST_POSTS.getExpectedFilterLabel())
+            .readPost(postTitle);
+
+        blogPostViewPage
+            .openEditCommentEditor(fullUsername);
+
+        blogPromptWindow
+            .assertCommentBoxLabelEqualsTo(EDIT_COMMENT_LABEL)
+            .editComment(editedComment)
+            .cancelEditedComment();
+
+        blogPostViewPage
+            .assertCommentEquals(fullUsername, postComment);
+    }
+
+
     @TestRail(id = "C6062")
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
     public void shouldEditDraftBlogPostComment()

@@ -88,7 +88,7 @@ public class SearchHighlightTests extends BaseTest
         blogPage = new BlogPostListPage(webDriver);
         createBlogPost = new CreateBlogPostPage(webDriver);
 
-        authenticateUsingLoginPage(user.get());
+        authenticateUsingCookies(user.get());
         List<DashboardCustomization.Page> pagesToAdd = new ArrayList<>();
         pagesToAdd.add(DashboardCustomization.Page.BLOG);
 
@@ -107,7 +107,7 @@ public class SearchHighlightTests extends BaseTest
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, C42549file, C42549file);
         contentService.uploadFileInSite(userName, password, siteName, C42550testFilePath);
 
-        authenticateUsingLoginPage(user.get());
+        authenticateUsingCookies(user.get());
         documentLibraryPage.navigate(siteName);
         documentLibraryPage.selectItemActionFormFirstThreeAvailableOptions(docName, ItemActions.EDIT_PROPERTIES);
         editFilePropertiesDialog.setTitle(docTitle);

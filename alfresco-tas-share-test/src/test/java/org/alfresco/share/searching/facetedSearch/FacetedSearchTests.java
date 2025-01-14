@@ -74,7 +74,6 @@ public class FacetedSearchTests extends BaseTest
         user.set(getDataUser().usingAdmin().createRandomTestUser());
         authenticateUsingCookies(user.get());
 
-        authenticateUsingLoginPage(user.get());
         site1.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         siteName = site1.get().getTitle();
 
@@ -119,7 +118,7 @@ public class FacetedSearchTests extends BaseTest
     }
 
     @TestRail (id = "C12816")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH}, priority = -1)
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH, "Searching"}, priority = -1)
     public void facetedSearchBulkActionsTest()
     {
         toolbar.search(searchTerm);
@@ -260,7 +259,7 @@ public class FacetedSearchTests extends BaseTest
     }
 
     @TestRail (id = "C12823")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "Searching" })
     public void facetedSearchCopyToAction() {
         toolbar
             .search(searchTerm);
@@ -293,7 +292,7 @@ public class FacetedSearchTests extends BaseTest
     }
 
     @TestRail (id = "C12825")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "Searching" })
     public void facetedSearchMoveToAction() {
         toolbar
             .search(searchTerm);
@@ -325,7 +324,7 @@ public class FacetedSearchTests extends BaseTest
     }
 
     @TestRail (id = "C12826")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "Searching" })
     public void facetedSearchStartWorkflowAction()
     {
         toolbar
@@ -361,7 +360,7 @@ public class FacetedSearchTests extends BaseTest
     }
 
     @TestRail (id = "C12828")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "Searching" })
     public void facetedSearchDeleteAction() throws InterruptedException {
         toolbar
             .search(searchTerm);

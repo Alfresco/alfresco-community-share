@@ -69,7 +69,7 @@ public class AccessingDiscussionsTests extends BaseTest
     }
 
     @TestRail (id = "6198")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "singlePipelineFailure" })
     public void accessTheDiscussionForum()
     {
         String today = df.format(new Date());

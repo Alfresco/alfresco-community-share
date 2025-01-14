@@ -113,7 +113,7 @@ public class CollaboratorFoldersOnlyTests extends BaseTest
     }
 
     @TestRail (id = "C8875")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, TestGroup.INTEGRATION })
     public void locateFolder()
     {
         documentLibraryPage.navigate(site.get().getId());

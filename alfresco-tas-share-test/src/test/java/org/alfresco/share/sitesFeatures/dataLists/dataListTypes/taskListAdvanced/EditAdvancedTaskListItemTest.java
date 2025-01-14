@@ -159,6 +159,7 @@ public class EditAdvancedTaskListItemTest extends BaseTest
             assertTrue(dataListsPage.getFilterTypeList().contains(anExpectedList), "Data list item is updated.");
         }
 
+        log.info("verify Assignee field");
         String user1 = userName.get().getFirstName() + " " + userName.get().getLastName();
         String user2 = userAssignee.get().getFirstName() + " " + userAssignee.get().getLastName();
 
@@ -168,10 +169,14 @@ public class EditAdvancedTaskListItemTest extends BaseTest
             assertTrue(dataListsPage.getFilterTypeList().contains(users), "Assignee list item is updated.");
         }
 
-        List<String> attachmentFiles = Arrays.asList(itemFile+"\n"+attachedFile);
-        for (String attachments : attachmentFiles)
-        {
-            assertTrue(dataListsPage.getFilterTypeList().contains(attachments), "Attachments updated.");
-        }
+        log.info("verify Attachments field");
+        String attachmentOrder1 = attachedFile+"\n"+itemFile;
+        String attachmentOrder2 = itemFile+"\n"+attachedFile;
+
+        if (dataListsPage.getFilterTypeList().contains(attachmentOrder1)){
+            assertTrue(dataListsPage.isAttachmentsUpdated(attachmentOrder1), "Attachments updated");
+        } else if (dataListsPage.getFilterTypeList().contains(attachmentOrder2)) {
+            assertTrue(dataListsPage.isAttachmentsUpdated(attachmentOrder2), "Attachments updated");
+        } else throw new RuntimeException("Assertion Failure: Check Attachment column files & order of files in UI");
     }
 }

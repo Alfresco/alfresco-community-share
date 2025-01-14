@@ -96,11 +96,11 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
         return siteProfileRows.get(0);
     }
 
-    public SiteProfileDashlet assert_SiteVisibilityEquals(String expectedSiteVisibilityLabel,String expectedSiteVisibilityValue)
+    public SiteProfileDashlet assert_SiteVisibilityEquals(String expectedSiteVisibilityLabel,String expectedSiteVisibilityValue, int getRow)
     {
         log.info("Assert site visibility equals: {}", expectedSiteVisibilityValue);
         String actualSiteManager = get_SiteProfileRow(
-            expectedSiteVisibilityLabel.concat(expectedSiteVisibilityValue)).getText();
+            expectedSiteVisibilityLabel.concat(expectedSiteVisibilityValue),getRow).getText();
 
         assertEquals(actualSiteManager.toLowerCase(),
             expectedSiteVisibilityLabel.concat(expectedSiteVisibilityValue).toLowerCase(),
@@ -110,7 +110,18 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
         return this;
     }
 
-    private WebElement get_SiteProfileRow(String searchedSiteLabel)
+    public SiteProfileDashlet assert_SiteManagerEquals(String expectedSiteManagerLabel,String expectedSiteManagerValue)
+    {
+        log.info("Assert site manager equals: {}", expectedSiteManagerValue);
+        String actualSiteManager = get_SiteProfileRow(
+            expectedSiteManagerLabel.concat(expectedSiteManagerValue),1).getText();
+        assertEquals(actualSiteManager, expectedSiteManagerLabel.concat(expectedSiteManagerValue),
+            String.format("Site manager not equals %s ",
+                expectedSiteManagerLabel.concat(expectedSiteManagerValue)));
+        return this;
+    }
+
+    private WebElement get_SiteProfileRow(String searchedSiteLabel, int rowNumber)
     {
         List<WebElement> siteProfileRows = waitUntilElementsAreVisible(siteProfileRowLocator);
         for (WebElement currentRow : siteProfileRows)
@@ -120,6 +131,6 @@ public class SiteProfileDashlet extends Dashlet<SiteProfileDashlet>
                 return currentRow;
             }
         }
-        return siteProfileRows.get(2);
+        return siteProfileRows.get(rowNumber);
     }
 }

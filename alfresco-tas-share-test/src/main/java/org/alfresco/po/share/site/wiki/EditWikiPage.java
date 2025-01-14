@@ -179,6 +179,21 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
         return isElementDisplayed(waitUntilElementIsVisible(By.xpath(image)));
     }
 
+    public boolean is_ImageDisplayed(String imageName) {
+        for (int i = 0; i < 6; i++) {
+            if (isElementDisplayed(By.xpath(StringUtils.deleteWhitespace(imageLink + imageName + "')]")))) {
+                return true;
+            }
+            else {
+                waitInSeconds(5);
+                refreshBrowser();
+                clickInsertLibraryImage();
+            }
+        }
+        return false;
+    }
+
+
     /**
      * This method is used to click on image
      */

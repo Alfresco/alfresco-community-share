@@ -165,8 +165,8 @@ public class ContactListSelectedContent extends ListItemSelectedContent
 
     public enum ContactListColumns
     {
-        FirstName("First Name"),
-        LastName("Last Name"),
+        FirstName("FirstName"),
+        LastName("LastName"),
         Email("Email"),
         Company("Company"),
         JobTitle("Job Title"),
