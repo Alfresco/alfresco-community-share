@@ -11,6 +11,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -25,8 +26,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-public class ContentActionComponent extends AlfrescoContentPage<ContentActionComponent>
-{
+public class ContentActionComponent extends AlfrescoContentPage<ContentActionComponent> {
     private final By contentNameSelector = By.cssSelector(".filename a");
     private final By moreActionLink = By.cssSelector(".show-more");
     private final By moreActionsArea = By.cssSelector(".more-actions");
@@ -59,19 +59,16 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
 
     private final ContentModel contentModel;
 
-    public ContentActionComponent(ThreadLocal<WebDriver> webDriver, ContentModel contentModel)
-    {
+    public ContentActionComponent(ThreadLocal<WebDriver> webDriver, ContentModel contentModel) {
         super(webDriver);
         this.contentModel = contentModel;
     }
 
-    private WebElement getContentRow()
-    {
+    private WebElement getContentRow() {
         return getContentRow(contentModel.getName());
     }
 
-    public ContentActionComponent assertContentIsDisplayed()
-    {
+    public ContentActionComponent assertContentIsDisplayed() {
         log.info("Assert content is displayed");
         assertTrue(isElementDisplayed(getContentRow()),
             String.format("Content '%s' is not displayed", contentModel.getName()));
@@ -79,16 +76,12 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return this;
     }
 
-    public ContentActionComponent assertContentIsNotDisplayed()
-    {
+    public ContentActionComponent assertContentIsNotDisplayed() {
         log.info("Assert content is not displayed");
         By content = By.xpath(String.format(contentRow, contentModel.getName()));
-        try
-        {
+        try {
             waitUntilElementDisappears(content, WAIT_5.getValue());
-        }
-        catch (TimeoutException e)
-        {
+        } catch (TimeoutException e) {
             log.error("Content {} is still displayed in Alfresco Content page", contentModel.getName());
         }
 
@@ -97,8 +90,7 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
     }
 
     @SuppressWarnings("rawtypes")
-	public AlfrescoContentPage selectFolder()
-    {
+    public AlfrescoContentPage selectFolder() {
         log.info("Select Folder");
         WebElement contentRowElement = getContentRow();
         WebElement content = waitUntilChildElementIsPresent(contentRowElement, contentNameSelector);
@@ -109,23 +101,20 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return new AlfrescoContentPage(webDriver);
     }
 
-    public DocumentDetailsPage selectFile()
-    {
+    public DocumentDetailsPage selectFile() {
         log.info("Select file");
         clickElement(getContentRow().findElement(contentNameSelector));
         return new DocumentDetailsPage(webDriver);
     }
 
-    public ContentActionComponent assertContentIsHighlighted()
-    {
+    public ContentActionComponent assertContentIsHighlighted() {
         By contentRowElement = By.xpath(String.format(contentRow, contentModel.getName()));
         WebElement content = waitUntilElementIsVisible(contentRowElement);
         assertTrue(content.getAttribute("class").contains(highlightContent), "Content is not highlighted");
         return this;
     }
 
-    private ContentActionComponent mouseOverContent()
-    {
+    private ContentActionComponent mouseOverContent() {
         log.info("Mouse over content");
         mouseOver(getContentRow().findElement(contentNameSelector));
         waitUntilElementHasAttribute(getContentRow(), "class", highlightContent);
@@ -133,8 +122,7 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return this;
     }
 
-    private ContentActionComponent clickMore()
-    {
+    private ContentActionComponent clickMore() {
         log.info("Click More");
         WebElement moreAction = waitUntilChildElementIsPresent(getContentRow(), moreActionLink);
         mouseOver(moreAction);
@@ -144,8 +132,7 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return this;
     }
 
-    public CopyMoveUnzipToDialog clickCopyTo()
-    {
+    public CopyMoveUnzipToDialog clickCopyTo() {
         log.info("Click Copy To...");
         mouseOverContent();
         clickMore();
@@ -154,8 +141,7 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return new CopyMoveUnzipToDialog(webDriver);
     }
 
-    public CopyMoveUnzipToDialog clickMoveTo()
-    {
+    public CopyMoveUnzipToDialog clickMoveTo() {
         log.info("Click Move To...");
         mouseOverContent();
         clickMore();
@@ -164,8 +150,7 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return new CopyMoveUnzipToDialog(webDriver);
     }
 
-    public DeleteDialog clickDelete()
-    {
+    public DeleteDialog clickDelete() {
         log.info("Click Delete");
         mouseOverContent();
         clickMore();
@@ -173,62 +158,55 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return new DeleteDialog(webDriver);
     }
 
-    public ContentActionComponent assertAddFileToFavoritesTooltipEqualsWithExpected()
-    {
+    public ContentActionComponent assertAddFileToFavoritesTooltipEqualsWithExpected() {
         String tooltipValue = language.translate("documentLibrary.contentAction.addDocumentToFavorites");
         assertEquals(getContentRow().findElement(addToFavoritesLink).getAttribute("title"), tooltipValue,
             String.format("Add to favorite tooltip not equals to %s", tooltipValue));
         return this;
     }
 
-    public ContentActionComponent assertAddFolderToFavoritesTooltipEqualsWithExpected()
-    {
+    public ContentActionComponent assertAddFolderToFavoritesTooltipEqualsWithExpected() {
         String tooltipValue = language.translate("documentLibrary.contentAction.addFolderToFavorites");
         assertEquals(getContentRow().findElement(addToFavoritesLink).getAttribute("title"), tooltipValue,
             String.format("Add to favorite tooltip not equals to %s", tooltipValue));
         return this;
     }
 
-    public ContentActionComponent assertRemoveFileFromFavoritesTooltipEqualsWithExpected()
-    {
+    public ContentActionComponent assertRemoveFileFromFavoritesTooltipEqualsWithExpected() {
         String tooltipValue = language.translate("documentLibrary.contentAction.removeDocumentFromFavorites");
         assertEquals(getContentRow().findElement(removeFavoriteLink).getAttribute("title"), tooltipValue,
             String.format("Add to favorite tooltip not equals to %s", tooltipValue));
         return this;
     }
 
-    public ContentActionComponent assertRemoveFolderFromFavoritesTooltipEqualsWithExpected()
-    {
+    public ContentActionComponent assertRemoveFolderFromFavoritesTooltipEqualsWithExpected() {
         String tooltipValue = language.translate("documentLibrary.contentAction.removeFolderFromFavorites");
         assertEquals(getContentRow().findElement(removeFavoriteLink).getAttribute("title"), tooltipValue,
             String.format("Add to favorite tooltip not equals to %s", tooltipValue));
         return this;
     }
 
-    public ContentActionComponent assertAddToFavoritesIsDisplayed()
-    {
+    public ContentActionComponent assertAddToFavoritesIsDisplayed() {
         log.info("Assert Add to favorites is displayed");
         WebElement contentRowElement = getContentRow();
         mouseOverContent();
         assertTrue(isElementDisplayed(contentRowElement.findElement(addToFavoritesLink)),
-        "Add to favorites link is not displayed");
+            "Add to favorites link is not displayed");
 
         return this;
     }
 
-    public ContentActionComponent assertRemoveFromFavoritesIsDisplayed()
-    {
+    public ContentActionComponent assertRemoveFromFavoritesIsDisplayed() {
         log.info("Assert remove from favorites is displayed");
         WebElement contentRowElement = getContentRow();
         mouseOverContent();
         assertTrue(isElementDisplayed(contentRowElement.findElement(removeFavoriteLink)),
-                "Remove from favorites link is not displayed");
+            "Remove from favorites link is not displayed");
 
         return this;
     }
 
-    public ContentActionComponent addToFavorites()
-    {
+    public ContentActionComponent addToFavorites() {
         log.info("Add to favorites");
         WebElement contentRow = getContentRow();
         mouseOverContent();
@@ -238,8 +216,7 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return this;
     }
 
-    public ContentActionComponent removeFromFavorites()
-    {
+    public ContentActionComponent removeFromFavorites() {
         log.info("Remove from favorites");
         WebElement contentRow = getContentRow();
         mouseOverContent();
@@ -249,28 +226,24 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return this;
     }
 
-    public AlfrescoContentPage clickLocate()
-    {
+    public AlfrescoContentPage clickLocate() {
         log.info("Select Locate action");
         mouseOverContent();
-        if (contentModel instanceof FolderModel)
-        {
+        if (contentModel instanceof FolderModel) {
             clickMore();
         }
         clickElement(getContentRow().findElement(locateAction));
         return new AlfrescoContentPage(webDriver);
     }
 
-    public ContentActionComponent clickRenameIcon()
-    {
+    public ContentActionComponent clickRenameIcon() {
         log.info("Click Rename icon");
         WebElement contentRowElement = getContentRow();
         mouseOverContent();
         WebElement rename = waitUntilElementIsVisible(renameIcon);
         int retryCount = 0;
         while (!contentRowElement.findElement(renameForm).getAttribute("style").equals("display: inline;")
-            && retryCount < WAIT_15.getValue())
-        {
+            && retryCount < WAIT_15.getValue()) {
             clickElement(rename);
             retryCount++;
         }
@@ -278,8 +251,7 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return this;
     }
 
-    public ContentActionComponent typeNewName(String newName)
-    {
+    public ContentActionComponent typeNewName(String newName) {
         log.info("Rename with value {}", newName);
         WebElement contentRowElement = getContentRow();
         WebElement input = contentRowElement.findElement(renameInput);
@@ -288,25 +260,20 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return this;
     }
 
-    public ContentActionComponent clickSave()
-    {
+    public ContentActionComponent clickSave() {
         log.info("Click Save");
         WebElement input = getContentRow().findElement(renameInput);
         clickElement(getContentRow().findElement(renameSaveButton));
         waitUntilElementDisappears(input);
-        try
-        {
+        try {
             waitUntilElementDisappears(highlightLocator, WAIT_5.getValue());
-        }
-        catch (TimeoutException e)
-        {
+        } catch (TimeoutException e) {
             log.error("Content has not been highlighted");
         }
         return this;
     }
 
-    public ContentActionComponent clickCancel()
-    {
+    public ContentActionComponent clickCancel() {
         log.info("Click Cancel");
         WebElement input = getContentRow().findElement(renameInput);
         clickElement(getContentRow().findElement(renameCancelButton));
@@ -315,8 +282,7 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return this;
     }
 
-    public ContentActionComponent assertThumbnailLinkTypeIsDisplayed()
-    {
+    public ContentActionComponent assertThumbnailLinkTypeIsDisplayed() {
         log.info("Assert thumbnail link type is displayed");
         waitUntilElementIsVisible(linkThumbnail);
         assertTrue(isElementDisplayed(getContentRow().findElement(linkThumbnail)),
@@ -325,8 +291,7 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return this;
     }
 
-    public EditPropertiesDialog clickEditProperties()
-    {
+    public EditPropertiesDialog clickEditProperties() {
         log.info("Click Edit Properties");
         mouseOverContent();
         clickElement(getContentRow().findElement(editProperties));
@@ -334,8 +299,7 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return new EditPropertiesDialog(webDriver);
     }
 
-    public ContentActionComponent assertTagIsDisplayed(String tag)
-    {
+    public ContentActionComponent assertTagIsDisplayed(String tag) {
         log.info("Assert tag {} is displayed", tag);
         WebElement content = getContentRow();
         waitUntilElementIsVisible(addedTagsLocator);
@@ -345,8 +309,7 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return this;
     }
 
-    public ContentActionComponent assertTagIsNotDisplayed(String tag)
-    {
+    public ContentActionComponent assertTagIsNotDisplayed(String tag) {
         log.info("Assert tag {} is not displayed", tag);
         WebElement content = getContentRow();
         List<String> tags = getTextFromElementList(content.findElements(addedTagsLocator));
@@ -355,8 +318,7 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return this;
     }
 
-    public ContentActionComponent clickTagEditIcon()
-    {
+    public ContentActionComponent clickTagEditIcon() {
         log.info("Click tag icon");
         WebElement contentRowElement = getContentRow();
         mouseOverContent();
@@ -367,11 +329,9 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return this;
     }
 
-    private void clickTagIconWithRetry(WebElement contentRow, WebElement tagIcon)
-    {
+    private void clickTagIconWithRetry(WebElement contentRow, WebElement tagIcon) {
         int retryCount = 0;
-        while (!isElementDisplayed(tagInputLocator) && retryCount < RETRY_TIME_80.getValue())
-        {
+        while (!isElementDisplayed(tagInputLocator) && retryCount < RETRY_TIME_80.getValue()) {
             log.warn("Retry click tag icon for content {} - retry: {}", contentModel.getName(), retryCount);
             mouseOver(contentRow.findElement(tagAreaLocator));
             waitToLoopTime(WAIT_2.getValue());
@@ -380,8 +340,7 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         }
     }
 
-    public ContentActionComponent setTag(String tag)
-    {
+    public ContentActionComponent setTag(String tag) {
         log.info("Set tag {}", tag);
         WebElement contentRowElement = getContentRow();
         WebElement tagInput = contentRowElement.findElement(tagInputLocator);
@@ -391,8 +350,7 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return this;
     }
 
-    public ContentActionComponent clickTag(String tag)
-    {
+    public ContentActionComponent clickTag(String tag) {
         log.info("Click tag {}", tag);
         By existingTagLocator = By.xpath(String.format(existingTag, tag));
         mouseOver(existingTagLocator);
@@ -400,16 +358,12 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return this;
     }
 
-    public ContentActionComponent removeTag(String tag)
-    {
+    public ContentActionComponent removeTag(String tag) {
         log.info("Delete tag {}", tag);
         By removeTagLocator = By.xpath(String.format(existingTag.concat(removeTagIcon), tag));
-        try
-        {
+        try {
             waitUntilElementIsVisible(removeTagLocator);
-        }
-        catch (TimeoutException e)
-        {
+        } catch (TimeoutException e) {
             log.warn("Failed to load tag {}. Refreshing page", tag);
             refresh();
             waitForContentPageToBeLoaded();
@@ -419,8 +373,7 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return this;
     }
 
-    public ContentActionComponent assertCategoryIsDisplayed(String category)
-    {
+    public ContentActionComponent assertCategoryIsDisplayed(String category) {
         log.info("Assert category {} is displayed", category);
         WebElement content = getContentRow();
         waitUntilElementIsVisible(addedCategoriesLink);
@@ -430,27 +383,34 @@ public class ContentActionComponent extends AlfrescoContentPage<ContentActionCom
         return this;
     }
 
-    public ContentActionComponent assertNoCategoriesIsDisplayed()
-    {
+    public ContentActionComponent assertNoCategoriesIsDisplayed() {
         log.info("Assert No Categories is displayed for content {}", contentModel.getName());
         waitUntilElementIsVisible(noCategoriesLocator);
         assertTrue(isElementDisplayed(noCategoriesLocator), "No categories label is not displayed");
         return this;
     }
 
-    public ContentActionComponent assertActionsAreAvailable(String... expectedActions)
-    {
+    public ContentActionComponent assertActionsAreAvailable(String... expectedActions) {
         log.info("Assert available actions are: {}", Arrays.asList(expectedActions));
+        waitInSeconds(3);
         List<String> actions = getMoreActions();
         assertTrue(actions.stream().anyMatch(element -> Arrays.asList(expectedActions).contains(element)), "Not all actions were found");
 
         return this;
     }
 
-    private List<String> getMoreActions()
-    {
+    private List<String> getMoreActions() {
         mouseOverContent();
         clickMore();
         return getTextFromLocatorList(actionsSet);
+    }
+
+    public ContentActionComponent assertActionsAvailable(String... expectedActions) {
+        log.info("Assert available actions are: {}", Arrays.asList(expectedActions));
+        waitInSeconds(3);
+        List<String> actions = getMoreActions();
+        assertTrue(actions.stream().anyMatch(element -> Arrays.asList(expectedActions).contains(element)), "Not all actions were found");
+
+        return this;
     }
 }
