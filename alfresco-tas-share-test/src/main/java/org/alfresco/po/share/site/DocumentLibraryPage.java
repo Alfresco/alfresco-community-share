@@ -51,6 +51,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private final String contentTableRow = "//td[contains(@class, 'yui-dt-col-name')]//a[text()='%s']/../../../..";
     private final String contentNameInTableRow = "//td[contains(@class, 'yui-dt-col-name')]//a[text()='%s']";
     private final String contentNameInRow = "//td[contains(@class, 'yui-dt-col-fileName')]//a[text()='%s']";
+    private final String contentNameInGalleryView = "//div[contains(@class, 'alf-gallery-item-thumbnail')]//a[text()='%s']";
     public By createContentMenu = By.cssSelector("div[id*='_default-createContent-menu'].visible");
     public By editTagSelector = By.cssSelector("td .detail span[class='insitu-edit']:first-child");
     public By uploadButton = By.cssSelector("[id$='default-fileUpload-button-button']");
@@ -77,6 +78,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private By clickSaveButton = By.xpath("//button[text()=\"Save\"]");
     private By moreActionsMenu = By.cssSelector("div[id*='default-actions']:not([class*='hidden'])>.action-set>.more-actions");
     private By uploadButton_ = By.cssSelector("[id$='default-fileUpload-button-button']");
+    private By viewDetailAction = By.xpath("//div[contains(@class, 'alf-gallery-item alf-hover')]//a[@class='alf-show-detail']");
     @FindAll(@FindBy(css = "a.filter-link"))
     private List<WebElement> documentsFilterOptions;
     @FindBy(css = "div[id$='default-navBar']")
@@ -113,6 +115,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private WebElement editTagInputField;
     private By editTagInputField_ = By.cssSelector(".inlineTagEditAutoCompleteWrapper input");
     private By editTagButtons = By.cssSelector("form[class='insitu-edit'] a");
+    private By moreActionButton = By.xpath("//span[text()='More...']");
     private By tagToBeEdited = By.cssSelector(".inlineTagEditAutoCompleteWrapper input");
     @FindBy(css = "div[class ='google-map']")
     private WebElement googleMap;
@@ -159,6 +162,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private By lockedByUser = By.cssSelector("div.info-banner a");
     private By titleSelector = By.cssSelector("td .title");
     private By descriptionSelector = By.cssSelector("td .detail:nth-child(3) span");
+    private By listItemData = By.className("yui-dt-liner");
 
     public DocumentLibraryPage(ThreadLocal<WebDriver> webDriver) {
         super(webDriver);
@@ -630,6 +634,20 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         List<String> availableActions = getAvailableActions(libraryItem).stream()
             .map(action -> action.getText()).collect(Collectors.toList());
         return availableActions.containsAll(actions);
+    }
+
+    public boolean areActionsAvailableInLibrary(String libraryItem, List<String> actions) {
+        waitInSeconds(3);
+        List<String> availableActions = getActions().stream()
+            .map(action -> action.getText()).collect(Collectors.toList());
+        return availableActions.containsAll(actions);
+    }
+
+    private List<WebElement> getActions(String libraryItem) {
+        WebElement itemRow = mouseOverContentItem(libraryItem);
+        waitInSeconds(5);
+        clickOnMoreActions(itemRow);
+        return itemRow.findElements(actionsSet);
     }
 
     public boolean areActionsNotAvailableForLibraryItem(String libraryItem, List<String> actions) {
@@ -1570,21 +1588,63 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         return this;
     }
 
-    public DocumentLibraryPage mouseOverSimpleViewRow(String contentName) {
+    public DocumentLibraryPage mouseOverLibraryViewRow(String contentName) {
         try {
-            By contentRowElement = By.xpath(String.format(contentNameInRow, contentName));
-            mouseOver(selectDocumentLibraryItemRow(contentName).findElement(contentRowElement));
+            By contentRowElement = By.xpath(String.format(contentNameInGalleryView, contentName));
+            mouseOver(contentRowElement);
         } catch (TimeoutException e) {
         }
         return this;
     }
 
-    public DocumentLibraryPage assertActionsAvailableForLibrary(String contantName, List<String> actions) {
-        log.info(
-            "Verify that the given actions are available in more  ");
+    public DocumentLibraryPage assertActionsAvailableForLibraryItems(String contantName, List<String> actions) {
+        log.info("Verify that the given actions are available in more  ");
         Assert.assertTrue(areActionsAvailableForLibraryItem(contantName, actions),
             "Not Expected actions");
         return this;
+    }
+
+    public DocumentLibraryPage assertActionsAvailableForLibrary(String contantName, List<String> actions) {
+        log.info("Verify that the given actions are available in more  ");
+        waitInSeconds(3);
+        Assert.assertTrue(areActionsAvailableInLibrary(contantName, actions),
+            "Not Expected actions");
+        return this;
+    }
+
+    public DocumentLibraryPage assertActionsAvailableForLibraryInGalleryView(String contantName, List<String> actions) {
+        log.info("Verify that the given actions are available in more  ");
+        waitInSeconds(4);
+        mouseOverLibraryViewRow(contantName);
+        waitInSeconds(4);
+        clickElement(viewDetailAction);
+        clickMoreAction("More...");
+        Assert.assertTrue(areActionsAvailableInLibrary(contantName, actions), "Not Expected actions");
+        return this;
+    }
+
+    public DocumentLibraryPage clickMoreAction(String option) {
+        List<WebElement> clickOption = findElements(moreActionButton);
+        waitInSeconds(3);
+        for (WebElement clickButton : clickOption) {
+            if (clickButton.getText().equals(option))
+                clickButton.click();
+        }
+        return this;
+    }
+
+    public List<String> getFilterTypeList() {
+        List<String> listItems = new ArrayList<>();
+        waitInSeconds(2);
+        for (WebElement listItemNames : findElements(listItemData)) {
+            listItems.add(listItemNames.getText());
+        }
+        return listItems;
+    }
+
+    private List<WebElement> getActions() {
+        waitInSeconds(2);
+        return findElements(actionsSet);
     }
 
     public enum CreateMenuOption {

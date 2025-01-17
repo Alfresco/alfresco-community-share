@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.alfresco.po.enums.SelectMenuOptions;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.SharePage2;
@@ -32,7 +33,8 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>> {
     protected final By selectCheckBox = By.cssSelector("input[name='fileChecked']");
     private final By contentArea = By.cssSelector("div[class='documents yui-dt']");
     private final By createButton = By.cssSelector("button[id$='createContent-button-button']");
-    private final By createOptionsArea = By.cssSelector("div[id$='_default-createContent-menu'][style*='visible']");
+    private final By createOptionsArea =
+        By.cssSelector("div[id$='_default-createContent-menu'][style*='visible']");
     private final By createTextFileOption = By.cssSelector("span.text-file");
     private final By createXmlFileOption = By.cssSelector("span.xml-file");
     private final By createHtmlFileOption = By.cssSelector("span.html-file");
@@ -40,28 +42,37 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>> {
     private final By currentBreadcrumb = By.cssSelector(".crumb .label a");
     private final By folderUp = By.cssSelector("button[id$='folderUp-button-button']");
     private final By uploadButton = By.cssSelector("button[id$='-fileUpload-button-button']");
-    private final By createFileFromTemplate = By.cssSelector("div[id$='createContent-menu']>div>ul:nth-of-type(2)>li:nth-of-type(1) span");
-    private final By createFolderFromTemplate = By.cssSelector("div[id$='createContent-menu']>div>ul:nth-of-type(2)>li:nth-of-type(2) span");
+    private final By createFileFromTemplate =
+        By.cssSelector("div[id$='createContent-menu']>div>ul:nth-of-type(2)>li:nth-of-type(1) span");
+    private final By createFolderFromTemplate =
+        By.cssSelector("div[id$='createContent-menu']>div>ul:nth-of-type(2)>li:nth-of-type(2) span");
     private final By selectedItemsLink = By.cssSelector("button[id$='selectedItems-button-button']");
     private final By selectedItemsActions = By.cssSelector("div[id$=default-selectedItems-menu]");
     private final By copyToFromSelectedItems = By.cssSelector(".onActionCopyTo");
     private final By selectMenu = By.cssSelector("button[id$='fileSelect-button-button']");
-    private final By selectedItemsActionNames = By.cssSelector("div[id$=default-selectedItems-menu] a[class='yuimenuitemlabel'] span");
+    private final By selectedItemsActionNames =
+        By.cssSelector("div[id$=default-selectedItems-menu] a[class='yuimenuitemlabel'] span");
     private final By startWorkflowFromSelectedItems = By.cssSelector(".onActionAssignWorkflow");
     private final By deleteFromSelectedItems = By.cssSelector(".onActionDelete");
-    private final By documentsRootBreadcrumb = By.cssSelector("div[id$='default-navBar'] div[class^='crumb documentDroppable']:nth-of-type(1)");
-    private final By optionDropdownButton = By.cssSelector("button[id$='default-options-button-button']");
+    private final By documentsRootBreadcrumb =
+        By.cssSelector("div[id$='default-navBar'] div[class^='crumb documentDroppable']:nth-of-type(1)");
+    private final By optionDropdownButton =
+        By.cssSelector("button[id$='default-options-button-button']");
     private final By optionsMenu = By.cssSelector("div[id$='default-options-menu']");
     private final By hideBreadcrumbOption = By.cssSelector(".hidePath");
     private final By showBreadcrumbOption = By.cssSelector(".showPath");
     private final By filmstripViewOption = By.cssSelector("span[class='view filmstrip']");
     private final By simpleViewOption = By.cssSelector("span[class='view simple']");
     private final By tableViewOption = By.cssSelector("span[class='view table']");
+    private final By galleryViewOption = By.cssSelector("span[class='view gallery']");
+    private final By audioViewOption = By.cssSelector("span[class='view audio']");
+    private final By mediaViewOption = By.cssSelector("span[class='view media_table']");
     private final By setDefaultViewLocator = By.cssSelector("span[class='setDefaultView']");
     private final By removeDefaultViewLocator = By.cssSelector("span[class='removeDefaultView']");
     private final By tableViewContentArea = By.cssSelector("div[class='documents yui-dt alf-table']");
     private final By detailedViewContentArea = By.cssSelector("div[class='documents yui-dt']");
-    private final String breadcrumb = "//div[@class='crumb documentDroppable documentDroppableHighlights']//a[text()='%s']";
+    private final String breadcrumb =
+        "//div[@class='crumb documentDroppable documentDroppableHighlights']//a[text()='%s']";
     private final String templateName = "//a[@class='yuimenuitemlabel']//span[text()='%s']";
     private final String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
 
@@ -241,7 +252,8 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>> {
         String[] values = getTextFromElementList(items).toArray(new String[0]);
         Arrays.sort(values);
         Arrays.sort(actions);
-        assertTrue(Arrays.asList(values).containsAll(Arrays.asList(actions)),
+        assertTrue(Arrays.asList(values)
+                .containsAll(Arrays.asList(actions)),
             String.format("Not all actions were found %s", Arrays.asList(actions)));
 
         return this;
@@ -337,10 +349,28 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>> {
         return this;
     }
 
+    public AlfrescoContentPage<T> selectgalleryView() {
+        log.info("Select Gallery view");
+        clickElement(galleryViewOption);
+        return this;
+    }
+
     public ContentTableViewComponent selectTableView() {
         log.info("Select Filmstrip view");
         clickElement(tableViewOption);
         return new ContentTableViewComponent(webDriver);
+    }
+
+    public AlfrescoContentPage<T> selectAudioView() {
+        log.info("Select Gallery view");
+        clickElement(audioViewOption);
+        return this;
+    }
+
+    public AlfrescoContentPage<T> selectMediaView() {
+        log.info("Select Gallery view");
+        clickElement(mediaViewOption);
+        return this;
     }
 
     public AlfrescoContentPage<T> assertTableViewIsSet() {
@@ -369,9 +399,21 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>> {
         return this;
     }
 
+    public AlfrescoContentPage<T> pageRefresh() {
+        waitInSeconds(2);
+        getWebDriver().navigate().refresh();
+        return this;
+    }
+
     public AlfrescoContentPage<T> setDefaultView() {
         log.info("Set default view");
         clickElement(setDefaultViewLocator);
+        return this;
+    }
+
+    public AlfrescoContentPage<T> removeDefaultView() {
+        log.info("Remove default view");
+        clickElement(removeDefaultViewLocator);
         return this;
     }
 
