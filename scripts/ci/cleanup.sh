@@ -22,7 +22,7 @@ fi
 if aws s3 ls "s3://${S3_BUCKET2_NAME}" &>/dev/null; then
     echo "Bucket '${S3_BUCKET2_NAME}' exists. Deleting..."
     aws s3 rb "s3://${S3_BUCKET2_NAME}" --force || true
-    echo "Bucket '${S3_BUCKET_NAME}' deleted."
+    echo "Bucket '${S3_BUCKET2_NAME}' deleted."
 else
     echo "Bucket '${S3_BUCKET2_NAME}' does not exist."
 fi
