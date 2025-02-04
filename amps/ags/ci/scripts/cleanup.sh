@@ -11,17 +11,20 @@ if [[ -z "$S3_BUCKET_NAME" || -z "$S3_BUCKET2_NAME" ]]; then
     exit 1
 fi
 
-# Stop and remove the containers
-docker ps -a -q | xargs -l -r docker stop
-docker ps -a -q | xargs -l -r docker rm
-
 if aws s3 ls "s3://${S3_BUCKET_NAME}" &>/dev/null; then
     echo "Bucket '${S3_BUCKET_NAME}' exists. Deleting..."
     aws s3 rb "s3://${S3_BUCKET_NAME}" --force || true
-    aws s3 rb "s3://${S3_BUCKET2_NAME}" --force || true
-    echo "Bucket deleted."
+    echo "Bucket '${S3_BUCKET_NAME}' deleted."
 else
     echo "Bucket '${S3_BUCKET_NAME}' does not exist."
+fi
+
+if aws s3 ls "s3://${S3_BUCKET2_NAME}" &>/dev/null; then
+    echo "Bucket '${S3_BUCKET2_NAME}' exists. Deleting..."
+    aws s3 rb "s3://${S3_BUCKET2_NAME}" --force || true
+    echo "Bucket '${S3_BUCKET_NAME}' deleted."
+else
+    echo "Bucket '${S3_BUCKET2_NAME}' does not exist."
 fi
 
 
