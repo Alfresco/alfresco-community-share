@@ -450,7 +450,7 @@ jobs:
             ${{ fromJSON('{"false": "docker-compose.yml", "true": "docker-compose-worm-support-ui.yml"}')[matrix.test == 'wormTestSuite'] }}
         if: env.S3_BUCKET_PREFIX != ''
         run: |
-          [ ${{ matrix.test }} == 'wormTestSuite' ] amps/ags/ci/scripts/create-worm-bucket.sh
+          [ ${{ matrix.test }} == 'wormTestSuite' ] && amps/ags/ci/scripts/create-worm-bucket.sh
           amps/ags/ci/scripts/start-compose.sh "amps/ags/rm-enterprise/rm-enterprise-share/$COMPOSE_FILE"
           amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           free -m -t
