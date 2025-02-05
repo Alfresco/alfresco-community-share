@@ -20,13 +20,13 @@ PS4="\[\e[35m\]+ \[\e[m\]"
 set -evx
 pushd "$(dirname "${BASH_SOURCE[0]}")/../"
 
-if [[ "$S3_BUCKET_PREFIX" == "" ]]; then
+if [[ -z "$S3_BUCKET_PREFIX" ]]; then
     echo "Error: S3_BUCKET_PREFIX is not set. Exiting to avoid accidental deletion of buckets."
     exit 1
 fi
 
-for BUCKET in $S3_BUCKET_NAME $S3_BUCKET2_NAME; do
-    safe_del_bucket $BUCKET
+for BUCKET in "$S3_BUCKET_NAME" "$S3_BUCKET2_NAME"; do
+    safe_del_bucket "$BUCKET"
 done
 
 popd
