@@ -8,7 +8,7 @@ safe_del_bucket() {
     fi
     if aws s3 ls "s3://${bucket_name}" &>/dev/null; then
         echo "Bucket '${bucket_name}' exists. Deleting..."
-        aws s3 rb "s3://${bucket_name}" --force || true
+        aws s3 rb "s3://${bucket_name}" --force
         echo "Bucket '${bucket_name}' deleted."
     else
         echo "Bucket '${bucket_name}' does not exist."
