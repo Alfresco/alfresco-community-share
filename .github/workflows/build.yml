@@ -86,7 +86,7 @@ jobs:
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: bash scripts/ci/build.sh
       - name: Run ${{ matrix.stage }}
-        if: ${{ ( matrix.stage != 'source_clear' && github.ref_name != 'company_release') || matrix.stage == 'source_clear'  }}
+        if: ( matrix.stage != 'source_clear' && github.ref_name != 'company_release') || matrix.stage == 'source_clear'
         run: bash scripts/ci/${{ matrix.stage }}.sh
         continue-on-error: true
 
@@ -298,7 +298,7 @@ jobs:
           retry_on: error
           command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml"
       - name: Clean-up leftover test data
-        if: ${{ matrix.test == 'alfresco-content1' || matrix.test == 'alfresco-content-and-site-features' || matrix.test == 'userRolesAndPermissions' || matrix.test == 'site-dashboard' || matrix.test == 'alfresco-content2' }}
+        if: matrix.test == 'alfresco-content1' || matrix.test == 'alfresco-content-and-site-features' || matrix.test == 'userRolesAndPermissions' || matrix.test == 'site-dashboard' || matrix.test == 'alfresco-content2'
         run: |
             # Clean up leftover test data which causes issues with Post Run setup-java-build step
             sudo rm -rf ./alfresco-tas-share-test/target/testdata
@@ -480,5 +480,5 @@ jobs:
       - name: Get logs
         run: bash amps/ags/ci/scripts/getLogs.sh
       - name: Clean S3 buckets
-        if: ${{ always() && matrix.test == 'wormTestSuite' }}
+        if: always() && matrix.test == 'wormTestSuite'
         run: scripts/ci/cleanup.sh
