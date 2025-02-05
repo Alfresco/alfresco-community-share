@@ -2,7 +2,7 @@
 
 safe_del_bucket() {
     local bucket_name=$1
-    if [[ ! "$bucket_name" =~ ${S3_BUCKET_PREFIX}* ]]; then
+    if [[ "$S3_BUCKET2_NAME" != ${S3_BUCKET_PREFIX}* && ! -z "$S3_BUCKET_PREFIX" ]]; then
         echo "Error: Bucket name '${bucket_name}' does not start with prefix '${S3_BUCKET_PREFIX}'. Exiting to avoid accidental deletion of buckets."
         exit 1
     fi

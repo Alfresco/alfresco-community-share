@@ -10,7 +10,7 @@ if aws s3 ls | awk '{print $3}' | grep -q "^${S3_BUCKET2_NAME}$" ; then
   exit 0
 fi
 
-if [[ ! "$S3_BUCKET2_NAME" =~ ${S3_BUCKET_PREFIX}* -a -n "$S3_BUCKET_PREFIX" ]]; then
+if [[ "$S3_BUCKET2_NAME" == ${S3_BUCKET_PREFIX}* && ! -z "S3_BUCKET_PREFIX" ]]; then echo "creating bucket ${S3_BUCKET2_NAME}"
   aws s3api create-bucket --bucket "${S3_BUCKET2_NAME}" --region ${S3_BUCKET_REGION} --object-lock-enabled-for-bucket
   aws s3api put-object-lock-configuration \
       --bucket "${S3_BUCKET2_NAME}" \
