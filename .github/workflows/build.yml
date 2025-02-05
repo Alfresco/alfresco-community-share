@@ -29,7 +29,6 @@ env:
   GIT_USERNAME: ${{ secrets.BOT_GITHUB_USERNAME }}
   S3_BUCKET_REGION: "us-east-1"
   S3_BUCKET_PREFIX: ${{ vars.S3_BUCKET_PREFIX }}
-  S3_BUCKET2_NAME: "travis-ags-worm-b2"
   ALFRESCO_URL: "http://localhost:8080/alfresco/"
   SHARE_URL: "http://localhost:8181/share"
   DISPLAY: :99.0
@@ -415,6 +414,9 @@ jobs:
       fail-fast: false
       matrix:
         test: [communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration, wormTestSuite]
+    env:
+      S3_BUCKET_NAME: ${{ env.S3_BUCKET_PREFIX }}-${{ github.run_number }}
+      S3_BUCKET2_NAME: ${{ env.S3_BUCKET_PREFIX }}-worm-b2
     steps:
       - uses: actions/checkout@v4
         with:
@@ -430,13 +432,6 @@ jobs:
       - name: "Prepare before Test"
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
-      - name: Set S3_BUCKET_NAME
-        if: ${{ matrix.test == 'wormTestSuite'}}
-        env:
-          VERSION: ${{ github.run_number }}
-        run: |
-          echo "S3_BUCKET_NAME=travis-ags-$VERSION" >> $GITHUB_ENV
-          echo $S3_BUCKET_NAME
       - name: "Configure AWS credentials"
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -455,17 +450,13 @@ jobs:
           docker image tag alfresco/alfresco-governance-repository-enterprise-base:$(docker images | grep '^alfresco/alfresco-governance-repository-enterprise-base ' | head -1 | awk '{print $2}') alfresco/alfresco-governance-repository-enterprise-base:latest
           docker images
       - name: Start Alfresco
-        if: ${{ matrix.test != 'wormTestSuite'}}
+          COMPOSE_FILE: fromJSON('{"false": "docker-compose.yml", "true": "docker-compose-worm-support-ui.yml"}')[matrix.test == 'wormTestSuite']
+        if: env.S3_BUCKET_PREFIX != ''
         run: |
-          bash amps/ags/ci/scripts/startAlfresco.sh amps/ags/rm-enterprise/rm-enterprise-share
-          bash amps/ags/ci/scripts/waitForAlfrescoToStart.sh
-      - name: Start Alfresco for Worm
-        if: ${{ matrix.test == 'wormTestSuite'}}
-        run: |
-          bash amps/ags/ci/scripts/create-worm-bucket.sh
-          bash amps/ags/ci/scripts/start-compose.sh amps/ags/rm-enterprise/rm-enterprise-share/docker-compose-worm-support-ui.yml
-          bash amps/ags/ci/scripts/waitForAlfrescoToStart.sh
-          sudo free -m -t
+          [ ${{ matrix.test }} == 'wormTestSuite' ] amps/ags/ci/scripts/create-worm-bucket.sh
+          amps/ags/ci/scripts/start-compose.sh amps/ags/rm-enterprise/rm-enterprise-share/${{ env.COMPOSE_FILE }}
+          amps/ags/ci/scripts/waitForAlfrescoToStart.sh
+          free -m -t
       - name: Run tests
         uses: nick-fields/retry@v2
         with:
@@ -488,5 +479,10 @@ jobs:
       - name: Get logs
         run: bash amps/ags/ci/scripts/getLogs.sh
       - name: Clean S3 bucket
-        if: ${{ always() && matrix.test == 'wormTestSuite'}}
-        run: bash scripts/ci/cleanup.sh
+        if: ${{ always() && matrix.test == 'wormTestSuite' }}
+        run: |
+          if [ ${{ env.S3_BUCKET_PREFIX }} != '' ]; then
+            scripts/ci/cleanup.sh
+          else
+            echo "No bucket prefix set, skipping cleanup"
+          fi
