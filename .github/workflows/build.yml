@@ -297,11 +297,6 @@ jobs:
           retry_wait_seconds: 60
           retry_on: error
           command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml"
-      - name: Clean-up leftover test data
-        if: matrix.test == 'alfresco-content1' || matrix.test == 'alfresco-content-and-site-features' || matrix.test == 'userRolesAndPermissions' || matrix.test == 'site-dashboard' || matrix.test == 'alfresco-content2'
-        run: |
-            # Clean up leftover test data which causes issues with Post Run setup-java-build step
-            sudo rm -rf ./alfresco-tas-share-test/target/testdata
         continue-on-error: true
       - name: "Upload artifacts"
         uses: actions/upload-artifact@v4
