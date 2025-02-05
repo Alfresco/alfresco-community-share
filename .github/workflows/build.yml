@@ -445,13 +445,14 @@ jobs:
           docker image tag alfresco/alfresco-governance-repository-enterprise-base:$(docker images | grep '^alfresco/alfresco-governance-repository-enterprise-base ' | head -1 | awk '{print $2}') alfresco/alfresco-governance-repository-enterprise-base:latest
           docker images
       - name: Start Alfresco
-        env:
-          COMPOSE_FILE: >
-            ${{ fromJSON('{"false": "docker-compose.yml", "true": "docker-compose-worm-support-ui.yml"}')[matrix.test == 'wormTestSuite'] }}
         if: env.S3_BUCKET_PREFIX != ''
         run: |
-          [ ${{ matrix.test }} == 'wormTestSuite' ] && amps/ags/ci/scripts/create-worm-bucket.sh
-          amps/ags/ci/scripts/start-compose.sh "amps/ags/rm-enterprise/rm-enterprise-share/$COMPOSE_FILE"
+          if [ ${{ matrix.test }} == 'wormTestSuite' ]; then echo "Starting Alfresco with WORM support"
+            amps/ags/ci/scripts/create-worm-bucket.sh
+            amps/ags/ci/scripts/start-compose.sh amps/ags/rm-enterprise/rm-enterprise-share/docker-compose-worm-support-ui.yml
+          else
+            amps/ags/ci/scripts/startAlfresco.sh amps/ags/rm-enterprise/rm-enterprise-share
+          fi
           amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           free -m -t
       - name: Run tests
