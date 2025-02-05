@@ -1717,6 +1717,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         clickElement(removeTag);
         findElement(createNewTag).sendKeys("update tag");
         clickElement(clickOnCorrectIcon);
+        waitInSeconds(3);
         clickElement(clickOnOk);
     }
 
