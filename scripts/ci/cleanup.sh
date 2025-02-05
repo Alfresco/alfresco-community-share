@@ -1,32 +1,33 @@
 #!/usr/bin/env bash
 
+safe_del_bucket() {
+    local bucket_name=$1
+    if [[ ! "$bucket_name" =~ ${S3_BUCKET_PREFIX}* ]]; then
+        echo "Error: Bucket name '${bucket_name}' does not start with prefix '${S3_BUCKET_PREFIX}'. Exiting to avoid accidental deletion of buckets."
+        exit 1
+    fi
+    if aws s3 ls "s3://${bucket_name}" &>/dev/null; then
+        echo "Bucket '${bucket_name}' exists. Deleting..."
+        aws s3 rb "s3://${bucket_name}" --force || true
+        echo "Bucket '${bucket_name}' deleted."
+    else
+        echo "Bucket '${bucket_name}' does not exist."
+    fi
+}
+
 echo "=========================== Starting Cleanup Script ==========================="
 PS4="\[\e[35m\]+ \[\e[m\]"
-set -vx
-set -e
+set -evx
 pushd "$(dirname "${BASH_SOURCE[0]}")/../"
 
-if [[ -z "$S3_BUCKET_NAME" || -z "$S3_BUCKET2_NAME" ]]; then
-    echo "Error: S3_BUCKET_NAME or S3_BUCKET2_NAME is not set."
+if [[ "$S3_BUCKET_PREFIX" == "" ]]; then
+    echo "Error: S3_BUCKET_PREFIX is not set. Exiting to avoid accidental deletion of buckets."
     exit 1
 fi
 
-if aws s3 ls "s3://${S3_BUCKET_NAME}" &>/dev/null; then
-    echo "Bucket '${S3_BUCKET_NAME}' exists. Deleting..."
-    aws s3 rb "s3://${S3_BUCKET_NAME}" --force || true
-    echo "Bucket '${S3_BUCKET_NAME}' deleted."
-else
-    echo "Bucket '${S3_BUCKET_NAME}' does not exist."
-fi
-
-if aws s3 ls "s3://${S3_BUCKET2_NAME}" &>/dev/null; then
-    echo "Bucket '${S3_BUCKET2_NAME}' exists. Deleting..."
-    aws s3 rb "s3://${S3_BUCKET2_NAME}" --force || true
-    echo "Bucket '${S3_BUCKET2_NAME}' deleted."
-else
-    echo "Bucket '${S3_BUCKET2_NAME}' does not exist."
-fi
-
+for BUCKET in $S3_BUCKET_NAME $S3_BUCKET2_NAME; do
+    safe_del_bucket $BUCKET
+done
 
 popd
 set +vx
