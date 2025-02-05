@@ -20,6 +20,7 @@ env:
   GIT_EMAIL: ${{ secrets.BOT_GITHUB_EMAIL }}
   GIT_USERNAME: ${{ secrets.BOT_GITHUB_USERNAME }}
   S3_BUCKET_REGION: "us-east-1"
+  S3_BUCKET_PREFIX: ${{ vars.S3_BUCKET_PREFIX }}
   S3_BUCKET2_NAME: "travis-ags-worm-b2"
   ALFRESCO_URL: "http://localhost:8080/alfresco/"
   SHARE_URL: "http://localhost:8181/share"
