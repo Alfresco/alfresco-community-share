@@ -19,9 +19,6 @@ env:
   GIT_PASSWORD: ${{ secrets.BOT_GITHUB_TOKEN }}
   GIT_EMAIL: ${{ secrets.BOT_GITHUB_EMAIL }}
   GIT_USERNAME: ${{ secrets.BOT_GITHUB_USERNAME }}
-  S3_BUCKET_REGION: "us-east-1"
-  S3_BUCKET_PREFIX: ${{ vars.S3_BUCKET_PREFIX }}
-  S3_BUCKET2_NAME: "travis-ags-worm-b2"
   ALFRESCO_URL: "http://localhost:8080/alfresco/"
   SHARE_URL: "http://localhost:8181/share"
   DISPLAY: :99.0
@@ -33,8 +30,6 @@ env:
   MASTER_URL: ${{ secrets.MASTER_URL }}
   SSL_CERT: ${{ secrets.SSL_CERT }}
   ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-  AGS_AWS_ACCESS_KEY_ID: ${{ secrets.AGS_AWS_ACCESS_KEY_ID }}
-  AGS_AWS_SECRET_ACCESS_KEY: ${{ secrets.AGS_AWS_SECRET_ACCESS_KEY }}
   GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
   GITHUB_ACTIONS_DEPLOY_TIMEOUT: 90
 
