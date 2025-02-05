@@ -479,11 +479,6 @@ jobs:
             share.log
       - name: Get logs
         run: bash amps/ags/ci/scripts/getLogs.sh
-      - name: Clean S3 bucket
+      - name: Clean S3 buckets
         if: ${{ always() && matrix.test == 'wormTestSuite' }}
-        run: |
-          if [ ${{ env.S3_BUCKET_PREFIX }} != '' ]; then
-            scripts/ci/cleanup.sh
-          else
-            echo "No bucket prefix set, skipping cleanup"
-          fi
+        run: scripts/ci/cleanup.sh
