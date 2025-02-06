@@ -65,7 +65,7 @@ jobs:
     if: (!contains(github.event.head_commit.message, '[no lint]') && inputs.commitMessage != '[no lint]')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
         with:
           java-version: "11"
@@ -83,7 +83,7 @@ jobs:
       matrix:
         stage: [ source_clear ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
       - name: "Init"
         run: bash scripts/ci/init.sh
@@ -115,7 +115,7 @@ jobs:
       !contains(github.event.head_commit.message, '[skip tests]') &&
       !contains(github.event.head_commit.message, '[force]')
     steps:
-      - uses: Alfresco/ya-pmd-scan@v2.0.5
+      - uses: Alfresco/ya-pmd-scan@v4.1.0
         with:
           fail-on-new-issues: "false"
           create-github-annotations: "false"
@@ -135,7 +135,7 @@ jobs:
       matrix:
         test: [ user, user-and-site-dashboard, admin-tools, content-actions, content-filters  ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: "Setup maven"
         shell: bash
         run: |
@@ -191,7 +191,7 @@ jobs:
           retry_on: error
           command: sudo bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml"
       - name: "Upload artifacts"
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.test }}-tests
           path: alfresco-tas-share-test/target/surefire-reports alfresco-tas-share-test/target/reports
@@ -218,7 +218,7 @@ jobs:
       matrix:
         test: [communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
         with:
           java-version: "11"
@@ -265,7 +265,7 @@ jobs:
           retry_on: error
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ags/${GITHUB_RUN_NUMBER}/${JOB_NAME}
           path:
@@ -300,7 +300,7 @@ jobs:
       matrix:
         test: [communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration, wormTestSuite]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
         with:
           java-version: "11"
@@ -368,7 +368,7 @@ jobs:
           retry_on: error
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ags/${GITHUB_RUN_NUMBER}/${JOB_NAME}
           path:

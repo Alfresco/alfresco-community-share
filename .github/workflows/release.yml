@@ -69,7 +69,7 @@ jobs:
       &&
       !(failure() || cancelled())
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
@@ -109,7 +109,7 @@ jobs:
       &&
       !(failure() || cancelled())
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
         with:
           java-version: "11"
@@ -148,7 +148,7 @@ jobs:
       &&
       !(failure() || cancelled())
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
         with:
           java-version: "11"
