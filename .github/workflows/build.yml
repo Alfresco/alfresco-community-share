@@ -72,8 +72,8 @@ jobs:
     if: >
       !contains(github.event.head_commit.message, '[no build]') &&
       inputs.commitMessage != '[no build]' &&
-      !contains(github.event.head_commit.message, '[force') &&
-      inputs.commitMessage != '[force'
+      !contains(github.event.head_commit.message, '[force]') &&
+      inputs.commitMessage != '[force]'
     needs: lint
     strategy:
       matrix:
@@ -183,8 +183,8 @@ jobs:
     if: >
       !contains(github.event.head_commit.message, '[skip tests]') &&
       inputs.commitMessage != '[skip tests]' &&
-      !contains(github.event.head_commit.message, '[force') &&
-      inputs.commitMessage != '[force'
+      !contains(github.event.head_commit.message, '[force]') &&
+      inputs.commitMessage != '[force]'
       &&
       github.event.repository.fork==false
     strategy:
@@ -220,8 +220,8 @@ jobs:
     if: >
       !contains(github.event.head_commit.message, '[skip tests]') &&
       inputs.commitMessage != '[skip tests]' &&
-      !contains(github.event.head_commit.message, '[force') &&
-      inputs.commitMessage != '[force'
+      !contains(github.event.head_commit.message, '[force]') &&
+      inputs.commitMessage != '[force]'
       &&
       github.event.repository.fork==false
     strategy:
@@ -257,8 +257,8 @@ jobs:
     if: >
       !contains(github.event.head_commit.message, '[skip tests]') &&
       inputs.commitMessage != '[skip tests]' &&
-      !contains(github.event.head_commit.message, '[force') &&
-      inputs.commitMessage != '[force'
+      !contains(github.event.head_commit.message, '[force]') &&
+      inputs.commitMessage != '[force]'
       &&
       github.event.repository.fork==false
     strategy:
@@ -328,8 +328,8 @@ jobs:
     if: >
       !contains(github.event.head_commit.message, '[skip tests]') &&
       inputs.commitMessage != '[skip tests]' &&
-      !contains(github.event.head_commit.message, '[force') &&
-      inputs.commitMessage != '[force'
+      !contains(github.event.head_commit.message, '[force]') &&
+      inputs.commitMessage != '[force]'
       &&
       github.event.repository.fork == false
       &&
@@ -410,8 +410,8 @@ jobs:
     if: >
       (!contains(github.event.head_commit.message, '[skip tests]') &&
       inputs.commitMessage != '[skip tests]') &&
-      (!contains(github.event.head_commit.message, '[force') &&
-      inputs.commitMessage != '[force')
+      (!contains(github.event.head_commit.message, '[force]') &&
+      inputs.commitMessage != '[force]')
       &&
       (github.event.repository.fork==false)
       &&
