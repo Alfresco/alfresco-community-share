@@ -25,7 +25,7 @@ if [[ -z "$S3_BUCKET_PREFIX" ]]; then
     exit 1
 fi
 
-for BUCKET in "$S3_BUCKET_NAME" "$S3_BUCKET2_NAME"; do
+for BUCKET in "$S3_BUCKET_NAME"; do
     safe_del_bucket "$BUCKET"
 done
 
