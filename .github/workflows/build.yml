@@ -65,7 +65,7 @@ jobs:
     if: (!contains(github.event.head_commit.message, '[no lint]') && inputs.commitMessage != '[no lint]')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
         with:
           java-version: "11"
@@ -83,7 +83,7 @@ jobs:
       matrix:
         stage: [ source_clear ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
       - name: "Init"
         run: bash scripts/ci/init.sh
@@ -137,7 +137,7 @@ jobs:
       &&
       (github.event.repository.fork==false)
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
         with:
           java-version: "11"
@@ -172,7 +172,7 @@ jobs:
       matrix:
         test: [ user, user-and-site-dashboard, admin-tools, content-actions, content-filters  ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: "Setup maven"
         shell: bash
         run: |
@@ -256,7 +256,7 @@ jobs:
       matrix:
         test: [communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
         with:
           java-version: "11"
@@ -338,7 +338,7 @@ jobs:
       matrix:
         test: [communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration, wormTestSuite]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
         with:
           java-version: "11"
