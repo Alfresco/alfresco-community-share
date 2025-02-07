@@ -103,7 +103,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By message = By.cssSelector("span[class='message']");
     private final By changeTypeAction = By.cssSelector("#onActionChangeType > a");
     private final By unzipToAction = By.cssSelector("div[id='onActionUnzipTo'] a[class='action-link']");
-    private final By getModifierName = By.xpath("//*[@id=\"template_x002e_document-metadata_x002e_document-details_x0023_default-formContainer-form-fields\"]/div[2]/div[3]/div[1]/div/div");
+    private final By modifierName = By.xpath("//*[@id=\"template_x002e_document-metadata_x002e_document-details_x0023_default-formContainer-form-fields\"]/div[2]/div[3]/div[1]/div/div");
 
     public DocumentDetailsPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -1074,6 +1074,6 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
 
     public String getModifierValue()
     {
-        return getElementText(getModifierName);
+        return getElementText(modifierName);
     }
 }

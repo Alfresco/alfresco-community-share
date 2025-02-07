@@ -55,12 +55,12 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     public By createContentMenu = By.cssSelector("div[id*='_default-createContent-menu'].visible");
     public By editTagSelector = By.cssSelector("td .detail span[class='insitu-edit']:first-child");
     public By uploadButton = By.cssSelector("[id$='default-fileUpload-button-button']");
-    public By editOnTag = By.xpath("//*[@id=\"template_x002e_document-tags_x002e_document-details_x0023_default-heading\"]/span/a");
-    public By clickOnSelect = By.id("yui-gen7-button");
+    public By tagValue = By.xpath("//*[@id=\"template_x002e_document-tags_x002e_document-details_x0023_default-heading\"]/span/a");
+    public By tagSelectButton = By.id("yui-gen7-button");
     public By createNewTag = By.id("alf-id0");
-    public By clickOnCorrectIcon = By.className("createNewIcon");
-    public By removeTag = By.className("removeIcon");
-    public By clickOnOk = By.id("template_x002e_edit-metadata_x002e_edit-metadata_x0023_default_prop_cm_taggable-cntrl-ok");
+    public By tagCorrectIcon = By.className("createNewIcon");
+    public By removeTagIcon = By.className("removeIcon");
+    public By tagOkButton = By.id("template_x002e_edit-metadata_x002e_edit-metadata_x0023_default_prop_cm_taggable-cntrl-ok");
 
     @FindAll(@FindBy(css = ".documentDroppable .ygtvlabel"))
     public List<WebElement> explorerPanelDocumentsList;
@@ -171,7 +171,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private By titleSelector = By.cssSelector("td .title");
     private By descriptionSelector = By.cssSelector("td .detail:nth-child(3) span");
     private By listItemData = By.className("yui-dt-liner");
-    private By tagToggle = By.id("template_x002e_document-tags_x002e_document-details_x0023_default-heading");
+    private By tagToggleIcon = By.id("template_x002e_document-tags_x002e_document-details_x0023_default-heading");
     private By tag = By.xpath("//*[@id=\"template_x002e_document-tags_x002e_document-details_x0023_default-body\"]/div");
 
     public DocumentLibraryPage(ThreadLocal<WebDriver> webDriver) {
@@ -1696,7 +1696,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     }
 
     public DocumentLibraryPage clickOnTagToggle() {
-        clickElement(findElement(tagToggle));
+        clickElement(findElement(tagToggleIcon));
         return this;
     }
 
@@ -1708,17 +1708,17 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public void clickOnEditTagIcon() {
         waitInSeconds(3);
-        clickElement(editOnTag);
+        clickElement(tagValue);
     }
 
     public void updateTag() {
         waitInSeconds(3);
-        clickElement(clickOnSelect);
-        clickElement(removeTag);
+        clickElement(tagSelectButton);
+        clickElement(removeTagIcon);
         findElement(createNewTag).sendKeys("update tag");
-        clickElement(clickOnCorrectIcon);
+        clickElement(tagCorrectIcon);
         waitInSeconds(3);
-        clickElement(clickOnOk);
+        clickElement(tagOkButton);
     }
 
     public String getTagValue() {
@@ -1726,11 +1726,11 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         return findElement(tag).getText();
     }
 
-    public void saveTag() {
+    public void clickOnSaveTag() {
         clickElement(clickSaveButton);
     }
 
-    public void cancelTag() {
+    public void ClickOnCancelTag() {
         clickElement(clickCancelButton);
     }
 }

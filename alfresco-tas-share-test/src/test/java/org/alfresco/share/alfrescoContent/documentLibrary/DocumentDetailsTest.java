@@ -13,7 +13,6 @@ import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.model.FileModel;
-import org.apache.commons.lang.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -84,7 +83,6 @@ public class DocumentDetailsTest extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyModifierField()
     {
-        String newContent = "Edited" + RandomStringUtils.randomAlphabetic(10);
         documentLibraryPages.navigate(site.get())
             .assertFileIsDisplayed(file.getName());
         documentLibraryPages.clickOnFile(file.getName());
@@ -134,7 +132,7 @@ public class DocumentDetailsTest extends BaseTest
         assertEquals(documentLibraryPages.getTagValue(), "check tag", "tag value");
         documentLibraryPages.clickOnEditTagIcon();
         documentLibraryPages.updateTag();
-        documentLibraryPages.saveTag();
+        documentLibraryPages.clickOnSaveTag();
         assertEquals(documentLibraryPages.getTagValue(), "update tag", "tag value");
     }
 
@@ -154,7 +152,7 @@ public class DocumentDetailsTest extends BaseTest
         assertEquals(documentLibraryPages.getTagValue(), "check tag", "tag value");
         documentLibraryPages.clickOnEditTagIcon();
         documentLibraryPages.updateTag();
-        documentLibraryPages.cancelTag();
+        documentLibraryPages.ClickOnCancelTag();
         assertEquals(documentLibraryPages.getTagValue(), "check tag", "tag value");
     }
 }
