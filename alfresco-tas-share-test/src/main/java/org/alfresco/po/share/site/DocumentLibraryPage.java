@@ -164,6 +164,8 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private By descriptionSelector = By.cssSelector("td .detail:nth-child(3) span");
     private By listItemData = By.className("yui-dt-liner");
 
+    private By galleryViewDocumentList = By.cssSelector("div[class ='alf-gallery-item']");
+
     public DocumentLibraryPage(ThreadLocal<WebDriver> webDriver) {
         super(webDriver);
         PageFactory.initElements(getWebDriver(), this);
@@ -1645,6 +1647,35 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private List<WebElement> getActions() {
         waitInSeconds(2);
         return findElements(actionsSet);
+    }
+
+    public DocumentDetailsPage clickOnFileInGalleryView(String contentName) {
+        waitInSeconds(2);
+        By contentRowElement = By.xpath(String.format(contentNameInGalleryView, contentName));
+        WebElement fileElement = selectDocumentLibraryItemRowFromGalleryView(contentName);
+        Parameter.checkIsMandotary("File", fileElement);
+        clickElement(fileElement.findElement(contentRowElement));
+        return new DocumentDetailsPage(webDriver);
+    }
+
+    public WebElement selectDocumentLibraryItemRowFromGalleryView(String documentItem) {
+        waitForRows();
+        List<WebElement> itemsList = findElements(galleryViewDocumentList);
+        return findFirstElementWithValue(itemsList, documentItem);
+    }
+
+    public boolean isFileNameDisplayedForGalleryView(String fileName) {
+        if (selectDocumentLibraryItemRowFromGalleryView(fileName) != null) {
+            return true;
+        } else {
+            refresh();
+            waitInSeconds(WAIT_5.getValue());
+            if (selectDocumentLibraryItemRowFromGalleryView(fileName) != null) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     public enum CreateMenuOption {
