@@ -55,6 +55,13 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     public By createContentMenu = By.cssSelector("div[id*='_default-createContent-menu'].visible");
     public By editTagSelector = By.cssSelector("td .detail span[class='insitu-edit']:first-child");
     public By uploadButton = By.cssSelector("[id$='default-fileUpload-button-button']");
+    public By tagValue = By.xpath("//*[@id=\"template_x002e_document-tags_x002e_document-details_x0023_default-heading\"]/span/a");
+    public By tagSelectButton = By.id("yui-gen7-button");
+    public By createNewTag = By.id("alf-id0");
+    public By tagCorrectIcon = By.className("createNewIcon");
+    public By removeTagIcon = By.className("removeIcon");
+    public By tagOkButton = By.id("template_x002e_edit-metadata_x002e_edit-metadata_x0023_default_prop_cm_taggable-cntrl-ok");
+
     @FindAll(@FindBy(css = ".documentDroppable .ygtvlabel"))
     public List<WebElement> explorerPanelDocumentsList;
     /**
@@ -117,6 +124,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private By editTagButtons = By.cssSelector("form[class='insitu-edit'] a");
     private By moreActionButton = By.xpath("//span[text()='More...']");
     private By tagToBeEdited = By.cssSelector(".inlineTagEditAutoCompleteWrapper input");
+    private By clickCancelButton = By.id("template_x002e_edit-metadata_x002e_edit-metadata_x0023_default-form-cancel-button");
     @FindBy(css = "div[class ='google-map']")
     private WebElement googleMap;
     @FindBy(css = "div[id*='_default-info'] div[class='thumbnail'] a[href*='document-details']")
@@ -163,6 +171,8 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private By titleSelector = By.cssSelector("td .title");
     private By descriptionSelector = By.cssSelector("td .detail:nth-child(3) span");
     private By listItemData = By.className("yui-dt-liner");
+    private By tagToggleIcon = By.id("template_x002e_document-tags_x002e_document-details_x0023_default-heading");
+    private By tag = By.xpath("//*[@id=\"template_x002e_document-tags_x002e_document-details_x0023_default-body\"]/div");
 
     public DocumentLibraryPage(ThreadLocal<WebDriver> webDriver) {
         super(webDriver);
@@ -1683,6 +1693,45 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
             this.title = title;
             this.header = header;
         }
+    }
+
+    public DocumentLibraryPage clickOnTagToggle() {
+        clickElement(findElement(tagToggleIcon));
+        return this;
+    }
+
+    public boolean assertTagDisplayed()
+    {
+        waitInSeconds(2);
+        return isElementDisplayed(tag);
+    }
+
+    public void clickOnEditTagIcon() {
+        waitInSeconds(3);
+        clickElement(tagValue);
+    }
+
+    public void updateTag() {
+        waitInSeconds(3);
+        clickElement(tagSelectButton);
+        clickElement(removeTagIcon);
+        findElement(createNewTag).sendKeys("update tag");
+        clickElement(tagCorrectIcon);
+        waitInSeconds(3);
+        clickElement(tagOkButton);
+    }
+
+    public String getTagValue() {
+        waitInSeconds(3);
+        return findElement(tag).getText();
+    }
+
+    public void clickOnSaveTag() {
+        clickElement(clickSaveButton);
+    }
+
+    public void ClickOnCancelTag() {
+        clickElement(clickCancelButton);
     }
 }
 
