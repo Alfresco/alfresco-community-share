@@ -103,6 +103,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By message = By.cssSelector("span[class='message']");
     private final By changeTypeAction = By.cssSelector("#onActionChangeType > a");
     private final By unzipToAction = By.cssSelector("div[id='onActionUnzipTo'] a[class='action-link']");
+    private final By modifierName = By.xpath("(//div[@class='viewmode-field'])[9]");
 
     public DocumentDetailsPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -1069,5 +1070,10 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         log.info("Verify that the value of Offline Expires After (hours) is Equals {}", hrs);
         assertTrue(isRestrictableValueUpdated(hrs), "The value for Offline Expires After (hours) has not been updated");
         return this;
+    }
+
+    public String getModifierValue()
+    {
+        return getElementText(modifierName);
     }
 }
