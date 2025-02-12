@@ -2,9 +2,9 @@ package org.alfresco.share.alfrescoContent.documentLibrary;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
-import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.FolderModel;
@@ -31,11 +31,13 @@ public class LibraryViewTests extends BaseTest {
     private final String REMOVE_DETAILED_VIEW_AS_DEFAULT = "documentLibrary.options.removeDetailedView";
     private DocumentLibraryPage2 documentLibraryPage;
     private DocumentLibraryPage documentLibrary;
+    private DocumentDetailsPage documentDetailsPage;
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest() {
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
         documentLibrary = new DocumentLibraryPage(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
 
         log.info("Precondition: User & Site creation");
         user.set(getDataUser().usingAdmin()
@@ -258,6 +260,163 @@ public class LibraryViewTests extends BaseTest {
         documentLibraryPage.clickOptions()
             .assertSetDefaultViewForFolderEqualsTo(language.translate(SET_DETAILED_VIEW_AS_DEFAULT));
     }
+
+    @TestRail(id = "C6958")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    public void simpleViewOpenContent() {
+        log.info("Precondition: File & Folders are created");
+        FolderModel folderToCheck = FolderModel.getRandomFolderModel();
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get())
+            .createFolder(folderToCheck)
+            .usingResource(folderToCheck).createFile(file).assertThat().existsInRepo();
+
+        FileModel fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().usingSite(site.get())
+            .createFile(fileToCheck)
+            .assertThat()
+            .existsInRepo();
+
+        log.info("Step1: From \"Options\" menu, click \"Simple View\" option");
+        documentLibraryPage.navigate(site.get())
+            .clickOptions()
+            .selectSimpleView();
+
+        log.info("Step 2: Verify Files & Folders in Simple View Option");
+        documentLibrary.clickOnFile(fileToCheck.getName());
+        documentDetailsPage.assertIsFileNameDisplayedOnPreviewPage(fileToCheck.getName());
+
+        documentLibrary.navigate(site.get())
+            .clickOnFolderName(folderToCheck.getName())
+            .assertFileIsDisplayed(file.getName());
+    }
+
+    @TestRail(id = "C6959")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    public void detailedViewOpenContent() {
+        log.info("Precondition: File & Folders are created");
+        FolderModel folderToCheck = FolderModel.getRandomFolderModel();
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get())
+            .createFolder(folderToCheck)
+            .usingResource(folderToCheck).createFile(file).assertThat().existsInRepo();
+
+        FileModel fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().usingSite(site.get())
+            .createFile(fileToCheck)
+            .assertThat()
+            .existsInRepo();
+
+        log.info("Step1: From \"Options\" menu, click \"Detailed View\" option");
+        documentLibraryPage.navigate(site.get());
+
+        log.info("Step 2: Verify Files & Folders in Detailed View Option");
+        documentLibrary.clickOnFile(fileToCheck.getName());
+        documentDetailsPage.assertIsFileNameDisplayedOnPreviewPage(fileToCheck.getName());
+
+        documentLibrary.navigate(site.get())
+            .clickOnFolderName(folderToCheck.getName())
+            .assertFileIsDisplayed(file.getName());
+    }
+
+    @TestRail(id = "C6960")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    public void galleryViewOpenContent() {
+        log.info("Precondition: File & Folders are created");
+        FolderModel folderToCheck = FolderModel.getRandomFolderModel();
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get())
+            .createFolder(folderToCheck)
+            .usingResource(folderToCheck).createFile(file).assertThat().existsInRepo();
+
+        FileModel fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().usingSite(site.get())
+            .createFile(fileToCheck)
+            .assertThat()
+            .existsInRepo();
+
+        log.info("Step1: From \"Options\" menu, click \"Gallery View\" option");
+        documentLibraryPage.navigate(site.get())
+            .clickOptions()
+            .selectgalleryView();
+
+        log.info("Step 2: Verify Files & Folders from Gallery view");
+        documentLibrary.clickOnFileInGalleryView(fileToCheck.getName());
+        documentDetailsPage.assertIsFileNameDisplayedOnPreviewPage(fileToCheck.getName());
+
+        documentLibrary.navigate(site.get())
+            .clickOnFileInGalleryView(folderToCheck.getName());
+    }
+
+    @TestRail(id = "C6961")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    public void audioViewOpenContent() {
+        log.info("Precondition: File & Folders are created");
+        FolderModel folderToCheck = FolderModel.getRandomFolderModel();
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get())
+            .createFolder(folderToCheck)
+            .usingResource(folderToCheck).createFile(file).assertThat().existsInRepo();
+
+        FileModel fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().usingSite(site.get())
+            .createFile(fileToCheck)
+            .assertThat()
+            .existsInRepo();
+
+        log.info("Step1: From \"Options\" menu, click \"Audio View\" option");
+        documentLibraryPage.navigate(site.get())
+            .clickOptions()
+            .selectAudioView();
+
+        log.info("Step 2: Verify Files & Folders from Audio view table");
+        documentLibrary.clickOnFile(fileToCheck.getName());
+        documentDetailsPage.assertIsFileNameDisplayedOnPreviewPage(fileToCheck.getName());
+
+        documentLibrary.navigate(site.get())
+            .clickOnFolderName(folderToCheck.getName())
+            .assertFileIsDisplayed(file.getName());
+    }
+
+    @TestRail(id = "C6962")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    public void mediaViewOpenContent() {
+        log.info("Precondition: File & Folders are created");
+        FolderModel folderToCheck = FolderModel.getRandomFolderModel();
+        FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().authenticateUser(user.get())
+            .usingSite(site.get())
+            .createFolder(folderToCheck)
+            .usingResource(folderToCheck).createFile(file).assertThat().existsInRepo();
+
+        FileModel fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
+        getCmisApi().usingSite(site.get())
+            .createFile(fileToCheck)
+            .assertThat()
+            .existsInRepo();
+
+        log.info("Step1: From \"Options\" menu, click \"Media View\" option");
+        documentLibraryPage.navigate(site.get())
+            .clickOptions()
+            .selectMediaView();
+
+        log.info("Step 2: Verify Audio view table options");
+        documentLibrary.assertContentIsDisplayed(fileToCheck)
+            .assertContentIsDisplayed(folderToCheck);
+
+        log.info("Step 3: Verify Files & Folders from Media view table");
+        documentLibrary.clickOnFile(fileToCheck.getName());
+        documentDetailsPage.assertIsFileNameDisplayedOnPreviewPage(fileToCheck.getName());
+
+        documentLibrary.navigate(site.get())
+            .clickOnFolderName(folderToCheck.getName())
+            .assertFileIsDisplayed(file.getName());
+    }
+
 
     @AfterMethod(alwaysRun = true)
     public void afterMethod() {
