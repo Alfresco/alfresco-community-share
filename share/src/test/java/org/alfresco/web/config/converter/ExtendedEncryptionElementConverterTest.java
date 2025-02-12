@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 - 2024 Alfresco Software Limited.
+ * Copyright 2005 - 2025 Alfresco Software Limited.
  *
  * This file is part of the Alfresco software.
  * If the software was purchased under a paid Alfresco license, the terms of the paid license agreement will prevail.
@@ -109,7 +109,7 @@ public class ExtendedEncryptionElementConverterTest
 
     /**
      * Messages are chunked to 53 byte boundaries
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -142,7 +142,7 @@ public class ExtendedEncryptionElementConverterTest
 
     /**
      * Tests decrypting strings without a prepended config in the encrypted value
-     * 
+     *
      * @throws UnsupportedEncodingException
      */
     @Test
@@ -155,7 +155,7 @@ public class ExtendedEncryptionElementConverterTest
 
     /**
      * Tests decrypting strings without a prepended config in the encrypted value but with a string that mimics a config
-     * 
+     *
      * @throws UnsupportedEncodingException
      */
     @Test
@@ -169,7 +169,7 @@ public class ExtendedEncryptionElementConverterTest
 
     /**
      * Tests decrypting strings without with the default settings
-     * 
+     *
      * @throws UnsupportedEncodingException
      */
     @Test
@@ -274,7 +274,7 @@ public class ExtendedEncryptionElementConverterTest
 
     /**
      * Runs the encryption/decryption tests using strings of multiple lengths
-     * 
+     *
      * @param encryptor
      * @throws UnsupportedEncodingException
      */
@@ -290,7 +290,7 @@ public class ExtendedEncryptionElementConverterTest
     /**
      * Asserts if the size of the encrypted value matches the expected size and if the decrypted string matches the
      * original
-     * 
+     *
      * @param encryptor
      * @param length
      * @throws UnsupportedEncodingException
@@ -310,7 +310,7 @@ public class ExtendedEncryptionElementConverterTest
 
     /**
      * Get the number of bytes of the encrypted string
-     * 
+     *
      * @param encryptedMessage
      * @return
      * @throws UnsupportedEncodingException
@@ -323,7 +323,7 @@ public class ExtendedEncryptionElementConverterTest
 
     /**
      * Generates random characters with a given length
-     * 
+     *
      * @param length
      * @return
      */
