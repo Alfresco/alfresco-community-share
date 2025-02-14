@@ -1683,7 +1683,7 @@
        */
       onDownloadPDFClick : function PdfJs_onDownloadPDFClick(p_obj)
       {
-         var pdfUrl = this.wp.getThumbnailUrl(this.attributes.src) + "&a=true";
+         const pdfUrl = this.wp.getThumbnailUrl(this.attributes.src) + "&a=true";
          window.open(pdfUrl, "_blank");
          this.downloadIfLoggedIn(pdfUrl, this.wp.options.name);
       },
@@ -1699,7 +1699,7 @@
                 }
                 else if (this.readyState == 4 && this.status == 200) {
 
-                   var link = document.createElement("a");
+                   const link = document.createElement("a");
                    link.href = url;
                    link.download = documentName + ".pdf"; // Set the fileName for the download
                    document.body.appendChild(link);
