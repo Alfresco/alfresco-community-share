@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2005-2014 Alfresco Software Limited.
+ * Copyright (C) 2005-2025 Alfresco Software Limited.
  *
  * This file is part of Alfresco
  *
@@ -23,12 +23,12 @@
  * mode it is possible to force the viewer to use the viewer implementation
  * provided by pdf.js within an iframe. This mode may be deprecated in the
  * future.
- * 
+ *
  * Supports the "application/pdf" mime type directly, plus any other type
  * for which a PDF thumbnail definition is available. The repository has now
  * been configured to support a "pdf" thumbnail name for virtually all supported
  * document formats that Alfresco process via its transform pipeline.
- * 
+ *
  * @namespace Alfresco.WebPreview.prototype.Plugins
  * @class Alfresco.WebPreview.prototype.Plugins.PdfJs
  * @author Peter Lofgren Loftux AB
@@ -47,8 +47,8 @@
    /**
     * YUI aliases
     */
-   var Dom = YAHOO.util.Dom, 
-      Event = YAHOO.util.Event, 
+   var Dom = YAHOO.util.Dom,
+      Event = YAHOO.util.Event,
       Element = YAHOO.util.Element;
 
    /**
@@ -58,7 +58,7 @@
 
    /**
     * PdfJs plug-in constructor
-    * 
+    *
     * @constructor
     * @param wp {Alfresco.WebPreview} The Alfresco.WebPreview instance that decides which plugin to use
     * @param attributes {object} Arbitrary attributes brought in from the <plugin> element
@@ -72,13 +72,13 @@
       this.wp = wp;
       this.wp.id = wp.id; // needed by Alfresco.util.createYUIButton
       this.attributes = YAHOO.lang.merge(Alfresco.util.deepCopy(this.attributes), attributes);
-      
+
       /*
        * Custom events
        */
       this.onPdfLoaded = new YAHOO.util.CustomEvent("pdfLoaded", this);
       this.onResize = new YAHOO.util.CustomEvent("resize", this);
-      
+
       return this;
    };
 
@@ -86,7 +86,7 @@
    {
       /**
        * Configuration attributes
-       * 
+       *
        * @property attributes
        * @type object
        */
@@ -97,7 +97,7 @@
           * displayed. Leave it as it is if the node's content shall be used. Set
           * to a custom thumbnail definition name if the node's thumbnail contains
           * the PdfJs to display.
-          * 
+          *
           * @property src
           * @type String
           * @default null
@@ -105,10 +105,10 @@
          src : null,
 
          /**
-          * Maximum file size in bytes which should be displayed. Note that this refers to 
-          * the size of the original file and not the PDF rendition, which may be larger or 
+          * Maximum file size in bytes which should be displayed. Note that this refers to
+          * the size of the original file and not the PDF rendition, which may be larger or
           * smaller than this value. Empty or non-numeric string means no limit.
-          * 
+          *
           * @property srcMaxSize
           * @type String
           * @default ""
@@ -118,7 +118,7 @@
          /**
           * Skipbrowser test, mostly for developer to force test loading. Valid
           * options "true" "false" as String.
-          * 
+          *
           * @property skipbrowsertest
           * @type String
           * @default "false"
@@ -127,7 +127,7 @@
 
          /**
           * Default zoom level for new documents
-          * 
+          *
           * @property defaultScale
           * @type String
           * @default "auto"
@@ -136,7 +136,7 @@
 
          /**
           * Multipler for zooming in/out
-          * 
+          *
           * @property scaleDelta
           * @type String
           * @default "1.1"
@@ -145,7 +145,7 @@
 
          /**
           * Minimum scale level to use when auto-scaling a document
-          * 
+          *
           * @property autoMinScale
           * @type String
           * @default "0.65"
@@ -155,7 +155,7 @@
 
          /**
           * Maximum scale level to use when auto-scaling a document
-          * 
+          *
           * @property autoMaxScale
           * @type String
           * @default "1.25"
@@ -164,7 +164,7 @@
 
          /**
           * Layout to use to display pages, "single" (one page per row) or "multi" (multiple pages per row)
-          * 
+          *
           * @property pageLayout
           * @type String
           * @default "multi"
@@ -174,7 +174,7 @@
          /**
           * Whether text overlays on pages should be disabled. Overlays allow users to select text
           * content in their browser but reduce rendering performance.
-          * 
+          *
           * @property disableTextLayer
           * @type String
           * @default "false"
@@ -183,7 +183,7 @@
 
          /**
           * Whether to use HTML5 browser storage to persist the page number and zoom level of previously-viewed documents
-          * 
+          *
           * @property useLocalStorage
           * @type String
           * @default "true"
@@ -192,7 +192,7 @@
 
          /**
           * If the user came from the search page, should the search feature be automatically triggered?
-          * 
+          *
           * @property autoSearch
           * @type String
           * @default "true"
@@ -221,7 +221,7 @@
 
       /**
        * Cached PDF document, once loaded from the server
-       * 
+       *
        * @property pdfDocument
        * @type {object}
        * @default null
@@ -230,7 +230,7 @@
 
       /**
        * Current page number
-       * 
+       *
        * @property pageNum
        * @type int
        * @default 1
@@ -239,7 +239,7 @@
 
       /**
        * Cached pages from the PDF doc
-       * 
+       *
        * @property pages
        * @type {array}
        * @default []
@@ -248,7 +248,7 @@
 
       /**
        * Cached page text from the document, for searching purposes
-       * 
+       *
        * @property pageText
        * @type {array}
        * @default []
@@ -257,7 +257,7 @@
 
       /**
        * Total number of pages in the current document
-       * 
+       *
        * @property numPages
        * @type int
        * @default 0
@@ -266,7 +266,7 @@
 
       /**
        * YUI widgets container
-       * 
+       *
        * @property widgets
        * @type object
        * @default {}
@@ -275,7 +275,7 @@
 
       /**
        * Whether the page view is maximised within the client
-       * 
+       *
        * @property maximized
        * @type boolean
        * @default false
@@ -284,7 +284,7 @@
 
       /**
        * Stored configuration for this particular document, including page number and zoom level. Persisted to local browser storage.
-       * 
+       *
        * @property documentConfig
        * @type {object}
        * @default {}
@@ -293,7 +293,7 @@
 
       /**
        * Whether the previewer is embedded in a dashlet
-       * 
+       *
        * @property inDashlet
        * @type boolean
        * @default false
@@ -308,10 +308,10 @@
        * @default empty string
        */
       workerSrc : "",
-      
+
       /**
        * Current scale selection from the drop-down scale menu
-       * 
+       *
        * @property currentScaleSelection
        * @type string
        * @default null
@@ -320,7 +320,7 @@
 
       /**
        * Tests if the plugin can be used in the users browser.
-       * 
+       *
        * @method report
        * @return {String} Returns nothing if the plugin may be used, otherwise
        *         returns a message containing the reason it cant be used as a
@@ -378,9 +378,9 @@
 
       /**
        * Sniff test to determine if the browser supports the canvas element
-       * 
+       *
        * <p>Based on http://stackoverflow.com/questions/2745432/best-way-to-detect-that-html5-canvas-is-not-supported</p>
-       * 
+       *
        * @method _isCanvasSupported
        * @private
        */
@@ -392,7 +392,7 @@
 
       /**
        * Display the node.
-       * 
+       *
        * @method display
        * @public
        */
@@ -403,7 +403,7 @@
 
          Alfresco.util.YUILoaderHelper.require([ "tabview" ], this.onComponentsLoaded, this);
          Alfresco.util.YUILoaderHelper.loadComponents();
-         
+
          // Remove the annoying 'Setting up Previewer' message
          this.wp.getPreviewerElement().innerHTML = "";
 
@@ -413,7 +413,7 @@
 
       /**
        * Required YUI components have been loaded
-       * 
+       *
        * @method onComponentsLoaded
        * @public
        */
@@ -470,7 +470,7 @@
 
       /**
        * Handler for successful load of the viewer markup webscript
-       * 
+       *
        * @method onViewerLoaded
        * @public
        */
@@ -532,12 +532,12 @@
             // TODO: Full Screen doesn't work in IE10 or IE11 - also the range of mimetypes isn't complete
             //       I am unsure if this is the best solution or if generally Maximize is better
             //       The user can always hit F11 for Full Screen in *any* browser also...
-            /*if (this.wp.options.mimeType == "application/vnd.ms-powerpoint" || 
+            /*if (this.wp.options.mimeType == "application/vnd.ms-powerpoint" ||
                 this.wp.options.mimeType == "application/vnd.openxmlformats-officedocument.presentationml.presentation" ||
                 this.wp.options.mimeType == "application/vnd.oasis.opendocument.presentation")
             {
                Alfresco.util.createYUIButton(this, "present", this.onFullScreen, {
-                  title: this.wp.msg("button.present.tip", 
+                  title: this.wp.msg("button.present.tip",
                         YAHOO.env.ua.os == "macintosh" ? this.wp.msg("key.meta") : this.wp.msg("key.ctrl"))
                });
                Dom.getElementsByClassName("presentbutton", "span", this.controls, function setDisplay(el) {
@@ -591,10 +591,10 @@
          {
             type : "checkbox",
             disabled: true,
-            title: this.wp.msg("button.search.tip", 
+            title: this.wp.msg("button.search.tip",
                   YAHOO.env.ua.os == "macintosh" ? this.wp.msg("key.meta") : this.wp.msg("key.ctrl"))
          }, this.wp.id + "-searchBarToggle");
-         
+
          // Enable sidebar, scale drop-down and search button when PDF is loaded
          // Other buttons are enabled by custom functions
          this.onPdfLoaded.subscribe(function onPdfLoadEnableButtons(p_type, p_args) {
@@ -630,7 +630,7 @@
                   this.onFullScreen(e);
                }
             }
-            
+
             new YAHOO.util.KeyListener(document, { keys: 37 }, { // left arrow
                fn : this.onPagePrevious,
                scope : this,
@@ -651,7 +651,7 @@
                scope : this,
                correctScope : true
             }).enable();
-            
+
             if (YAHOO.env.ua.os == "macintosh")
             {
                new YAHOO.util.KeyListener(document, { keys: 13 }, { // Cmd+Enter
@@ -665,7 +665,7 @@
                   correctScope : true
                }).enable();
             }
-            
+
             Event.addListener(window, "fullscreenchange", this.onFullScreenChange, this, true);
             Event.addListener(window, "mozfullscreenchange", this.onFullScreenChange, this, true);
             Event.addListener(window, "webkitfullscreenchange", this.onFullScreenChange, this, true);
@@ -685,7 +685,7 @@
 
       /**
        * Set the height of the preview element
-       * 
+       *
        * @method _setPreviewerElementHeight
        * @private
        */
@@ -729,17 +729,17 @@
       /**
        * Set the height of the viewer area where content is displayed, so that it occupies the height of the parent previewer element
        * minus the menu bar.
-       * 
+       *
        * @method _setViewerHeight
        * @private
        */
       _setViewerHeight: function PdfJs_setViewerHeight()
       {
-         var previewRegion = Dom.getRegion(this.viewer.parentNode), 
+         var previewRegion = Dom.getRegion(this.viewer.parentNode),
             controlRegion = Dom.getRegion(this.controls),
             controlHeight = !this.fullscreen ? controlRegion.height : 0,
             newHeight = previewRegion.height - controlHeight -1; // Allow for bottom border
-         
+
          if (newHeight === 0)
          {
             if (!this.maximized)
@@ -767,7 +767,7 @@
                newHeight = Dom.getViewportHeight() - controlHeight - 1;
             }
          }
-         
+
          if (!this.fullscreen)
          {
             if (Alfresco.logger.isDebugEnabled())
@@ -789,7 +789,7 @@
 
       /**
        * Fetch the PDF content and display it
-       * 
+       *
        * @method _loadPdf
        * @private
        */
@@ -797,9 +797,9 @@
       {
          // Workaround for ALF-17458
          this.wp.options.name = this.wp.options.name.replace(/[^\w_\-\. ]/g, "");
-         
+
          var me = this, fileurl = this.attributes.src ? this.wp.getThumbnailUrl(this.attributes.src) : this.wp.getContentUrl();
-         
+
          // Add the full protocol + host as pdf.js require this
          if (fileurl.substr(0, 4).toLowerCase() !== 'http')
          {
@@ -830,7 +830,7 @@
                top: 'auto', // Top position relative to parent in px
                left: 'auto' // Left position relative to parent in px
             }).spin(this.viewer);
-            
+
             this.onPdfLoaded.subscribe(function onPdfLoadStopSpinner(p_type, p_args) {
                this.spinner.stop();
             }, this, true);
@@ -871,10 +871,10 @@
             Alfresco.util.bind(this._onGetDocumentFailure, this)
          );
       },
-      
+
       /**
        * PDF document retieved successfully
-       * 
+       *
        * @function _onGetDocumentSuccess
        * @private
        */
@@ -893,7 +893,7 @@
 
       /**
        * Error encountered retrieving PDF document
-       * 
+       *
        * @function _onGetDocumentFailure
        * @private
        */
@@ -977,7 +977,7 @@
 
       /**
        * Display the PDF content in the container
-       * 
+       *
        * @method _renderPdf
        * @private
        */
@@ -1016,7 +1016,7 @@
                   this.documentView.setActivePage(this.pageNum);
                }
             }, this, true);
-            
+
             // Defer rendering
             this.thumbnailView = null
 
@@ -1047,7 +1047,7 @@
             Dom.setAttribute(this.wp.id + "-pageNumber", "max", this.numPages);
             Dom.setAttribute(this.wp.id + "-pageNumber", "disabled", this.numPages > 1 ? null : "disabled");
             Dom.get(this.wp.id + "-pageNumber").removeAttribute("disabled");
-            
+
             // If the user clicked through to the document details from the search page, open
             // the search dialog and perform a search for that term
             if (this.attributes.autoSearch == "true" && document.referrer && document.referrer.indexOf("/search?") > 0)
@@ -1086,7 +1086,7 @@
 
       /**
        * Update the paging controls shown in the toolbar
-       * 
+       *
        * @method _updatePageControls
        * @private
        */
@@ -1101,7 +1101,7 @@
 
       /**
        * Update the zoom controls shown in the toolbar
-       * 
+       *
        * @method _updateZoomControls
        * @private
        */
@@ -1116,7 +1116,7 @@
 
       /**
        * Scroll the displayed document to the specified page
-       * 
+       *
        * @method _scrollToPage
        * @param n {int} Number of the page to scroll to, must be 1 or greater.
        * @private
@@ -1146,9 +1146,9 @@
 
       /**
        * Use the specified document outline object to render a basic outline view in the sidebar
-       * 
+       *
        * TODO Use an event to load this only when the docunent outline tab is first displayed
-       * 
+       *
        * @method _addOutline
        * @param outline {object} Outline object as passed to us by pdf.js
        * @private
@@ -1197,7 +1197,7 @@
 
       /**
        * Navigate the viewer to the specified document outline item
-       * 
+       *
        * @method _navigateTo
        * @param dest {object} outline object item, from the document outline
        * @private
@@ -1227,7 +1227,7 @@
 
       /**
        * Load configuration for the current document
-       * 
+       *
        * @method _loadDocumentConfig
        * @private
        */
@@ -1253,7 +1253,7 @@
 
       /**
        * Check if the web browser supports local storage
-       * 
+       *
        * @property _browserSupportsHtml5Storage
        * @returns {boolean} true if local storage is available, false otherwise
        */
@@ -1275,7 +1275,7 @@
 
       /**
        * Toggle sidebar button click handler
-       * 
+       *
        * @method onSidebarToggle
        */
       onSidebarToggle : function PdfJs_onSidebarToggle(e_obj)
@@ -1334,7 +1334,7 @@
 
       /**
        * Previous page button or key clicked
-       * 
+       *
        * @method onPagePrevious
        */
       onPagePrevious : function PdfJs_onPagePrevious(e_obj)
@@ -1347,7 +1347,7 @@
 
       /**
        * Next button or key clicked
-       * 
+       *
        * @method onPageNext
        */
       onPageNext : function PdfJs_onPageNext(e_obj)
@@ -1361,7 +1361,7 @@
 
       /**
        * Full screen key press
-       * 
+       *
        * @method onFullScreen
        */
       onFullScreen : function PdfJs_onFullScreen(e_obj)
@@ -1372,7 +1372,7 @@
          {
             // Remove window resize behaviour
             Event.removeListener(window, "resize", this.onRecalculatePreviewLayout, this, true);
-            
+
             if (el.requestFullScreen)
             {
                el.requestFullScreen();
@@ -1402,12 +1402,12 @@
             }
          }
       },
-      
+
       /**
        * Full screen change event received
-       * 
+       *
        * See https://developer.mozilla.org/en-US/docs/DOM/Using_fullscreen_mode
-       * 
+       *
        * @method onFullScreenChange
        */
       onFullScreenChange: function PdfJs_onFullScreenChange(e_obj)
@@ -1422,36 +1422,36 @@
                 (!document.mozFullScreenElement && !document.webkitFullScreenElement && !document.webkitFullscreenElement)) // current working methods
             {
                Alfresco.logger.debug("Leaving full screen mode");
-               
+
                this.fullscreen = false;
                this.documentView.fullscreen = false;
                this.documentView.setScale(this.oldScale);
 
                this._setViewerHeight();
-               
+
                this.onResize.fire();
-               
+
                // Now redefine the row margins
                this.documentView.alignRows();
                this._scrollToPage(this.pageNum);
-               
+
                // Re-add window resize behaviour
                Event.addListener(window, "resize", this.onRecalculatePreviewLayout, this, true);
             }
             else
             {
                Alfresco.logger.debug("Entering full screen mode");
-               
+
                this.documentView.fullscreen = true;
                this.fullscreen = true;
                // Remember the old scale and page numbers
                this.oldScale = this.documentView.currentScale;
                this.oldPageNum = this.pageNum;
-               
+
                this._setViewerHeight();
 
                this.onResize.fire();
-               
+
                // Render any pages that have appeared
                this.documentView.setScale(this.documentView.parseScale("page-fit"));
                // Now redefine the row margins
@@ -1463,7 +1463,7 @@
 
       /**
        * Page number changed in text input field
-       * 
+       *
        * @method onPageChange
        */
       onPageChange : function PdfJs_onPageChange(e_obj)
@@ -1498,7 +1498,7 @@
                underlay: "none"
             });
             this.widgets.searchDialog.render();
-            
+
             new YAHOO.util.KeyListener(Dom.get(this.wp.id + "-searchDialog"), { keys: 27 }, { // escape
                fn: function (type, args) {
                   if (this.widgets.searchBarToggle.get("checked"))
@@ -1512,12 +1512,12 @@
                correctScope : true
             }).enable();
          }
-         
+
          if (this.widgets.linkBn && this.widgets.linkBn.get("checked") === true)
          {
             this.widgets.linkBn.set("checked", false);
          }
-         
+
          if (e_obj.newValue === true)
          {
             this.widgets.searchDialog.show();
@@ -1526,7 +1526,7 @@
             var iel = Dom.get(this.wp.id + "-findInput");
             iel.focus();
             iel.select();
-            
+
             // Init PDFFindController
             if (!PDFFindController.pdfPageSource)
             {
@@ -1535,7 +1535,7 @@
                });
                PDFFindController.resolveFirstPage();
             }
-            
+
             PDFFindController.reset();
             PDFFindController.extractText();
          }
@@ -1558,7 +1558,7 @@
 
       /**
        * Text value changed in Find text input field
-       * 
+       *
        * @method onFindChange
        */
       onFindChange : function PdfJs_onFindChange(e_obj)
@@ -1610,7 +1610,7 @@
                   break;
                }
          }
-         
+
          this.lastSearchQuery = query;
 
          // PDFFindController has its own event handling, so for now use that
@@ -1626,7 +1626,7 @@
 
       /**
        * Zoom out button clicked
-       * 
+       *
        * @method onZoomOut
        */
       onZoomOut : function PdfJs_onZoomOut(p_obj)
@@ -1639,7 +1639,7 @@
 
       /**
        * Zoom in button clicked
-       * 
+       *
        * @method onZoomIn
        */
       onZoomIn : function PdfJs_onZoomIn(p_obj)
@@ -1652,14 +1652,14 @@
 
       /**
        * Zoom level changed via the zoom menu button
-       * 
+       *
        * @method onZoomChange
        */
       onZoomChange : function PdfJs_onZoomChange(p_sType, p_aArgs)
       {
          var oEvent = p_aArgs[0],      // DOM event
              oMenuItem = p_aArgs[1];   // MenuItem instance that was the target of the event
-         
+
          this.currentScaleSelection = oMenuItem.value;
          this.documentView.setScale(this.documentView.parseScale(oMenuItem.value));
          this._scrollToPage(this.pageNum);
@@ -1668,7 +1668,7 @@
 
       /**
        * Download Original document menu link click handler
-       * 
+       *
        * @method onDownloadClick
        */
       onDownloadClick : function PdfJs_onDownloadClick(p_obj)
@@ -1678,15 +1678,17 @@
 
       /**
        * Download PDF click handler (for thumbnailed content only)
-       * 
+       *
        * @method onDownloadPDFClick
        */
       onDownloadPDFClick : function PdfJs_onDownloadPDFClick(p_obj)
       {
-            this.downloadIfLoggedIn(this.wp.getThumbnailUrl(this.attributes.src) + "&a=true");
+         const pdfUrl = this.wp.getThumbnailUrl(this.attributes.src) + "&a=true";
+         window.open(pdfUrl, "_blank");
+         this.downloadIfLoggedIn(pdfUrl, this.wp.options.name);
       },
 
-      downloadIfLoggedIn : function PdfJs_downloadIfLoggedIn(url)
+      downloadIfLoggedIn : function PdfJs_downloadIfLoggedIn(url, documentName)
       {
             var request = new XMLHttpRequest();
 
@@ -1696,7 +1698,13 @@
                     window.location.reload();
                 }
                 else if (this.readyState == 4 && this.status == 200) {
-                    window.open(url, "_blank");
+
+                   const link = document.createElement("a");
+                   link.href = url;
+                   link.download = documentName + ".pdf"; // Set the fileName for the download
+                   document.body.appendChild(link);
+                   link.click();
+                   document.body.removeChild(link);
                 }
             };
             request.open("GET", url, true);
@@ -1705,7 +1713,7 @@
 
       /**
        * Maximize/Minimize button clicked
-       * 
+       *
        * @method onMaximizeClick
        */
       onMaximizeClick : function PdfJs_onMaximizeClick(p_obj)
@@ -1738,7 +1746,7 @@
          {
             this.thumbnailView.renderVisiblePages();
          }
-         
+
          // Re-align the dialogs to the viewer
          if (this.widgets.searchDialog)
          {
@@ -1752,7 +1760,7 @@
 
       /**
        * Link button click handler
-       * 
+       *
        * @method onLinkClick
        */
       onLinkClick : function PdfJs_onLinkClick(p_obj)
@@ -1812,12 +1820,12 @@
                this.select();
             });
          }
-         
+
          if (this.widgets.searchBarToggle.get("checked") === true)
          {
             this.widgets.searchBarToggle.set("checked", false);
          }
-         
+
          if (!this.widgets.linkDialog.cfg.getProperty("visible"))
          {
             this.widgets.linkDialog.show();
@@ -1832,7 +1840,7 @@
 
       /**
        * Handler for window resize event
-       * 
+       *
        * @method onRecalculatePreviewLayout
        */
       onRecalculatePreviewLayout : function PdfJs_onRecalculatePreviewLayout(p_obj)
@@ -1858,9 +1866,9 @@
 
       /**
        * Handler for window hashchange event
-       * 
+       *
        * See http://caniuse.com/#search=hash
-       * 
+       *
        * @method onWindowHashChange
        */
       onWindowHashChange : function PdfJs_onWindowHashChange(p_obj)
@@ -1890,7 +1898,7 @@
 
       /**
         * Window unload event handler to save document configuration to local storage
-       * 
+       *
        * @method onWindowUnload
        */
       onWindowUnload : function PdfJs_onWindowUnload()
@@ -1936,7 +1944,7 @@
    {
       /**
        * Render a specific page in the container. This does not render the content of the page itself, just the container divs.
-       * 
+       *
        * @method render
        */
       render : function DocumentPage_render()
@@ -1956,10 +1964,10 @@
 
          this._setPageSize();
       },
-      
+
       /**
        * Get the region in the document taken by this page
-       * 
+       *
        * @method getRegion
        * @returns {object} Object containing region dimensions as returned by YAHOO.util.Dom.getRegion()
        */
@@ -1971,7 +1979,7 @@
       /**
        * Get the vertical position of the page relative to the top of the parent element. A negative number
        * means that the page is above the current scroll position, a positive number means it is below.
-       * 
+       *
        * @method getVPos
        */
       getVPos : function DocumentPage_getVPos(page)
@@ -1981,7 +1989,7 @@
 
       /**
        * Render page content
-       * 
+       *
        * @method renderContent
        */
       renderContent : function DocumentPage_renderContent()
@@ -1994,7 +2002,7 @@
          this.container.appendChild(canvas);
 
          this.canvas = canvas;
-         
+
          // Hide the canvas until we've finished drawing the content, so the loading spinner shows through
          Dom.setStyle(canvas, "visibility", "hidden");
 
@@ -2023,45 +2031,45 @@
             viewport : viewport,
             textLayer : this.textLayer
          };
-         
+
          var startTime = 0;
          if (Alfresco.logger.isDebugEnabled())
          {
             startTime = Date.now();
          }
-         
+
          var setTextFn = Alfresco.util.bind(function textContentResolved(textContent) {
             this.textLayer.setTextContent(textContent);
          }, this);
-         
+
          var renderFn = Alfresco.util.bind(function renderPageFn() {
-            
+
             if (this.textLayer)
             {
                this.getTextContent().then(setTextFn);
             }
-            
+
             // Hide the loading icon and make the canvas visible again
             if (this.loadingIconDiv)
             {
                Dom.setStyle(this.loadingIconDiv, "display", "none");
             }
             Dom.setStyle(this.canvas, "visibility", "visible");
-            
+
             // Log time taken to draw the page
             if (Alfresco.logger.isDebugEnabled())
             {
                Alfresco.logger.debug("Rendered " + this.parent.name + " page " + this.id + " in " + (Date.now() - startTime) + "ms");
             }
-            
+
          }, this);
-         
+
          content.render(renderContext).promise.then(renderFn);
       },
 
       /**
        * Set page container size
-       * 
+       *
        * @method _setPageSize
        * @private
        */
@@ -2075,7 +2083,7 @@
 
       /**
        * Remove page canvas and reset dimensions
-       * 
+       *
        * @method _reset
        * @private
        */
@@ -2099,7 +2107,7 @@
 
       /**
        * Get the text content of the page. Used by find
-       * 
+       *
        * @method getTextContent
        * @public
        */
@@ -2114,9 +2122,9 @@
 
       /**
        * Scroll the page into view
-       * 
+       *
        * @method scrollIntoView
-       * 
+       *
        */
       scrollIntoView : function DocumentPage_scrollIntoView(el, spot)
       {
@@ -2165,7 +2173,7 @@
       this.currentScale = config.currentScale || K_UNKNOWN_SCALE;
       this.name = this.config.name || "";
       this.pdfJsPlugin = config.pdfJsPlugin;
-      
+
       this.pdfDocument = config.pdfDocument;
 
       // Used for setupRenderLayoutTimer in TextLayerbuilder
@@ -2175,11 +2183,11 @@
       {
          self.lastScroll = Date.now();
       }, false);
-      
+
       this.pdfJsPlugin.onResize.subscribe(this.onResize, this, true);
-      
+
       this.addScrollListener();
-      
+
       /*
        * Custom events generated by this component
        */
@@ -2189,11 +2197,11 @@
    DocumentView.prototype = {
       /**
        * Currently active page
-       * 
+       *
        * @property activePage
        */
       activePage : null,
-      
+
       /**
        * Name of last scale to be auto-selected or selected by the user. This is the value which will be persisted when the
        * document is unloaded and used to set up the same view the next time it is loaded.
@@ -2202,7 +2210,7 @@
 
       /**
        * Counter for viewer scroll events - incremented on event, decremented some time later. Rendering will occur only when counter reaches zero.
-       * 
+       *
        * @property renderOnScrollZero
        * @type int
        * @default 0
@@ -2211,7 +2219,7 @@
 
       /**
        * Add a single page from a PDF document to this view
-       * 
+       *
        * @method addPage
        */
       addPage : function DocumentView_addPage(id, content)
@@ -2222,7 +2230,7 @@
 
       /**
        * Add pages from a PDF document to this view
-       * 
+       *
        * @method addPages
        */
       addPages : function DocumentView_addPages(pages)
@@ -2236,7 +2244,7 @@
 
       /**
        * Render page containers and set their sizes. This does not render the page content itself, neither canvas or text layers.
-       * 
+       *
        * @method render
        */
       render : function DocumentView_render()
@@ -2266,7 +2274,7 @@
 
       /**
        * Remove all existing canvas content
-       * 
+       *
        * @method reset
        */
       reset : function DocumentView_reset()
@@ -2283,7 +2291,7 @@
 
       /**
        * Centre the rows of pages horizontally  within their parent viewer element by adding the correct amount of left padding
-       * 
+       *
        * @method alignRows
        */
       alignRows : function DocumentView_alignRows()
@@ -2314,16 +2322,16 @@
 
       /**
        * Render pages in the visible area of the viewer (or near it) given the current scroll position
-       * 
+       *
        * @method renderVisiblePages
        */
       renderVisiblePages : function DocumentView_renderVisiblePages()
       {
          // region may not be populated properly if the div was hidden
          this.viewerRegion = Dom.getRegion(this.viewer);
-         
+
          var vheight = this.viewerRegion.height, vtop = this.viewerRegion.top, scrollY = Dom.getDocumentScrollTop();
-         
+
          if (Alfresco.logger.isDebugEnabled())
          {
             Alfresco.logger.debug("Render " + this.name + " visible pages: viewer height " + this.viewerRegion.height + "px");
@@ -2339,7 +2347,7 @@
                    top = pregion.top + scrollY - vtop,
                    bottom = top + pregion.height,
                    vicinity = 1.5;
-               
+
                // WA - improve algorithm for selecting which pages to render, based on the following criteria
                // Page top is above the viewer top edge, bottom below the bottom edge OR
                // Bottom is within half the viewer height of the top edge OR
@@ -2360,7 +2368,7 @@
 
       /**
        * Scroll the viewer to the given page number
-       * 
+       *
        * @method scrollTo
        * @param n {int} Number of the page to scroll to, 1 or greater.
        */
@@ -2371,8 +2379,8 @@
 
          if (Alfresco.logger.isDebugEnabled())
          {
-            Alfresco.logger.debug("Scrolling " + this.name + " to page " + n + 
-                  ". New page top is " + newPos + "px" + 
+            Alfresco.logger.debug("Scrolling " + this.name + " to page " + n +
+                  ". New page top is " + newPos + "px" +
                   ". First page top is " + firstPos + "px");
          }
 
@@ -2398,7 +2406,7 @@
 
       /**
        * Set the scale of the view and remove all previously-rendered document content
-       * 
+       *
        * @method setScale
        * @param value {float} numerical scale value
        */
@@ -2424,7 +2432,7 @@
       /**
        * Calculate page zoom level based on the supplied value. Recognises numerical values and special string constants, e.g. 'page-fit'.
        * Normally used in conjunction with setScale(), since this method does not set the current value.
-       * 
+       *
        * @method parseScale
        * @private
        * @return {float} Numerical scale value
@@ -2449,7 +2457,7 @@
                 rotation = currentPage.content.rotate,
                 clientWidth = this.fullscreen ? window.screen.width : this.viewer.clientWidth - 1, // allow an extra pixel in width otherwise 2-up view wraps
                 clientHeight = this.fullscreen ? window.screen.height : this.viewer.clientHeight;
-            
+
             Alfresco.logger.debug("Client height: " + this.viewer.clientHeight);
             if (rotation === 90 || rotation === 270)
             {
@@ -2516,7 +2524,7 @@
                   {
                      scale = opw;
                   }
-                  // Make sure that the page is not zoomed in *too* far. 
+                  // Make sure that the page is not zoomed in *too* far.
                   // A limit of 125% max zoom is the default for the main view.
                   if (maxScale)
                   {
@@ -2534,14 +2542,14 @@
          {
             throw "Unrecognised zoom level - no pages";
          }
-         
+
          this.lastScale = value;
          return scale;
       },
 
       /**
        * Return the number of the page (1 or greater) that should be considered the 'current' page given the scroll position.
-       * 
+       *
        * @method getScrolledPageNumber
        * @returns {int} Number of the current page, 1 or greater
        */
@@ -2562,7 +2570,7 @@
 
       /**
        * Set the currently-active page number
-       * 
+       *
        * @method setActivePage
        */
       setActivePage : function DocumentView_setActivePage(n)
@@ -2574,7 +2582,7 @@
          Dom.addClass(this.pages[n - 1].container, "activePage");
          this.activePage = this.pages[n - 1];
       },
-      
+
       onResize: function onResize()
       {
          // TODO viewerRegion should be populated by an event?
@@ -2599,7 +2607,7 @@
 
       /**
        * Event handler for scroll event within the view area
-       * 
+       *
        * @method onScroll
        */
       onScroll : function DocumentView_onScroll(e_obj)
@@ -3248,7 +3256,7 @@ var PDFFindController = {
         if (!this.hadMatch) {
           // No point in wrapping there were no matches.
           this.updateMatch(false);
-          // while matches were not found, searching for a page 
+          // while matches were not found, searching for a page
           // with matches should nevertheless halt.
           return true;
         }
@@ -3311,15 +3319,15 @@ var PDFFindController = {
       var status = '';
 
       // ALFRESCO - updateUIState method impl
-      
+
       // TODO: For now do not display for hits, gets very noisy when stepping.
       // Possibly change color or similar in search box to indicate hit instead
-      // Pending ajax gif on search bar until state is found, then removed. 
+      // Pending ajax gif on search bar until state is found, then removed.
       // See pdf.js default Implementation
 
       if(state===FindStates.FIND_FOUND||state===FindStates.FIND_PENDING)
          return;
-      
+
       switch (state) {
         case FindStates.FIND_FOUND:
           findMsg = this.pdfPageSource.pdfJsPlugin.wp.msg('search.message.found');
@@ -3341,7 +3349,7 @@ var PDFFindController = {
           }
           break;
       }
-      
+
       Alfresco.util.PopupManager.displayMessage({
          text : findMsg
       });
