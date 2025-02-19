@@ -424,17 +424,23 @@ jobs:
           python-version: 3.x
       - name: Install Latest Chrome and Matching ChromeDriver
         run: |
-          sudo apt-get update && sudo apt-get install -y jq
+          sudo apt-get update && sudo apt-get install -y jq unzip wget curl
           LATEST_CHROME_VERSION=$(curl -s "https://omahaproxy.appspot.com/all.json" | jq -r 'map(select(.os == "linux"))[0].versions | map(select(.channel == "stable"))[0].current_version' || echo "133.0.6943.98")
           echo "Latest Chrome Version: $LATEST_CHROME_VERSION"
           sudo apt-get remove -y google-chrome-stable || true
           rm -rf ~/.config/google-chrome ~/.cache/google-chrome
           wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get -f install -y
+          INSTALLED_CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+\.\d+')
           CHROME_MAJOR_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+' | cut -d '.' -f 1)
-          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR_VERSION")
+          echo "Installed Chrome Version: $INSTALLED_CHROME_VERSION (Major: $CHROME_MAJOR_VERSION)"
+          CHROMEDRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/latest-patch-versions-per-build-with-downloads.json" | jq -r ".builds[\"$INSTALLED_CHROME_VERSION\"].version")
+          if [[ -z "$CHROMEDRIVER_VERSION" || "$CHROMEDRIVER_VERSION" == "null" ]]; then
+          echo "Failed to find a matching ChromeDriver version for Chrome $INSTALLED_CHROME_VERSION"
+          exit 1
+          fi
           echo "Matching ChromeDriver Version: $CHROMEDRIVER_VERSION"
-          wget -q "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
+          wget -q "https://storage.googleapis.com/chrome-for-testing-public/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip"
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
