@@ -422,16 +422,24 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.x
-      - name: google chrome version
+      - name: Install Latest Chrome and Matching ChromeDriver
         run: |
-          sudo apt-get purge google-chrome-stable
-          sudo apt-get autoremove
-          rm -rf ~/.config/google-chrome
-          rm -rf ~/.cache/google-chrome
-          wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_133.0.6943.98-1_amd64.deb
-          sudo apt-get install libu2f-udev
-          sudo dpkg -i google-chrome-stable_133.0.6943.98-1_amd64.deb
+          sudo apt-get update && sudo apt-get install -y jq
+          LATEST_CHROME_VERSION=$(curl -s "https://omahaproxy.appspot.com/all.json" | jq -r '.[] | select(.os == "linux") | .versions[] | select(.channel == "stable") | .current_version')
+          echo "Latest Chrome Version: $LATEST_CHROME_VERSION"
+          sudo apt-get remove -y google-chrome-stable || true
+          rm -rf ~/.config/google-chrome ~/.cache/google-chromed
+          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get -f install -y
+          CHROME_MAJOR_VERSION=$(google-chrome --version | grep -oP '\d+' | head -1)
+          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR_VERSION")
+          echo "Matching ChromeDriver Version: $CHROMEDRIVER_VERSION"
+          wget -q "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chromedriver
           google-chrome --version
+          chromedriver --version
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Prepare before Test"
