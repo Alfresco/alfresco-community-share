@@ -142,6 +142,7 @@ jobs:
       - name: Downgrade google chrome version
         run: |
           sudo apt-get purge google-chrome-stable
+          sudo apt-get install libu2f-udev
           sudo apt-get autoremove
           rm -rf ~/.config/google-chrome
           rm -rf ~/.cache/google-chrome
