@@ -173,7 +173,7 @@ jobs:
           retry_on: error
           command: sudo --preserve-env bash scripts/travis/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml"
       - name: "Upload artifacts"
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.test }}-tests
           path: alfresco-tas-share-test/target/surefire-reports alfresco-tas-share-test/target/reports
