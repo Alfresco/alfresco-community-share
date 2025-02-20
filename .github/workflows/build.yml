@@ -173,7 +173,7 @@ jobs:
           retry_on: error
           command: sudo --preserve-env bash scripts/travis/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml"
       - name: "Upload artifacts"
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.test }}-tests
           path: alfresco-tas-share-test/target/surefire-reports alfresco-tas-share-test/target/reports
@@ -286,8 +286,8 @@ jobs:
       S3_BUCKET2_NAME: ${{ vars.S3_BUCKET_PREFIX }}-worm-b2
     steps:
       - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
