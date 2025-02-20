@@ -4,30 +4,42 @@ import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DefaultProperties;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.FileActionsPage;
+import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.model.*;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FolderModel;
+import org.alfresco.utility.model.UserModel;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.FileType;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import static org.junit.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 
 @Slf4j
 public class ViewingAFileTests extends BaseTest
 {
     private final DateTime currentDate = new DateTime();
     private final String thumbNailImage = "docx-file-48.png";
-
     private DocumentDetailsPage documentPreviewPage;
     private DocumentLibraryPage documentLibraryPage;
+    private DocumentLibraryPage2 documentLibraryPage2;
     private FileActionsPage fileActions;
+    private SocialFeatures socialFeatures;
     @Autowired
     private DefaultProperties properties;
-
     private FileModel fileToCheck;
-
+    FolderModel folder = FolderModel.getRandomFolderModel();
     private final ThreadLocal<UserModel> user = new ThreadLocal<>();
     private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
 
@@ -42,7 +54,9 @@ public class ViewingAFileTests extends BaseTest
 
         documentLibraryPage = new DocumentLibraryPage(webDriver);
         documentPreviewPage = new DocumentDetailsPage(webDriver);
+        documentLibraryPage2 = new DocumentLibraryPage2(webDriver);
         fileActions = new FileActionsPage(webDriver);
+        socialFeatures = new SocialFeatures(webDriver);
 
         log.info("Create File in document library.");
         fileToCheck = FileModel.getRandomFileModel(FileType.MSWORD2007);
@@ -228,4 +242,114 @@ public class ViewingAFileTests extends BaseTest
         fileActions
             .assertIsVersionHistoryBlockDisplayed();
     }
+
+    @TestRail (id = "C5885")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void comments()
+    {
+        getCmisApi().authenticateUser(user.get()).usingSite(site.get())
+            .createFolder(folder).usingResource(folder)
+            .createFile(fileToCheck);
+
+        documentLibraryPage.navigate(site.get())
+            .clickOnFolderName(folder.getName())
+            .assertFileIsDisplayed(fileToCheck.getName());
+
+        log.info("Step 1: Click on the thumbnail or name of the file in the document library.");
+        documentLibraryPage.clickOnFile(fileToCheck.getName());
+        documentLibraryPage.addMultileComment();
+        assertEquals(documentLibraryPage.getCommentCount(), "1 - 10 of 12");
+        documentLibraryPage.ClickOnNextCommentPage();
+        assertEquals(documentLibraryPage.getCommentCount(), "11 - 12 of 12");
+        documentLibraryPage.ClickOnPerviousCommentPage();
+        assertEquals(documentLibraryPage.getCommentCount(), "1 - 10 of 12");
+
+        log.info("Step 2: validate Edit comment");
+        documentPreviewPage.clickEditComment("comment");
+        documentPreviewPage.editComment("commentEditedByUser");
+        documentPreviewPage.clickOnSaveButtonEditComment();
+        Assert.assertEquals(documentPreviewPage.getCommentContent(), "commentEditedByUser", "Comment edited successfully by user");
+    }
+
+    @TestRail (id = "C6355")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void documentActions()
+    {
+        getCmisApi().authenticateUser(user.get()).usingSite(site.get())
+            .createFolder(folder).usingResource(folder)
+            .createFile(fileToCheck);
+
+        documentLibraryPage.navigate(site.get())
+            .clickOnFolderName(folder.getName())
+            .assertFileIsDisplayed(fileToCheck.getName());
+
+        log.info("Step 1: Click on the thumbnail or name of the file in the document library.");
+        documentLibraryPage.clickOnFile(fileToCheck.getName());
+
+        log.info("Step 2: Check the document actions available");
+        fileActions.assertIsDocumentActionsBlockDisplayed();
+        fileActions
+            .assertIsViewInBrowserDisplayed()
+            .assertIsEditInGoogleDocsDisplayed()
+            .assertIsEditInMicrosoftOfficeDisplayed()
+            .assertIsUploadNewVersionDisplayed()
+            .assertIsEditPropertiesDisplayed()
+            .assertIsMoveToOptionDisplayed()
+            .assertIsCopyToOptionDisplayed()
+            .assertIsDeleteDocumentOptionDisplayed()
+            .assertIsStartWorkflowDisplayed()
+            .assertIsManagePermissionDisplayed()
+            .assertIsBecomeOwnerDisplayed()
+            .assertIsManageAspectsDisplayed()
+            .assertIsChangeTypeOptionDisplayed();
+
+        log.info("Step 3: Collapse document actions(click on Document Actions)");
+        documentLibraryPage.collapsedocumentAction();
+        assertFalse(fileActions.isViewInBrowserDisplayed(), "View in Browser option is not displayed");
+        assertFalse(fileActions.isMoveToDisplayed(), "Move to... option is not displayed");
+    }
+
+    @TestRail (id = "C6356")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void documentTags()
+    {
+        getCmisApi().authenticateUser(user.get()).usingSite(site.get())
+            .createFolder(folder).usingResource(folder)
+            .createFile(fileToCheck);
+
+        documentLibraryPage.navigate(site.get())
+            .clickOnFolderName(folder.getName())
+            .assertFileIsDisplayed(fileToCheck.getName());
+
+        log.info("STEP1: Click \"Edit Tag\" icon");
+        documentLibraryPage2.usingContent(fileToCheck)
+            .clickTagEditIcon();
+        documentLibraryPage2.usingContent(fileToCheck).setTag("check tag")
+            .clickSave();
+
+        log.info("Step 2: Click on the thumbnail or name of the file in the document library.");
+        documentLibraryPage.clickOnFile(fileToCheck.getName());
+        assertEquals(documentLibraryPage.getTagValue(), "check tag");
+        assertTrue(documentLibraryPage.isEditTagDisplayed(), "Move to... option is not displayed");
+
+        log.info("Step 3: Collapse Tags section and check that tag is no longer displayed.");
+        documentLibraryPage.clickOnTagToggle();
+        assertFalse(documentLibraryPage.assertTagDisplayed(), "Tag value not Available");
+    }
+
+    /*@TestRail (id = "C6357")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void documentShareSection()
+    {
+        getCmisApi().authenticateUser(user.get()).usingSite(site.get())
+            .createFolder(folder).usingResource(folder)
+            .createFile(fileToCheck);
+
+        documentLibraryPage.navigate(site.get())
+            .clickOnFolderName(folder.getName())
+            .assertFileIsDisplayed(fileToCheck.getName());
+
+        log.info("Step 1: Click on the thumbnail or name of the file in the document library.");
+        documentLibraryPage.clickOnFile(fileToCheck.getName());
+    }*/
 }
