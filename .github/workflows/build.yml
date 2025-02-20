@@ -480,12 +480,12 @@ jobs:
         if: env.S3_BUCKET_PREFIX != ''
         run: |
           if [ ${{ matrix.test }} == 'wormTestSuite' ]; then echo "Starting Alfresco with WORM support"
-            amps/ags/travis/scripts/create-worm-bucket.sh
-            amps/ags/travis/scripts/start-compose.sh amps/ags/rm-enterprise/rm-enterprise-share/docker-compose-worm-support-ui.yml
+            amps/ags/ci/scripts/create-worm-bucket.sh
+            amps/ags/ci/scripts/start-compose.sh amps/ags/rm-enterprise/rm-enterprise-share/docker-compose-worm-support-ui.yml
           else
-            amps/ags/travis/scripts/startAlfresco.sh amps/ags/rm-enterprise/rm-enterprise-share
+            amps/ags/ci/scripts/startAlfresco.sh amps/ags/rm-enterprise/rm-enterprise-share
           fi
-          amps/ags/travis/scripts/waitForAlfrescoToStart.sh
+          amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           free -m -t
       - name: Start Alfresco for Worm
         if: ${{ matrix.test == 'wormTestSuite'}}
