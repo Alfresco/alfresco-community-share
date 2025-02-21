@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 - 2024 Alfresco Software Limited.
+ * Copyright 2005 - 2025 Alfresco Software Limited.
  *
  * This file is part of the Alfresco software.
  * If the software was purchased under a paid Alfresco license, the terms of the paid license agreement will prevail.
@@ -126,7 +126,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
 
     /**
      * Notify an information message
-     * 
+     *
      * @param msg
      *            the message
      */
@@ -401,7 +401,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
     public void initPrivate(String alfrescoSharedDir)
     {
         File webExtension = getWebExtensionDir(alfrescoSharedDir);
-        
+
         if (!webExtension.exists())
         {
             webExtension = new File(alfrescoSharedDir);
@@ -724,7 +724,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
 
     /**
      * Sets IV and cipher
-     * 
+     *
      * @param mode
      * @return
      */
@@ -754,7 +754,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
     /**
      * Creates a pair separated by the PAIR_SEPARATOR character. First element contains the encryption algorithm. Second
      * element contains cipher
-     * 
+     *
      * @param cipherText
      * @return
      */
@@ -787,7 +787,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
 
     /**
      * Extracts the Cipher from the full message that also contains the encryption algorithm.
-     * 
+     *
      * @param encryptedMessageByteArray
      * @return
      */
@@ -818,7 +818,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
      * Validate the extracted configuration: - The full message needs to be able to be split in 3; - The first element
      * needs to be a valid encryption algorithm - The second element is the key size and needs to be a number greater
      * than 128
-     * 
+     *
      * @param config
      * @param messageComponents
      * @return
@@ -851,7 +851,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
 
     /**
      * Extracts and sets the configuration from the message and returns only the iv+cipher
-     * 
+     *
      * @param encryptedMessageByteArray
      * @return
      */
@@ -878,7 +878,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
 
     /**
      * Only applicable to RSA. Depending on the algorithm and keySize the padding is different.
-     * 
+     *
      * @return
      */
     private int getChunkSize()
