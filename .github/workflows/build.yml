@@ -368,6 +368,10 @@ jobs:
       fail-fast: false
       matrix:
         test: [communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration, wormTestSuite]
+    env:
+      S3_BUCKET_PREFIX: ${{ vars.S3_BUCKET_PREFIX }}
+      S3_BUCKET_NAME: ${{ vars.S3_BUCKET_PREFIX }}-${{ github.run_number }}
+      S3_BUCKET2_NAME: ${{ vars.S3_BUCKET_PREFIX }}-worm-b2
     steps:
       - uses: actions/checkout@v4
         with:
@@ -378,18 +382,21 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.x
+      - name: Install google chrome version
+        run: |
+            sudo apt-get purge google-chrome-stable
+            sudo apt-get autoremove
+            rm -rf ~/.config/google-chrome
+            rm -rf ~/.cache/google-chrome
+            wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_132.0.6834.159-1_amd64.deb
+            sudo apt-get install libu2f-udev
+            sudo dpkg -i google-chrome-stable_132.0.6834.159-1_amd64.deb
+            google-chrome --version
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Prepare before Test"
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
-      - name: Set S3_BUCKET_NAME
-        if: ${{ matrix.test == 'wormTestSuite'}}
-        env:
-          VERSION: ${{ github.run_number }}
-        run: |
-          echo "S3_BUCKET_NAME=travis-ags-$VERSION" >> $GITHUB_ENV
-          echo $S3_BUCKET_NAME
       - name: "Configure AWS credentials"
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -408,10 +415,16 @@ jobs:
           docker image tag alfresco/alfresco-governance-repository-enterprise-base:$(docker images | grep '^alfresco/alfresco-governance-repository-enterprise-base ' | head -1 | awk '{print $2}') alfresco/alfresco-governance-repository-enterprise-base:latest
           docker images
       - name: Start Alfresco
-        if: ${{ matrix.test != 'wormTestSuite'}}
+        if: env.S3_BUCKET_PREFIX != ''
         run: |
-          bash amps/ags/ci/scripts/startAlfresco.sh amps/ags/rm-enterprise/rm-enterprise-share
-          bash amps/ags/ci/scripts/waitForAlfrescoToStart.sh
+          if [ ${{ matrix.test }} == 'wormTestSuite' ]; then echo "Starting Alfresco with WORM support"
+            amps/ags/ci/scripts/create-worm-bucket.sh
+            amps/ags/ci/scripts/start-compose.sh amps/ags/rm-enterprise/rm-enterprise-share/docker-compose-worm-support-ui.yml
+          else
+            amps/ags/ci/scripts/startAlfresco.sh amps/ags/rm-enterprise/rm-enterprise-share
+          fi
+          amps/ags/ci/scripts/waitForAlfrescoToStart.sh
+          free -m -t
       - name: Start Alfresco for Worm
         if: ${{ matrix.test == 'wormTestSuite'}}
         run: |
