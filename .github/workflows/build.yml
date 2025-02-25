@@ -422,6 +422,16 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.x
+      - name: Install google chrome version
+        run: |
+            sudo apt-get purge google-chrome-stable
+            sudo apt-get autoremove
+            rm -rf ~/.config/google-chrome
+            rm -rf ~/.cache/google-chrome
+            wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_132.0.6834.159-1_amd64.deb
+            sudo apt-get install libu2f-udev
+            sudo dpkg -i google-chrome-stable_132.0.6834.159-1_amd64.deb
+            google-chrome --version
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Prepare before Test"
