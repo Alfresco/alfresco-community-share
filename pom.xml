@@ -61,7 +61,6 @@
         <dependency.httpcomponents.version>4.5.13</dependency.httpcomponents.version>
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
 
-
         <dependency.webscripts.version>10.0</dependency.webscripts.version>
         <dependency.surf.version>10.0</dependency.surf.version>
 
@@ -77,7 +76,7 @@
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
         <dependency.org-json.version>20231013</dependency.org-json.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
-        <spring.security.version>6.3.4</spring.security.version>
+        <spring.security.version>6.4.3</spring.security.version>
 
         <alfresco.googledrive.version>4.1.0</alfresco.googledrive.version>
 
