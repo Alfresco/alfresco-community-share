@@ -337,9 +337,9 @@ public class ViewingAFileTests extends BaseTest
         assertFalse(documentLibraryPage.assertTagDisplayed(), "Tag value not Available");
     }
 
-    /*@TestRail (id = "C6357")
+    @TestRail (id = "C6357")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void documentShareSection()
+    public void shareDocument()
     {
         getCmisApi().authenticateUser(user.get()).usingSite(site.get())
             .createFolder(folder).usingResource(folder)
@@ -351,5 +351,10 @@ public class ViewingAFileTests extends BaseTest
 
         log.info("Step 1: Click on the thumbnail or name of the file in the document library.");
         documentLibraryPage.clickOnFile(fileToCheck.getName());
-    }*/
+        documentPreviewPage.assertIsFileNameDisplayedOnPreviewPage(fileToCheck.getName());
+
+        log.info("Step 2: Validate file value in new tab");
+        documentPreviewPage.openUrlNewTab();
+        documentPreviewPage.assertIsFileNameDisplayedOnPreviewPage(fileToCheck.getName());
+    }
 }
