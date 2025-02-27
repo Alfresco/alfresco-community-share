@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.socialFeatures;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.BaseTest;
@@ -17,11 +18,14 @@ public class LikeFilesAndFoldersTests extends BaseTest
 
     private final String random = RandomData.getRandomAlphanumeric();
     private final String description = "description-" + random;
+    private final String testComment = "Test comment-" + random;
 
     private FolderModel folderToCheck;
     private FileModel fileToCheck;
     private DocumentLibraryPage documentLibraryPage;
-    private SocialFeatures social;
+    private SocialFeatures      social;
+    private DocumentDetailsPage documentDetailsPage;
+
 
     private final ThreadLocal<UserModel> user = new ThreadLocal<>();
     private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
@@ -34,6 +38,7 @@ public class LikeFilesAndFoldersTests extends BaseTest
         getCmisApi().authenticateUser(user.get());
         documentLibraryPage = new DocumentLibraryPage(webDriver);
         social = new SocialFeatures(webDriver);
+        documentDetailsPage = new DocumentDetailsPage(webDriver);
         authenticateUsingCookies(user.get());
     }
 
@@ -180,5 +185,83 @@ public class LikeFilesAndFoldersTests extends BaseTest
         log.info("Step 7: Verify the number of likes should be 0.");
         social
             .assertNoOfLikesVerify(folderToCheck.getName(), 0);
+    }
+
+    @TestRail (id = "C7910")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void addCommentToFile()
+    {
+        fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, description);
+        getCmisApi().usingSite(site.get())
+            .createFile(fileToCheck)
+            .assertThat()
+            .existsInRepo();
+
+        log.info("Step 1: Navigate to Document Library.");
+        documentLibraryPage.navigate(site.get().getTitle())
+            .isFileDisplayed(fileToCheck.getName());
+
+        log.info("Step 2: User clicks on \"Comment\" link for the file");
+        social.clickCommentLink(fileToCheck.getName());
+        documentDetailsPage.assertBrowserPageTitleIs("Alfresco » Document Details");
+
+        log.info("Step 3: User types some text in the \"Add Your Comment...\" section and clicks on \"Add Comment\" button.");
+        documentDetailsPage.addComment(testComment)
+            .assertVerifyCommentContent(testComment);
+
+        log.info("Step 4: User navigates to site1 Document Library.");
+        documentLibraryPage.navigate(site.get().getTitle())
+            .assertVerifyNoOfComments(1);
+    }
+
+    @TestRail (id = "C7911")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void addCommentToFolder()
+    {
+        folderToCheck = FolderModel.getRandomFolderModel();
+        getCmisApi().usingSite(site.get()).createFolder(folderToCheck).assertThat().existsInRepo();
+
+        log.info("Step 1: Navigate to Document Library");
+        documentLibraryPage.navigate(site.get().getTitle())
+            .isFileDisplayed(folderToCheck.getName());
+
+        log.info("Step 2: User clicks on \"Comment\" link for the file");
+        social.clickCommentLink(folderToCheck.getName());
+        documentDetailsPage.assertBrowserPageTitleIs("Alfresco » Folder Details");
+
+        log.info("Step 3: User types some text in the \"Add Your Comment...\" section and clicks on \"Add Comment\" button.");
+        documentDetailsPage.addComment(testComment)
+            .assertVerifyCommentContent(testComment);
+
+        log.info("Step 4: User navigates to site1 Document Library");
+        documentLibraryPage.navigate(site.get().getTitle())
+            .assertVerifyNoOfComments(1);
+    }
+
+    @TestRail (id = "C7912")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void addCommentCancel()
+    {
+        fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, description);
+        getCmisApi().usingSite(site.get())
+            .createFile(fileToCheck)
+            .assertThat()
+            .existsInRepo();
+
+        log.info("Step 1: Navigate to Document Library");
+        documentLibraryPage.navigate(site.get().getTitle())
+            .isFileDisplayed(fileToCheck.getName());
+
+        log.info("Step 2: User clicks on \"Comment\" link for the folder");
+        social.clickCommentLink(fileToCheck.getName());
+        documentDetailsPage.assertBrowserPageTitleIs("Alfresco » Document Details");
+
+        log.info("Step 3: User types some text in the \"Add Your Comment...\" section and clicks on \"Cancel\" button.");
+        documentDetailsPage.addCommentAndCancel(testComment)
+            .assertVerifyNoCommentsIsDisplayed();
+
+        log.info("Step 4: User navigates to site1 Document Library & verify Comments count.");
+        documentLibraryPage.navigate(site.get().getTitle())
+            .assertVerifyNoCommentNumbers();
     }
 }

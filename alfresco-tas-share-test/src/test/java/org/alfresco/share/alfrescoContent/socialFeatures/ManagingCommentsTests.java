@@ -17,6 +17,8 @@ public class ManagingCommentsTests extends BaseTest
     private final String description = "description-" + random;
     private final String comment = "Test comment for C9934" + random;
     private final String editedComment = "Test comment edited for C9934" + random;
+    private final String nativeCharacters = "désir Bedürfnis è il あなたの名前は何ですか ¿Cuál";
+    private final String specialCharacters = "<>?:\"|{}+_)(*&^%$#@!~";
 
     private FileModel fileToCheck;
     private DocumentLibraryPage documentLibraryPage;
@@ -124,5 +126,47 @@ public class ManagingCommentsTests extends BaseTest
         log.info("Step 6: Verify the edited comment content");
         documentPreviewPage
             .assertVerifyCommentContent(editedComment);
+    }
+
+    @TestRail (id = "C7584")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void editCommentAndSave()
+    {
+        log.info("Precondition: click on the file created in the site where comment to be added.");
+        documentLibraryPage.navigate(site.get().getTitle())
+            .clickOnFile(fileToCheck.getName())
+            .clickOnCommentDocument();
+
+        log.info("Step 1: Add comment to the file and then verify the comment ");
+        documentPreviewPage.addComment(comment)
+            .assertVerifyCommentContent(comment);
+
+        log.info("Step 2: Hover mouse over the comment and check that the Edit button is displayed");
+        documentPreviewPage.assertIsEditButtonDisplayedForComment(comment);
+
+        log.info("Step 3: Click the Edit button and verify edit comment displayed");
+        documentPreviewPage.clickOnEditComment(comment);
+
+        log.info("Step 4: Remove all content & Save with empty string");
+        documentPreviewPage.clearCommentBoxAndSave("Field contains an error.");
+    }
+
+    @TestRail (id = "C7585")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void addCommentSpecialAndNativeCharacters()
+    {
+        log.info("Precondition: click on the file created in the site where comment to be added.");
+        documentLibraryPage.navigate(site.get().getTitle())
+            .clickOnFile(fileToCheck.getName())
+            .clickOnCommentDocument();
+
+        log.info("Step 1: Add Native Characters comment to the file and then verify the comment ");
+        documentPreviewPage.addComment(nativeCharacters)
+            .assertVerifyCommentContent(nativeCharacters);
+
+        log.info("Step 2: Add Special Characters comment to the file and then verify the comment ");
+        documentPreviewPage.clickOnCommentDocument();
+        documentPreviewPage.addComment(specialCharacters)
+            .assertVerifyCommentContent(specialCharacters);
     }
 }
