@@ -4,12 +4,10 @@ import static org.alfresco.common.Utils.isFileInDirectory;
 import static org.alfresco.common.Wait.WAIT_1;
 import static org.alfresco.common.Wait.WAIT_2;
 import static org.testng.Assert.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Wait;
@@ -21,12 +19,13 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeCo
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.model.FileModel;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+
 
 @Slf4j
 public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
@@ -1087,12 +1086,11 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         return findElement(shareUrl).getAttribute("value");
     }
 
-    public void openUrlNewTab()
-    {
+    public void openUrlNewTab() {
         log.info("open new tab");
         String copiedUrl = getShareLink();
         String parentWindow = getWebDriver().getWindowHandle();
-        ((ChromeDriver) getWebDriver()).executeScript("window.open();");
+        ((JavascriptExecutor) getWebDriver()).executeScript("window.open();");
 
         log.info("switch to new tab");
         Set<String> allWindows = getWebDriver().getWindowHandles();

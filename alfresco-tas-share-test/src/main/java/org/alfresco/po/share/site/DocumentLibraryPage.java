@@ -1,27 +1,25 @@
 package org.alfresco.po.share.site;
 
-import static java.util.stream.IntStream.range;
 import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Utils.retryUntil;
-import static org.alfresco.common.Wait.*;
+import static org.alfresco.common.Wait.WAIT_3;
+import static org.alfresco.common.Wait.WAIT_5;
+import static org.alfresco.common.Wait.WAIT_1;
+import static org.alfresco.common.Wait.WAIT_2;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
-
 import com.google.common.base.Function;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Utils;
-import org.alfresco.dataprep.DataListsService;
 import org.alfresco.po.share.UploadFileDialog;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
