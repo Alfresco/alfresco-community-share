@@ -7,6 +7,7 @@ import static org.testng.Assert.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Wait;
@@ -18,11 +19,13 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeCo
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.model.FileModel;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+
 
 @Slf4j
 public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
@@ -106,6 +109,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By unzipToAction = By.cssSelector("div[id='onActionUnzipTo'] a[class='action-link']");
     private final By modifierName = By.xpath("(//div[@class='viewmode-field'])[9]");
     private final By balloon = By.cssSelector(".balloon>.text>div");
+    private final By shareUrl = By.id("template_x002e_document-links_x002e_document-details_x0023_default-page");
 
     public DocumentDetailsPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -1119,5 +1123,26 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         waitInSeconds(2);
         assertTrue(getBalloonMessage().equals(BallonMessage), "Cannot save with empty string: Check Ballon Message");
         return this;
+        
+    public String getShareLink()
+    {
+        return findElement(shareUrl).getAttribute("value");
+    }
+
+    public void openUrlNewTab() {
+        log.info("open new tab");
+        String copiedUrl = getShareLink();
+        String parentWindow = getWebDriver().getWindowHandle();
+        ((JavascriptExecutor) getWebDriver()).executeScript("window.open();");
+
+        log.info("switch to new tab");
+        Set<String> allWindows = getWebDriver().getWindowHandles();
+        for (String window : allWindows) {
+            if (!window.equals(parentWindow)) {
+                getWebDriver().switchTo().window(window);
+                break;
+            }
+        }
+        getWebDriver().get(copiedUrl);
     }
 }
