@@ -47,6 +47,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By commentDocument = By.cssSelector("[name*='commentNode']");
     private final By commentForm = By.cssSelector("[class=comment-form]");
     private final By addCommentButtonSave = By.cssSelector("[id*='default-add-submit-button']");
+    private final By addCommentButtonCancel = By.cssSelector("[id*='default-add-cancel-button']");
     private final By commentContent = By.cssSelector("[class=comment-content]");
     private final By sharePopUp = By.cssSelector("[class*=quickshare-action] [class=bd]");
     private final By shareDocument = By.cssSelector(".quickshare-action");
@@ -107,6 +108,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By changeTypeAction = By.cssSelector("#onActionChangeType > a");
     private final By unzipToAction = By.cssSelector("div[id='onActionUnzipTo'] a[class='action-link']");
     private final By modifierName = By.xpath("(//div[@class='viewmode-field'])[9]");
+    private final By balloon = By.cssSelector(".balloon>.text>div");
     private final By shareUrl = By.id("template_x002e_document-links_x002e_document-details_x0023_default-page");
 
     public DocumentDetailsPage(ThreadLocal<WebDriver> webDriver)
@@ -1079,6 +1081,48 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     public String getModifierValue()
     {
         return getElementText(modifierName);
+    }
+
+    public DocumentDetailsPage addCommentAndCancel(String comment)
+    {
+        log.info("Add comment: {}", comment);
+        switchTo().frame(findElement(commentContentIframe));
+        WebElement commentTextArea = switchTo().activeElement();
+        waitUntilElementIsVisible(commentTextArea);
+        clickElement(commentTextArea);
+        commentTextArea.sendKeys(comment);
+        switchToDefaultContent();
+        clickElement(addCommentButtonCancel);
+        waitUntilElementDisappears(message);
+        return this;
+    }
+
+    public DocumentDetailsPage assertVerifyNoCommentsIsDisplayed()
+    {
+        log.info("Verify the comment content");
+        waitInSeconds(WAIT_1.getValue());
+        assertTrue(isElementDisplayed(noComments), "Check Comments");
+        return this;
+    }
+
+    public String getBalloonMessage()
+    {
+        return findElement(balloon).getText();
+    }
+
+    public DocumentDetailsPage clearCommentBoxAndSave(String BallonMessage)
+    {
+        log.info("Clear Comment box and save");
+        switchTo().frame(findElement(commentContentIframe));
+        WebElement commentTextArea = switchTo().activeElement();
+        waitUntilElementIsVisible(commentTextArea);
+        clickElement(commentTextArea);
+        commentTextArea.clear();
+        switchToDefaultContent();
+        clickElement(addCommentButtonSave);
+        waitInSeconds(2);
+        assertTrue(getBalloonMessage().equals(BallonMessage), "Cannot save with empty string: Check Ballon Message");
+        return this;
     }
 
     public String getShareLink()

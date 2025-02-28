@@ -125,6 +125,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private By moreActionButton = By.xpath("//span[text()='More...']");
     private By tagToBeEdited = By.cssSelector(".inlineTagEditAutoCompleteWrapper input");
     private By clickCancelButton = By.id("template_x002e_edit-metadata_x002e_edit-metadata_x0023_default-form-cancel-button");
+    private By commentsCount = By.cssSelector("[class=comment-count]");
     @FindBy(css = "div[class ='google-map']")
     private WebElement googleMap;
     @FindBy(css = "div[id*='_default-info'] div[class='thumbnail'] a[href*='document-details']")
@@ -1769,6 +1770,25 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public void ClickOnCancelTag() {
         clickElement(clickCancelButton);
+    }
+
+    public int getCommentsNo()
+    {
+        return Integer.parseInt(getElementText(commentsCount));
+    }
+
+    public DocumentLibraryPage assertVerifyNoOfComments(int noOfComments)
+    {
+        log.info("Verify No of likes on the content {}", noOfComments);
+        assertEquals(getCommentsNo(), noOfComments, "No of likes not matched with %s " +noOfComments);
+        return this;
+    }
+
+    public DocumentLibraryPage assertVerifyNoCommentNumbers()
+    {
+        log.info("Verify No of likes on the content");
+        assertFalse(isElementDisplayed(commentsCount), "Check Comment numbers ");
+        return this;
     }
 
     public void addComment() {
