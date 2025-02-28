@@ -1789,7 +1789,8 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         log.info("Verify No of likes on the content");
         assertFalse(isElementDisplayed(commentsCount), "Check Comment numbers ");
         return this;
-      
+    }
+
     public void addComment() {
         String multipleComment = "comment" + System.currentTimeMillis();
         clickElement(addCommentButton);
