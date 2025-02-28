@@ -2,21 +2,21 @@ package org.alfresco.po.share.site;
 
 import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Utils.retryUntil;
-import static org.alfresco.common.Wait.*;
+import static org.alfresco.common.Wait.WAIT_3;
+import static org.alfresco.common.Wait.WAIT_5;
+import static org.alfresco.common.Wait.WAIT_1;
+import static org.alfresco.common.Wait.WAIT_2;
 import static org.alfresco.utility.Utility.waitToLoopTime;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
-
 import com.google.common.base.Function;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Utils;
@@ -174,8 +174,14 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private By listItemData = By.className("yui-dt-liner");
     private By tagToggleIcon = By.id("template_x002e_document-tags_x002e_document-details_x0023_default-heading");
     private By tag = By.xpath("//*[@id=\"template_x002e_document-tags_x002e_document-details_x0023_default-body\"]/div");
-
     private By galleryViewDocumentList = By.cssSelector("div[class ='alf-gallery-item']");
+    private By addCommentButton = By.id("yui-gen8-button");
+    private By perviousCommentPage = By.xpath("(//a[@class='yui-pg-previous'])[1]");
+    private By nextCommentPage = By.xpath("//a[@class='yui-pg-next' and @title='Next Page']");
+    private By saveComment = By.id("template_x002e_comments_x002e_document-details_x0023_default-add-submit-button");
+    private final By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
+    private By commentCount = By.xpath("(//span[@class='yui-pg-current'])[1]");
+    private By documentActionIcon = By.xpath("//*[@id=\"template_x002e_document-actions_x002e_document-details_x0023_default-heading\"][1]");
 
     public DocumentLibraryPage(ThreadLocal<WebDriver> webDriver) {
         super(webDriver);
@@ -1783,6 +1789,54 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         log.info("Verify No of likes on the content");
         assertFalse(isElementDisplayed(commentsCount), "Check Comment numbers ");
         return this;
+      
+    public void addComment() {
+        String multipleComment = "comment" + System.currentTimeMillis();
+        clickElement(addCommentButton);
+        switchTo().frame(findElement(commentContentIframe));
+        WebElement commentTextArea = switchTo().activeElement();
+        waitUntilElementIsVisible(commentTextArea);
+        clickElement(commentTextArea);
+        commentTextArea.sendKeys(multipleComment);
+        switchToDefaultContent();
+        clickElement(saveComment);
+        waitInSeconds(2);
+    }
+
+    public void addMultileComment() {
+        for (int i = 0; i < 12; i++)
+        {
+            addComment();
+        }
+    }
+
+    public void ClickOnNextCommentPage() {
+        clickElement(nextCommentPage);
+    }
+
+    public void ClickOnPerviousCommentPage() {
+        clickElement(perviousCommentPage);
+    }
+
+    public String getCommentCount() {
+        waitInSeconds(4);
+        scrollToElement(findElement(commentCount));
+        return findElement(commentCount).getText();
+    }
+
+    public void collapsedocumentAction() {
+        waitInSeconds(3);
+        clickElement(documentActionIcon);
+    }
+
+    public boolean isEditTagDisplayed()
+    {
+        return isElementDisplayed(tagValue);
+    }
+
+    public void clickOnHideFolder() {
+        clickElement(optionMenu_);
+        clickElement(hideFoldersMenuOption_);
     }
 }
 
