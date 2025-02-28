@@ -1123,7 +1123,8 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         waitInSeconds(2);
         assertTrue(getBalloonMessage().equals(BallonMessage), "Cannot save with empty string: Check Ballon Message");
         return this;
-        
+    }
+
     public String getShareLink()
     {
         return findElement(shareUrl).getAttribute("value");
