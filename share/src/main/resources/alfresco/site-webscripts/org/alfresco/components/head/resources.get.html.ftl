@@ -135,10 +135,11 @@
          "${c.attributes["id"]}": "${c.value}"<#if c_has_next>,</#if>
          </#list>
       };
+      Alfresco.constants.DOCUMENTATION_URL = "${documentationUrl()}";
       Alfresco.constants.HELP_PAGES =
       {
-         "share-help": "${msg("share-help.docs-url", context.properties["docsEdition"].value)}",
-         "share-tutorial": "${msg("share-tutorial.docs-url", context.properties["docsEdition"].value)}"
+         "share-help": "${documentationUrl("share-help.docs-url")}",
+         "share-tutorial": "${documentationUrl("share-tutorial.docs-url")}"
       };
       Alfresco.constants.HTML_EDITOR = 'tinyMCE';
       <#if config.scoped["Social"]["quickshare"].getChildValue("url")??>
