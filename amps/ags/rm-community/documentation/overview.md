@@ -7,12 +7,12 @@
 ### Purpose
 The Alfresco Records Management (RM) modules are installed on top of Alfresco Content Services and use a similar REST API and service architecture. This document provides an overview of the standard patterns that have been used throughout the RM modules.
 
-*** 
+***
 
-### Overview 
+### Overview
 RM is split into two main parts - a repository integration and a Share integration. The Share module communicates with the repository module using REST API calls. The repository module includes integration with the Alfresco database.
 
-*** 
+***
 
 ### Artifacts and Guidance
 
@@ -25,16 +25,16 @@ RM is split into two main parts - a repository integration and a Share integrati
 * [Enterprise Documentation Link](http://docs.alfresco.com/rm/concepts/welcome-rm.html)
 * [Contribution Model](../../CONTRIBUTING.md)
 
-*** 
+***
 
 ### Prerequisite Knowledge
-An understanding of Alfresco Content Services is assumed. The following pages from the [developer documentation](http://docs.alfresco.com/5.2/concepts/dev-for-developers.html) give useful background information:
+An understanding of Alfresco Content Services is assumed. The following pages from the [developer documentation](https://support.hyland.com/r/Alfresco/Alfresco-Content-Services-Community-Edition/23.3/Alfresco-Content-Services-Community-Edition/Develop) give useful background information:
 
 * [ACS Architecture](http://docs.alfresco.com/5.2/concepts/dev-arch-overview.html)
 * [Platform Extensions](http://docs.alfresco.com/5.2/concepts/dev-platform-extensions.html)
 * [Share Extensions](http://docs.alfresco.com/5.2/concepts/dev-extensions-share.html)
 
-*** 
+***
 
 ### APIs and Interfaces
 The RM Share module communicates with the repository module via REST APIs. Internally the RM repository module uses a three layer model:
