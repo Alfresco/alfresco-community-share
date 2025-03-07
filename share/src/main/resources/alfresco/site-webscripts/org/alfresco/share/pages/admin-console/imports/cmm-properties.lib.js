@@ -2,7 +2,7 @@
  * Custom Model Manager
  * Properties imports
  * imports/cmm-properties.lib.js
- * 
+ *
  * @author Kevin Roast
  * @author Richard Smith
  */
@@ -10,7 +10,7 @@
 var properties = {};
 
 // Converts the Java.lang.String to a Javascript string for serialization
-var inlineHelpVal = "" + msg.get("cmm.property.indexing.txthelp", [context.properties["docsEdition"].getValue()]);
+var inlineHelpVal = "" + msg.get("cmm.property.indexing.txthelp", [Alfresco.constants.DOCUMENTATION_URL]);
 
 /**
  * Form for creating a property
@@ -78,7 +78,7 @@ properties.createForm = [
                   value: "d:mltext",
                   label: "d:mltext"
                },
-/* NOTE: disabled as Forms Runtime does not support content fields except in 'Create' Form mode 
+/* NOTE: disabled as Forms Runtime does not support content fields except in 'Create' Form mode
    which is currently only accessible when using the Create plain/html content pages
                {
                   value: "d:content",
@@ -150,7 +150,7 @@ properties.createForm = [
          additionalCssClasses: "create-property-multiple"
       }
    },
-   
+
    // Various default controls - toggled depending on the chosen data type
    {
       name: "alfresco/forms/controls/TextBox",
@@ -458,7 +458,7 @@ properties.createForm = [
          postWhenHiddenOrDisabled: false
       }
    },
-   
+
    // Constraint options for LIST
    {
       name: "alfresco/forms/controls/TextArea",
@@ -510,7 +510,7 @@ properties.createForm = [
          value: false
       }
    },
-   
+
    // Constraint options for CLASS
    {
       name: "alfresco/forms/controls/TextBox",
@@ -544,7 +544,7 @@ properties.createForm = [
          postWhenHiddenOrDisabled: false
       }
    },
-   
+
    // Indexing
    {
       name: "alfresco/forms/controls/Select",
@@ -736,7 +736,7 @@ properties.createMenu = {
    name: "alfresco/layout/LeftAndRight",
    config: {
       widgets: [
-         // Use AlfDynamicPayloadButtons so we can retrieve data from the hash string which is set when the 
+         // Use AlfDynamicPayloadButtons so we can retrieve data from the hash string which is set when the
          // current item is selected from the outer Custom Models list.
          {
             name: "alfresco/buttons/AlfDynamicPayloadButton",
@@ -750,7 +750,7 @@ properties.createMenu = {
                }
             }
          },
-         // Current item is selected from the outer PropertyGroups or Types list. We set into the formSubmissionPayloadMixin 
+         // Current item is selected from the outer PropertyGroups or Types list. We set into the formSubmissionPayloadMixin
          // object as that mixes into the resulting form dialog payload.
          // We use cmm/buttons/CMMHashPayloadButton as this will null any missing values which is required to maintain the
          // mutually exclusive state of type|propertygroup set value.
