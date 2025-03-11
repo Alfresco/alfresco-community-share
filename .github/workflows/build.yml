@@ -271,7 +271,7 @@ jobs:
           rm -rf ~/.cache/google-chrome
           wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_132.0.6834.159-1_amd64.deb
           sudo apt-get install libu2f-udev
-          sudo dpkg -i google-chrome-stable_122.0.6261.111-1_amd64.deb
+          sudo dpkg -i google-chrome-stable_132.0.6834.159-1_amd64.deb
           google-chrome --version
       - name: "Init"
         run: bash scripts/ci/init.sh
