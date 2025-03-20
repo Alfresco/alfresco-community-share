@@ -182,7 +182,6 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private final By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
     private By commentCount = By.xpath("(//span[@class='yui-pg-current'])[1]");
     private By documentActionIcon = By.xpath("//*[@id=\"template_x002e_document-actions_x002e_document-details_x0023_default-heading\"][1]");
-    private By editCommentHelpIcon = By.xpath("//a[@name='.onHelpLinkClick']");
 
     public DocumentLibraryPage(ThreadLocal<WebDriver> webDriver) {
         super(webDriver);
@@ -1839,11 +1838,6 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     public void clickOnHideFolder() {
         clickElement(optionMenu_);
         clickElement(hideFoldersMenuOption_);
-    }
-
-    public boolean isCommentEditHelpIconDisplayed() {
-        waitInSeconds(3);
-        return isElementDisplayed(editCommentHelpIcon);
     }
 }
 
