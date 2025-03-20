@@ -258,7 +258,7 @@ public class ManagingCommentsTests extends BaseTest
             .assertVerifyCommentContent(nativeCharacters);
     }
 
-    @TestRail (id = "C7598, C7599")
+    @TestRail (id = "C7598")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void editCommentSiteManager()
     {
@@ -287,20 +287,17 @@ public class ManagingCommentsTests extends BaseTest
         documentPreviewPage
             .clickOnEditComment(comment);
 
-        log.info("Step 6: verify edit comment help icon");
-       // Assert.assertTrue(documentLibraryPage.isCommentEditHelpIconDisplayed(), "Edit comment help icon is available.");
-
-        log.info("Step 7: Verify 'Edit Comment' title of the comment box is displayed");
+        log.info("Step 5: Verify 'Edit Comment' title of the comment box is displayed");
         documentPreviewPage
             .assertIsEditCommentTitleDisplayed();
 
-        log.info("Step 8: Edit comment text and click on Save");
+        log.info("Step 7: Edit comment text and click on Save");
         documentPreviewPage
             .editComment(editedComment);
         documentPreviewPage
             .clickOnSaveButtonEditComment();
 
-        log.info("Step 9: Verify the edited comment content");
+        log.info("Step 8: Verify the edited comment content");
         documentPreviewPage
             .assertVerifyCommentContent(editedComment);
     }
