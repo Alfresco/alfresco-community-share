@@ -5,6 +5,8 @@ import static io.github.bonigarcia.wdm.WebDriverManager.firefoxdriver;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
+
 import org.alfresco.utility.exception.UnrecognizedBrowser;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.PageLoadStrategy;
@@ -60,36 +62,33 @@ public class WebDriverFactory
     private ChromeOptions setChromeBrowserOptions(DefaultProperties properties)
     {
         ChromeOptions chromeOptions = new ChromeOptions();
+
         chromeOptions.addArguments(properties.getNoSandboxChrome());
         chromeOptions.addArguments(properties.getDisableGpuChrome());
         chromeOptions.addArguments(properties.getDisableDevShmUsage());
         chromeOptions.addArguments(properties.getDisableExtensionsChrome());
-        chromeOptions.addArguments(properties.getSingleProcess());
-        chromeOptions.setHeadless(properties.isBrowserHeadless());
         chromeOptions.addArguments(properties.getWindowSizeChrome());
+
         chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
 
         boolean isHeadless = properties.isBrowserHeadless();
         chromeOptions.setHeadless(isHeadless);
 
-        if (!isHeadless)
-        {
+        if (!isHeadless) {
             chromeOptions.addArguments(properties.getStartMaximizedChrome());
         }
 
-        chromeOptions.addArguments(properties.getStartMaximizedChrome());
+        chromeOptions.setExperimentalOption("excludeSwitches", List.of("enable-automation"));
 
-        //disable chrome browser info bar
-        chromeOptions.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
         chromeOptions.addArguments(String.format("--lang=%s", getBrowserLanguage(properties)));
 
-        //disable profile password manager
         HashMap<String, Object> chromePrefs = new HashMap<>();
         chromePrefs.put("credentials_enable_service", properties.getCredentialsEnableServiceChrome());
         chromePrefs.put("profile.password_manager_enabled", properties.getProfilePasswordManagerEnabledChrome());
-
         chromePrefs.put("download.default_directory", getDownloadLocation());
+
         chromeOptions.setExperimentalOption("prefs", chromePrefs);
+
         return chromeOptions;
     }
 
