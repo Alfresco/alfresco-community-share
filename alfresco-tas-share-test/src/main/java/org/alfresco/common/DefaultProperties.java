@@ -186,6 +186,35 @@ public class DefaultProperties
     @Value ("${locale.country}")
     private String country;
 
+    @Value("${chrome.options.disable.dev.shm.usage}")
+    private String disableDevShmUsage;
+
+    @Value("${chrome.options.disable.extensions}")
+    private String disableExtensionsChrome;
+
+    @Value("${chrome.options.single.process}")
+    private String singleProcess;
+
+    @Value("${chrome.options.start.maximized}")
+    private String startMaximizedChrome;
+
+    @Value("${chrome.options.window.size}")
+    private String windowSizeChrome;
+
+    @Value("${chrome.options.credentials.enable.service}")
+    private String credentialsEnableServiceChrome;
+
+    @Value("${chrome.options.profile.password.manager.enabled}")
+    private String profilePasswordManagerEnabledChrome;
+
+    @Value("${chrome.options.no.sandbox}")
+    private String noSandboxChrome;
+
+    @Value("${chrome.options.disable.gpu}")
+    private String disableGpuChrome;
+
+
+
     public String getLanguage()
     {
         return language;
@@ -212,7 +241,7 @@ public class DefaultProperties
     }
 
     /**
-     * # in containers we cannot access directly JMX, so we will use {@link http://jolokia.org} agent
+     * # in containers we cannot access directly JMX, so we will use {@link <a href="http://jolokia.org">...</a>} agent
      * # disabling this we will use direct JMX calls to server
      */
     public boolean useJolokiaJmxAgent()
@@ -764,4 +793,50 @@ public class DefaultProperties
     {
         return aimsEnabled;
     }
+    public String getNoSandboxChrome()
+    {
+        return noSandboxChrome;
+    }
+
+    public String getDisableGpuChrome()
+    {
+        return disableGpuChrome;
+    }
+
+    public String getDisableDevShmUsage()
+    {
+        return disableDevShmUsage;
+    }
+
+    public String getDisableExtensionsChrome()
+    {
+        return disableExtensionsChrome;
+    }
+
+    public String getSingleProcess()
+    {
+        return singleProcess;
+    }
+
+    public String getStartMaximizedChrome()
+    {
+        return startMaximizedChrome;
+    }
+
+    public String getWindowSizeChrome()
+    {
+        return windowSizeChrome;
+    }
+
+    public boolean getCredentialsEnableServiceChrome()
+    {
+        return Boolean.parseBoolean(credentialsEnableServiceChrome);
+    }
+
+    public boolean getProfilePasswordManagerEnabledChrome()
+    {
+        return Boolean.parseBoolean(profilePasswordManagerEnabledChrome);
+    }
+
 }
+
