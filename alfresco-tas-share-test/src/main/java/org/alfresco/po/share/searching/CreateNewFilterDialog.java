@@ -302,8 +302,10 @@ public class CreateNewFilterDialog extends BaseDialogComponent
     public void addSite(String siteName)
     {
         clickElement(sitesAddButton);
+        waitInSeconds(2);
         clickElement(sitesSiteNameArrow);
-        WebElement dropdown = waitUntilElementIsVisible(sitesSiteNameDropdown);
+        waitInSeconds(3);
+        WebElement dropdown = findElement(sitesSiteNameDropdown);
         selectOptionFromFilterOptionsList(siteName, dropdown.findElements(dropdownOptions));
         clickElement(sitesDoneEditingButton);
     }
