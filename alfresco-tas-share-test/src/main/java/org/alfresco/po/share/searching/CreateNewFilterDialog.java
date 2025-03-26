@@ -7,44 +7,46 @@ import org.alfresco.po.share.BaseDialogComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 @Slf4j
 public class CreateNewFilterDialog extends BaseDialogComponent
 {
-    private final By dialogBody = By.cssSelector("div[class^='alfresco-dialog-AlfDialog handleOverflow']");
-    private final By dialogTitle = By.className("dijitDialogTitle");
-    private final By showWithSearch = By.cssSelector("input[name='isEnabled']");
+    private final By dialogBody          = By.cssSelector("div[class^='alfresco-dialog-AlfDialog handleOverflow']");
+    private final By dialogTitle         = By.className("dijitDialogTitle");
+    private final By showWithSearch      = By.cssSelector("input[name='isEnabled']");
     private final By filterPropertyInput = By.id("FORM_FACET_QNAME_CONTROL");
-    private final By editIcon = By.xpath("//img[@title=\"Edit the current entry\"]");
+    private final By editIcon            = By.xpath("//img[@title=\"Edit the current entry\"]");
     private final By selectedSiteDetails = By.className("read-display");
-    private final By sitesDropDownArrow = By.xpath("(//input[@type=\"text\"])[35]");
-    private final By sitesNameDropdown = By.className("dijitReset dijitMenuItemLabel");
+    private final By sitesDropDownArrow  = By.xpath("(//input[@type=\"text\"])[35]");
+    private final By sitesNameDropdown   = By.className("dijitReset dijitMenuItemLabel");
     private final By dropButton = By.xpath("(//input[@class=\"dijitReset dijitInputField dijitArrowButtonInner\"])[4]");
-    private final By dropdown = By.xpath("//td[@class=\"dijitReset dijitMenuItemLabel\"]");
+    private final By dropdown            = By.xpath("//td[@class=\"dijitReset dijitMenuItemLabel\"]");
 
-    private final By filterPropertyDropdown = By.id("widget_FORM_FACET_QNAME_CONTROL_dropdown");
+    private final By filterPropertyDropdown     = By.id("widget_FORM_FACET_QNAME_CONTROL_dropdown");
     private final By filterPropertyOptions = By.cssSelector("div[id^='FORM_FACET_QNAME_CONTROL_popup'].dijitMenuItem");
-    private final By sortByInput = By.cssSelector("table#FORM_SORTBY_CONTROL  div.dijitButtonText");
+    private final By sortByInput                = By.cssSelector("table#FORM_SORTBY_CONTROL  div.dijitButtonText");
     private final By sortByArrow = By.cssSelector("table#FORM_SORTBY_CONTROL input.dijitArrowButtonInner");
-    private final By sortByDropdown = By.id("FORM_SORTBY_CONTROL_dropdown");
-    private final By noFilters = By.cssSelector("div#FORM_MAX_FILTERS input[role='spinbutton']");
+    private final By sortByDropdown             = By.id("FORM_SORTBY_CONTROL_dropdown");
+    private final By noFilters                  = By.cssSelector("div#FORM_MAX_FILTERS input[role='spinbutton']");
     private final By minFilterLength = By.cssSelector("div#FORM_MIN_FILTER_VALUE_LENGTH input[role='spinbutton']");
-    private final By minRequiredResults = By.cssSelector("div#FORM_HIT_THRESHOLD input[role='spinbutton']");
-    private final By filterAvailabilityInput = By.cssSelector("div#FORM_SCOPE div.dijitButtonText");
-    private final By filterAvailabilityArrow = By.cssSelector("div#FORM_SCOPE input.dijitArrowButtonInner");
+    private final By minRequiredResults         = By.cssSelector("div#FORM_HIT_THRESHOLD input[role='spinbutton']");
+    private final By filterAvailabilityInput    = By.cssSelector("div#FORM_SCOPE div.dijitButtonText");
+    private final By filterAvailabilityArrow    = By.cssSelector("div#FORM_SCOPE input.dijitArrowButtonInner");
     private final By filterAvailabilityDropdown = By.id("FORM_SCOPE_CONTROL_dropdown");
     private final By sitesDoneEditingButton = By.xpath("//div[@id='FORM_SCOPED_SITES']//div[@class='button doneEditing']/img");
     private final By sitesCancelEditingButton = By.xpath("//div[@id='FORM_SCOPED_SITES']//div[@class='button cancelEditing']/img");
     private final By sitesSiteNameArrow = By.xpath("//div[@id='FORM_SCOPED_SITES']//div[@class='edit-display']//input[contains(@class, 'dijitArrowButtonInner')]");
     private final By sitesSiteNameDropdown = By.xpath("//div[contains(@id,'alfresco_forms_controls_') and @class='dijitPopup dijitMenuPopup' and not(contains(@style, 'display: none;'))]");
-    private final By currentSitesEntries = By.cssSelector("div.entries div.read-display");
-    private final By saveButton = By.cssSelector("span[class*='confirmationButton']");
-    private final By cancelButton = By.cssSelector("span[id$='_CANCEL_label']");
+    private final By currentSitesEntries        = By.cssSelector("div.entries div.read-display");
+    private final By saveButton                 = By.cssSelector("span[class*='confirmationButton']");
+    private final By cancelButton               = By.cssSelector("span[id$='_CANCEL_label']");
     private final By closeButton = By.xpath("//div[@role='dialog' and not(contains(@style, 'display: none'))]//span[@class='dijitDialogCloseIcon']");
-    private final By filterIdInput = By.cssSelector("input[name='filterID']");
-    private final By filterNameInput = By.cssSelector( "input[name='displayName']");
-    private final By dropdownOptions = By.className("dijitMenuItemLabel");
-    private final By sitesAddButton = By.cssSelector("#FORM_SCOPED_SITES div.button.add>img");
+    private final By filterIdInput              = By.cssSelector("input[name='filterID']");
+    private final By filterNameInput            = By.cssSelector("input[name='displayName']");
+    private final By dropdownOptions            = By.className("dijitMenuItemLabel");
+    private final By sitesAddButton             = By.cssSelector("#FORM_SCOPED_SITES div.button.add>img");
 
     public CreateNewFilterDialog(ThreadLocal<WebDriver> webDriver)
     {
@@ -53,7 +55,7 @@ public class CreateNewFilterDialog extends BaseDialogComponent
 
     public boolean isDialogDisplayed()
     {
-        return  isElementDisplayed(dialogTitle);
+        return isElementDisplayed(dialogTitle);
     }
 
     public String getDialogTitle()
@@ -79,7 +81,7 @@ public class CreateNewFilterDialog extends BaseDialogComponent
     public String getNumberOfFilters()
     {
         waitInSeconds(3);
-       return  findElement(noFilters).getAttribute("value");
+        return findElement(noFilters).getAttribute("value");
 
     }
 
@@ -279,7 +281,7 @@ public class CreateNewFilterDialog extends BaseDialogComponent
         clickElement(save);
         SearchManagerPage searchManagerPage = new SearchManagerPage(webDriver);
         searchManagerPage.waitUntilNotificationMessageDisappears();
-        if(isElementDisplayed(dialogBody))
+        if (isElementDisplayed(dialogBody))
         {
             log.warn("Failed to click Save button");
             clickElement(save);
@@ -305,10 +307,28 @@ public class CreateNewFilterDialog extends BaseDialogComponent
         waitInSeconds(2);
         clickElement(sitesSiteNameArrow);
         waitInSeconds(3);
-        WebElement dropdown = findElement(sitesSiteNameDropdown);
-        selectOptionFromFilterOptionsList(siteName, dropdown.findElements(dropdownOptions));
-        clickElement(sitesDoneEditingButton);
+
+        WebDriverWait wait = new WebDriverWait(getWebDriver(), 10); // Selenium 3.x uses int timeout, not Duration
+
+        WebElement dropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(sitesSiteNameDropdown));
+
+        List<WebElement> options = dropdown.findElements(dropdownOptions);
+
+        for (WebElement option : options)
+        {
+            if (option.getText()
+                .trim()
+                .equals(siteName))
+            {
+                option.click();
+                break;
+            }
+        }
+
+        WebElement doneButton = wait.until(ExpectedConditions.elementToBeClickable(sitesDoneEditingButton));
+        doneButton.click();
     }
+
 
     public void cancelAddSite(String siteName)
     {
