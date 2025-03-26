@@ -7,8 +7,6 @@ import org.alfresco.po.share.BaseDialogComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 @Slf4j
 public class CreateNewFilterDialog extends BaseDialogComponent
@@ -306,27 +304,9 @@ public class CreateNewFilterDialog extends BaseDialogComponent
         clickElement(sitesAddButton);
         waitInSeconds(2);
         clickElement(sitesSiteNameArrow);
-        waitInSeconds(3);
-
-        WebDriverWait wait = new WebDriverWait(getWebDriver(), 10); // Selenium 3.x uses int timeout, not Duration
-
-        WebElement dropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(sitesSiteNameDropdown));
-
-        List<WebElement> options = dropdown.findElements(dropdownOptions);
-
-        for (WebElement option : options)
-        {
-            if (option.getText()
-                .trim()
-                .equals(siteName))
-            {
-                option.click();
-                break;
-            }
-        }
-
-        WebElement doneButton = wait.until(ExpectedConditions.elementToBeClickable(sitesDoneEditingButton));
-        doneButton.click();
+        WebElement dropdown = waitUntilElementIsVisible(sitesSiteNameDropdown);
+        selectOptionFromFilterOptionsList(siteName, dropdown.findElements(dropdownOptions));
+        clickElement(sitesDoneEditingButton);
     }
 
 
