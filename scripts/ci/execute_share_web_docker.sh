@@ -19,11 +19,9 @@ mvn -B -ntp clean install \
                -Dalfresco.url="http://localhost:8080/alfresco" \
                -Dshare.port=8080 \
                -Dshare.url="http://localhost:8080/share" \
-               -Dadmin.user=admin '-Dadmin.password=admin' \
-               -Dbrowser.name=chrome \
-               -Dchrome.args="--headless --disable-gpu --no-sandbox" \
+               -Dadmin.user=admin '-Dadmin.password=admin' -Dbrowser.name=chrome \
                -Daims.enabled=false \
-               -Dsuite-name=${XML_SUITE} & # Send the long-living command to background!
+               -Dsuite-name=${XML_SUITE}& # send the long living command to background!
 
 # wait for the exit code of the background process
 wait $!
