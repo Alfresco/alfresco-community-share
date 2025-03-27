@@ -5,6 +5,8 @@ import static io.github.bonigarcia.wdm.WebDriverManager.firefoxdriver;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
+
 import org.alfresco.utility.exception.UnrecognizedBrowser;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.PageLoadStrategy;
@@ -60,26 +62,33 @@ public class WebDriverFactory
     private ChromeOptions setChromeBrowserOptions(DefaultProperties properties)
     {
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--no-sandbox");
-        chromeOptions.addArguments("--disable-gpu");
-        chromeOptions.addArguments("--disable-dev-shm-usage");
-        chromeOptions.addArguments("--disable-extensions");
-        chromeOptions.addArguments("--single-process");
-        chromeOptions.setHeadless(properties.isBrowserHeadless());
-        chromeOptions.addArguments("--window-size=1920,1080");
+
+        chromeOptions.addArguments(properties.getNoSandboxChrome());
+        chromeOptions.addArguments(properties.getDisableGpuChrome());
+        chromeOptions.addArguments(properties.getDisableDevShmUsage());
+        chromeOptions.addArguments(properties.getDisableExtensionsChrome());
+        chromeOptions.addArguments(properties.getWindowSizeChrome());
+
         chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
 
-        //disable chrome browser info bar
-        chromeOptions.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
+        boolean isHeadless = properties.isBrowserHeadless();
+        chromeOptions.setHeadless(isHeadless);
+
+        if (!isHeadless) {
+            chromeOptions.addArguments(properties.getStartMaximizedChrome());
+        }
+
+        chromeOptions.setExperimentalOption("excludeSwitches", List.of("enable-automation"));
+
         chromeOptions.addArguments(String.format("--lang=%s", getBrowserLanguage(properties)));
 
-        //disable profile password manager
         HashMap<String, Object> chromePrefs = new HashMap<>();
-        chromePrefs.put("credentials_enable_service", false);
-        chromePrefs.put("profile.password_manager_enabled", false);
-
+        chromePrefs.put("credentials_enable_service", properties.getCredentialsEnableServiceChrome());
+        chromePrefs.put("profile.password_manager_enabled", properties.getProfilePasswordManagerEnabledChrome());
         chromePrefs.put("download.default_directory", getDownloadLocation());
+
         chromeOptions.setExperimentalOption("prefs", chromePrefs);
+
         return chromeOptions;
     }
 
@@ -91,11 +100,11 @@ public class WebDriverFactory
         firefoxOptions.addPreference("browser.download.folderList", 2);
         firefoxOptions.addPreference("browser.download.manager.alertOnEXEOpen", false);
         firefoxOptions.addPreference("browser.helperApps.neverAsk.saveToDisk",
-            "application/msword, application/csv, application/ris, text/csv, image/png, application/pdf, text/html, text/plain, "
-                + "application/zip, application/x-zip, application/x-zip-compressed, application/download, application/octet-stream, "
-                + "application/vnd.openxmlformats-officedocument.wordprocessingml.document,"
-                + "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                + "application/vnd.openxmlformats-officedocument.presentationml.presentation");
+                                     "application/msword, application/csv, application/ris, text/csv, image/png, application/pdf, text/html, text/plain, "
+                                         + "application/zip, application/x-zip, application/x-zip-compressed, application/download, application/octet-stream, "
+                                         + "application/vnd.openxmlformats-officedocument.wordprocessingml.document,"
+                                         + "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                         + "application/vnd.openxmlformats-officedocument.presentationml.presentation");
         firefoxOptions.addPreference("browser.download.manager.showWhenStarting", false);
         firefoxOptions.addPreference("browser.download.manager.focusWhenStarting", false);
         firefoxOptions.addPreference("browser.download.useDownloadDir", true);
