@@ -31,6 +31,7 @@ import org.springframework.extensions.config.xml.XMLConfigService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class AIMSConfigTest extends BaseTest
 {
@@ -65,6 +66,8 @@ public class AIMSConfigTest extends BaseTest
         System.clearProperty("aims.principalAttribute");
         System.clearProperty("aims.enableBasicAuth");
         System.clearProperty("aims.secret");
+        System.clearProperty("aims.scopes");
+        System.clearProperty("aims.atIssuerAttribute");
     }
 
     /**
@@ -107,5 +110,23 @@ public class AIMSConfigTest extends BaseTest
         AIMSConfig aimsConfig = this.initAIMSConfig();
 
         Assert.assertFalse(aimsConfig.isEnabled());
+        Assert.assertEquals(Set.of("email", "profile", "openid"), aimsConfig.getScopes());
+        Assert.assertEquals("issuer", aimsConfig.getAtIssuerAttribute());
+    }
+
+    /**
+     * Test if custom properties are set correctly
+     */
+    public void testCustomPropertiesAreSetCorrectly()
+    {
+        this.clearSystemProperties();
+
+        AIMSConfig aimsConfig = this.initAIMSConfig();
+        aimsConfig.setScopes("customScope1, customScope2");
+        aimsConfig.setAtIssuerAttribute("access_token_issuer");
+
+        Assert.assertFalse(aimsConfig.isEnabled());
+        Assert.assertEquals(Set.of("customScope1", "customScope2"), aimsConfig.getScopes());
+        Assert.assertEquals("access_token_issuer", aimsConfig.getAtIssuerAttribute());
     }
 }
