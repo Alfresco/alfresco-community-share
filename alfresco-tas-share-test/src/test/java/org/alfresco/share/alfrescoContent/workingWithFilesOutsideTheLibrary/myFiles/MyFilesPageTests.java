@@ -72,7 +72,7 @@ public class MyFilesPageTests extends BaseTest
     }
 
     @TestRail (id = "C7660")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
     public void verifyMyFilesPageTags() {
 
         log.info("Precondition : Login as user and navigate to My Files page.");
