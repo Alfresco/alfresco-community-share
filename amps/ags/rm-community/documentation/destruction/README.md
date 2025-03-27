@@ -9,7 +9,7 @@ This includes:
  * Records
  * Classified content
 
-### Overview 
+### Overview
 
 Sensitive content is immediately deleted from the content store.  It does not get added to the trashcan or any other recoverable location and as such should not be recoverable.
 
@@ -23,16 +23,16 @@ Recorded content can be explicitly destroyed whilst maintaining the original nod
 * License: Alfresco Community
 * Issue Tracker Link: [JIRA RM](https://issues.alfresco.com/jira/projects/RM/summary)
 * Contribution Model: Alfresco Closed Source
-* Documentation: [docs.alfresco.com (Records Management)](http://docs.alfresco.com/rm2.4/concepts/welcome-rm.html)
+* Documentation: [support.hyland.com (Records Management)](https://support.hyland.com/p/alfresco)
 
-*** 
+***
 
 ### Design
 
 #### Component Model
 
 #### Content Model
- 
+
 * uri - http://www.alfresco.org/model/recordsmanagement/1.0
 * prefix - rma
 * rma:ghosted - aspect that indicates that a records content has been destroyed, but the records meta-data is still available.
@@ -45,16 +45,16 @@ Recorded content can be explicitly destroyed whilst maintaining the original nod
 
 ![Alfresco Destruction Class Diagram](./resource/class/destruction-class.png)
 
-*** 
+***
 
 ### Interfaces and APIs
 
-*** 
+***
 
 ### Configuration
 
-*** 
+***
 
 ### Considerations
 
-*** 
+***

@@ -20,9 +20,9 @@
 /**
  * Alfresco webditor plugin
  * @module AWE
- *  
+ *
  */
-(function() 
+(function()
 {
    var Dom = YAHOO.util.Dom,
        Event = YAHOO.util.Event,
@@ -61,7 +61,7 @@
 
          // handle events
          // edit content icon event
-         Bubbling.on(YAHOO.org.alfresco.awe.app.AWE_EDIT_CONTENT_CLICK_EVENT, function onEditContent_click(e, args) 
+         Bubbling.on(YAHOO.org.alfresco.awe.app.AWE_EDIT_CONTENT_CLICK_EVENT, function onEditContent_click(e, args)
          {
 	    if (args[1].hasWritePermission == true)
 	    {
@@ -73,7 +73,7 @@
 	    }
          }, this);
          // create content icon event
-         Bubbling.on(YAHOO.org.alfresco.awe.app.AWE_NEW_CONTENT_CLICK_EVENT, function onNewContent_click(e, args) 
+         Bubbling.on(YAHOO.org.alfresco.awe.app.AWE_NEW_CONTENT_CLICK_EVENT, function onNewContent_click(e, args)
          {
             if (args[1].hasWritePermission == true)
             {
@@ -85,7 +85,7 @@
             }
          }, this);
          // delete content icon event
-         Bubbling.on(YAHOO.org.alfresco.awe.app.AWE_DELETE_CONTENT_CLICK_EVENT, function onDeleteContent_click(e, args) 
+         Bubbling.on(YAHOO.org.alfresco.awe.app.AWE_DELETE_CONTENT_CLICK_EVENT, function onDeleteContent_click(e, args)
          {
             if (args[1].hasDeletePermission == true)
             {
@@ -111,14 +111,14 @@
          Bubbling.on(this.config.name + WebEditor.SEPARATOR + 'loginToggleClick', this.onLoginToggleClick, this, true);
 
          // Hover States
-         var els = [], 
+         var els = [],
          suffix = "-over",
          ext = ".png";
-         
-         els.push(Dom.getElementsByClassName("alfresco-content-delete")); 
+
+         els.push(Dom.getElementsByClassName("alfresco-content-delete"));
          els.push(Dom.getElementsByClassName("alfresco-content-new"));
          els.push(Dom.getElementsByClassName("alfresco-content-edit"));
-         
+
          Event.addListener(els, "mouseover", function()
          {
             var el = Dom.getChildren(this)[0];
@@ -138,20 +138,20 @@
          {
             tinyMCE.dom.Event.domLoaded = true;
          }
-         
+
          return this;
       },
-      
+
       setLoggedInStatus: function AWE_setLoggedInStatus(loggedIn)
       {
          this.set('loggedInStatus', loggedIn);
       },
-      
+
       isLoggedIn: function AWE_isLoggedIn()
       {
          return this.get('loggedInStatus');
       },
-      
+
       initEditor: function AWE_App_initEditor()
       {
          this.getNodeInfo();
@@ -215,9 +215,9 @@
                scope: this
             },
             execScripts: true
-         });      
+         });
       },
-      
+
       handleAJAXErrors: function AWE_App_handleAJAXErrors(args)
       {
          Alfresco.util.PopupManager.displayPrompt({
@@ -225,7 +225,7 @@
             text: args.serverResponse.message || Alfresco.util.message('message.error.fatal')
          }, Dom.get('wef'));
       },
-      
+
       onNodeDeleted: function AWE_App_onNodeDelete(args)
       {
          var nodeDeletedMessage = Alfresco.util.PopupManager.displayMessage({
@@ -235,7 +235,7 @@
                   });
          document.location.replace(args.config.redirectUrl);
       },
-      
+
      showAccessDeniedDialog: function AWE_App_showAccessDeniedDialog(title)
      {
        var configDialog = Alfresco.util.PopupManager.displayPrompt(
@@ -255,9 +255,9 @@
                }
             }
             ]
-         }, Dom.get('wef'));     
+         }, Dom.get('wef'));
      },
-      
+
       confirmDeleteNode: function AWE_App_confirmDeleteNode(editable)
       {
          if(this.isLoggedIn() === false)
@@ -305,7 +305,7 @@
 
          // get node info for each marked content node
          var nodeRefs = [];
-         for (var i = 0; i < this.config.editables.length; i++) 
+         for (var i = 0; i < this.config.editables.length; i++)
          {
             var config = this.config.editables[i];
             nodeRefs.push(config.nodeRef);
@@ -337,7 +337,7 @@
             {
                config: this.config
             },
-            failureCallback: 
+            failureCallback:
             {
                fn: function handleErrors(args)
                {
@@ -372,9 +372,9 @@
          this.setAttributeConfig('editables',
          {
             value: [],
-            validator: YAHOO.lang.isObject 
+            validator: YAHOO.lang.isObject
          });
-         
+
          this.setAttributeConfig('loggedInStatus',
          {
             value: (WEF.getCookieValue(this.config.name, 'loggedInStatus') == 'true'),
@@ -383,7 +383,7 @@
 
          this.on('loggedInStatusChange', this.onLoginStatusChangeEvent);
       },
-      
+
       /*
        * Renders the editor. Hence, the checks for existence of elements in the
        * DOM and creation of these elements if they don't exist.
@@ -475,8 +475,8 @@
                      icon: true
                   }
                ]);
-            } 
-            else 
+            }
+            else
             {
                this.toggleToolbar(true);
             }
@@ -486,7 +486,7 @@
 
          if (quickeditMenuButton != null)
          {
-           quickeditMenuButton.subscribe('mouseover', this.onQuickEditMouseOver, this, true); 
+           quickeditMenuButton.subscribe('mouseover', this.onQuickEditMouseOver, this, true);
          }
 
          // set up toolbar as a managed attribute so it can be exposed to other plugins
@@ -504,7 +504,7 @@
          if(secondaryToolBar.getButtonById(this.config.name + WebEditor.SEPARATOR + 'loginToggle') == null)
          {
             secondaryToolBar.addButtons(
-            [ 
+            [
                {
                   type: 'push',
                   label: loggedIn ? this.getMessage('awe.toolbar-logout-label') : this.getMessage('awe.toolbar-login-label'),
@@ -536,7 +536,7 @@
          // determine set of Alfresco types from the editable content items on the page
          var types = {};
 	     var menuConfig = [];
-	     for (var i = 0; i < editables.length; i++) 
+	     for (var i = 0; i < editables.length; i++)
 	     {
 	        var editable = editables[i].config;
                 if (editable.hasWritePermission == false)
@@ -567,7 +567,7 @@
       {
          // construct a menu item for each editable item on the page
          var menuConfig = [];
-         for (var i = 0; i < editables.length; i++) 
+         for (var i = 0; i < editables.length; i++)
          {
             var editable = editables[i].config, modifiedTitle = editable.title.replace("Edit ","");
 	    if (editable.hasWritePermission == false)
@@ -587,7 +587,7 @@
       {
          // construct a menu item for each editable item on the page
          var menuConfig = [];
-         for (var i = 0; i < editables.length; i++) 
+         for (var i = 0; i < editables.length; i++)
          {
             var editable = editables[i].config, modifiedTitle = editable.title.replace("Edit ","");
             menuConfig.push(
@@ -626,7 +626,7 @@
        *
        * @method loadEditForm
        * @param o {object} Config object; must have an dom element id and a nodeRef properties
-       *                   e.g 
+       *                   e.g
        *                   {
        *                      id: 'elementId' // Id of content element,
        *                      nodeRef: '..'   // NodeRef of content
@@ -638,7 +638,7 @@
          {
             return;
          }
-         
+
          // formId is optional so use appropriate substitute string
          var formUri = null;
          if (o.formId)
@@ -668,7 +668,7 @@
        *
        * @method loadCreateForm
        * @param o {object} Config object; must have an dom element id and a nodeRef properties
-       *                   e.g 
+       *                   e.g
        *                   {
        *                      id: 'elementId' // Id of content element,
        *                      nodeRef: '..'   // NodeRef of content
@@ -741,7 +741,7 @@
             editableConfig.nested = config.nested;
             editableConfig.redirectUrl = config.redirectUrl;
             editableConfig.formId = config.formId;
-            
+
             // construct the title. The title from the markup takes precedence,
             // then the node title, then the node name.
             if(config.title && config.title != '')
@@ -764,7 +764,7 @@
                var imgElem = Selector.query('img', elem, true);
                if(imgElem)
                {
-                  imgElem.setAttribute("title", Alfresco.util.message.call(this, 'message.edit', '', Alfresco.util.encodeHTML(editableConfig.title))); 
+                  imgElem.setAttribute("title", Alfresco.util.message.call(this, 'message.edit', '', Alfresco.util.encodeHTML(editableConfig.title)));
                }
 
                Event.addListener(elem, 'click', function AWE_EDIT_CONTENT_CLICK_EVENT(e, o)
@@ -782,7 +782,7 @@
                var imgElem = Selector.query('img', newElem, true);
                if(imgElem)
                {
-                  imgElem.setAttribute("title", Alfresco.util.message.call(this, 'message.create', '', editableConfig.typeTitle)); 
+                  imgElem.setAttribute("title", Alfresco.util.message.call(this, 'message.create', '', editableConfig.typeTitle));
                }
 
                Event.addListener(newElem, 'click', function AWE_NEW_CONTENT_CLICK_EVENT(e, o)
@@ -800,7 +800,7 @@
                var imgElem = Selector.query('img', deleteElem, true);
                if(imgElem)
                {
-                  imgElem.setAttribute("title", Alfresco.util.message.call(this, 'message.delete', '', editableConfig.title)); 
+                  imgElem.setAttribute("title", Alfresco.util.message.call(this, 'message.delete', '', editableConfig.title));
                }
 
                Event.addListener(deleteElem, 'click', function AWE_DELETE_CONTENT_CLICK_EVENT(e, o)
@@ -831,7 +831,7 @@
       {
          this.setLoggedInStatus(true);
       },
-      
+
       setLoggedIn: function AWE_setLoggedIn(loggedIn)
       {
          if(loggedIn)
@@ -877,7 +877,7 @@
             primaryToolBarButtons[button].set('disabled', !enabled);
          }
       },
-      
+
       loginCancelled: function AWE_loginCancelled()
       {
          // TODO currently not used - need to hook into login dialog cancel
@@ -906,12 +906,12 @@
       {
          var btn = WebEditor.module.Ribbon.getToolbar(WebEditor.ui.Ribbon.SECONDARY_TOOLBAR).getButtonById(
             this.config.name + WebEditor.SEPARATOR + 'loginToggle');
-         if (e.newValue === true) 
+         if (e.newValue === true)
          {
             btn.set('title', this.getMessage("awe.toolbar-logout-label"));
             btn.set('label', this.getMessage('awe.toolbar-logout-label'));
          }
-         else 
+         else
          {
             btn.set('title', this.getMessage("awe.toolbar-login-label"));
             btn.set('label', this.getMessage('awe.toolbar-login-label'));
@@ -927,7 +927,7 @@
       {
         this.loadCreateForm(args[1]);
       },
-      
+
       onQuickEditClick: function AWE_onQuickEditClick(e, args)
       {
         this.loadEditForm(args[1]);
@@ -954,15 +954,15 @@
 
          this.onShowHideClick.isHidden = true;
       },
-      
+
       onShowHideClick: function AWE_onShowHideClick(e, args)
       {
          if(this.isLoggedIn() === true)
          {
             var butImg = Dom.get(args[1]+'-button').getElementsByTagName('img')[0];
-    
+
             this.onShowHideClick.isHidden = this.onShowHideClick.isHidden || false;
-    
+
             if (this.onShowHideClick.isHidden)
             {
                this.showControls();
@@ -983,18 +983,18 @@
          {
             title: Alfresco.util.message('message.logout-confirmation-title','org.alfresco.awe.ui.LoginPanel'),
             text: Alfresco.util.message('message.logout-confirmation','org.alfresco.awe.ui.LoginPanel'),
-            buttons: 
+            buttons:
             [
                {
                   text: 'OK',
                   handler: function()
                   {
-                     var config = 
+                     var config =
                      {
                         url: WEF.get("contextPath") + '/page/dologout',
                         method: "POST",
                         noReloadOnAuthFailure: true,
-                        successCallback: 
+                        successCallback:
                         {
                            fn: function logoutSuccess(e)
                            {
@@ -1005,7 +1005,7 @@
                               Event.removeListener(newElem, 'click');
                               var deleteElem = Selector.query('a.alfresco-content-delete', markerSpan, true);
                               Event.removeListener(deleteElem, 'click');
-                              
+
                               // Removing primary toolbar buttons.
                               var primaryToolBar = WebEditor.module.Ribbon.getToolbar('WEF-'+WebEditor.ui.Ribbon.PRIMARY_TOOLBAR+'-root');
                               primaryToolBar.widgets.buttons = [];
@@ -1019,7 +1019,7 @@
                            },
                            scope: this
                         },
-                        failureCallback: 
+                        failureCallback:
                         {
                            fn: function logoutFailure(e)
                            {
@@ -1055,7 +1055,7 @@
          },
          Dom.get('wef'));
       },
-      
+
       onLoginToggleClick: function AWE_onLoginToggleClick(e, args)
       {
          if(this.isLoggedIn() === false)
@@ -1067,10 +1067,10 @@
             this.doLogout();
          }
       },
-      
+
       onHelp: function AWE_onHelp()
       {
-         window.open('http://docs.alfresco.com/3.4/topic/com.alfresco.Enterprise_3_4_0.doc/concepts/awe-introduction.html','wefhelp');
+         window.open('https://support.hyland.com/p/alfresco','wefhelp');
       },
 
       onQuickEditMouseOver: function AWE_onQuickEditMouseOver(e, args)
@@ -1085,7 +1085,7 @@
                 {
                    var anim = new YAHOO.util.ColorAnim(el,
                    {
-                      backgroundColor: 
+                      backgroundColor:
                       {
                          from: defaultColor,
                          to: hoverColor,
@@ -1103,9 +1103,9 @@
                 },
                 fadeOut = function fade(el)
                 {
-                   var anim = new YAHOO.util.ColorAnim(el, 
+                   var anim = new YAHOO.util.ColorAnim(el,
                    {
-                      backgroundColor: 
+                      backgroundColor:
                       {
                          from: hoverColor,
                          to: defaultColor,
@@ -1124,9 +1124,9 @@
                }
 
                //set up animation
-               this.scrollAnimation = new YAHOO.util.Scroll( (YAHOO.env.ua.webkit | (document.compatMode=='BackCompat' && YAHOO.env.ua.ie)) ? document.body : document.documentElement, 
+               this.scrollAnimation = new YAHOO.util.Scroll( (YAHOO.env.ua.webkit | (document.compatMode=='BackCompat' && YAHOO.env.ua.ie)) ? document.body : document.documentElement,
                {
-                  scroll: 
+                  scroll:
                   {
                      to: [0, Math.max(0, targetContentElRegion.top - 125)]
                   }
@@ -1147,8 +1147,8 @@
                fadeIn(targetContentEl);
             }
          }
-      }, 
-      module: 
+      },
+      module:
       {
          getFormPanelInstance : function(id)
          {
