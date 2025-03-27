@@ -25,6 +25,7 @@
       <classes>
          <class name="org.alfresco.share.site.analyzingASite.AnalyzingASiteTests"></class>
          <class name="org.alfresco.share.site.siteDashboard.SiteFileTypeBreakdownDashletTests"></class>
+          <class name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.taggingAndSocialFeatures.MyFilesTaggingTests"></class>
          </classes>
    </test>
 </suite>
