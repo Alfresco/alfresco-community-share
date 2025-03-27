@@ -329,6 +329,12 @@
             <artifactId>jakarta.annotation-api</artifactId>
             <version>${dependency.jakarta-annotation-api.version}</version>
           </dependency>
+          <!-- Version 2.4.10 has bug in parent pom and cannot be retrieved any longer -->
+          <dependency>
+            <groupId>net.minidev</groupId>
+            <artifactId>json-smart</artifactId>
+            <version>2.4.11</version>
+          </dependency>
         </dependencies>
     </dependencyManagement>
 

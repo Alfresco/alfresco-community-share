@@ -64,7 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.34.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
       - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v1.4.0
 
   build:
@@ -80,7 +80,7 @@ jobs:
         stage: [ source_clear ]
     steps:
       - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.14.1
       - name: "Init"
         run: bash scripts/travis/init.sh
       - name: Setup Python
@@ -92,7 +92,7 @@ jobs:
           export TAG_NAME="$(echo "${BRANCH_NAME}" | tr / - )"
           export NAMESPACE="travis-share-$GITHUB_RUN_NUMBER"
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.34.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: bash scripts/travis/build.sh
@@ -133,22 +133,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.34.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.14.1
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.x
-      - name: Downgrade google chrome version
-        run: |
-          sudo apt-get purge google-chrome-stable
-          sudo apt-get install libu2f-udev
-          sudo apt-get autoremove
-          rm -rf ~/.config/google-chrome
-          rm -rf ~/.cache/google-chrome
-          wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_122.0.6261.111-1_amd64.deb
-          sudo dpkg -i google-chrome-stable_122.0.6261.111-1_amd64.deb
-          google-chrome --version
       - name: "Init"
         run: bash scripts/travis/init.sh
       - name:  "Prepare before Test"
@@ -202,8 +192,8 @@ jobs:
         test: [communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests]
     steps:
       - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.34.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.34.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.14.1
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
@@ -288,8 +278,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.14.1
       - name: Setup Python
         uses: actions/setup-python@v5
         with:

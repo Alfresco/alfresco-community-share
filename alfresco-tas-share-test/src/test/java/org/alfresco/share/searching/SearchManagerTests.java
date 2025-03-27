@@ -373,9 +373,8 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6283")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
-    public void verifyFilterAvailabilityProperty()
-    {
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, "SearchTests" }, priority = 4)
+    public void verifyFilterAvailabilityProperty() throws InterruptedException {
         filterId = String.format("tag-filter%s", RandomData.getRandomAlphanumeric());
         filterName = String.format("tagFilter%s", RandomData.getRandomAlphanumeric());
 
@@ -981,7 +980,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6313")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, "SearchTests" }, priority = 2)
     public void verifySitesSection(){
 
         searchManagerPage.navigate();
