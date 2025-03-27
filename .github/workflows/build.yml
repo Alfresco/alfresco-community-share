@@ -285,6 +285,7 @@ jobs:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
           retry_wait_seconds: 60
+          retry_on: error
           command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml"
         continue-on-error: true
       - name: "Upload artifacts"
