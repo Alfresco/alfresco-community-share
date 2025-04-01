@@ -355,7 +355,7 @@ public class MyFilesTaggingTests extends BaseTest
     }
 
     @TestRail (id = "C7895")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "FlakyTests" })
     public void myFilesUpdateTag()
     {
         log.info("Create File in document library and move it to MyFiles Page.");
