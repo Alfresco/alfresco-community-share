@@ -64,8 +64,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v1.4.0
 
   build:
     runs-on: ubuntu-latest
@@ -82,8 +82,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.14.1
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: Setup Python
@@ -95,6 +95,7 @@ jobs:
           export TAG_NAME="$(echo "${BRANCH_NAME}" | tr / - )"
           export NAMESPACE="travis-share-$GITHUB_RUN_NUMBER"
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: bash scripts/ci/build.sh
@@ -137,9 +138,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v7.1.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v8.14.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.14.1
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
@@ -174,9 +175,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v7.1.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v8.14.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.14.1
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
@@ -209,25 +210,13 @@ jobs:
         test: [ user, user-and-site-dashboard, admin-tools, admin-console ,content-actions, content-filters, user-dashboard, userRolesAndPermissions, applying-rules, searching1, searching2, alfresco-content1, alfresco-content2, alfresco-content-and-site-features, task-and-workflows, site, site-dashboard, sitesFeatures-calendar, site-members, sitesFeatures-dataLists, sitesFeatures ]
     steps:
       - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v7.1.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v8.14.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.14.1
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: 3.x
-      - name: Downgrade google chrome version
-        run: |
-          sudo apt-get purge google-chrome-stable
-          sudo apt-get autoremove
-          rm -rf ~/.config/google-chrome
-          rm -rf ~/.cache/google-chrome
-          wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_122.0.6261.111-1_amd64.deb
-          sudo apt-get install libu2f-udev
-          sudo dpkg -i google-chrome-stable_122.0.6261.111-1_amd64.deb
-          google-chrome --version
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name:  "Prepare before Test"
@@ -289,8 +278,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.14.1
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -376,8 +365,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.1.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.14.1
       - name: Setup Python
         uses: actions/setup-python@v5
         with:

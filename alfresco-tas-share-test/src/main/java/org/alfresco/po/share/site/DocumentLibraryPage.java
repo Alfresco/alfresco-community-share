@@ -977,6 +977,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
         waitInSeconds(2);
         WebElement contentElement = selectDocumentLibraryItemRow(contentName);
         Parameter.checkIsMandotary("Content selector", contentElement);
+        waitInSeconds(4);
         WebElement tagElement = contentElement.findElement(noTagsSelector);
         Parameter.checkIsMandotary("Tag selector", tagElement);
         mouseOver(tagElement);
@@ -1254,6 +1255,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public DocumentLibraryPage assertFileIsDisplayed(String fileName) {
         log.info("Assert file is displayed in Document Library {}", fileName);
+        waitInSeconds(3);
         assertTrue(isFileNameDisplayed(fileName), fileName + " is not displayed");
         return this;
     }
