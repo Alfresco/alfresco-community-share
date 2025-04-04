@@ -33,6 +33,7 @@ import org.alfresco.utility.model.UserModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
@@ -326,5 +327,25 @@ public class BasicSearchTests extends BaseTest
         assertEquals(searchPage.getViewsDropdownOptions().toString(), expectedViewsDropdown.toString(), "Views dropdown option=");
 
         searchPage.clickDetailedView();
+    }
+
+    @TestRail (id = "MNT-24838")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    public void verifyPDFView()
+    {
+        log.info("Precondition: Creating random file in the site under document library");
+        testFile = FileModel.getRandomFileModel(FileType.PDF);
+        getCmisApi().usingSite(siteModel.get()).createFile(testFile).assertThat().existsInRepo();
+
+        authenticateUsingLoginPage(user1.get());
+
+        log.info("STEP1: Enter the document name in the toolbar search field and press Enter");
+        toolbar.search(testFile.getName());
+        searchPage.assertBrowserPageTitleIs("Alfresco » Search");
+        searchPage.assertCreatedDataIsDisplayed(testFile.getName());
+
+        log.info("Step 2: Check that the image is previewed from the search results");
+        searchPage.clickContentThumbnailByName(testFile.getName());
+        Assert.assertTrue(searchPage.isContentPreviewed(testFile.getName()), "File is previewed");
     }
 }
