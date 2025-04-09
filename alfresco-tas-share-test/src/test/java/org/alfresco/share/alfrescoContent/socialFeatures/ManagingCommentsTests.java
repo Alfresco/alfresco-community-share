@@ -1,5 +1,7 @@
 package org.alfresco.share.alfrescoContent.socialFeatures;
 
+import static org.junit.Assert.assertEquals;
+
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -8,6 +10,7 @@ import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.model.TestGroup;
@@ -30,6 +33,7 @@ public class ManagingCommentsTests extends BaseTest
     private final String editedComment = "Test comment edited for C9934" + random;
     private final String nativeCharacters = "désir Bedürfnis è il あなたの名前は何ですか ¿Cuál";
     private final String specialCharacters = "<>?:\"|{}+_)(*&^%$#@!~";
+    private final String linkComment = "https://support.hyland.com/home ";
 
     private FileModel fileToCheck;
     private DocumentLibraryPage documentLibraryPage;
@@ -41,6 +45,7 @@ public class ManagingCommentsTests extends BaseTest
     private final ThreadLocal<UserModel> user4 = new ThreadLocal<>();
     private final ThreadLocal<UserModel> user5 = new ThreadLocal<>();
     private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
+    FolderModel folder = FolderModel.getRandomFolderModel();
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
@@ -306,5 +311,86 @@ public class ManagingCommentsTests extends BaseTest
         log.info("Step 8: Verify the edited comment content");
         documentPreviewPage
             .assertVerifyCommentContent(editedComment);
+    }
+
+    @TestRail (id = "C7589")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void deleteCommentAndCancel()
+    {
+        log.info("Precondition: click on the file created in the site where comment to be added.");
+        documentLibraryPage.navigate(site.get().getTitle())
+            .clickOnFile(fileToCheck.getName())
+            .clickOnCommentDocument();
+
+        log.info("Step 1: Add comment to the file and then verify the comment ");
+        documentPreviewPage.addComment(comment)
+            .assertVerifyCommentContent(comment);
+
+        documentPreviewPage.clickDeleteComment(comment);
+        documentPreviewPage.assertIsDeleteCommentPromptDisplayed();
+        documentPreviewPage.clickCancelOnDeleteCommentPrompt();
+
+        documentPreviewPage.assertVerifyCommentContent(comment);
+
+    }
+
+    @TestRail (id = "C7590")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void addCommentLinks()
+    {
+        log.info("Precondition: click on the file created in the site where comment to be added.");
+        documentLibraryPage.navigate(site.get().getTitle())
+            .clickOnFile(fileToCheck.getName())
+            .clickOnCommentDocument();
+
+        log.info("Step 1: Add comment to the file and then verify the comment ");
+        documentPreviewPage.addComment(linkComment)
+            .assertVerifyCommentContent(linkComment);
+        documentPreviewPage.clickCommentContent(linkComment);
+        documentPreviewPage.assertBrowserPageTitleIs("Home • Product Documentation");
+    }
+
+    @TestRail (id = "C7591")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void addCommentHelp()
+    {
+        log.info("Step 1: Navigate to Document library & click on comment for document");
+        documentLibraryPage.navigate(site.get().getTitle())
+            .clickOnFile(fileToCheck.getName())
+            .clickOnCommentDocument();
+
+        log.info("Step 2: Check Help icon details");
+        documentPreviewPage.verifyHelpDetailsInComment();
+    }
+
+    @TestRail (id = "C7592")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void commentsPagination()
+    {
+        getCmisApi().authenticateUser(user.get()).usingSite(site.get())
+            .createFolder(folder).usingResource(folder)
+            .createFile(fileToCheck);
+
+        documentLibraryPage.navigate(site.get())
+            .clickOnFolderName(folder.getName())
+            .assertFileIsDisplayed(fileToCheck.getName());
+
+        log.info("Step 1: Click on the thumbnail or name of the file in the document library.");
+        documentLibraryPage.clickOnFile(fileToCheck.getName());
+        documentLibraryPage.addMultileComment();
+        assertEquals(documentLibraryPage.getCommentCount(), "1 - 10 of 12");
+    }
+
+    @TestRail (id = "C7593")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    public void addCommentEditingToolbar()
+    {
+        log.info("Step 1: Navigate to Document library & click on comment for document");
+        documentLibraryPage.navigate(site.get().getTitle())
+            .clickOnFile(fileToCheck.getName())
+            .clickOnCommentDocument();
+
+        log.info("Step 2: Check Editing toolbar is present in comment box");
+        documentPreviewPage.verifyEditingToolbarsForComment();
     }
 }
