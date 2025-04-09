@@ -33,7 +33,7 @@ public class ManagingCommentsTests extends BaseTest
     private final String editedComment = "Test comment edited for C9934" + random;
     private final String nativeCharacters = "désir Bedürfnis è il あなたの名前は何ですか ¿Cuál";
     private final String specialCharacters = "<>?:\"|{}+_)(*&^%$#@!~";
-    private final String linkComment = "www.google.com ";
+    private final String linkComment = "https://support.hyland.com/home ";
 
     private FileModel fileToCheck;
     private DocumentLibraryPage documentLibraryPage;
@@ -347,7 +347,7 @@ public class ManagingCommentsTests extends BaseTest
         documentPreviewPage.addComment(linkComment)
             .assertVerifyCommentContent(linkComment);
         documentPreviewPage.clickCommentContent(linkComment);
-        documentPreviewPage.assertBrowserPageTitleIs("Google");
+        documentPreviewPage.assertBrowserPageTitleIs("Home • Product Documentation");
     }
 
     @TestRail (id = "C7591")

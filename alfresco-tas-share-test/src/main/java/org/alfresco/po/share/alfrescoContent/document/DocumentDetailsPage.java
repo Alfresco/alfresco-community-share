@@ -1200,7 +1200,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     {
         log.info("click comment content {}", content);
         waitInSeconds(2);
-        By commentContent = By.xpath("//a[text()=\"www.google.com\"]");
+        By commentContent = By.xpath("//a[text()=\"https://support.hyland.com/home\"]");
         findElement(commentContent).click();
         return this;
     }
