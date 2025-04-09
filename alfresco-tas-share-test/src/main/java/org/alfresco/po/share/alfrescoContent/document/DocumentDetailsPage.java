@@ -110,6 +110,11 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By modifierName = By.xpath("(//div[@class='viewmode-field'])[9]");
     private final By balloon = By.cssSelector(".balloon>.text>div");
     private final By shareUrl = By.id("template_x002e_document-links_x002e_document-details_x0023_default-page");
+    private final By cancelButtonOnPrompt = By.xpath("(//button[text()=\"Cancel\"])[1]");
+    private final By helpIcon = By.name(".onHelpLinkClick");
+    private final By commentsEditingToolbar = By.xpath("//div[@class=\"mce-top-part mce-container mce-stack-layout-item mce-first\"]");
+    private final By helpText = By.className("help-text");
+    private final String helpIconText = "Keyboard Shortcuts: Bold (Ctrl+B), Italic (Ctrl+I), Underline (Ctrl+U), Undo (Ctrl+Z), Redo (Ctrl+Y).";
 
     public DocumentDetailsPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -1145,5 +1150,58 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
             }
         }
         getWebDriver().get(copiedUrl);
+    }
+
+    public DocumentDetailsPage verifyHelpDetailsInComment()
+    {
+        log.info("Add comment");
+        switchTo().frame(findElement(commentContentIframe));
+        WebElement commentTextArea = switchTo().activeElement();
+        waitUntilElementIsVisible(commentTextArea);
+        clickElement(commentTextArea);
+        switchToDefaultContent();
+        assertTrue(isHelpIconPresent(),"Check Help Icon");
+        clickElement(helpIcon);
+        waitInSeconds(2);
+        assertEquals(getHelpText(), helpIconText, "check help Icon text");
+        return this;
+    }
+
+    public boolean isHelpIconPresent()
+    {
+        return isElementDisplayed(helpIcon);
+    }
+
+    public boolean isEditingToolbarPresent()
+    {
+        return isElementDisplayed(commentsEditingToolbar);
+    }
+
+    public String getHelpText(){
+        return findElement(helpText).getText();
+    }
+
+
+    public DocumentDetailsPage verifyEditingToolbarsForComment()
+    {
+        log.info("Add comment");
+        waitInSeconds(2);
+        assertTrue(isEditingToolbarPresent(),"Check Editing toolbar in comment box");
+        return this;
+    }
+
+    public void clickCancelOnDeleteCommentPrompt()
+    {
+        waitInSeconds(2);
+        clickElement(cancelButtonOnPrompt);
+    }
+
+    public DocumentDetailsPage clickCommentContent(String content)
+    {
+        log.info("click comment content {}", content);
+        waitInSeconds(2);
+        By commentContent = By.xpath("//a[text()=\"https://support.hyland.com/home\"]");
+        findElement(commentContent).click();
+        return this;
     }
 }
