@@ -90,7 +90,8 @@ public class WikiListPage extends SiteCommon<WikiListPage>
      */
     public String noWikiPageDisplayed()
     {
-        return noWikiPage.getText();
+        waitUntilElementIsDisplayedWithRetry(By.cssSelector(".datatable-msg-empty"));
+        return findElement(noWikiPage).getText();
     }
 
     /**
