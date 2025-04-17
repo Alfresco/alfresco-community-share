@@ -171,21 +171,18 @@ public class ModelManagerTests extends BaseTest
             .assertStatusIsInactive();
     }
 
-    @TestRail (id = "C9519")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void exportModel()
     {
         String name = String.format("C9517testModel%s", getRandomAlphanumeric());
-        File exportedFile = new File(System.getProperty("user.dir")
-            + File.separator + "testdata" + File.separator + name.concat(".zip"));
+        File exportedFile = new File(
+                System.getProperty("user.dir") + File.separator + "testdata" + File.separator + name.concat(".zip"));
         exportedFile.deleteOnExit();
         CustomContentModel modelToExport = new CustomContentModel(name, name, name);
         createCustomModel(modelToExport);
         modelsToRemove.add(modelToExport);
 
         modelManagerPage.navigate();
-        modelManagerPage.usingModel(modelToExport)
-            .clickActions().exportModel();
+        modelManagerPage.usingModel(modelToExport).clickActions().exportModel();
         assertTrue(isFileInDirectory(exportedFile), "The file was not found in the specified location");
     }
 

@@ -56,7 +56,9 @@ public class AddExistingTagTests extends BaseTest
 
         selectDialog.typeTagWithRetry(tag)
             .selectTag(tag)
-            .assertTagIsSelected(tag)
+            .assertTagIsSelected(tag).clickOk();
+        selectDialog
+            .clickSelectButton()
             .assertTagIsNotSelectable(tag)
             .clickOk();
 

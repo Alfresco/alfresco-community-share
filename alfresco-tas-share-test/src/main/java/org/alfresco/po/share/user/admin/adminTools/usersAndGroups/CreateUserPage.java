@@ -94,6 +94,7 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
 
     public CreateUserPage setFirstName(String firstName)
     {
+        waitInSeconds(3);
         clearAndType(firstNameInputField, firstName);
         return this;
     }
