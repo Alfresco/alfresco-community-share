@@ -60,26 +60,32 @@ public class WebDriverFactory
     private ChromeOptions setChromeBrowserOptions(DefaultProperties properties)
     {
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--no-sandbox");
-        chromeOptions.addArguments("--disable-gpu");
-        chromeOptions.addArguments("--disable-dev-shm-usage");
-        chromeOptions.addArguments("--disable-extensions");
-        chromeOptions.addArguments("--single-process");
-        chromeOptions.setHeadless(properties.isBrowserHeadless());
-        chromeOptions.addArguments("--window-size=1920,1080");
+
+        chromeOptions.addArguments(properties.getNoSandboxChrome());
+        chromeOptions.addArguments(properties.getDisableGpuChrome());
+        chromeOptions.addArguments(properties.getDisableDevShmUsage());
+        chromeOptions.addArguments(properties.getDisableExtensionsChrome());
+        chromeOptions.addArguments(properties.getWindowSizeChrome());
+
         chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
 
-        //disable chrome browser info bar
+        boolean isHeadless = properties.isBrowserHeadless();
+        chromeOptions.setHeadless(isHeadless);
+
+        if (!isHeadless) {
+            chromeOptions.addArguments(properties.getStartMaximizedChrome());
+        }
+
         chromeOptions.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
         chromeOptions.addArguments(String.format("--lang=%s", getBrowserLanguage(properties)));
 
-        //disable profile password manager
         HashMap<String, Object> chromePrefs = new HashMap<>();
-        chromePrefs.put("credentials_enable_service", false);
-        chromePrefs.put("profile.password_manager_enabled", false);
-
+        chromePrefs.put("credentials_enable_service", properties.getCredentialsEnableServiceChrome());
+        chromePrefs.put("profile.password_manager_enabled", properties.getProfilePasswordManagerEnabledChrome());
         chromePrefs.put("download.default_directory", getDownloadLocation());
+
         chromeOptions.setExperimentalOption("prefs", chromePrefs);
+
         return chromeOptions;
     }
 
