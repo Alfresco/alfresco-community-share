@@ -166,21 +166,38 @@ public final class Utils
      * @param extension file extension
      * @return true if file exists, otherwise false
      */
-    public static boolean isFileInDirectory(String fileName, String extension)
-    {
+    public static boolean isFileInDirectory(String fileName, String extension) {
         int retry = 0;
-        int seconds = 10;
-        if (extension != null)
-        {
+        int seconds = 20;
+
+        if (extension != null) {
             fileName = fileName + extension;
         }
+
         String filePath = "testdata" + File.separator + fileName;
-        while (retry <= seconds && !Files.exists(Paths.get(filePath)))
-        {
-            retry++;
-            Utility.waitToLoopTime(1, String.format("Wait for '%s' to get downloaded", fileName));
+        String tempFilePath = filePath + ".crdownload";
+
+        // Ensure testdata directory exists
+        File directory = new File("testdata");
+        if (!directory.exists()) {
+            directory.mkdirs();
         }
-        return Files.exists(Paths.get(filePath));
+
+        Utility.waitToLoopTime(2, "Initial wait before checking file existence");
+
+        while (retry <= seconds) {
+            File file = new File(filePath);
+            File tempFile = new File(tempFilePath);
+
+            if (file.exists() && !tempFile.exists()) {
+                return true;
+            }
+
+            retry++;
+            Utility.waitToLoopTime(2, String.format("Waiting for '%s' to finish downloading...", fileName));
+        }
+
+        return false;
     }
 
     public static boolean isFileInDirectory(File file)
