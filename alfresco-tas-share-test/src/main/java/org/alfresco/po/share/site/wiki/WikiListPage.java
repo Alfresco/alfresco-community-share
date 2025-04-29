@@ -73,8 +73,6 @@ public class WikiListPage extends SiteCommon<WikiListPage>
 
     public String noWikiPageDisplayed()
     {
-        Alert alert = webDriver.get().switchTo().alert();
-        alert.accept();
         waitUntilElementIsDisplayedWithRetry(By.cssSelector(".datatable-msg-empty"));
         return findElement(noWikiPage).getText();
     }
