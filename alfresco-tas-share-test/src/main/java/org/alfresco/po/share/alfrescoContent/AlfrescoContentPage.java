@@ -71,10 +71,15 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>> {
     private final By removeDefaultViewLocator = By.cssSelector("span[class='removeDefaultView']");
     private final By tableViewContentArea = By.cssSelector("div[class='documents yui-dt alf-table']");
     private final By detailedViewContentArea = By.cssSelector("div[class='documents yui-dt']");
+    private final By unzipCopyMoveButton = By.cssSelector("button[id$='_default-copyMoveTo-ok-button']");
+    private final By myFiles = By.id("template_x002e_documentlist_v2_x002e_documentlibrary_x0023_default-copyMoveTo-myfiles-button");
+    private final By cancelMyFiles = By.id("template_x002e_documentlist_v2_x002e_documentlibrary_x0023_default-copyMoveTo-cancel-button");
+    private final By dialogBody = By.cssSelector("div[id$='default-copyMoveTo-dialog']");
     private final String breadcrumb =
         "//div[@class='crumb documentDroppable documentDroppableHighlights']//a[text()='%s']";
     private final String templateName = "//a[@class='yuimenuitemlabel']//span[text()='%s']";
     private final String contentRow = "//h3[@class='filename']//a[text()='%s']/../../../../..";
+    private By all_DocumentsFilter = By.cssSelector("span.all a");
 
     protected AlfrescoContentPage(ThreadLocal<WebDriver> webDriver) {
         super(webDriver);
@@ -423,5 +428,24 @@ public class AlfrescoContentPage<T> extends SharePage2<AlfrescoContentPage<T>> {
 
     public ContentFiltersComponent usingContentFilters() {
         return new ContentFiltersComponent(webDriver);
+    }
+
+    public void clickOkButton() {
+        log.info("Click Move button");
+        clickElement(unzipCopyMoveButton);
+        waitUntilElementDisappears(dialogBody);
+        waitUntilNotificationMessageDisappears();
+    }
+
+    public void clickOnMyFiles() {
+        clickElement(myFiles);
+    }
+
+    public void clickOnCancelMyFiles() {
+        clickElement(cancelMyFiles);
+    }
+
+    public void clickOnAllDocuments() {
+        clickElement(all_DocumentsFilter);
     }
 }
