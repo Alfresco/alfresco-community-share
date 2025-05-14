@@ -44,6 +44,8 @@ import org.springframework.extensions.surf.support.ThreadLocalRequestContext;
 import org.springframework.extensions.webscripts.Status;
 import org.springframework.extensions.webscripts.connector.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -60,6 +62,7 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResp
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
 import org.springframework.security.oauth2.client.endpoint.DefaultRefreshTokenTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2RefreshTokenGrantRequest;
+import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
 import org.springframework.security.oauth2.client.oidc.authentication.OidcIdTokenDecoderFactory;
 import org.springframework.security.oauth2.client.oidc.authentication.OidcIdTokenValidator;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
@@ -67,6 +70,7 @@ import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistration.ProviderDetails;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
@@ -86,6 +90,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationExch
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationResponse;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimNames;
@@ -136,6 +141,8 @@ import java.util.Set;
 import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
+
+import static org.alfresco.web.site.servlet.config.IdentityServiceMetadataKey.ACCESS_TOKEN_ISSUER;
 import static org.alfresco.web.site.servlet.config.SecurityUtils.toMultiMap;
 import static org.alfresco.web.site.servlet.config.SecurityUtils.isAuthorizationResponse;
 import static org.alfresco.web.site.servlet.config.SecurityUtils.convert;
@@ -737,9 +744,7 @@ public class AIMSFilter implements Filter
                         }
                     }
 
-                    OidcUser oidcUser = this.userService.loadUser(
-                        new OidcUserRequest(clientRegistration, accessTokenResponse.getAccessToken(), idToken,
-                                            additionalParameters));
+                    OidcUser oidcUser = new DefaultOidcUser(Collections.emptyList(), idToken, clientRegistration.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName());
                     Collection<? extends GrantedAuthority> mappedAuthorities =
                         this.authoritiesMapper.mapAuthorities(oidcUser.getAuthorities());
                     OAuth2LoginAuthenticationToken authenticationResult =
@@ -875,9 +880,7 @@ public class AIMSFilter implements Filter
          * Since I have already implemented a custom OidcUserService, reuse existing
          * code to get new user.
          */
-        OidcUser oidcUser = this.userService.loadUser(
-            new OidcUserRequest(clientRegistration, accessTokenResponse.getAccessToken(), idToken,
-                                accessTokenResponse.getAdditionalParameters()));
+        OidcUser oidcUser = new DefaultOidcUser(Collections.emptyList(), idToken, clientRegistration.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName());
 
         /**
          * Create new authentication(OAuth2LoginAuthenticationToken).
@@ -909,7 +912,7 @@ public class AIMSFilter implements Filter
     {
         List<OAuth2TokenValidator<Jwt>> validators = new ArrayList<>();
         validators.add(new JwtTimestampValidator(Duration.of(0, ChronoUnit.MILLIS)));
-        validators.add(new JwtIssuerValidator(providerDetails.getIssuerUri()));
+        validators.add(new JwtIssuerValidator((String) providerDetails.getConfigurationMetadata().get(ACCESS_TOKEN_ISSUER.getValue())));
 
         if (!StringUtils.isEmpty(this.audience))
         {
