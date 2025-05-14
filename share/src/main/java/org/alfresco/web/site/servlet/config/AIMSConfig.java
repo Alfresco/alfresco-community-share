@@ -21,6 +21,9 @@
 package org.alfresco.web.site.servlet.config;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -55,7 +58,10 @@ public class AIMSConfig
    private String logoutClientIDLabel;
    private String logoutClientIDValue;
    private static final String REALMS = "realms";
-   private String shareContext;
+    private static final String DEFAULT_SCOPES = "openid,profile,email";
+    private String shareContext;
+   private String atIssuerAttribute;
+   private Set<String> scopes;
 
     /**
      *
@@ -70,6 +76,8 @@ public class AIMSConfig
         this.setSslRequired(config.getConfigElementValue("sslRequired"));
         this.setPublicClient(Boolean.parseBoolean(config.getConfigElement("publicClient").getValue()));
         this.setAudience(config.getConfigElementValue("audience"));
+        this.setScopes(config.getConfigElementValue("scopes"));
+        this.setAtIssuerAttribute(config.getConfigElementValue("atIssuerAttribute"));
         if (publicClient)
         {
             this.setSecret(null);
@@ -385,5 +393,29 @@ public class AIMSConfig
 
     public void setShareContext(String shareContext) {
         this.shareContext = shareContext;
+    }
+
+    public void setScopes(String scopes)
+    {
+        this.scopes = Stream.of(Optional.ofNullable(scopes)
+                .filter(StringUtils::isNotBlank)
+                .orElse(DEFAULT_SCOPES).split(","))
+            .map(String::trim)
+            .collect(Collectors.toUnmodifiableSet());
+    }
+
+    public Set<String> getScopes()
+    {
+        return scopes;
+    }
+
+    public String getAtIssuerAttribute()
+    {
+        return atIssuerAttribute;
+    }
+
+    public void setAtIssuerAttribute(String atIssuerAttribute)
+    {
+        this.atIssuerAttribute = atIssuerAttribute;
     }
 }

@@ -13,6 +13,8 @@
         <principalAttribute>${aims.principalAttribute}</principalAttribute>
         <enableBasicAuth>${aims.enableBasicAuth}</enableBasicAuth>
         <secret>${aims.secret}</secret>
+        <scopes>${aims.scopes}</scopes>
+        <atIssuerAttribute>${aims.atIssuerAttribute}</atIssuerAttribute>
     </config>
 
 </alfresco-config>
