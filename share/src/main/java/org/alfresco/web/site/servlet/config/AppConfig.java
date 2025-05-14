@@ -1,5 +1,6 @@
 package org.alfresco.web.site.servlet.config;
 
+import static org.alfresco.web.site.servlet.config.IdentityServiceMetadataKey.ACCESS_TOKEN_ISSUER;
 import static org.alfresco.web.site.servlet.config.IdentityServiceMetadataKey.AUDIENCE;
 import static org.alfresco.web.site.servlet.config.IdentityServiceMetadataKey.SCOPES_SUPPORTED;
 
@@ -52,10 +53,11 @@ public class AppConfig
     private final String clientSecret;
     private final String principalAttribute;
     private final AIMSConfig aimsConfig;
+    private final Set<String> scopes;
     private static final String REALMS = "realms";
     private static final RestTemplate rest = new RestTemplate();
+    private static final String DEFAULT_ACCESS_TOKEN_ISSUER_ATTR = "issuer";
     private static final ParameterizedTypeReference<Map<String, Object>> typeReference = new ParameterizedTypeReference<Map<String, Object>>() {};
-    private static final Set<String> SCOPES = Set.of("openid", "profile", "email");
 
     @Autowired
     public AppConfig(AIMSConfig aimsConfig)
@@ -64,6 +66,7 @@ public class AppConfig
         this.clientId = aimsConfig.getResource();
         this.clientSecret = aimsConfig.getSecret();
         this.principalAttribute = aimsConfig.getPrincipalAttribute();
+        this.scopes = aimsConfig.getScopes();
     }
 
     @Bean
@@ -225,14 +228,20 @@ public class AppConfig
     private Set<String> getSupportedScopes(Scope scopes)
     {
         return scopes.stream()
-            .filter(scope -> SCOPES.contains(scope.getValue()))
+            .filter(this::hasShareScope)
             .map(Identifier::getValue)
             .collect(Collectors.toSet());
+    }
+
+    private boolean hasShareScope(Scope.Value scope)
+    {
+        return scopes.contains(scope.getValue());
     }
 
     private Map<java.lang.String, Object> createMetadata(OIDCProviderMetadata metadata,
                                                          Map<String, Object> configurationMetadata)
     {
+        String atIssuerAttribute = aimsConfig.getAtIssuerAttribute();
 
         if (metadata.getScopes() != null)
         {
@@ -242,6 +251,18 @@ public class AppConfig
         {
             configurationMetadata.put(AUDIENCE.getValue(), this.aimsConfig.getAudience());
         }
+
+        if (StringUtils.isNotBlank(atIssuerAttribute)
+            && !DEFAULT_ACCESS_TOKEN_ISSUER_ATTR.equals(atIssuerAttribute)
+            && metadata.getCustomParameters().get(atIssuerAttribute) != null)
+        {
+            configurationMetadata.put(ACCESS_TOKEN_ISSUER.getValue(), metadata.getCustomParameters().get(atIssuerAttribute));
+        }
+        else
+        {
+            configurationMetadata.put(ACCESS_TOKEN_ISSUER.getValue(), metadata.getIssuer().getValue());
+        }
+
         return configurationMetadata;
     }
 }
