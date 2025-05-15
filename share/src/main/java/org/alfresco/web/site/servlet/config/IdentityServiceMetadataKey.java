@@ -27,7 +27,7 @@ package org.alfresco.web.site.servlet.config;
 
 public enum IdentityServiceMetadataKey
 {
-    AUDIENCE("audience"), SCOPES_SUPPORTED("scopes_supported");
+    AUDIENCE("audience"), SCOPES_SUPPORTED("scopes_supported"), ACCESS_TOKEN_ISSUER("access_token_issuer");
 
     private String value;
 
