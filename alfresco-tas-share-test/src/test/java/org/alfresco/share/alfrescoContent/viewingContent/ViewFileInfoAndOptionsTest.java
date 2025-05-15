@@ -34,7 +34,7 @@ public class ViewFileInfoAndOptionsTest extends BaseTest
     private DocumentDetailsPage documentDetailsPage;
 
     private FolderModel folderToCheck;
-    private FileModel fileToCheck;
+    private FileModel fileToCheck, fileToCheckPDF;
 
     private final ThreadLocal<UserModel> user = new ThreadLocal<>();
     private final ThreadLocal<SiteModel> site = new ThreadLocal<>();
@@ -58,6 +58,10 @@ public class ViewFileInfoAndOptionsTest extends BaseTest
         log.info("Create a file into the folder");
         fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, description);
         getCmisApi().usingSite(site.get()).usingResource(folderToCheck).createFile(fileToCheck).assertThat().existsInRepo();
+
+        log.info("Create a pdf file into the folder");
+        fileToCheckPDF = FileModel.getRandomFileModel(FileType.PDF, description);
+        getCmisApi().usingSite(site.get()).usingResource(folderToCheck).createFile(fileToCheckPDF).assertThat().existsInRepo();
 
         authenticateUsingCookies(user.get());
     }
@@ -139,5 +143,32 @@ public class ViewFileInfoAndOptionsTest extends BaseTest
         log.info("STEP 14: Click 'Shared' icon and verify the Shared popup");
         documentDetailsPage
             .clickOnSharedLink();
+    }
+
+    @TestRail (id = "MNT-24825")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "DownloadTest" })
+    public void verifyPDFdownload() {
+        log.info("STEP 1: Navigate to 'Document Library' page for 'siteName' and verify folder name");
+        documentLibraryPage
+            .navigate(site.get().getTitle())
+            .assertFileIsDisplayed(folderToCheck.getName());
+
+        log.info("STEP 2: Click on folder name and verify the file present in folder then click on file name");
+        documentLibraryPage
+            .clickOnFolderName(folderToCheck.getName())
+            .assertFileIsDisplayed(fileToCheckPDF.getName())
+            .clickOnFile(fileToCheckPDF.getName());
+
+        log.info("Stem 3: Verify 'File Name' on preview page.");
+        documentDetailsPage
+            .assertIsFileNameDisplayedOnPreviewPage(fileToCheckPDF.getName());
+
+        log.info("STEP 4: Click 'Download' icon to download testFile");
+        documentDetailsPage
+            .clickDownloadButton();
+
+        log.info("Step 5: Verify Downloaded file present in the directory.");
+        documentDetailsPage
+            .assertVerifyFileInDirectory(fileToCheckPDF.getName());
     }
 }
