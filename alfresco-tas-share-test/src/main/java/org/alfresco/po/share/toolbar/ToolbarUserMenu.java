@@ -79,7 +79,7 @@ public class ToolbarUserMenu extends BasePage
         log.info("Assert Alfresco Documentation window is opened");
         waitForSecondWindow();
         switchWindow(1);
-        waitUrlContains("https://docs.alfresco.com/", WAIT_10.getValue());
+        waitUrlContains("https://support.hyland.com/p/alfresco", WAIT_10.getValue());
         assertTrue(getTitle().contains(language.translate("alfrescoDocumentation.pageTitle")) , "Page title");
         closeWindowAndSwitchBack();
 
