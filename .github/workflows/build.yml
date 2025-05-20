@@ -65,7 +65,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.18.3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v8.18.3
 
   build:
     runs-on: ubuntu-latest
@@ -83,7 +83,7 @@ jobs:
         with:
           persist-credentials: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.18.3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.18.3
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: Setup Python
@@ -112,7 +112,7 @@ jobs:
       !contains(github.event.head_commit.message, '[skip tests]')
     steps:
       - uses: actions/checkout@v4
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.18.3
       - name: "Init"
         run: bash scripts/ci/init.sh
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.18.3
@@ -197,7 +197,7 @@ jobs:
           persist-credentials: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v8.18.3
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.18.3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.18.3
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
@@ -234,7 +234,7 @@ jobs:
           persist-credentials: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v8.18.3
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.18.3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.18.3
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
@@ -271,7 +271,7 @@ jobs:
           persist-credentials: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v8.18.3
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.18.3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.18.3
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -338,7 +338,7 @@ jobs:
         with:
           persist-credentials: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.18.3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.18.3
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -426,7 +426,7 @@ jobs:
         with:
           persist-credentials: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.18.3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.18.3
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
