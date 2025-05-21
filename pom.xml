@@ -126,6 +126,11 @@
                 <version>${dependency.alfresco-jlan.version}</version>
             </dependency>
             <dependency>
+              <groupId>org.springframework</groupId>
+              <artifactId>spring-webmvc</artifactId>
+              <version>${dependency.spring.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.alfresco.surf</groupId>
                 <artifactId>spring-webscripts</artifactId>
                 <version>${dependency.webscripts.version}</version>
