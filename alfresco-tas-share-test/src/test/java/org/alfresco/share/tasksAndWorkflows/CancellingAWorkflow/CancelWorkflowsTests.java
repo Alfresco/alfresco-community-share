@@ -101,7 +101,7 @@ public class CancelWorkflowsTests extends BaseTest
         deleteUsersIfNotNull(user1.get());
     }
 
-    @TestRail (id = "C8433, C8499")
+    @TestRail (id = "C8433")
     @Test (groups = { TestGroup.SANITY, TestGroup.TASKS})
     public void cancelWorkflowCancel()
     {

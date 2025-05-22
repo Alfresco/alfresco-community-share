@@ -691,6 +691,35 @@ public class CreateNewTaskTests extends BaseTest
         contentService.deleteFolder(testUser.get().getUsername(),testUser.get().getPassword(), siteName.get().getId(), documentName);
     }
 
+    @TestRail (id = "C8499")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    public void deleteWorkflowCancel() {
+        String firstName = testUser.get().getFirstName();
+        String lastName = testUser.get().getLastName();
+
+        log.info("Precondition");
+        authenticateUsingLoginPage(testUser.get());
+        documentLibraryPage.navigate(siteName.get());
+
+        log.info("STEP 1: Hover over a file, click More then Start Workflow");
+        documentLibraryPage.selectItemAction(docName, ItemActions.START_WORKFLOW);
+
+        log.info("STEP 2: Click on 'Please select a workflow' button");
+        log.info("STEP 3: Select the workflow 'New Task' from the drop-down list.");
+        startWorkflowPage.selectAWorkflow(newTaskName);
+
+        log.info("STEP 4: Add message, select a Due date, priority, assign it to you and click on cancel button");
+        startWorkflowPage.addWorkflowDescription("WorkflowDescription");
+        startWorkflowPage.selectCurrentDateFromDatePicker();
+        startWorkflowPage.selectWorkflowPriority("High");
+        startWorkflowPage.clickOnSelectButtonSingleAssignee();
+        selectPopUpPage.search(testUser.get().getUsername());
+        selectPopUpPage.clickAddIcon(firstName + " " + lastName + " " + "(" + testUser.get().getUsername() + ")");
+        selectPopUpPage.clickOkButton();
+        startWorkflowPage.cancelStartWorkflow();
+        documentLibraryPage.assertBrowserPageTitleIs("Alfresco » Document Library");
+    }
+
     /**
      * Add 'MyTask' dashlet to user dashboard if it is not already displayed.
      * And then check if it was successfully added.
