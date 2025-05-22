@@ -119,7 +119,7 @@ public class CancelWorkflowsTests extends BaseTest
         log.info("STEP 1: From 'Tasks' dropdown click 'Workflows I've Started' option.");
         workflowsIveStartedPage.navigate();
 
-        log.info("STEP 2: Click on 'Cancel Workflow' option for the workflow created in Precondition.");
+        log.info("STEP 2: Click on 'Cancel Workflow cancel' option for the workflow created in Precondition.");
         workflowsIveStartedPage.clickCancelWorkflow(workflowName, false);
         List<String> workflows = workflowsIveStartedPage.getActiveWorkflows();
         Assert.assertTrue(workflows.contains(workflowName), String.format("Workflow: %s is cancelled.", workflowName));
