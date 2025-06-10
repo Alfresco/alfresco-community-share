@@ -5,7 +5,9 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.dataprep.ContentService;
@@ -32,6 +34,10 @@ public class MyFilesSelectContentTests extends BaseTest
     private final String testFile = RandomData.getRandomAlphanumeric() + "testFile.txt";
     private final String testFilePath = testDataFolder + testFile;
     private final String folderName = String.format("testFolder%s", RandomData.getRandomAlphanumeric());
+    private final String testFile1 = RandomData.getRandomAlphanumeric() + "testFile1.txt";
+    private final String testFilePath1 = testDataFolder + testFile1;
+    private final String testFile2 = RandomData.getRandomAlphanumeric() + "testFile2.txt";
+    private final String testFilePath2 = testDataFolder + testFile2;
     private String myFilesPath;
     protected ContentService contentService;
     //@Autowired
@@ -174,5 +180,46 @@ public class MyFilesSelectContentTests extends BaseTest
             .clickCheckBox(folderName);
         assertEquals(myFilesPage.verifyContentItemsSelected(expectedContentList1), expectedContentList1.toString(), "Selected content = ");
         assertTrue(headerMenuBar.isSelectedItemsMenuEnabled(), "'Selected Items...' menu is enabled.");
+    }
+
+    @TestRail(id = "XAT-10434")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, "DownloadTest" })
+    public void performingActionsOnSeveralSelectedItemsCopyTo()
+    {
+        log.info("Step1: Login as user, navigate to My Files page and create a couple of plain text files.");
+        myFilesPage.navigate()
+            .assertBrowserPageTitleIs("Alfresco » My Files");
+
+        List<String> uploadTestContent = Arrays.asList(testFilePath1, testFilePath2);
+        for (String uploads : uploadTestContent)
+        {
+            uploadContent.uploadContent(uploads);
+        }
+
+        log.info("Step2: Select Multiple Document checkboxes");
+        List<String> testFiles = Arrays.asList(testFile1, testFile2);
+        for (String file : testFiles)
+        {
+            myFilesPage.selectDocumentCheckbox(file);
+        }
+
+        log.info("Step3: click on selectedItems button");
+        myFilesPage.clickSelectedItemsButton();
+
+        log.info("Step4: From drop down select Copy To");
+        myFilesPage.clickSelectedItemsAction("Copy to...");
+
+        log.info("Step4: From Copy To screen click target folder i.e.,Shared files");
+        myFilesPage.clickSharedFiles().clickCopy();
+
+        log.info("Step5: verify content copy available in Shared files");
+        myFilesPage
+            .clickSharedFilesFromHeaderMenu()
+            .assertIsContantNameDisplayed(testFile1)
+            .assertIsContantNameDisplayed(testFile2);
+
+
+
+
     }
 }
