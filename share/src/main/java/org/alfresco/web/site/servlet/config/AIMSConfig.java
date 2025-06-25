@@ -54,8 +54,8 @@ public class AIMSConfig
    private String postLogoutRedirectUrlValue;
    private String logoutClientIDLabel;
    private String logoutClientIDValue;
-
-    private static final String REALMS = "realms";
+   private static final String REALMS = "realms";
+   private String shareContext;
 
     /**
      *
@@ -166,6 +166,14 @@ public class AIMSConfig
         else
         {
             this.setLogoutClientIDValue(null);
+        }
+        if (!StringUtils.isEmpty(config.getConfigElementValue("shareContext")))
+        {
+            this.setShareContext(config.getConfigElementValue("shareContext"));
+        }
+        else
+        {
+            this.setShareContext("/share");
         }
 
     }
@@ -369,5 +377,13 @@ public class AIMSConfig
     public void setLogoutClientIDValue(String logoutClientIDValue)
     {
         this.logoutClientIDValue = logoutClientIDValue;
+    }
+
+    public String getShareContext() {
+        return shareContext;
+    }
+
+    public void setShareContext(String shareContext) {
+        this.shareContext = shareContext;
     }
 }

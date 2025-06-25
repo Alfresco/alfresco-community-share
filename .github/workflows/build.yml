@@ -65,7 +65,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
-      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v1.4.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v7.1.0
 
   build:
     runs-on: ubuntu-latest
