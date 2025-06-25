@@ -343,6 +343,7 @@
         <logoutClientIDLabel>${aims.logout.client_id_label}</logoutClientIDLabel>
         <logoutClientIDValue>${aims.logout.client_id_value}</logoutClientIDValue>
         <useIdTokenHint>${aims.logout.useIdTokenHint}</useIdTokenHint>
+        <shareContext>${aims.shareContext.value}</shareContext>
     </config>
 
     <!-- Cookie Headers-->
