@@ -137,8 +137,8 @@
       };
       Alfresco.constants.HELP_PAGES =
       {
-         "share-help": "${msg("share-help.docs-url", context.properties["docsEdition"].value)}",
-         "share-tutorial": "${msg("share-tutorial.docs-url", context.properties["docsEdition"].value)}"
+         "share-help": "${docUrlFtl(msg("share-help.docs-url"), context.properties["docsEdition"].value)}",
+         "share-tutorial": "${docUrlFtl(msg("share-tutorial.docs-url"), context.properties["docsEdition"].value)}"
       };
       Alfresco.constants.HTML_EDITOR = 'tinyMCE';
       <#if config.scoped["Social"]["quickshare"].getChildValue("url")??>

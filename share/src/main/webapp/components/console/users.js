@@ -91,7 +91,7 @@
           * @type String
           */
          selectedUser: null,
-		 
+
 		 /**
 		 * Deauthorize dialog
 		 */
@@ -146,14 +146,14 @@
                failureMessage: parent._msg("message.authenticationdetails-failure", $html(parent.group))
             });
 
-            
-            
-               
-                  
-                  
-               
-               
-            
+
+
+
+
+
+
+
+
             // Setup the main datatable
             this._setupDataTable();
 
@@ -364,7 +364,7 @@
                   }
                }
             };
-            
+
             /**
              * User authorization state custom datacell formatter
              *
@@ -374,7 +374,7 @@
             {
                elCell.innerHTML = $html(parent._msg("label.authorization.status." + oData));
             };
-            
+
             /**
              * User isDeleted state custom datacell formatter
              *
@@ -534,7 +534,7 @@
                {
                   config:
                   {
-                     generateRequest:  function(oState, oSelf) 
+                     generateRequest:  function(oState, oSelf)
                      {
                         var startIndex = (oState.pagination.page - 1 )*oState.pagination.rowsPerPage;
                         var sort = encodeURIComponent((oState.sortedBy) ? oState.sortedBy.key : oSelf.getColumnSet().keys[0].getKey());
@@ -565,10 +565,10 @@
                   {
                      // People webscript uses other pagination parameters than the default setting
                      return "startIndex=" + currentSkipCount + "&" + "pageSize=" + currentMaxItems + "&" + me._buildSearchParams(parent.searchTerm + " [hint:useCQ]").substring(1) + "&sortBy=" + currentSortKey + "&dir=" + currentDir;
-                  },   
+                  },
                   defaultFilter:
                   {
-                     filterId: "all" 
+                     filterId: "all"
                   },
                   config:
                   {
@@ -576,7 +576,7 @@
                      responseSchema:
                      {
                         resultsList: "people"
-                     }   
+                     }
                   }
                },
                paginator:
@@ -590,12 +590,12 @@
                   }
                }
             });
-            
+
             //Show total number of search result
             parent.widgets.pagingDataTable.widgets.dataSource.doBeforeParseData = function PeopleFinder_doBeforeParseData(oRequest, oFullResponse)
             {
                me._setResultsMessage("message.results", $html(parent.searchTerm), oFullResponse.paging.totalItems);
-               
+
                return oFullResponse;
             };
          },
@@ -819,7 +819,7 @@
             // Initialise the form
             form.init();
             this._form = form;
-			
+
             // Add an enter listener to the items
             var createForm = Dom.get(parent.id + "-create-form");
             if (createForm)
@@ -827,7 +827,7 @@
                var inputs = createForm.getElementsByTagName("input");
                for (var i=0; i < inputs.length; i++)
                {
-                  YAHOO.util.Event.addListener(inputs[i], "keyup", this._enterKeyListener); 
+                  YAHOO.util.Event.addListener(inputs[i], "keyup", this._enterKeyListener);
                }
             }
 
@@ -866,7 +866,7 @@
                wildcardPrefix: false
             });
          },
-	 
+
          _enterKeyListener: function _enterKeyListener(e)
          {
             if (e && e.keyCode == 13)
@@ -1552,19 +1552,19 @@
           * @default 8
           */
          minPasswordLength: 8,
-         
+
          /**
           * Specifies whether authorization status should be displayed
-          * 
+          *
           * @property showAuthorizationStatus
           * @type boolean
           * @default false
           */
          showAuthorizationStatus: false,
-         
+
          /*
           * Specifies the edition for docs links
-          * 
+          *
           * @property docsEdition
           * @type String
           * @default "community"
@@ -1702,7 +1702,7 @@
             });
             return;
          }
-         
+
          this.refreshUIState({"search": searchTerm});
       },
 
@@ -1724,13 +1724,13 @@
                handler: function ConsoleUsers_onDeauthorizedButtonClick_deauthorize()
                {
                   this.hide();
-         
+
                   Alfresco.util.Ajax.request(
                   {
                      method: Alfresco.util.Ajax.POST,
                      url: Alfresco.constants.PROXY_URI + "api/deauthorize",
                      requestContentType: Alfresco.util.Ajax.JSON,
-                     dataObj: 
+                     dataObj:
                      {
                         username: me.selectedUser
                      },
@@ -1749,7 +1749,7 @@
                         },
                         scope: me
                      },
-                     failureCallback: 
+                     failureCallback:
                      {
                         fn: function onDeauthorizeFailure(o)
                         {
@@ -1782,28 +1782,28 @@
             close: false,
             buttons: buttons
          });
-   
+
          var deauthHeader = this.msg("deauthorize.dialog.header", this.selectedUser);
          var deauthCheckboxMessage = this.msg("deauthorize.dialog.checkbox.message");
-         var body=this.msg("deauthorize.dialog.message", this.options.docsEdition) + "<br><br>&nbsp;&nbsp;<input type=\"checkbox\" name=\"isAgreed\" id=\"isAgreedID\" value=\"1\" />&nbsp;" + deauthCheckboxMessage;
-   
-         this.deauthorizeDialog.setHeader(deauthHeader);	
+         var body=this.docUrlJs.get(this.msg.get("deauthorize.dialog.message"), this.options.docsEdition) + "<br><br>&nbsp;&nbsp;<input type=\"checkbox\" name=\"isAgreed\" id=\"isAgreedID\" value=\"1\" />&nbsp;" + deauthCheckboxMessage;
+
+         this.deauthorizeDialog.setHeader(deauthHeader);
          this.deauthorizeDialog.setBody(body);
-   
+
          //get current row and render on it's first child
          this.deauthorizeDialog.render(cell.parentNode.parentNode.firstChild);
-   
+
          this.deauthorizeDialog.getButtons()[0]._setDisabled(true);
-   
+
          var checkBoxEl = Dom.get("isAgreedID");
          YAHOO.util.Event.addListener(checkBoxEl, "change", function(e,obj)
          {
             me.deauthorizeDialog.getButtons()[0]._setDisabled(!obj.checked);
          }, checkBoxEl, this);
-   
+
          this.deauthorizeDialog.show();
       },
-         
+
       /**
        * Reauthorized button click event handler
        *
@@ -1818,9 +1818,9 @@
          {
             if (!me.reauthorizeDialog)
             {
-               me.reauthorizeDialog = Alfresco.util.ComponentManager.findFirst("Alfresco.HtmlUpload") 
+               me.reauthorizeDialog = Alfresco.util.ComponentManager.findFirst("Alfresco.HtmlUpload")
             }
-         
+
             // Show uploader for single file select - override the upload URL to use appropriate upload service
             var uploadConfig =
             {
@@ -1845,7 +1845,7 @@
                         {
                            text: parent._msg("reauthorize.dialog.success"),
                            effect: null
-                        });	
+                        });
                      }
                      YAHOO.lang.later(2000, this, function()
                      {
@@ -1855,12 +1855,12 @@
                   scope: me
                }
             };
-         
+
             me.reauthorizeDialog.show(uploadConfig);
 
             var extesnsionSpan = Dom.get(me.reauthorizeDialog.id + "-extension-message");
             var selectFileMessage = Dom.get(me.reauthorizeDialog.id + "-select-file-message");
- 
+
             if (!me.fileUploadOriginalMessages)
             {
                me.fileUploadOriginalMessages = {};
@@ -1869,18 +1869,18 @@
                me.fileUploadOriginalMessages.originalTitle = me.reauthorizeDialog.widgets.titleText.innerHTML;
                me.fileUploadOriginalMessages.originalTitleUploadButtonLable = me.reauthorizeDialog.widgets.uploadButton._button.innerHTML;
             }
- 
+
             me.reauthorizeDialog.widgets.titleText.innerHTML = parent._msg("reauthorize.dialog.title", me.selectedUser);
-            me.reauthorizeDialog.widgets.uploadButton._button.innerHTML = parent._msg("reauthorize.dialog.button.ok");  
+            me.reauthorizeDialog.widgets.uploadButton._button.innerHTML = parent._msg("reauthorize.dialog.button.ok");
             extesnsionSpan.innerHTML = parent._msg("reauthorize.dialog.message", me.selectedUser + "@" + YAHOO.lang.JSON.parse(res.serverResponse.responseText).restoreKey);
             selectFileMessage.innerHTML = "";
-         
+
             // Make sure the "use Flash" tip is hidden just in case Flash is enabled...
             var singleUploadTip = Dom.get(me.reauthorizeDialog.id + "-singleUploadTip-span");
             Dom.addClass(singleUploadTip, "hidden");
             Event.preventDefault(e);
          };
- 
+
          Alfresco.util.Ajax.request(
          {
             url: Alfresco.constants.PROXY_URI + "api/enterprise/restoredb?username=" +  encodeURIComponent(me.selectedUser),
@@ -1892,7 +1892,7 @@
             }
          });
       },
-         
+
       /**
        * Upload Users button click event handler
        *
@@ -1922,18 +1922,18 @@
             }
          };
 
-         if (this.fileUploadOriginalMessages) 
+         if (this.fileUploadOriginalMessages)
          {
             //Message of upload dialog was changed in reauthorize method. Get back original messages
             var extesnsionSpan = Dom.get(this.fileUpload.id + "-extension-message");
             var selectFileMessage = Dom.get(this.fileUpload.id + "-select-file-message");
- 
+
             extesnsionSpan.innerHTML = this.fileUploadOriginalMessages.originalExtesnsionSpan;
             selectFileMessage.innerHTML = this.fileUploadOriginalMessages.originalSelectFileMessage;
             this.fileUpload.widgets.titleText.innerHTML = this.fileUploadOriginalMessages.originalTitle;
             this.fileUpload.widgets.uploadButton._button.innerHTML = this.fileUploadOriginalMessages.originalTitleUploadButtonLable;
          }
-   
+
          this.fileUpload.show(uploadConfig);
 
          // Make sure the "use Flash" tip is hidden just in case Flash is enabled...

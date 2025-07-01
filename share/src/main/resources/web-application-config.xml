@@ -28,4 +28,18 @@
    <!-- Support for Default Surf Controllers -->
    <bean id="simpleControllerHandlerAdapter" class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
 
+  <bean id="dynamic.resources" class="org.springframework.extensions.surf.util.ResourceBundleBootstrapComponent">
+    <property name="resourceBundles">
+      <list>
+        <value>alfresco.documentationUrl</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="documentUrlresolverJs" parent="baseScriptExtension" class="org.alfresco.web.site.DocumentUrlResolver">
+    <property name="extensionName" value="docUrlJs"/>
+  </bean>
+  <bean id="documenturlresolverFtl" parent="baseTemplateExtension" class="org.alfresco.web.site.DocumentUrlResolver">
+    <property name="extensionName" value="docUrlFtl"/>
+  </bean>
 </beans>

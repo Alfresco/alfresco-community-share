@@ -31,7 +31,7 @@
     */
    var Dom = YAHOO.util.Dom,
       Event = YAHOO.util.Event;
-   
+
    /**
     * Alfresco library aliases
     */
@@ -39,7 +39,7 @@
 
    /**
     * DynamicWelcome constructor.
-    * 
+    *
     * @param {String} htmlId The HTML id of the parent element
     * @return {DynamicWelcome} The new component instance
     * @constructor
@@ -76,7 +76,7 @@
        * @type Alfresco.module.CreateSite
        */
       createSite: null,
-      
+
       /**
        * Fired by YUI when parent element is available for scripting.
        * Initialises components, including YUI widgets.
@@ -90,7 +90,7 @@
          if (this.dashboardType == "user")
          {
             Event.addListener(this.id + "-get-started-panel-container", "click", function() {
-               location.href = this.msg("welcome.user.clickable-content-link", this.docsEdition);
+               location.href = this.docUrlJs(this.msg("welcome.user.clickable-content-link", this.docsEdition));
             }, this, true);
          }
          Event.addListener(this.id + "-createSite-button", "click", this.onCreateSiteLinkClick, this, true);
