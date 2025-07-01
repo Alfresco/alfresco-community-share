@@ -4,7 +4,7 @@ function main()
    function getTutorialColumn()
    {
       var docsEdition = context.properties["docsEdition"].getValue();
-      var tutorial = msg.get("share-tutorial.docs-url", [docsEdition]);
+      var tutorial = docUrlJs.get(msg.get("share-tutorial.docs-url"), [docsEdition]);
       return (
       {
          title: "welcome.user.tutorial.title",
@@ -217,7 +217,7 @@ function main()
       catch (e)
       {
       }
-   
+
       if (hideDashlet)
       {
          // If the user has opted not to see the welcome dashlet for this site dashboard then
@@ -231,19 +231,19 @@ function main()
          dashboardId = "site/" + page.url.templateArgs.site + "/dashboard";
          dashboardUrl = dashboardId;
          model.siteURL = page.url.templateArgs.site;
-   
+
          var siteTitle = (profile.title != "") ? profile.title : profile.shortName;
-   
+
          model.site = siteTitle;
          model.title="welcome.site";
          model.description="welcome.site.description";
-   
+
          // Call the repository to see if the user is site manager or not
          var userIsSiteManager = false,
             userIsMember = false,
             userIsSiteConsumer = true,
             obj = null;
-   
+
          json = remote.call("/api/sites/" + page.url.templateArgs.site + "/memberships/" + encodeURIComponent(user.name));
          if (json.status == 200)
          {
@@ -258,7 +258,7 @@ function main()
             model.userIsSiteManager = userIsSiteManager;
             model.userIsSiteConsumer = userIsSiteConsumer;
          }
-   
+
          // Configure the columns in the dashlet based on the users ownership and access rights...
          if (userIsSiteManager)
          {
@@ -271,7 +271,7 @@ function main()
          {
             columns[0] = getBrowseSiteColumn();
             columns[1] = getSiteMembersColumn();
-               
+
             if (userIsSiteConsumer)
             {
                // Configure the 3rd column for a user with read access...
@@ -282,7 +282,7 @@ function main()
                // Configure the 3rd column for a user with write access...
                columns[2] = getUploadInfoColumn();
             }
-         }  
+         }
          else if (profile.visibility == "MODERATED")
          {
             // Configure the dashlet for a moderated site

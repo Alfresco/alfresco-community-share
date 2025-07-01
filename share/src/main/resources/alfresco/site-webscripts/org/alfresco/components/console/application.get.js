@@ -5,7 +5,7 @@
 function main()
 {
    model.themes = [];
-   
+
    // retrieve the available theme objects
    var themes = sitedata.getObjects("theme");
    for (var i=0, t; i<themes.length; i++)
@@ -19,19 +19,19 @@ function main()
          selected: (t.id == theme)
       });
    }
-   
+
    // logo image override
    model.logo = context.getSiteConfiguration().getProperty("logo");
-   
+
    // Widget instantiation metadata...
    var defaultlogo = msg.get("header.logo");
    if (defaultlogo == "header.logo")
    {
       defaultlogo = "app-logo.png";
    }
-   
+
    var widget = {
-      id: "ConsoleApplication", 
+      id: "ConsoleApplication",
       name: "Alfresco.ConsoleApplication",
       options: {
          defaultlogo: url.context + "/res/themes/" + theme + "/images/" + defaultlogo
@@ -46,10 +46,9 @@ function main()
    {
        model.platUrl = alfrescoPath + "/alfresco"
    }
-   else
-   {
-       var alfEndpointUrl = remote.getEndpointURL("alfresco");
-       model.platUrl = alfEndpointUrl.substr(0, alfEndpointUrl.lastIndexOf("/"));
+   else {
+      var alfEndpointUrl = remote.getEndpointURL("alfresco");
+      model.platUrl = alfEndpointUrl.substr(0, alfEndpointUrl.lastIndexOf("/"));
    }
 }
 

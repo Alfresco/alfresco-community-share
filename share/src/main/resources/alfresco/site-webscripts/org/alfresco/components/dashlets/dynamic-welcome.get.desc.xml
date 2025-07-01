@@ -1,5 +1,5 @@
 <webscript>
-   <shortname>Dynamic Welcome</shortname>
-   <description>Displays a configurable welcome note</description>
-   <url>/components/dashlets/dynamic-welcome</url>
+  <shortname>Dynamic Welcome</shortname>
+  <description>Displays a configurable welcome note</description>
+  <url>/components/dashlets/dynamic-welcome</url>
 </webscript>
