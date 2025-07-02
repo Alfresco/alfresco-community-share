@@ -18,7 +18,7 @@
       <#assign el=args.htmlid?html>
       <#assign defaultlogo=msg("header.logo")><#if defaultlogo="header.logo"><#assign defaultlogo="app-logo.png"></#if>
       <!--[if IE]>
-      <iframe id="yui-history-iframe" src="${url.context}/res/yui/history/assets/blank.html"></iframe> 
+      <iframe id="yui-history-iframe" src="${url.context}/res/yui/history/assets/blank.html"></iframe>
       <![endif]-->
       <input id="yui-history-field" type="hidden" />
       <div id="${el}-body" class="application">
@@ -30,7 +30,7 @@
             <#if isEnterprise>
                <@markup id="msgNewAdminConsole">
                <div class="row info">
-                  ${msg("message.new-admin-console.doc-link", context.properties["docsEdition"].value)}
+                  ${docUrlFtl(msg("message.new-admin-console.doc-link"),context.properties["docsEdition"].value)}
                </div>
                </@>
             </#if>

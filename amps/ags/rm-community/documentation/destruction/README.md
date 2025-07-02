@@ -23,7 +23,7 @@ Recorded content can be explicitly destroyed whilst maintaining the original nod
 * License: Alfresco Community
 * Issue Tracker Link: [JIRA RM](https://issues.alfresco.com/jira/projects/RM/summary)
 * Contribution Model: Alfresco Closed Source
-* Documentation: [support.hyland.com (Records Management)](https://support.hyland.com/p/alfresco)
+* Documentation: [support.hyland.com (Records Management)](https://support.hyland.com/access?dita:id=sos1721648364102&vrm_version=25.1)
 
 ***
 

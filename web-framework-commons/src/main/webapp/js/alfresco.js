@@ -229,7 +229,7 @@ Alfresco.util.validLocationForOnlineEdit = function(location)
                                                 location.path,
                                                 location.file);
    var path = pathToCheck.split("/");
-   
+
    for (i = 0, j = path.length; i < j; i++)
    {
       if ((/[~"#%&*:<>?\/\\{|}]/).test(path[i]))
@@ -903,7 +903,7 @@ Alfresco.util.getFileIcon = function(p_fileName, p_fileType, p_iconSize, p_fileP
 };
 Alfresco.util.getFileIconByMimetype = function(mimetype, p_iconSize)
 {
-   var extns = 
+   var extns =
    {
       "text/css": "css",
       "application/vnd.ms-excel": "xls",
@@ -968,7 +968,7 @@ Alfresco.util.getFileIconByMimetype = function(mimetype, p_iconSize)
    {
       prefix = extns[mimetype];
    }
-   
+
    return prefix + "-file-" + iconSize + ".png";
 };
 Alfresco.util.getFileIcon.types =
@@ -2218,7 +2218,7 @@ Alfresco.util.createYUIButton = function(p_scope, p_name, p_onclick, p_obj, p_oE
          {
             button.get("element").getElementsByTagName("button")[0].name = obj.htmlName;
          }
-         
+
          // Adds button styling
          if (typeof obj.additionalClass == "string")
          {
@@ -2342,7 +2342,7 @@ Alfresco.util.createTwister = function(p_controller, p_filterName, p_config)
       return false;
    }
 
-   // MNT-11316 fix, populate Alfresco.util.createTwister.collapsed if required 
+   // MNT-11316 fix, populate Alfresco.util.createTwister.collapsed if required
    if (Alfresco.util.createTwister.collapsed === undefined)
    {
       var preferences = new Alfresco.service.Preferences();
@@ -2401,8 +2401,8 @@ Alfresco.util.createTwister = function(p_controller, p_filterName, p_config)
                   if (p_obj.filterName)
                   {
                       // Update local collapsed preferences : add item
-                      Alfresco.util.createTwister.collapsed = !Alfresco.util.createTwister.collapsed ? 
-                              p_obj.filterName : Alfresco.util.createTwister.collapsed.concat(",").concat(p_obj.filterName); 
+                      Alfresco.util.createTwister.collapsed = !Alfresco.util.createTwister.collapsed ?
+                              p_obj.filterName : Alfresco.util.createTwister.collapsed.concat(",").concat(p_obj.filterName);
                   }
          }
          else
@@ -2428,10 +2428,10 @@ Alfresco.util.createTwister = function(p_controller, p_filterName, p_config)
          // Stop the event propogating any further (ie into the parent element)
          p_event.stopPropagation();
       }
-      
+
    };
 
-   var twistObj = 
+   var twistObj =
    {
       controller: elController,
       panel: elPanel,
@@ -2797,7 +2797,7 @@ Alfresco.util.createBalloon = function(p_context, p_params, showEvent, hideEvent
          closeButton.innerHTML = "x";
          Dom.addClass(closeButton, "closeButton");
          Event.addListener(closeButton, "click", this.hide, this, true);
-         
+
          // Register the ESC key
          this.escapeListener = new YUIKeyListener(document,
          {
@@ -2812,7 +2812,7 @@ Alfresco.util.createBalloon = function(p_context, p_params, showEvent, hideEvent
             correctScope: true
          });
          this.escapeListener.enable();
-         
+
          wrapper.appendChild(closeButton);
       }
 
@@ -2949,12 +2949,12 @@ Alfresco.util.createBalloon = function(p_context, p_params, showEvent, hideEvent
    var Dom = YAHOO.util.Dom,
        Event = YAHOO.util.Event,
        Anim = YAHOO.util.Anim;
-   
+
    /**
     * Alfresco library aliases
     */
    var $html = Alfresco.util.encodeHTML;
-   
+
    /**
     * Alfresco.widget.FullScreen constructor.
     * Toggles full-screen mode for the given context element
@@ -2992,7 +2992,7 @@ Alfresco.util.createBalloon = function(p_context, p_params, showEvent, hideEvent
 
       return this;
    };
-   
+
    Alfresco.widget.FullScreen.prototype =
    {
       /**
@@ -3001,14 +3001,14 @@ Alfresco.util.createBalloon = function(p_context, p_params, showEvent, hideEvent
        * @property context
        */
       context: null,
-      
+
       /**
        * The current full screen mode
        *
        * @property context
        */
       isWindowOnly: true,
-      
+
       /**
        * The parameters for full screen
        *
@@ -3018,7 +3018,7 @@ Alfresco.util.createBalloon = function(p_context, p_params, showEvent, hideEvent
       {
          pageContainerId: "Share"
       },
-      
+
       /**
        * Toggles full-screen mode for the current context element
        *
@@ -3038,7 +3038,7 @@ Alfresco.util.createBalloon = function(p_context, p_params, showEvent, hideEvent
             }
          }
       },
-      
+
       /**
        * Enters full-screen mode for the current context element
        *
@@ -3090,7 +3090,7 @@ Alfresco.util.createBalloon = function(p_context, p_params, showEvent, hideEvent
             this.toggleFullWindow();
          }
       },
-      
+
       /**
        * Exits full-screen mode for the current context element
        *
@@ -3124,7 +3124,7 @@ Alfresco.util.createBalloon = function(p_context, p_params, showEvent, hideEvent
             this.toggleFullWindow();
          }
       },
-      
+
       /**
        * Handles changes to the full screen mode
        *
@@ -3185,7 +3185,7 @@ Alfresco.util.createBalloon = function(p_context, p_params, showEvent, hideEvent
             }
          }
       },
-      
+
       /**
        * Toggles full-window mode for the current context element for browsers that don't support full-screen or
        * explicit setting of params.isWindowOnly=true.
@@ -3208,7 +3208,7 @@ Alfresco.util.createBalloon = function(p_context, p_params, showEvent, hideEvent
                      fullscreen.toggleFullWindow();
                   }
                }
-			   
+
                Event.addListener(document, "keydown", this.context.escKeyListener);
             }
             else
@@ -3361,7 +3361,7 @@ Alfresco.util.createBalloon = function(p_context, p_params, showEvent, hideEvent
             minLower: this.params.minLower,
             minNumeric: this.params.minNumeric,
             minSymbols: this.params.minSymbols
-            
+
          });
          if (strength)
          {
@@ -5810,6 +5810,27 @@ Alfresco.util.message = function(p_messageId, p_messageScope)
    return msg;
 };
 
+Alfresco.util.docUrlResolver = function (message, args) {
+   var msg = resolvePlaceHolders(message).replace(/{(\d+)}/g, function(match, number) {
+      return typeof args[number] !== 'undefined' ? args[number] : match;
+   });
+   return msg;
+};
+
+function resolvePlaceHolders(message) {
+   var PLACEHOLDER_PATTERN = /\$\{([^}]+)\}/g;
+   var replaced = false;
+   var result = message.replace(PLACEHOLDER_PATTERN, function(match, key) {
+      if (Alfresco.messages.global.hasOwnProperty(key)) {
+         replaced = true;
+         return resolvePlaceHolders(Alfresco.messages.global[key]);
+      } else {
+         return match;
+      }
+   });
+   return replaced ? resolvePlaceHolders(result) : result;
+}
+
 /**
  * Helper method to set the required i18n properties on a YUI Calendar Widget
  * see: http://developer.yahoo.com/yui/docs/YAHOO.widget.Calendar.html#config_MY_LABEL_MONTH_POSITION
@@ -5933,7 +5954,7 @@ Alfresco.util.submitForm = function(form)
       if ((UA.ie || UA.webkit) && submitTheForm)
       {
          // for IE and webkit firing the event doesn't submit
-         // the form so we have to do it manually (if the 
+         // the form so we have to do it manually (if the
          // submission was not cancelled)
          form.submit();
       }
@@ -7234,11 +7255,11 @@ Alfresco.util.PopupManager = function()
          prompt.render(parent);
          prompt.center();
 
-         // MNT-11084 Full screen/window view: Actions works incorrectly; 
+         // MNT-11084 Full screen/window view: Actions works incorrectly;
          if (c.zIndex !== undefined && c.zIndex > 0)
          {
             var index = c.zIndex + this.zIndex;
-            var onBeforeShow = function () 
+            var onBeforeShow = function ()
             {
                element = Dom.get("prompt_mask");
                if (element !== undefined)
@@ -8166,7 +8187,7 @@ Alfresco.util.Ajax = function()
                   params += "&";
                }
 
-               // Make sure no user input destroys the url 
+               // Make sure no user input destroys the url
                if (encode)
                {
                   params += encodeURIComponent(attr) + "=" + encodeURIComponent(obj[attr]);
@@ -9740,7 +9761,7 @@ Alfresco.service.BaseService.prototype =
                      {
                         createdAt: new Date()
                      };
-                      
+
                      // Save preference with the new value
                      this.update(value, rc);
                   }
@@ -9842,7 +9863,7 @@ Alfresco.service.BaseService.prototype =
                      {
                         createdAt: null
                      };
-                      
+
                      // Save preference with the new value
                      this.update(value, rc);
                   }
@@ -9922,7 +9943,7 @@ Alfresco.service.BaseService.prototype =
          {
             createdAt: new Date()
          };
-              
+
          // Save preference with the new value
          this.update(value, responseConfig);
       },
@@ -9961,11 +9982,11 @@ Alfresco.service.BaseService.prototype =
          {
             createdAt: null
          };
-              
+
          // Save preference with the new value
          this.update(value, responseConfig);
       },
-      
+
       /**
        * Removes a value from a user specific property that is treated as a multi value.
        * Since arrays aren't supported in the webscript we store multiple values using a comma separated string.
@@ -10266,7 +10287,7 @@ Alfresco.util.RichEditor = function(editorName,id,config)
                      {
                         fn.apply(scope,arguments);
                      });
-                  } 
+                  }
                   else if (edtr.on)
                   {
                      edtr.on(event, function()
@@ -10635,6 +10656,11 @@ Alfresco.util.RENDERLOOPSIZE = 25;
       msg: function Base_msg(messageId)
       {
          return Alfresco.util.message.call(this, messageId, this.name, Array.prototype.slice.call(arguments).slice(1));
+      },
+
+      docUrlJs: function Base_msg(messageId)
+      {
+         return Alfresco.util.docUrlResolver.call(this, messageId, this.name, Array.prototype.slice.call(arguments).slice(1));
       },
 
       /**
@@ -11203,7 +11229,7 @@ Alfresco.util.RENDERLOOPSIZE = 25;
                     failureMsg = this.msg("message.details.failure.more.max.length");
                }
                else if (response.json && response.json.message && response.json.message.indexOf("org.alfresco.error.AlfrescoRuntimeException") == 0)
-               {  
+               {
                   var split =  response.json.message.split(/(?:org.alfresco.error.AlfrescoRuntimeException:\s*\d*\s*)/ig);
                   if (split && split[1])
                   {
@@ -11717,10 +11743,10 @@ Alfresco.util.RENDERLOOPSIZE = 25;
                   success: function DataTable_loadDataTable_success(oRequest, oResponse, oPayload)
                   {
                      me.lastResultCount = oResponse.results.length;
-                     
+
                      // Will end up making the doBeforeLoadData being called
                      me.widgets.dataTable.onDataReturnSetRows(oRequest, oResponse, oPayload);
-                     
+
                      var filter = me.currentFilter;
                      if (!filter.filterId)
                      {
@@ -12218,9 +12244,9 @@ Alfresco.util.getCalendarControlConfiguration = function()
 };
 
 /**
- * Aspect filter implementation. Returns true if the node attribute has all the aspects enumerated in {filter.match}. 
+ * Aspect filter implementation. Returns true if the node attribute has all the aspects enumerated in {filter.match}.
  * For filters examples see ["CommonComponentStyle"]["component-style"] or ["SuppressComponent"]["component-config"] configurations from share-document-library-config.xml.
- * 
+ *
  * @param node {object}
  * @param filter {object}
  * @returns {Boolean} - true if the node attribute has all the aspects enumerated in filter.match, false otherwise.
@@ -12248,9 +12274,9 @@ Alfresco.util.matchAspect = function(node, filter)
 };
 
 /**
- * Type filter implementation. Returns true if the node type is in enumerated in {filter.match}. 
+ * Type filter implementation. Returns true if the node type is in enumerated in {filter.match}.
  * For filters examples see ["CommonComponentStyle"]["component-style"] or ["SuppressComponent"]["component-config"] configurations from share-document-library-config.xml.
- * 
+ *
  * @param node {object}
  * @param filter {object}
  * @returns {Boolean} - true if the node type is in enumerated in filter.match, false otherwise.
@@ -12278,7 +12304,7 @@ Alfresco.util.matchType = function(node, filter)
 };
 
 /**
- * Returns true if filterType is accepted, false otherwise. Currently only aspect filters accepted. 
+ * Returns true if filterType is accepted, false otherwise. Currently only aspect filters accepted.
  * @param filterType
  * @returns {Boolean} - true if filterType is accepted, false otherwise.
  */
@@ -12288,7 +12314,7 @@ Alfresco.util.accepted = function(filterType)
 };
 
 /**
- * Filter implementation. Currently only aspect filter supported implemented by function Alfresco.util.matchAspect, 
+ * Filter implementation. Currently only aspect filter supported implemented by function Alfresco.util.matchAspect,
  * but other filter types can be added and implemented( e.g. filter by type, filter by one property name,....) and here we'll hook the implementations for each filter type.
  * @param node {object}
  * @param filter {object}
@@ -12309,9 +12335,9 @@ Alfresco.util.match = function(node, filter)
 
 /**
  * Gets true if any of {supressConfig} filters are matching, or false otherwise.
- * 
+ *
  * This function is used for suppressing Social components {favorites, likes and comments}. Currently only used for folders in Smart Folders context.
- * 
+ *
  * @returns {Boolean} - true if any of {supressConfig} filters are matching, or false otherwise.
  */
 Alfresco.util.isSuppressed = function(node, supressConfig)

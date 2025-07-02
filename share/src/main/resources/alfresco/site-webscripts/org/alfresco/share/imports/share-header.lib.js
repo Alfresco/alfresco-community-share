@@ -403,7 +403,7 @@ function getPages(includeUnusedPages)
                used: true
             });
          }
-         
+
          // Ensures that migrated sites that have not yet been customized since dashboard
          // was added as a site page have the dashboard site page first
          if (!dashboardPageData.properties.dashboardSitePage)
@@ -734,7 +734,7 @@ function getSubNavigationWidgets() {
  */
 function getHelpLink() {
    var docsEdition = context.properties["docsEdition"].getValue();
-   var helpLink = msg.get("share-help.docs-url", [docsEdition]);
+   var helpLink = docUrlJs.get(msg.get("share-help.docs-url"), [docsEdition]);
    return helpLink;
 }
 
@@ -1579,7 +1579,7 @@ function getHeaderServices() {
                }
             }
          });
-         
+
          // user may have access to document library paths/folders if given explicit permissions
          // other pages should be blocked from direct URL access to avoid messy errors and broken pages
          if (page.id != "documentlibrary" && page.id != "document-details" && page.id != "folder-details" && !page.url.uri.endsWith("/faceted-search"))
@@ -1737,7 +1737,7 @@ function getHeaderModel(pageTitle) {
       };
       headerMenus.appItems.push(loggingWidget);
    }
-   
+
    var siteTitle = null;
    var siteData = getSiteData();
    if (siteData != null)
