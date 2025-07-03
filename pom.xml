@@ -61,7 +61,7 @@
         <dependency.httpcomponents.version>4.5.13</dependency.httpcomponents.version>
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
 
-        <dependency.webscripts.version>10.0</dependency.webscripts.version>
+        <dependency.webscripts.version>10.2</dependency.webscripts.version>
         <dependency.surf.version>10.0</dependency.surf.version>
 
         <dependency.alfresco-sdk.version>2.2.0</dependency.alfresco-sdk.version>
@@ -72,7 +72,7 @@
         <dependency.cxf.version>4.1.0</dependency.cxf.version>
         <dependency.beanutils.version>1.11.0</dependency.beanutils.version>
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
-        <dependency.jackson.version>2.14.0-rc1</dependency.jackson.version>
+        <dependency.jackson.version>2.15.0-rc1</dependency.jackson.version>
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
         <dependency.org-json.version>20231013</dependency.org-json.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
@@ -185,8 +185,8 @@
             </dependency>
             <dependency>
               <groupId>org.apache.commons</groupId>
-              <artifactId>commons-fileupload2-jakarta</artifactId>
-              <version>2.0.0-M1</version>
+              <artifactId>commons-fileupload2-jakarta-servlet6</artifactId>
+              <version>2.0.0-M4</version>
             </dependency>
             <!-- Newer cxf libs, see MNT-20520 -->
             <dependency>
