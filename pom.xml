@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>alfresco-share-parent</artifactId>
-    <version>25.2.0.38-SNAPSHOT</version>
+    <version>25.2.0.44-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Alfresco Share Parent</name>
 
@@ -30,12 +30,12 @@
         <version.revision>0</version.revision>
         <amp.min.version>${version.major}.0.0</amp.min.version>
 
-        <dependency.alfresco-community-repo.version>25.2.0.55</dependency.alfresco-community-repo.version>
-        <dependency.alfresco-enterprise-repo.version>25.2.0.49</dependency.alfresco-enterprise-repo.version>
+        <dependency.alfresco-community-repo.version>25.2.0.60</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-enterprise-repo.version>25.2.0.56</dependency.alfresco-enterprise-repo.version>
 
-        <dependency.alfresco-transform-service.version>4.1.8-A.1</dependency.alfresco-transform-service.version>
-        <dependency.alfresco-transform-core.version>5.1.8-A.1</dependency.alfresco-transform-core.version>
-        <alfresco.api-explorer.version>25.1.0-A1</alfresco.api-explorer.version>
+        <dependency.alfresco-transform-service.version>4.2.0-A.3</dependency.alfresco-transform-service.version>
+        <dependency.alfresco-transform-core.version>5.2.0-A.3</dependency.alfresco-transform-core.version>
+        <alfresco.api-explorer.version>25.2.0-A.1</alfresco.api-explorer.version>
         <dependency.jakarta-annotation-api.version>2.1.1</dependency.jakarta-annotation-api.version>
 
         <image.registry>quay.io</image.registry>
@@ -61,7 +61,7 @@
         <dependency.httpcomponents.version>4.5.13</dependency.httpcomponents.version>
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
 
-        <dependency.webscripts.version>10.0</dependency.webscripts.version>
+        <dependency.webscripts.version>10.2</dependency.webscripts.version>
         <dependency.surf.version>10.0</dependency.surf.version>
 
         <dependency.alfresco-sdk.version>2.2.0</dependency.alfresco-sdk.version>
@@ -72,7 +72,7 @@
         <dependency.cxf.version>4.1.0</dependency.cxf.version>
         <dependency.beanutils.version>1.11.0</dependency.beanutils.version>
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
-        <dependency.jackson.version>2.14.0-rc1</dependency.jackson.version>
+        <dependency.jackson.version>2.15.0-rc1</dependency.jackson.version>
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
         <dependency.org-json.version>20231013</dependency.org-json.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
@@ -185,8 +185,8 @@
             </dependency>
             <dependency>
               <groupId>org.apache.commons</groupId>
-              <artifactId>commons-fileupload2-jakarta</artifactId>
-              <version>2.0.0-M1</version>
+              <artifactId>commons-fileupload2-jakarta-servlet6</artifactId>
+              <version>2.0.0-M4</version>
             </dependency>
             <!-- Newer cxf libs, see MNT-20520 -->
             <dependency>
