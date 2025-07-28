@@ -36,6 +36,11 @@ input[type="file"] > input[type="button"]::-moz-focus-inner
    text-decoration: none;
 }
 
+.text-content a
+{
+  color: inherit !important;
+}
+
 .sticky-wrapper a:hover,
 .yui-overlay a:hover,
 .sticky-footer a:hover
@@ -723,7 +728,7 @@ body.yui-skin-greenTheme .wikipage .detailsPage a:hover,
 body.yui-skin-greenTheme .nodeEdit .onEditBlogPost a:hover,
 body.yui-skin-greenTheme .nodeEdit .onDeleteBlogPost a:hover
 {
-   
+
 }
 
 .webview .title a,
@@ -917,7 +922,7 @@ body.yui-skin-greenTheme .treeview .ygtvdepthcell
 
 /* filter list link */
 
-.yui-skin-greenTheme li.selected, 
+.yui-skin-greenTheme li.selected,
 body.yui-skin-greenTheme .treeview .selected,
 body.yui-skin-greenTheme .categoryview .selected,
 body.yui-skin-greenTheme .yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column a.yui-columnbrowser-item-selected
@@ -1116,7 +1121,7 @@ a.theme-color-5,
 a.theme-color-5:visited,
 a.theme-color-5:hover
 {
-   color: #fff;   
+   color: #fff;
 }
 
 /* Theme background colors */
@@ -1173,7 +1178,7 @@ div.theme-bg-color-8
 
 .theme-bg-1
 {
-   
+
 }
 
 .theme-bg-2
@@ -1268,8 +1273,8 @@ div.theme-bg-color-8
 
 .docfolder-input
 {
-   width: 203px; 
-   vertical-align: top; 
+   width: 203px;
+   vertical-align: top;
    margin-top: 2px;
 }
 

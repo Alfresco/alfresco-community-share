@@ -27,6 +27,11 @@
    text-decoration: none;
 }
 
+.text-content a
+{
+  color: inherit !important;
+}
+
 .sticky-wrapper a:hover,
 .yui-overlay a:hover,
 .sticky-footer a:hover
@@ -201,7 +206,7 @@ h4 .lighter
 .yui-skin-greyTheme .yui-panel .ft
 {
    color: #333333;
-   background: #f3f3f3; 
+   background: #f3f3f3;
    border-bottom: 1px solid #C5C7C6;
    border-left-color: #C5C7C6;
    border-right-color: #C5C7C6;
@@ -267,7 +272,7 @@ h4 .lighter
 .yui-skin-greyTheme .yui-dt-data tr.yui-dt-highlighted td.yui-dt-asc,
 .yui-skin-greyTheme .yui-dt-data tr.yui-dt-highlighted td.yui-dt-desc
 {
-   background-color: #ffee9e; 
+   background-color: #ffee9e;
    cursor: auto;
 }
 
@@ -729,14 +734,14 @@ body.yui-skin-greyTheme .wikipage .detailsPage a:hover,
 body.yui-skin-greyTheme .nodeEdit .onEditBlogPost a:hover,
 body.yui-skin-greyTheme .nodeEdit .onDeleteBlogPost a:hover
 {
-   
+
 }
 
 /* YUI Menu */
 
 body.yui-skin-greyTheme .yuimenu .bd
 {
-   border: 1px solid #8c8c8c; 
+   border: 1px solid #8c8c8c;
 }
 
 /* YUI Menu roll over state */
@@ -756,7 +761,7 @@ body.yui-skin-greyTheme .yuimenu .bd ul li.yuimenuitem .yuimenuitemlabel a,
 body.yui-skin-greyTheme .yuimenu .bd ul li.yuimenuitem-selected div .yuimenuitemlabel,
 body.yui-skin-greyTheme .yuimenu .bd ul li.yuimenuitem-selected div .yuimenuitemlabel a
 {
-   color: #333333; 
+   color: #333333;
 }
 
 body.yui-skin-greyTheme .yuimenu .bd ul li.yuimenuitem-selected .yuimenuitemlabel,
@@ -810,12 +815,12 @@ body.yui-skin-greyTheme .doclist .more-actions a:active,
 body.yui-skin-greyTheme .doclist .more-actions a:hover
 {
    background-color: #CAE6FD;
-   color: #333; 
+   color: #333;
 }
 
 body.yui-skin-greyTheme .doclist div.more-actions
 {
-   border: 1px solid #CAE6FD; 
+   border: 1px solid #CAE6FD;
 }
 
 body.yui-skin-greyTheme .doclist .action-set a:active,
@@ -824,7 +829,7 @@ body.yui-skin-greyTheme .doclist .action-set .highlighted,
 #divCalendarContent .yui-dt-col-actions a:active,
 #divCalendarContent .yui-dt-col-actions a:hover
 {
-   border: 1px solid #CAE6FD; 
+   border: 1px solid #CAE6FD;
 }
 
 body.yui-skin-greyTheme .yui-dt-data tr.yui-dt-highlighted,
@@ -834,7 +839,7 @@ body.yui-skin-greyTheme .links-body tr.links-selected-row,
 body.yui-skin-greyTheme .over,
 .topicview
 {
-   background-color: #f5faff; 
+   background-color: #f5faff;
 }
 
 .site-members .search-controls
@@ -845,7 +850,7 @@ body.yui-skin-greyTheme .over,
 body.yui-skin-greyTheme .doclist tr.yui-dt-odd.yui-dt-highlighted td.yui-dt-last,
 body.yui-skin-greyTheme .doclist tr.yui-dt-even.yui-dt-highlighted td.yui-dt-last
 {
-   border-left: 1px solid #cae4ff; 
+   border-left: 1px solid #cae4ff;
 }
 
 body.yui-skin-greyTheme .categoryview .category .ygtvtn,
@@ -905,7 +910,7 @@ body.yui-skin-greyTheme .treeview .ygtvdepthcell
 
 /* filter list link */
 
-.yui-skin-greyTheme li.selected, 
+.yui-skin-greyTheme li.selected,
 body.yui-skin-greyTheme .treeview .selected,
 body.yui-skin-greyTheme .categoryview .selected,
 body.yui-skin-greyTheme .yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column a.yui-columnbrowser-item-selected
@@ -1100,7 +1105,7 @@ a.theme-color-5,
 a.theme-color-5:visited,
 a.theme-color-5:hover
 {
-   color: #fff;   
+   color: #fff;
 }
 
 /* Theme background colors */
@@ -1114,7 +1119,7 @@ div.theme-bg-color-1
 .theme-bg-color-2,
 div.theme-bg-color-2
 {
-   background-color: #fffdf4; 
+   background-color: #fffdf4;
 }
 
 .theme-bg-color-3,
@@ -1157,7 +1162,7 @@ div.theme-bg-color-8
 
 .theme-bg-1
 {
-   
+
 }
 
 .theme-bg-2
@@ -1347,7 +1352,7 @@ background-color: #cae6fd;
 
 .yui-skin-greyTheme .members-bar .member-link .theme-color-4 {
 	color: #333;
-}	
+}
 
 
 .yui-skin-greyTheme .members-bar {
@@ -1379,11 +1384,11 @@ color: #333;
 .yui-skin-greyTheme .yui-button-hover button, .yui-skin-greyTheme .yui-button-hover a {
 color: #333;
 }
-	
+
 .yui-skin-greyTheme .share-toolbar .navigation-bar {
 border-right: 1px solid #ccc;
-}	
-	
+}
+
 .yui-skin-greyTheme .profile .header-bar {
 background-color: #fff;
 border-bottom: 1px solid #cbcbcb;
@@ -1495,13 +1500,13 @@ opacity: 0.99;
 }
 
 .yui-skin-greyTheme .people-finder .title label {
-	
+
 	font-size: 123.1%;
 	color: #333;
 }
-	
+
 .yui-skin-greyTheme .site-finder .title label {
-	
+
 	font-size: 123.1%;
 	color: #333;
 }
