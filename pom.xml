@@ -224,7 +224,19 @@
               <groupId>org.springframework.security</groupId>
               <artifactId>spring-security-oauth2-jose</artifactId>
               <version>${spring.security.version}</version>
+              <exclusions>
+                <exclusion>
+                  <groupId>com.nimbusds</groupId>
+                  <artifactId>nimbus-jose-jwt</artifactId>
+                </exclusion>
+              </exclusions>
             </dependency>
+          <!--PRODSEC-10548-->
+          <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>10.0.2</version>
+          </dependency>
             <!-- SHA-2400 -->
             <dependency>
                 <groupId>org.apache.maven</groupId>
