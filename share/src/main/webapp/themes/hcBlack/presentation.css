@@ -27,6 +27,11 @@
    text-decoration: none;
 }
 
+.text-content a
+{
+  color: inherit !important;
+}
+
 .sticky-wrapper a:hover,
 .yui-overlay a:hover,
 .sticky-footer a:hover
@@ -1311,7 +1316,7 @@ div.theme-bg-color-8
 
 .theme-border-4
 {
-   border: 1px solid #DDD6A0;   
+   border: 1px solid #DDD6A0;
 }
 
 .theme-border-5
@@ -1326,8 +1331,8 @@ div.theme-bg-color-8
 
 .docfolder-input
 {
-   width: 203px; 
-   vertical-align: top; 
+   width: 203px;
+   vertical-align: top;
    margin-top: 2px;
 }
 
