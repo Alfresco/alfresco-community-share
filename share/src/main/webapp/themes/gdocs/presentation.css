@@ -36,6 +36,11 @@ input[type="file"] > input[type="button"]::-moz-focus-inner
    text-decoration: none;
 }
 
+.text-content a
+{
+  color: inherit !important;
+}
+
 .sticky-wrapper a:hover,
 .yui-overlay a:hover,
 .sticky-footer a:hover
@@ -415,7 +420,7 @@ span.navigation-item a:hover
    color: #0600cc;
    text-decoration: underline;
    font-weight: normal;
-   
+
 }
 
 span.navigation-separator
@@ -756,7 +761,7 @@ body.yui-skin-gdocs .wikipage .detailsPage a:hover,
 body.yui-skin-gdocs .nodeEdit .onEditBlogPost a:hover,
 body.yui-skin-gdocs .nodeEdit .onDeleteBlogPost a:hover
 {
-   
+
 }
 
 /* YUI Menu */
@@ -1014,7 +1019,7 @@ body.yui-skin-gdocs .treeview .ygtvdepthcell
 
 /* filter list link */
 
-.yui-skin-gdocs li.selected, 
+.yui-skin-gdocs li.selected,
 body.yui-skin-gdocs .treeview .selected,
 body.yui-skin-gdocs .categoryview .selected,
 body.yui-skin-gdocs .yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column a.yui-columnbrowser-item-selected
@@ -1090,7 +1095,7 @@ body.yui-skin-gdocs .yui-columnbrowser .yui-carousel-content li.yui-columnbrowse
 
 .yui-skin-gdocs .site-navigation
 {
-   background-color: #fff; 
+   background-color: #fff;
    background-image: url(./images/navigation-bg.png);
 }
 
@@ -1120,7 +1125,7 @@ body.yui-skin-gdocs .yui-columnbrowser .yui-carousel-content li.yui-columnbrowse
 .yui-skin-gdocs .yui-button
 {
    background-image: url(images/sprite.png);
-}  
+}
 
 .yui-skin-gdocs .calendar-bar .yui-u.first
 {
@@ -1144,7 +1149,7 @@ body.yui-skin-gdocs .yui-columnbrowser .yui-carousel-content li.yui-columnbrowse
 {
    margin: 0;
    padding-right: 0.3em;
-   background-color: #e8eef7; 
+   background-color: #e8eef7;
 }
 
 .yui-skin-gdocs div.vevent.allday div
@@ -1163,7 +1168,7 @@ body.yui-skin-gdocs .yui-columnbrowser .yui-carousel-content li.yui-columnbrowse
 
 .yui-skin-gdocs .calendar.monthview td.current
 {
-   background-color: #FFFEDF; 
+   background-color: #FFFEDF;
 }
 
 .yui-skin-gdocs .vcalendar table
@@ -1398,7 +1403,7 @@ a.theme-color-5,
 a.theme-color-5:visited,
 a.theme-color-5:hover
 {
-   color: #fff;   
+   color: #fff;
 }
 
 /* Theme background colors */
@@ -1457,7 +1462,7 @@ div.theme-bg-color-8
 
 .theme-bg-1
 {
-   
+
 }
 
 .theme-bg-2
