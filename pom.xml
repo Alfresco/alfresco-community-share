@@ -30,8 +30,8 @@
         <version.revision>0</version.revision>
         <amp.min.version>${version.major}.0.0</amp.min.version>
 
-        <dependency.alfresco-community-repo.version>25.3.0.15</dependency.alfresco-community-repo.version>
-        <dependency.alfresco-enterprise-repo.version>25.3.0.10</dependency.alfresco-enterprise-repo.version>
+        <dependency.alfresco-community-repo.version>25.3.0.17</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-enterprise-repo.version>25.3.0.12</dependency.alfresco-enterprise-repo.version>
 
         <dependency.alfresco-transform-service.version>4.2.0</dependency.alfresco-transform-service.version>
         <dependency.alfresco-transform-core.version>5.2.0</dependency.alfresco-transform-core.version>
@@ -224,7 +224,19 @@
               <groupId>org.springframework.security</groupId>
               <artifactId>spring-security-oauth2-jose</artifactId>
               <version>${spring.security.version}</version>
+              <exclusions>
+                <exclusion>
+                  <groupId>com.nimbusds</groupId>
+                  <artifactId>nimbus-jose-jwt</artifactId>
+                </exclusion>
+              </exclusions>
             </dependency>
+          <!--PRODSEC-10548-->
+          <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>10.0.2</version>
+          </dependency>
             <!-- SHA-2400 -->
             <dependency>
                 <groupId>org.apache.maven</groupId>
