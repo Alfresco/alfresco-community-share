@@ -36,6 +36,11 @@ yui-overlay a:hover
    text-decoration: none;
 }
 
+.text-content a
+{
+  color: inherit !important;
+}
+
 .sticky-wrapper a:hover,
 .sticky-footer a:hover,
 yui-overlay a:hover
@@ -59,7 +64,7 @@ yui-overlay h2
 
 h2.thin,
 h3.thin,
-h4.thin   
+h4.thin
 {
    font-weight: normal;
 }
@@ -343,7 +348,7 @@ h3.dark
 .yui-skin-default #prompt .bd,
 .yui-skin-default #userInput .bd
 {
-   
+
 }
 
 .yui-skin-default #prompt .ft,
@@ -498,13 +503,13 @@ span.navigation-separator-alt
 .yui-overlay textarea,
 .yui-overlay select,
 .form-element-border,
-.share-form .yui-dt table   
+.share-form .yui-dt table
 {
    border: 1px solid #C5D6E2;
    font-weight: normal;
 }
 
-.share-form .yui-dt table td.yui-dt-last 
+.share-form .yui-dt table td.yui-dt-last
 {
    border-right: none;
 }
@@ -739,7 +744,7 @@ body.yui-skin-default .wikipage .detailsPage a:hover,
 body.yui-skin-default .nodeEdit .onEditBlogPost a:hover,
 body.yui-skin-default .nodeEdit .onDeleteBlogPost a:hover
 {
-   
+
 }
 
 /* YUI Menu */
@@ -957,32 +962,32 @@ body.yui-skin-default .yui-columnbrowser .yui-carousel-content li.yui-columnbrow
 
 body.yui-skin-default .yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column a.yui-columnbrowser-item-selected a,
 li.selected a.filter-link,
-li.selected a.tool-link, 
+li.selected a.tool-link,
 li.selected a.archive-link,
 li.selected a.tag-link,
 li.selected span.tag,
-body.yui-skin-default .treeview .selected table .ygtvlabel, 
-body.yui-skin-default .treeview .selected table .ygtvlabel:link, 
-body.yui-skin-default .treeview .selected table .ygtvlabel:visited, 
+body.yui-skin-default .treeview .selected table .ygtvlabel,
+body.yui-skin-default .treeview .selected table .ygtvlabel:link,
+body.yui-skin-default .treeview .selected table .ygtvlabel:visited,
 body.yui-skin-default .treeview .selected table .ygtvlabel:hover,
 body.yui-skin-default .categoryview .selected table .ygtvlabel,
 body.yui-skin-default .categoryview .selected table .ygtvlabel:link,
 body.yui-skin-default .categoryview .selected table .ygtvlabel:visited,
 body.yui-skin-default .categoryview .selected table .ygtvlabel:hover
 {
-   
+
 }
 
-body.yui-skin-default .treeview .selected div.ygtvchildren table .ygtvlabel, 
-body.yui-skin-default .treeview .selected div.ygtvchildren table .ygtvlabel:link, 
-body.yui-skin-default .treeview .selected div.ygtvchildren table .ygtvlabel:visited, 
+body.yui-skin-default .treeview .selected div.ygtvchildren table .ygtvlabel,
+body.yui-skin-default .treeview .selected div.ygtvchildren table .ygtvlabel:link,
+body.yui-skin-default .treeview .selected div.ygtvchildren table .ygtvlabel:visited,
 body.yui-skin-default .treeview .selected div.ygtvchildren table .ygtvlabel:hover,
 body.yui-skin-default .categoryview .selected div.ygtvchildren table .ygtvlabel,
 body.yui-skin-default .categoryview .selected div.ygtvchildren table .ygtvlabel:link,
 body.yui-skin-default .categoryview .selected div.ygtvchildren table .ygtvlabel:visited,
 body.yui-skin-default .categoryview .selected div.ygtvchildren table .ygtvlabel:hover
 {
-   
+
 }
 
 .yui-skin-default .node .nodeTitle a,
@@ -1300,8 +1305,8 @@ div.theme-bg-color-8
 
 .docfolder-input
 {
-   width: 203px; 
-   vertical-align: top; 
+   width: 203px;
+   vertical-align: top;
    margin-top: 2px;
 }
 
