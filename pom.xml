@@ -69,7 +69,7 @@
         <dependency.slf4j.version>2.0.3</dependency.slf4j.version>
         <dependency.jcl-over-slf4j.version>1.7.30</dependency.jcl-over-slf4j.version>
 
-        <dependency.cxf.version>4.1.0</dependency.cxf.version>
+        <dependency.cxf.version>4.1.1</dependency.cxf.version>
         <dependency.beanutils.version>1.11.0</dependency.beanutils.version>
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
         <dependency.jackson.version>2.15.0-rc1</dependency.jackson.version>
