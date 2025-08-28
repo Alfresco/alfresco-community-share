@@ -14,7 +14,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 
 import org.apache.chemistry.opencmis.commons.data.RepositoryInfo;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.testng.Assert;
 import org.testng.annotations.Test;

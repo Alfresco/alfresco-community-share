@@ -17,7 +17,7 @@ import org.alfresco.utility.model.ContentModel;
 import org.alfresco.utility.model.TestGroup;
 
 import org.apache.chemistry.opencmis.client.api.CmisObject;
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
