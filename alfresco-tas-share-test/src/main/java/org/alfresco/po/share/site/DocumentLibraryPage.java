@@ -26,7 +26,7 @@ import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.browser.WebBrowser;
 import org.alfresco.utility.web.common.Parameter;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
