@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.function.Supplier;
 import org.alfresco.utility.Utility;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
