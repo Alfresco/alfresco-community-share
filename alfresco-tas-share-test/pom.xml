@@ -35,7 +35,7 @@
       <suite-name />
       <tas.utility.version>5.0.1</tas.utility.version>
       <apache.poi.version>4.1.2</apache.poi.version>
-      <java.version>17</java.version>
+      <java.version>21</java.version>
    </properties>
 
    <dependencies>
