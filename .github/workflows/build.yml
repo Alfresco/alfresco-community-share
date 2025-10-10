@@ -287,7 +287,6 @@ jobs:
           retry_wait_seconds: 60
           retry_on: error
           command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml"
-        continue-on-error: true
       - name: "Upload artifacts"
         uses: actions/upload-artifact@v4
         with:
