@@ -166,6 +166,12 @@ public class AIMSFilter implements Filter
     public static final String DEFAULT_AUTHORIZATION_REQUEST_BASE_URI = "/oauth2/authorization";
     public static final String SHARE_AIMS_LOGIN_PAGE = "/page/aims-login";
     public static final String SHARE_AIMS_DOLOGIN = "/page/aims-dologin";
+    public static final String SHARE_PROXY_SLINGSHOT_NODE_CONTENT = "/proxy/alfresco/slingshot/node/content";
+    public static final String[] BASE_ENDPOINTS_TO_REDIRECT = {
+        SHARE_PAGE,
+        SHARE_AIMS_LOGOUT,
+        SHARE_PROXY_SLINGSHOT_NODE_CONTENT
+    };
 
     private ClientRegistrationRepository clientRegistrationRepository;
     private OAuth2AuthorizedClientService oauth2ClientService;
@@ -186,6 +192,7 @@ public class AIMSFilter implements Filter
     private String clientId;
     private String audience;
     private String shareContext;
+    private List<String> endpointsToRedirect = new ArrayList<>();
 
     public AIMSFilter()
     {
@@ -225,6 +232,16 @@ public class AIMSFilter implements Filter
             this.authorizationRequestRepository = new HttpSessionOAuth2AuthorizationRequestRepository();
             this.throwableAnalyzer = new SecurityUtils.DefaultThrowableAnalyzer();
             this.shareContext = config.getShareContext();
+
+            // Add base endpoints to redirect list
+            Collections.addAll(this.endpointsToRedirect, BASE_ENDPOINTS_TO_REDIRECT);
+
+            // Add extra endpoints (from config) to redirect list
+            String[] extraEndpointsToRedirect = config.getExtraEndpointsToRedirect();
+            if (extraEndpointsToRedirect != null && extraEndpointsToRedirect.length > 0)
+            {
+                Collections.addAll(this.endpointsToRedirect, extraEndpointsToRedirect);
+            }
         }
         this.connectorService = (ConnectorService) context.getBean("connector.service");
         this.loginController = (SlingshotLoginController) context.getBean("loginController");
@@ -292,7 +309,7 @@ public class AIMSFilter implements Filter
             }
         }
 
-        if (!isAuthenticated && this.enabled && (request.getRequestURI().contains(this.shareContext + SHARE_PAGE) || request.getRequestURI().contains(this.shareContext + SHARE_AIMS_LOGOUT)))
+        if (!isAuthenticated && this.enabled && isEndpointToRedirect(request))
         {
             /**
              // Match the request that came from Idp (redirect uri)
@@ -396,6 +413,19 @@ public class AIMSFilter implements Filter
 
             chain.doFilter(sreq, sres);
         }
+    }
+
+    private boolean isEndpointToRedirect(HttpServletRequest request)
+    {
+        String uri = request.getRequestURI();
+        for (String endpoint : endpointsToRedirect)
+        {
+            if (uri.contains(this.shareContext + endpoint))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
