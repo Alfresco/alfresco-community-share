@@ -7,6 +7,8 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
@@ -16,6 +18,7 @@ import java.util.List;
 
 public class ResourcePathValidationFilter implements Filter {
 
+    private static final Log LOGGER = LogFactory.getLog(ResourcePathValidationFilter.class);
     private static final List<String> BLOCKED_PATH_FRAGMENTS = List.of(
             "..",
             "web-inf",
@@ -25,7 +28,6 @@ public class ResourcePathValidationFilter implements Filter {
             "alfresco/module/",
             "alfresco/templates/"
     );
-
     private static final List<String> BLOCKED_EXTENSIONS = List.of(
             ".properties",
             ".xml",
@@ -46,7 +48,10 @@ public class ResourcePathValidationFilter implements Filter {
 
         if(isBlockListedUrl(sanitizedUrl))
         {
-            System.out.println("BlackListed Url : " + sanitizedUrl);
+            if(LOGGER.isInfoEnabled())
+            {
+                LOGGER.info(String.format("Blocked resource path %s", sanitizedUrl));
+            }
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
             return;
         }
