@@ -1,6 +1,10 @@
 package org.alfresco.web.site.servlet;
 
-import jakarta.servlet.*;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.util.StringUtils;
@@ -40,7 +44,7 @@ public class ResourcePathValidationFilter implements Filter {
         String decoded = URLDecoder.decode(uri, StandardCharsets.UTF_8);
         String sanitizedUrl = StringUtils.cleanPath(decoded).toLowerCase();
 
-        if(isBlackListedUrl(sanitizedUrl))
+        if(isBlockListedUrl(sanitizedUrl))
         {
             System.out.println("BlackListed Url : " + sanitizedUrl);
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
@@ -49,7 +53,7 @@ public class ResourcePathValidationFilter implements Filter {
         filterChain.doFilter(request, response);
     }
 
-    private boolean isBlackListedUrl(String path)
+    private boolean isBlockListedUrl(String path)
     {
         return BLOCKED_PATH_FRAGMENTS.stream().anyMatch(path::contains) || BLOCKED_EXTENSIONS.stream().anyMatch(path::endsWith);
     }
