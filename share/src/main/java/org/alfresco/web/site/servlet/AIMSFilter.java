@@ -113,6 +113,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -133,11 +134,16 @@ public class AIMSFilter implements Filter
 
     public static final String ALFRESCO_ENDPOINT_ID = "alfresco";
     public static final String ALFRESCO_API_ENDPOINT_ID = "alfresco-api";
-
-    public static final String SHARE_PAGE = "/share/page";
-    public static final String SHARE_AIMS_LOGOUT = "/share/page/aims/logout";
-
+    public static final String SHARE_AIMS_LOGOUT = "/page/aims/logout";
+    public static final String SHARE_PAGE = "/page";
     public static final String DEFAULT_AUTHORIZATION_REQUEST_BASE_URI = "/oauth2/authorization";
+    public static final String SHARE_PROXY_SLINGSHOT_NODE_CONTENT = "/proxy/alfresco/slingshot/node/content";
+    public static final String[] BASE_ENDPOINTS_TO_REDIRECT = {
+        SHARE_PAGE,
+        SHARE_AIMS_LOGOUT,
+        SHARE_PROXY_SLINGSHOT_NODE_CONTENT
+    };
+
     private ClientRegistrationRepository clientRegistrationRepository;
     private OAuth2AuthorizedClientService oauth2ClientService;
     private final RedirectStrategy authorizationRedirectStrategy;
@@ -155,6 +161,8 @@ public class AIMSFilter implements Filter
     };
     private final OAuth2UserService<OidcUserRequest, OidcUser> userService = new OidcUserService();
     private String clientId;
+    private String shareContext;
+    private List<String> endpointsToRedirect = new ArrayList<>();
 
     public AIMSFilter() {
         this.authorizationRedirectStrategy = new DefaultRedirectStrategy();
@@ -186,6 +194,17 @@ public class AIMSFilter implements Filter
             this.authorizationRequestResolver = new CustomAuthorizationRequestResolver(clientRegistrationRepository, DEFAULT_AUTHORIZATION_REQUEST_BASE_URI);
             this.authorizationRequestRepository = new HttpSessionOAuth2AuthorizationRequestRepository();
             this.throwableAnalyzer = new SecurityUtils.DefaultThrowableAnalyzer();
+            this.shareContext = config.getShareContext();
+
+            // Add base endpoints to redirect list
+            Collections.addAll(this.endpointsToRedirect, BASE_ENDPOINTS_TO_REDIRECT);
+
+            // Add extra endpoints (from config) to redirect list
+            String[] extraEndpointsToRedirect = config.getExtraEndpointsToRedirect();
+            if (extraEndpointsToRedirect != null && extraEndpointsToRedirect.length > 0)
+            {
+                Collections.addAll(this.endpointsToRedirect, extraEndpointsToRedirect);
+            }
         }
         this.connectorService = (ConnectorService) context.getBean("connector.service");
         this.loginController = (SlingshotLoginController) context.getBean("loginController");
@@ -230,7 +249,9 @@ public class AIMSFilter implements Filter
                     } catch(Exception e) {
                         logger.error("Resulted in Error while doing refresh token " + e.getMessage());
                         session.invalidate();
-                        if (!request.getRequestURI().contains(SHARE_AIMS_LOGOUT)) {
+                        if (!request.getRequestURI()
+                            .contains(this.shareContext + SHARE_AIMS_LOGOUT))
+                        {
                             isAuthenticated = false;
                         }
                     }
@@ -238,8 +259,7 @@ public class AIMSFilter implements Filter
             }
         }
 
-        if (!isAuthenticated &&
-            this.enabled)
+        if (!isAuthenticated && this.enabled && isEndpointToRedirect(request))
         {
             /**
              // Match the request that came from Idp (redirect uri)
@@ -294,6 +314,19 @@ public class AIMSFilter implements Filter
         {
             chain.doFilter(sreq, sres);
         }
+    }
+
+    private boolean isEndpointToRedirect(HttpServletRequest request)
+    {
+        String uri = request.getRequestURI();
+        for (String endpoint : endpointsToRedirect)
+        {
+            if (uri.contains(this.shareContext + endpoint))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
