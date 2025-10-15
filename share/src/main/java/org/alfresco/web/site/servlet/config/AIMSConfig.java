@@ -42,6 +42,9 @@ public class AIMSConfig
     private ConfigService configService;
 
     private Boolean publicClient;
+   private String shareContext;
+   private String[] extraEndpointsToRedirect;
+
     /**
      *
      */
@@ -80,7 +83,31 @@ public class AIMSConfig
         {
             this.setPrincipalAttribute("sub");
         }
+        if (!StringUtils.isEmpty(config.getConfigElementValue("shareContext")))
+        {
+            this.setShareContext(config.getConfigElementValue("shareContext"));
+        }
+        else
+        {
+            this.setShareContext("/share");
+        }
 
+        if (!StringUtils.isEmpty(config.getConfigElementValue("extraEndpointsToRedirect")))
+        {
+            String endpoints = config.getConfigElementValue("extraEndpointsToRedirect");
+            try
+            {
+                this.setExtraEndpointsToRedirect(endpoints.split(","));
+            }
+            catch (Exception e)
+            {
+                this.setExtraEndpointsToRedirect(null);
+            }
+        }
+        else
+        {
+            this.setExtraEndpointsToRedirect(null);
+        }
     }
 
     /**
@@ -176,5 +203,21 @@ public class AIMSConfig
     public void setPublicClient(Boolean publicClient)
     {
         this.publicClient = publicClient;
+    }
+
+    public String getShareContext() {
+        return shareContext;
+    }
+
+    public void setShareContext(String shareContext) {
+        this.shareContext = shareContext;
+    }
+
+    public String[] getExtraEndpointsToRedirect() {
+        return extraEndpointsToRedirect;
+    }
+
+    public void setExtraEndpointsToRedirect(String[] extraEndpointsToRedirect) {
+        this.extraEndpointsToRedirect = extraEndpointsToRedirect;
     }
 }
