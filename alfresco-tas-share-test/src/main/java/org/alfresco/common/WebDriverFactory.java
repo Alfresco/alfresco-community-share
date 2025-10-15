@@ -78,7 +78,7 @@ public class WebDriverFactory
             chromeOptions.addArguments(properties.getStartMaximizedChrome());
         }
 
-        chromeOptions.setExperimentalOption("excludeSwitches", List.of("enable-automation"));
+        chromeOptions.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
 
         chromeOptions.addArguments(String.format("--lang=%s", getBrowserLanguage(properties)));
 

@@ -1075,6 +1075,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     {
         WebElement contentElement = selectDocumentLibraryItemRow(contentName);
         Parameter.checkIsMandotary("Content selector", contentElement);
+        waitInSeconds(4);
         WebElement tagElement = contentElement.findElement(contentTagsSelector);
         Parameter.checkIsMandotary("Tag selector", tagElement);
         mouseOver(tagElement);
