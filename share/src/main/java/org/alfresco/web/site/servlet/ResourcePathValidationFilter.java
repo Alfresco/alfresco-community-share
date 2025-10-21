@@ -23,10 +23,7 @@ public class ResourcePathValidationFilter implements Filter {
             "..",
             "web-inf",
             "meta-inf",
-            "classes/",
-            "config/",
-            "alfresco/module/",
-            "alfresco/templates/"
+            "classes/"
     );
     private static final List<String> BLOCKED_EXTENSIONS = List.of(
             ".properties",
