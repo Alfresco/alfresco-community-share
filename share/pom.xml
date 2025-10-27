@@ -360,6 +360,17 @@
         <dependency>
           <groupId>org.springframework.security</groupId>
           <artifactId>spring-security-oauth2-client</artifactId>
+          <exclusions>
+            <exclusion>
+              <groupId>org.springframework.security</groupId>
+              <artifactId>spring-security-core</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-core</artifactId>
+          <version>6.5.6</version>
         </dependency>
         <dependency>
           <groupId>org.springframework.security</groupId>
