@@ -330,6 +330,7 @@ public class SocialFeatures extends DocumentLibraryPage
     }
     public SocialFeatures assertShareButtonEnabled(String fileName)
     {
+        waitUntilElementIsVisible(selectDocumentLibraryItemRow(fileName)); // wait for element to be stable or enabled
         assertTrue(isElementDisplayed(selectDocumentLibraryItemRow(fileName), enabled_ShareButton), "Share Button is not Enabled");
         return this;
     }
