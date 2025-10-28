@@ -122,6 +122,7 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
     {
         WebElement moreAction = waitUntilChildElementIsPresent(libraryItem, moreSelector);
         mouseOver(moreAction);
+        waitUntilElementIsVisible(moreAction);
         clickElement(moreAction);
     }
     public RepositoryPage assertFileIsDisplayed(String fileName)
