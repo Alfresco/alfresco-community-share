@@ -70,6 +70,7 @@
         <dependency.jcl-over-slf4j.version>1.7.30</dependency.jcl-over-slf4j.version>
 
         <dependency.cxf.version>4.1.1</dependency.cxf.version>
+        <dependency.angus.version>2.0.4</dependency.angus.version>
         <dependency.beanutils.version>1.11.0</dependency.beanutils.version>
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
         <dependency.jackson.version>2.15.0-rc1</dependency.jackson.version>
@@ -203,11 +204,22 @@
                 <artifactId>cxf-core</artifactId>
                 <version>${dependency.cxf.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-frontend-jaxws</artifactId>
-                <version>${dependency.cxf.version}</version>
-            </dependency>
+          <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>${dependency.cxf.version}</version>
+            <exclusions>
+              <exclusion>
+                <groupId>org.eclipse.angus</groupId>
+                <artifactId>angus-mail</artifactId>
+              </exclusion>
+            </exclusions>
+          </dependency>
+          <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>angus-mail</artifactId>
+            <version>${dependency.angus.version}</version>
+          </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-transports-http</artifactId>
