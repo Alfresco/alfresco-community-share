@@ -115,14 +115,17 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
     private boolean isActionInMoreActionsContainer(ItemActions action)
     {
         By actionSelector = By.cssSelector(MessageFormat.format(ACTION_SELECTOR_MORE, action.getActionLocator()));
-        WebElement actionElement = waitUntilElementIsPresent(actionSelector);
-        return actionElement != null;
+        try {
+            WebElement actionElement = waitUntilElementIsPresent(actionSelector);
+            return actionElement != null;
+        } catch (TimeoutException e) {
+            return false; // element not found within timeout
+        }
     }
     private void clickOnMoreActions(WebElement libraryItem)
     {
         WebElement moreAction = waitUntilChildElementIsPresent(libraryItem, moreSelector);
         mouseOver(moreAction);
-        waitUntilElementIsVisible(moreAction);
         clickElement(moreAction);
     }
     public RepositoryPage assertFileIsDisplayed(String fileName)
