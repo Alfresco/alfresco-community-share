@@ -120,7 +120,7 @@ public class AIMSLogoutHandler
                     .getConfigurationMetadata()
                     .get("post_redirect_uri");
             }
-            UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(UrlUtils.buildFullRequestUrl(request))
+            UriComponents uriComponents = UriComponentsBuilder.fromUriString(UrlUtils.buildFullRequestUrl(request))
                 .replacePath(request.getContextPath())
                 .replaceQuery(null)
                 .fragment(null)
