@@ -90,7 +90,11 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
     }
     public RepositoryPage select_ItemsAction(String contentItem, ItemActions action)
     {
-        waitInSeconds(3);
+        try {
+            waitForContent(contentItem);
+        } catch (InterruptedException e) {
+            throw new TimeoutException(e);
+        }
         WebElement libraryItem = mouseOverContentItem(contentItem);
         By actionSelector = By.cssSelector(MessageFormat.format(ACTION_SELECTOR, action.getActionLocator()));
         WebElement actionElement;
@@ -105,7 +109,7 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
         catch (TimeoutException timeoutException)
         {
             throw new TimeoutException(
-                "The action " + action.getActionName() + " could not be found for list item " + contentItem);
+                "The action " + action.getActionName() + " could not be found for list item " + contentItem + "Selector: " + actionSelector);
         }
         mouseOver(actionElement);
         clickElement(actionElement);
