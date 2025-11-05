@@ -62,6 +62,7 @@ public class AIMSConfig
     private String shareContext;
    private String atIssuerAttribute;
    private Set<String> scopes;
+   private String[] extraEndpointsToRedirect;
 
     /**
      *
@@ -184,6 +185,22 @@ public class AIMSConfig
             this.setShareContext("/share");
         }
 
+        if (!StringUtils.isEmpty(config.getConfigElementValue("extraEndpointsToRedirect")))
+        {
+            String endpoints = config.getConfigElementValue("extraEndpointsToRedirect");
+            try
+            {
+                this.setExtraEndpointsToRedirect(endpoints.split(","));
+            }
+            catch (Exception e)
+            {
+                this.setExtraEndpointsToRedirect(null);
+            }
+        }
+        else
+        {
+            this.setExtraEndpointsToRedirect(null);
+        }
     }
 
     /**
@@ -417,5 +434,13 @@ public class AIMSConfig
     public void setAtIssuerAttribute(String atIssuerAttribute)
     {
         this.atIssuerAttribute = atIssuerAttribute;
+    }
+
+    public String[] getExtraEndpointsToRedirect() {
+        return extraEndpointsToRedirect;
+    }
+
+    public void setExtraEndpointsToRedirect(String[] extraEndpointsToRedirect) {
+        this.extraEndpointsToRedirect = extraEndpointsToRedirect;
     }
 }
