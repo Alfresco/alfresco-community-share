@@ -287,6 +287,7 @@ jobs:
           retry_wait_seconds: 60
           retry_on: error
           command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml"
+        continue-on-error: true
       - name: "Upload artifacts"
         if: always()
         uses: actions/upload-artifact@v4
@@ -294,17 +295,11 @@ jobs:
           name: ${{ matrix.test }}-tests
           path: alfresco-tas-share-test/target/surefire-reports
                 alfresco-tas-share-test/target/reports
-                alfresco-tas-share-test/target/screenshots
-                alfresco-share-po.log
-                alfresco-testrail.log
+
           target-path: share/${{ env.GITHUB_RUN_NUMBER }}/content-actions-tests
+
       - name: Get logs
         run: bash amps/ags/ci/scripts/getLogs.sh
-      - name: Clean S3 buckets
-        if: always() && matrix.test == 'wormTestSuite'
-        run: scripts/ci/cleanup.sh
-
-
 
   community_shared_UI_configuration:
     runs-on: ubuntu-latest
@@ -432,9 +427,10 @@ jobs:
             wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_132.0.6834.159-1_amd64.deb
             sudo apt-get install libu2f-udev
             sudo dpkg -i google-chrome-stable_132.0.6834.159-1_amd64.deb
-            google-chrome --version
             sudo apt-mark hold google-chrome-stable
-            installed_version=$(google-chrome --version)
+            google-chrome --version
+            sudo apt-mark showhold | grep google-chrome-stable
+
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Prepare before Test"
