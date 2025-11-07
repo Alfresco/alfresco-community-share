@@ -298,8 +298,6 @@ jobs:
             alfresco-tas-share-test/target/surefire-reports
             alfresco-tas-share-test/target/screenshots
 
-         # target-path: share/${{ env.GITHUB_RUN_NUMBER }}/content-actions-tests
-
   community_shared_UI_configuration:
     runs-on: ubuntu-latest
     if: >
@@ -474,7 +472,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ags-${GITHUB_RUN_NUMBER}-${JOB_NAME}
+          name: ags-${{matrix.test}}-${GITHUB_RUN_NUMBER}-${JOB_NAME}-${{ github.run_id}}-${{ github.run_attempt }}
           path: |
             amps/ags/rm-automation/rm-automation-ui/target/surefire-reports
             amps/ags/rm-automation/rm-automation-ui/target/reports
