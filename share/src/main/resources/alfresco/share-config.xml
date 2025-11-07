@@ -346,6 +346,7 @@
         <logoutClientIDValue>${aims.logout.client_id_value}</logoutClientIDValue>
         <useIdTokenHint>${aims.logout.useIdTokenHint}</useIdTokenHint>
         <shareContext>${aims.shareContext.value}</shareContext>
+        <extraEndpointsToRedirect>${aims.extraEndpointsToRedirect}</extraEndpointsToRedirect>
     </config>
 
     <!-- Cookie Headers-->
