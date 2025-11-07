@@ -299,9 +299,6 @@ jobs:
 
           target-path: share/${{ env.GITHUB_RUN_NUMBER }}/content-actions-tests
 
-      - name: Get logs
-        run: bash amps/ags/ci/scripts/getLogs.sh
-
   community_shared_UI_configuration:
     runs-on: ubuntu-latest
     if: >
