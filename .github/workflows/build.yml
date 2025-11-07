@@ -293,8 +293,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.test }}-tests
-          path: alfresco-tas-share-test/target/surefire-reports
-                alfresco-tas-share-test/target/reports
+          path: |
+            alfresco-tas-share-test/target/reports
+            alfresco-tas-share-test/target/surefire-reports
 
           target-path: share/${{ env.GITHUB_RUN_NUMBER }}/content-actions-tests
 
