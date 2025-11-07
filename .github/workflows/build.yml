@@ -371,7 +371,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ags/${GITHUB_RUN_NUMBER}/${JOB_NAME}
+          name: ags/community/${GITHUB_RUN_NUMBER}/${JOB_NAME}
           path:
             amps/ags/rm-automation/rm-automation-ui/target/surefire-reports
             amps/ags/rm-automation/rm-automation-ui/target/reports
@@ -472,7 +472,6 @@ jobs:
           retry_on: error
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL
       - name: Upload artifacts
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ags-${GITHUB_RUN_NUMBER}-${JOB_NAME}
@@ -484,7 +483,6 @@ jobs:
             solr.log
             share.log
       - name: Get logs
-        if: always()
         run: bash amps/ags/ci/scripts/getLogs.sh
       - name: Clean S3 buckets
         if: always() && matrix.test == 'wormTestSuite'
