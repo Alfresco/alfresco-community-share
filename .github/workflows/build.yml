@@ -475,7 +475,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ags/${GITHUB_RUN_NUMBER}/${JOB_NAME}
+          name: ags-${GITHUB_RUN_NUMBER}-${JOB_NAME}
           path: |
             amps/ags/rm-automation/rm-automation-ui/target/surefire-reports
             amps/ags/rm-automation/rm-automation-ui/target/reports
