@@ -296,6 +296,7 @@ jobs:
           path: |
             alfresco-tas-share-test/target/reports
             alfresco-tas-share-test/target/surefire-reports
+            alfresco-tas-share-test/target/screenshots
 
           target-path: share/${{ env.GITHUB_RUN_NUMBER }}/content-actions-tests
 
