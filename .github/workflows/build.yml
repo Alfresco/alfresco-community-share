@@ -298,7 +298,7 @@ jobs:
             alfresco-tas-share-test/target/surefire-reports
             alfresco-tas-share-test/target/screenshots
 
-          target-path: share/${{ env.GITHUB_RUN_NUMBER }}/content-actions-tests
+         # target-path: share/${{ env.GITHUB_RUN_NUMBER }}/content-actions-tests
 
   community_shared_UI_configuration:
     runs-on: ubuntu-latest
