@@ -328,9 +328,11 @@ public class SocialFeatures extends DocumentLibraryPage
         assertTrue(isPublicLinkInputFieldDisplayed(), "Share Button is not Available");
         return this;
     }
-    public SocialFeatures assertShareButtonEnabled(String fileName)
+   public SocialFeatures assertShareButtonEnabled(String fileName)
     {
-        assertTrue(isElementDisplayed(selectDocumentLibraryItemRow(fileName), enabled_ShareButton), "Share Button is not Enabled");
+        WebElement itemRow = selectDocumentLibraryItemRow(fileName);
+        waitUntilElementIsVisible(itemRow);
+        assertTrue(isElementDisplayed(itemRow, enabled_ShareButton), "Share Button is not Enabled");
         return this;
     }
 }

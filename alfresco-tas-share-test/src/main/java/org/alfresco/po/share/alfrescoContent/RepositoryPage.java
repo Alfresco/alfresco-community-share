@@ -90,7 +90,11 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
     }
     public RepositoryPage select_ItemsAction(String contentItem, ItemActions action)
     {
-        waitInSeconds(3);
+        try {
+            waitForContent(contentItem);
+        } catch (InterruptedException e) {
+            throw new TimeoutException(e);
+        }
         WebElement libraryItem = mouseOverContentItem(contentItem);
         By actionSelector = By.cssSelector(MessageFormat.format(ACTION_SELECTOR, action.getActionLocator()));
         WebElement actionElement;
@@ -100,12 +104,12 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
         }
         try
         {
-            actionElement = waitUntilElementIsVisible(actionSelector);
+            actionElement = waitUntilElementIsPresent(actionSelector);
         }
         catch (TimeoutException timeoutException)
         {
             throw new TimeoutException(
-                "The action " + action.getActionName() + " could not be found for list item " + contentItem);
+                "The action " + action.getActionName() + " could not be found for list item " + contentItem + " Selector: " + actionSelector);
         }
         mouseOver(actionElement);
         clickElement(actionElement);
@@ -115,8 +119,12 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
     private boolean isActionInMoreActionsContainer(ItemActions action)
     {
         By actionSelector = By.cssSelector(MessageFormat.format(ACTION_SELECTOR_MORE, action.getActionLocator()));
-        WebElement actionElement = waitUntilElementIsPresent(actionSelector);
-        return actionElement != null;
+        try {
+            WebElement actionElement = waitUntilElementIsPresent(actionSelector);
+            return actionElement != null;
+        } catch (TimeoutException e) {
+            return false; // element not found within timeout
+        }
     }
     private void clickOnMoreActions(WebElement libraryItem)
     {
