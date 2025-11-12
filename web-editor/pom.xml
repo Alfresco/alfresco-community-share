@@ -6,7 +6,7 @@
     <parent>
         <artifactId>alfresco-share-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>25.3.0.46</version>
+        <version>25.3.0.47-SNAPSHOT</version>
     </parent>
 
     <build>
