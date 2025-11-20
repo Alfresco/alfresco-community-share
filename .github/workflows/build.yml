@@ -239,7 +239,7 @@ jobs:
 
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: alfrescoPub-ubuntu2204-16G-4CPU
     needs: build
     if: >
       !contains(github.event.head_commit.message, '[skip tests]') &&
