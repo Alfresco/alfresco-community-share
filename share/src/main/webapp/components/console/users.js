@@ -1785,7 +1785,7 @@
 
          var deauthHeader = this.msg("deauthorize.dialog.header", this.selectedUser);
          var deauthCheckboxMessage = this.msg("deauthorize.dialog.checkbox.message");
-         var body=this.docUrlJs.get(this.msg.get("deauthorize.dialog.message"), this.options.docsEdition) + "<br><br>&nbsp;&nbsp;<input type=\"checkbox\" name=\"isAgreed\" id=\"isAgreedID\" value=\"1\" />&nbsp;" + deauthCheckboxMessage;
+         var body=this.docUrlJs(this.msg("deauthorize.dialog.message"), this.options.docsEdition) + "<br><br>&nbsp;&nbsp;<input type=\"checkbox\" name=\"isAgreed\" id=\"isAgreedID\" value=\"1\" />&nbsp;" + deauthCheckboxMessage;
 
          this.deauthorizeDialog.setHeader(deauthHeader);
          this.deauthorizeDialog.setBody(body);
