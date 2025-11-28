@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 - 2020 Alfresco Software Limited.
+ * Copyright 2005 - 2025 Alfresco Software Limited.
  *
  * This file is part of the Alfresco software.
  * If the software was purchased under a paid Alfresco license, the terms of the paid license agreement will prevail.
@@ -122,6 +122,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -863,6 +865,28 @@ public class AIMSFilter implements Filter
     }
 
     /**
+     * Validate that the redirect URL is safe to redirect to (same host and scheme as the request)
+     * @param request
+     * @param redirectUrl
+     * @throws MalformedURLException
+     */
+    private boolean isRedirectUrlSafe(HttpServletRequest request, String redirectUrl) {
+        if (!StringUtils.hasText(redirectUrl)) {
+            return false;
+        }
+
+        try {
+            URL url = new URL(redirectUrl);
+            return url.getHost().equalsIgnoreCase(request.getServerName())
+                && url.getProtocol().equalsIgnoreCase(request.getScheme());
+        }
+        catch (MalformedURLException e) {
+            LOGGER.warn("Malformed redirect URL: "+ redirectUrl, e);
+            return redirectUrl.startsWith("/share/");
+        }
+    }
+
+    /**
      * After we have sucessfully authenticated with the IdP, the IDP sent the redirect back to the aims-login page. We
      * need to redirect back to the original URL that was called and include the framents if present
      *
@@ -878,6 +902,11 @@ public class AIMSFilter implements Filter
         if (originalUrl == null || originalUrl.isEmpty())
         {
             this.redirectStrategy.sendRedirect(request, response, "/");
+            return;
+        }
+        // Validate that the redirect URL is safe to redirect to
+        if (!isRedirectUrlSafe(request, originalUrl)) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid redirect URL");
             return;
         }
 
