@@ -15,7 +15,7 @@ import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 
-import org.alfresco.utility.constants.UserRole;;
+import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
