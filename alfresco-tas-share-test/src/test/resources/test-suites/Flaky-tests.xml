@@ -12,7 +12,6 @@
             <include name="FlakyTests"/>
             <include name="RSSFeedDashletTest"/>
             <include name="PieChartTests"/>
-             <exclude name="Flaky"/>
          </run>
       </groups>
       <packages>
