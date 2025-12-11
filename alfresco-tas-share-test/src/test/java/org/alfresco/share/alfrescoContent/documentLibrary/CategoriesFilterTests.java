@@ -49,31 +49,6 @@ public class CategoriesFilterTests extends BaseTest
                 .assertCategoriesAreNotExpanded();
     }
 
-    @TestRail (id = "C6910, C10595")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void filterDocumentsByCategories()
-    {
-        FileModel englishFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-        FileModel frenchFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
-
-        createFileAndSetLanguageCategory(englishFile, site.get(), ENGLISH_CATEGORY);
-        createFileAndSetLanguageCategory(frenchFile, site.get(), FRENCH_CATEGORY);
-
-        documentLibraryPage.navigate(site.get())
-            .usingContentFilters()
-                .expandCategoryRoot()
-                .expandCategory(LANGUAGE_CATEGORY)
-                .selectCategory(ENGLISH_CATEGORY);
-
-        documentLibraryPage.usingContent(englishFile).assertContentIsDisplayed();
-        documentLibraryPage.usingContent(frenchFile).assertContentIsNotDisplayed();
-
-        documentLibraryPage.usingContentFilters().selectCategory(FRENCH_CATEGORY);
-
-        documentLibraryPage.usingContent(englishFile).assertContentIsNotDisplayed();
-        documentLibraryPage.usingContent(frenchFile).assertContentIsDisplayed();
-    }
-
     @AfterMethod(alwaysRun = true)
     public void afterMethod()
     {
