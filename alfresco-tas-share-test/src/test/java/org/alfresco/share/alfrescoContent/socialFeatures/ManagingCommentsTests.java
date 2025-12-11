@@ -334,6 +334,22 @@ public class ManagingCommentsTests extends BaseTest
 
     }
 
+    @TestRail (id = "C7590")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , "Flaky" })
+    public void addCommentLinks()
+    {
+        log.info("Precondition: click on the file created in the site where comment to be added.");
+        documentLibraryPage.navigate(site.get().getTitle())
+            .clickOnFile(fileToCheck.getName())
+            .clickOnCommentDocument();
+
+        log.info("Step 1: Add comment to the file and then verify the comment ");
+        documentPreviewPage.addComment(linkComment)
+            .assertVerifyCommentContent(linkComment);
+        documentPreviewPage.clickCommentContent(linkComment);
+        documentPreviewPage.assertBrowserPageTitleIs("Home • Product Documentation");
+    }
+
     @TestRail (id = "C7591")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void addCommentHelp()
