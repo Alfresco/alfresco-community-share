@@ -422,6 +422,13 @@ jobs:
       S3_BUCKET_NAME: ${{ vars.S3_BUCKET_PREFIX }}-${{ github.run_number }}
       S3_BUCKET2_NAME: ${{ vars.S3_BUCKET_PREFIX }}-worm-b2
     steps:
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v11.1.0
+        with:
+          merge-disk-volumes: true
+          root-reserve-mb: 12288
+          temp-reserve-mb: 100
+          swap-size-mb: 1024
+          build-mount-path: '/var/lib/docker/'
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
