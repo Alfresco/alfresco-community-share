@@ -420,18 +420,10 @@ jobs:
       S3_BUCKET_NAME: ${{ vars.S3_BUCKET_PREFIX }}-${{ github.run_number }}
       S3_BUCKET2_NAME: ${{ vars.S3_BUCKET_PREFIX }}-worm-b2
     steps:
-      - name: Clean runner cache
-        run: sudo rm -rf /home/runner/actions-runner/cached/_diag/*
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v11.1.0
-        with:
-          merge-disk-volumes: true
-          root-reserve-mb: 12288
-          temp-reserve-mb: 100
-          swap-size-mb: 1024
-          build-mount-path: '/var/lib/docker/'
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v8.24.1
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.24.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
