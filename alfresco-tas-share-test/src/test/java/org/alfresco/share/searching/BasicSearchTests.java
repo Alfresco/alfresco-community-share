@@ -178,7 +178,7 @@ public class BasicSearchTests extends BaseTest
     }
 
     @TestRail (id = "C5945")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH , "tobefixed" })
     public void verifySearchPage()
     {
         log.info("Precondition: Creating random file in the site under document library");

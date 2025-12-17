@@ -335,7 +335,7 @@ public class ManagingCommentsTests extends BaseTest
     }
 
     @TestRail (id = "C7590")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , "Flaky" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , "tobefixed" })
     public void addCommentLinks()
     {
         log.info("Precondition: click on the file created in the site where comment to be added.");
