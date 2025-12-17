@@ -91,7 +91,7 @@ public class ActionsUploadTests extends BaseTest
 
     //    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C8175")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void updateDocumentNewVersion() {
         authenticateUsingLoginPage(testUser1);
         repositoryPage

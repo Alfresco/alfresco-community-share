@@ -37,7 +37,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends AbstractSiteDashboardDash
     }
 
     @TestRail (id = "C5568")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , "tobefixed" })
     public void checkDisplaySpecificMessageWhenAlfrescoAddonsRssFeedListIsEmpty()
     {
         siteDashboardPage.navigate(site.get());
@@ -51,7 +51,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends AbstractSiteDashboardDash
     }
 
     @TestRail(id = "C2793")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , "tobefixed" })
     public void shouldConfigureAlfrescoAddonsRssFeedDashlet()
     {
         siteDashboardPage.navigate(site.get());

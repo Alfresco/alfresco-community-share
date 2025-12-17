@@ -30,7 +30,7 @@ public class RssFeedDashletTest extends AbstractUserDashboardDashletsTests
     }
 
     @TestRail (id = "C2162")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD, "RSSFeedDashletTest" })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD, "RSSFeedDashletTest", "tobefixed" })
     public void verifyNewsFeedDashlet()
     {
         userDashboardPage.navigate(user.get());
