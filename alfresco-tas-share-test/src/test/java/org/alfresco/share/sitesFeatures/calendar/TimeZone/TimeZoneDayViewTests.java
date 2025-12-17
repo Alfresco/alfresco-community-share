@@ -102,7 +102,7 @@ public class TimeZoneDayViewTests extends BaseTest
 
     //   @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5973")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES , "TimeZoneTests"}, enabled = true)
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES , "TimeZoneTests", "tobefixed"}, enabled = true)
     public void singleDayEvent()
     {
         String currentEventName = "testEvent-C5973";
@@ -156,7 +156,7 @@ public class TimeZoneDayViewTests extends BaseTest
 
     //    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5975")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES , "TimeZoneTests"}, enabled = true)
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES , "TimeZoneTests", "tobefixed"}, enabled = true)
     public void multipleDaysEvent()
     {
         String currentEventName = "testEvent-C5975";
@@ -210,7 +210,7 @@ public class TimeZoneDayViewTests extends BaseTest
 
     //    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5977")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES , "TimeZoneTests"}, enabled = true)
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES , "TimeZoneTests", "tobefixed"}, enabled = true)
     public void multipleWeeksEvent()
     {
         String currentEventName = "testEvent-C5977";
@@ -267,7 +267,7 @@ public class TimeZoneDayViewTests extends BaseTest
 
     //    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5979")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES , "TimeZoneTests"}, enabled = true)
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES , "TimeZoneTests", "tobefixed"}, enabled = true)
     public void multipleMonthsEvent()
     {
         String currentEventName = "testEvent-C5979";

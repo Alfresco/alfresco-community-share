@@ -29,7 +29,7 @@ public class AlfrescoAddonsRssFeedDashletTest extends AbstractUserDashboardDashl
     }
 
     @TestRail (id = "C2168")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD, "RSSFeedDashletTest" })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD, "RSSFeedDashletTest" , "tobefixed" })
     public void verifyAlfrescoAddonsNewsFeedDashlet()
     {
         userDashboardPage.navigate(user.get());

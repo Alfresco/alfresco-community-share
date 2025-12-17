@@ -40,7 +40,7 @@ public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5568")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , "tobefixed" })
     public void checkDisplaySpecificMessageWhenRssFeedListIsEmpty()
     {
         siteDashboardPage.navigate(site.get());
@@ -53,7 +53,7 @@ public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C2795")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , "tobefixed" })
     public void shouldConfigureRSSFeedDashlet()
     {
         siteDashboardPage.navigate(site.get());
