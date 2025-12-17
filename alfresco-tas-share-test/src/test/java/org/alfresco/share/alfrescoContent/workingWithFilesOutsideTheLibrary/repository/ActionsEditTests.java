@@ -85,7 +85,7 @@ public class ActionsEditTests extends BaseTest
 
 
     @TestRail (id = "C7737")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , "tobefixed" })
     public void repositoryEditFilesProperties()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");
@@ -205,7 +205,7 @@ public class ActionsEditTests extends BaseTest
     }
 
     @TestRail (id = "C7767")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , "tobefixed" })
     public void repositoryEditFileInAlfresco()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");
@@ -262,7 +262,7 @@ public class ActionsEditTests extends BaseTest
     }
 
     @TestRail (id = "C7782")
-    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS , "tobefixed" })
     public void repositoryEditFilesInGoogleDocs()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");

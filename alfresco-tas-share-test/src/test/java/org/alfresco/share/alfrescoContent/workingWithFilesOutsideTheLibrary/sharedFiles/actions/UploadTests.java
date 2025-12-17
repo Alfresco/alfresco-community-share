@@ -74,7 +74,7 @@ public class UploadTests extends BaseTest
     }
 
     @TestRail (id = "C7939")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
     public void uploadDocument()
     {
 

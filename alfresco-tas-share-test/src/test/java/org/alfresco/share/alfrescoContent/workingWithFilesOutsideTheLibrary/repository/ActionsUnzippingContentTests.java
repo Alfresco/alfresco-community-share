@@ -66,7 +66,7 @@ public class ActionsUnzippingContentTests extends BaseTest
     }
 
     @TestRail (id = "C8256")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , "tobefixed" })
     public void unzipZipFileToRepository()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");

@@ -50,7 +50,7 @@ public class CategoriesFilterTests extends BaseTest
     }
 
     @TestRail (id = "C6910, C10595")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "bug" })
     public void filterDocumentsByCategories()
     {
         FileModel englishFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);

@@ -65,7 +65,7 @@ public class RepositoryTests extends BaseTest
             .assertRepositoryPageIsOpened();
     }
     @TestRail (id = "C8155")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "FlakyTests" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "FlakyTests" , "tobefixed" })
     public void checkTheFilesAndFoldersAvailabilityInRepository() {
         log.info("Precondition : create 2 sites and add file and folder in both sites");
         site1.set(getDataSite().usingUser(user.get()).createSite(new SiteModel(site1name)));

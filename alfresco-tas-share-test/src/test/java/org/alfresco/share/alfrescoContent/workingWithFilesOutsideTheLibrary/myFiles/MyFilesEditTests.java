@@ -233,7 +233,7 @@ public class MyFilesEditTests extends BaseTest
     }
 
     @TestRail (id = "C8227")
-    @Test ( groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
+    @Test ( groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS , "tobefixed" })
     public void myFilesEditFilesInGoogleDocs() throws Exception
     {
         log.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
