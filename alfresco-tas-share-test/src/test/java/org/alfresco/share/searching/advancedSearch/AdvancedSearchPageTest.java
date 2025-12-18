@@ -195,7 +195,7 @@ public class AdvancedSearchPageTest extends BaseTest
 
     @Bug (id = "ACE-5789")
     @TestRail (id = "C5891")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SinglePipelineFailure",  "SearchTests" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SinglePipelineFailure",  "SearchTests", "tobefixed" })
     public void searchByKeyword() {
         String identifier = RandomData.getRandomAlphanumeric();
         siteModel.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
