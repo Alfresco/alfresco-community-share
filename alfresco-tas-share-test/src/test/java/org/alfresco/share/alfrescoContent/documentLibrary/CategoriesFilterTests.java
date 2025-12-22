@@ -2,10 +2,12 @@ package org.alfresco.share.alfrescoContent.documentLibrary;
 
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
+import org.alfresco.utility.report.Bug;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -49,8 +51,9 @@ public class CategoriesFilterTests extends BaseTest
                 .assertCategoriesAreNotExpanded();
     }
 
+    @Bug(id = "APPS-3306", description = "Sub nodes of the root category are not expanding on click in Document Library filters. bug url: https://hyland.atlassian.net/browse/APPS-3306")
     @TestRail (id = "C6910, C10595")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "bug" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.BUG})
     public void filterDocumentsByCategories()
     {
         FileModel englishFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);

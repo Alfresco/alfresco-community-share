@@ -4,6 +4,7 @@ import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertEquals;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
@@ -66,7 +67,7 @@ public class ActionsUnzippingContentTests extends BaseTest
     }
 
     @TestRail (id = "C8256")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , ShareGroups.TOBEFIXED})
     public void unzipZipFileToRepository()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");
