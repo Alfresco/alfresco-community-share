@@ -9,6 +9,7 @@ import static org.alfresco.po.enums.TaskStatus.ON_HOLD;
 import java.util.Date;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.WorkflowService;
 import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
@@ -137,7 +138,7 @@ public class EditingWorkflowsTests extends BaseTest
     }
 
     @TestRail (id = "C8465")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, ShareGroups.TOBEFIXED})
     public void verifyEditTaskForm()
     {
         log.info("Precondition: Create user and a workflow.");

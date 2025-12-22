@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.po.share.site.calendar.CalendarPage;
@@ -181,7 +182,7 @@ public class ViewEventTests extends BaseTest
     }
 
     @TestRail (id = "C5402")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.TOBEFIXED })
     public void closeEventInformationPopup()
     {
         authenticateUsingLoginPage(user.get());
