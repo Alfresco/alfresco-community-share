@@ -10,6 +10,7 @@ import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.ContentService;
 import org.alfresco.dataprep.DashboardCustomization;
@@ -178,7 +179,7 @@ public class BasicSearchTests extends BaseTest
     }
 
     @TestRail (id = "C5945")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH , "tobefixed" })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH , ShareGroups.TOBEFIXED})
     public void verifySearchPage()
     {
         log.info("Precondition: Creating random file in the site under document library");

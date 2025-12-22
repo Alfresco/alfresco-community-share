@@ -8,6 +8,7 @@ import java.util.Collections;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
@@ -95,7 +96,7 @@ public class DeleteTopicTests extends BaseTest
     }
 
     @TestRail (id = "6244")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.TOBEFIXED})
     public void deleteTopicFromDiscussionsTopicListPage()
     {
         //precondition

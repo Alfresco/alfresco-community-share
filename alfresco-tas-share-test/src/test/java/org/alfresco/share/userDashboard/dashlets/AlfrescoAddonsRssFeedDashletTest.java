@@ -2,6 +2,7 @@ package org.alfresco.share.userDashboard.dashlets;
 
 import static org.alfresco.dataprep.DashboardCustomization.UserDashlet;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.dashlet.RssFeedDashlet;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
@@ -29,7 +30,7 @@ public class AlfrescoAddonsRssFeedDashletTest extends AbstractUserDashboardDashl
     }
 
     @TestRail (id = "C2168")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD, "RSSFeedDashletTest" , "tobefixed" })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD, "RSSFeedDashletTest" , ShareGroups.TOBEFIXED})
     public void verifyAlfrescoAddonsNewsFeedDashlet()
     {
         userDashboardPage.navigate(user.get());

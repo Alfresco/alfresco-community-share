@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.share.BaseTest;
@@ -65,7 +66,7 @@ public class RepositoryTests extends BaseTest
             .assertRepositoryPageIsOpened();
     }
     @TestRail (id = "C8155")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "FlakyTests" , "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "FlakyTests" , ShareGroups.TOBEFIXED})
     public void checkTheFilesAndFoldersAvailabilityInRepository() {
         log.info("Precondition : create 2 sites and add file and folder in both sites");
         site1.set(getDataSite().usingUser(user.get()).createSite(new SiteModel(site1name)));
