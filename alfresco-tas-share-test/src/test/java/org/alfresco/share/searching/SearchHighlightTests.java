@@ -9,6 +9,7 @@ import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.ContentService;
 import org.alfresco.dataprep.DashboardCustomization;
@@ -204,7 +205,7 @@ public class SearchHighlightTests extends BaseTest
     }
 
     @TestRail (id = "C42550")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, ShareGroups.TOBEFIXED})
     public void highlightSearchByContentOnDifferentPage()
     {
         log.info("Step 1: Login with username and navigate to Advanced Search page.");
@@ -271,7 +272,7 @@ public class SearchHighlightTests extends BaseTest
     }
 
     @TestRail (id = "C42560")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", ShareGroups.TOBEFIXED })
     public void highlightSearchWithWildcards()
     {
         log.info("Step 1: Login with username and navigate to Advanced Search page.");
@@ -358,7 +359,7 @@ public class SearchHighlightTests extends BaseTest
     }
 
     @TestRail (id = "C42563")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", ShareGroups.TOBEFIXED })
     public void highlightSearchWithDisjunctions()
     {
         log.info("Step 1: Login with username and navigate to Advanced Search page.");

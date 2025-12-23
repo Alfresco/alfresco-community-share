@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.SitePagesService;
@@ -195,7 +196,7 @@ public class AdvancedSearchPageTest extends BaseTest
 
     @Bug (id = "ACE-5789")
     @TestRail (id = "C5891")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SinglePipelineFailure",  "SearchTests" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SinglePipelineFailure",  "SearchTests", ShareGroups.TOBEFIXED})
     public void searchByKeyword() {
         String identifier = RandomData.getRandomAlphanumeric();
         siteModel.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
