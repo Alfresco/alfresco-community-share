@@ -3,6 +3,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sha
 import static org.alfresco.common.Utils.testDataFolder;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
@@ -74,7 +75,7 @@ public class UploadTests extends BaseTest
     }
 
     @TestRail (id = "C7939")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
     public void uploadDocument()
     {
 

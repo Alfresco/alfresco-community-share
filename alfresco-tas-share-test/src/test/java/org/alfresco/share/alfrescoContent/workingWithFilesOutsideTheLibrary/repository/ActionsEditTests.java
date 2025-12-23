@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
@@ -85,7 +86,7 @@ public class ActionsEditTests extends BaseTest
 
 
     @TestRail (id = "C7737")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , ShareGroups.TOBEFIXED})
     public void repositoryEditFilesProperties()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");
@@ -205,7 +206,7 @@ public class ActionsEditTests extends BaseTest
     }
 
     @TestRail (id = "C7767")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , ShareGroups.TOBEFIXED })
     public void repositoryEditFileInAlfresco()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");
@@ -262,7 +263,7 @@ public class ActionsEditTests extends BaseTest
     }
 
     @TestRail (id = "C7782")
-    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS , ShareGroups.TOBEFIXED })
     public void repositoryEditFilesInGoogleDocs()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");
