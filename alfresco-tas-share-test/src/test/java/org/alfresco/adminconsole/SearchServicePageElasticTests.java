@@ -61,7 +61,7 @@ public class SearchServicePageElasticTests extends BaseTest {
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName, docContent);
     }
 
-    @Test(groups = {TestGroup.SANITY, TestGroup.SEARCH, "es_search_test"})
+    @Test(groups = {"es_search_test"})
     public void validateESServiceStatusIndexedDocumentCount() {
         log.info("STEP1: Navigate to Search Service");
         log.info("STEP2: Click on Service Status tab and store the already indexed document count");
@@ -87,7 +87,7 @@ public class SearchServicePageElasticTests extends BaseTest {
         Assert.assertEquals(updatedIndexedDocument, indexedDocument + 2);
     }
 
-    @Test(groups = {TestGroup.SANITY, TestGroup.SEARCH, "es_search_test"})
+    @Test(groups = {"es_search_test"})
     public void validateESServiceStatusIndexableDocumentCount() {
         log.info("STEP1: Navigate to Search Service");
         log.info("STEP2: Click on Service Status tab and store the indexable document count");
@@ -113,7 +113,7 @@ public class SearchServicePageElasticTests extends BaseTest {
         Assert.assertEquals(updatedIndexableDocument, indexableDocument + 2);
     }
 
-    @Test(groups = {TestGroup.SANITY, TestGroup.SEARCH, "es_search_test"})
+    @Test(groups = {"es_search_test"})
     public void validateESServiceStatusContentIndexingSuccessCount() {
         log.info("STEP1: Navigate to Search Service");
         log.info("STEP2: Click on Service Status tab and store the Content Indexing Success count");
@@ -139,7 +139,7 @@ public class SearchServicePageElasticTests extends BaseTest {
         Assert.assertEquals(updatedContentIndexedSuccessCount, contentIndexSuccessCount + 2);
     }
 
-    @Test(groups = {TestGroup.SANITY, TestGroup.SEARCH, "es_search_test"})
+    @Test(groups = {"es_search_test"})
     public void validateHealthCheckCompletedWithNoIssues() {
         refreshAndClickServiceStatus(3);
         searchServicePages.clickStartHealthCheckButton();
@@ -151,7 +151,7 @@ public class SearchServicePageElasticTests extends BaseTest {
         Assert.assertEquals(healthCheckStatus, "Completed with 0 issues");
     }
 
-    @Test(groups = {TestGroup.SANITY, TestGroup.SEARCH, "es_search_test"})
+    @Test(groups = {"es_search_test"})
     public void validateHealthCheckStartEndTimeChanges() {
         refreshAndClickServiceStatus(3);
         String healthCheckStartTime = searchServicePages.getHealthCheckStartTime();
@@ -181,7 +181,7 @@ public class SearchServicePageElasticTests extends BaseTest {
         }
     }
 
-    @Test(groups = {TestGroup.SANITY, TestGroup.SEARCH, "es_search_test"})
+    @Test(groups = {"es_search_test"})
     public void validateSearchServicePageFailureCount() {
         refreshAndClickServiceStatus(3);
         int contentIndexFailureCount = Integer.parseInt(searchServicePages.getContentIndexingFailureCount());
@@ -199,7 +199,7 @@ public class SearchServicePageElasticTests extends BaseTest {
         Assert.assertEquals(updatedContentIndexFailureCount, contentIndexFailureCount + 1);
     }
 
-    @Test(groups = {TestGroup.SANITY, TestGroup.SEARCH, "es_search_test"})
+    @Test(groups = {"es_search_test"})
     public void validateSearchServicePageFailureCountAfterDelete() {
         String corruptedFileName = "corrupted_test_2.docx";
         refreshAndClickServiceStatus(3);
@@ -228,7 +228,7 @@ public class SearchServicePageElasticTests extends BaseTest {
         Assert.assertEquals(updatedContentIndexFailureCountAfterDelete, updatedContentIndexFailureCount - 1);
     }
 
-    @Test(groups = {TestGroup.SANITY, TestGroup.SEARCH, "es_search_test"})
+    @Test(groups = {"es_search_test"})
     public void validateSearchServicePageSuccessCountAfterDelete() {
         String testFile = "testFile3.txt";
         refreshAndClickServiceStatus(3);
@@ -266,7 +266,7 @@ public class SearchServicePageElasticTests extends BaseTest {
         Assert.assertEquals(updatedContentIndexSuccessCount - 1, updatedContentIndexSuccessCountAfterDelete);
     }
 
-    @Test(groups = {TestGroup.SANITY, TestGroup.SEARCH, "es_search_test"})
+    @Test(groups = {"es_search_test"})
     public void validateHealthCheckShowsFailure() {
         String corruptedFileName = "corrupted_test_3.docx";
         refreshAndClickServiceStatus(3);
@@ -289,7 +289,7 @@ public class SearchServicePageElasticTests extends BaseTest {
         Assert.assertEquals(healthCheckStatus, "Completed with "+updatedContentIndexFailureCount+" issues");
     }
 
-    @Test(groups = {TestGroup.SANITY, TestGroup.SEARCH, "es_search_test"})
+    @Test(groups = {"es_search_test"})
     public void validateSearchServicePageContentIndexedCountForBlankText() {
         String testFile = "testFile1.txt";
         refreshAndClickServiceStatus(3);
