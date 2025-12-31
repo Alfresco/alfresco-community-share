@@ -2,9 +2,13 @@ package org.alfresco.common;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.WebElement;
@@ -100,5 +104,27 @@ public class DataUtil
             }
         }
         return isListComplete;
+    }
+
+    public static boolean isFirstDateAfterSecond(String dateTime1, String dateTime2, String format) {
+        DateTimeFormatter formatter =
+            DateTimeFormatter.ofPattern(format, Locale.ENGLISH);
+        LocalDateTime firstDate = LocalDateTime.parse(dateTime1, formatter);
+        LocalDateTime secondDate = LocalDateTime.parse(dateTime2, formatter);
+        return firstDate.isAfter(secondDate);
+    }
+
+    public static boolean isValidDateTime(String dateTime, String format) {
+        if (dateTime == null || format == null || dateTime.trim().isEmpty() || format.trim().isEmpty()) {
+            return false;
+        }
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format, Locale.ENGLISH);
+
+            LocalDateTime.parse(dateTime, formatter);
+            return true;
+        } catch (IllegalArgumentException | DateTimeParseException e) {
+            return false;
+        }
     }
 }
