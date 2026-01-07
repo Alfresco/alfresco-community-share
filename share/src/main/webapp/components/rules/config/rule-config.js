@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2005-2025 Alfresco Software Limited.
+ * Copyright (C) 2005-2026 Alfresco Software Limited.
  *
  * This file is part of Alfresco
  *
@@ -143,9 +143,9 @@
           * @property ruleConfigDefinitionKey
           * @type string
           * @default "name"
-          */         
+          */
          ruleConfigDefinitionKey: "name",
-         
+
          /**
           * Describes how the menu items shall be ordered and grouped.
           * Note that this is NOT the rule configs that will appear in the menu, it is a representation of how the
@@ -397,7 +397,7 @@
          this._refreshRemoveButtonState();
       },
 
-      
+
       /**
        * EVENT HANDLERS
        */
@@ -482,7 +482,7 @@
          }
       },
 
-      
+
       /**
        * PRIVATE OR PROTECTED METHODS
        */
@@ -526,7 +526,7 @@
          }
          this._updateSubmitElements(configDef);
       },
-      
+
       /**
        * Will set the disabled attribute to the value of "disabled" for the elements in p_aEls
        *
@@ -776,7 +776,7 @@
          this._createConfigParameterUI(p_oRuleConfig, configEl);
          return configEl;
       },
-      
+
       /**
        * Creates a config name select
        *
@@ -826,7 +826,7 @@
             });
             addButton.on("click", this.onAddConfigButtonClick, configEl, this);
             addButton.addClass("add-config");
-                                                                                     
+
             // Create remove button
             var removeButtonEl = Selector.query('div.actions .remove-config', configEl, true);
             var removeButton = new YAHOO.widget.Button(removeButtonEl,
@@ -856,7 +856,7 @@
          }
 
          // Return element
-         return configEl;         
+         return configEl;
       },
 
       /**
@@ -879,7 +879,7 @@
              * Create a copy of the configDef and give it a unique id that also will
              * be applied to the configEl as well to assist ui management
              */
-            configDef = Alfresco.util.deepCopy(configDef); 
+            configDef = Alfresco.util.deepCopy(configDef);
             configDef._id = Alfresco.util.generateDomId(configEl);
 
             // Find the correct customisation renderer
@@ -984,7 +984,7 @@
                               addButton: addButton
                            }, this);
                         }
-                        Dom.addClass(controlEl, "param");                                             
+                        Dom.addClass(controlEl, "param");
                      }
                      if (paramDef._type != "hidden")
                      {
@@ -1192,7 +1192,7 @@
       {
          return this.renderers[paramDefType];
       },
-      
+
       /**
        * Makes sure that the first config row's '-'/(minus)-button is disabled if there is only one row present
        *
@@ -1467,7 +1467,7 @@
 
       },
 
-      
+
       /**
        * RENDERER HELPERS
        */
@@ -1523,7 +1523,7 @@
             return labelEl;
          }
       },
-      
+
       _createSelect: function (containerEl, configDef, paramDef, constraintOptions, value)
       {
          if (paramDef._type == "hidden")
@@ -1643,7 +1643,7 @@
                displayTimeEl.setAttribute("name", "-");
                displayTimeEl.setAttribute("type", "text");
                Dom.addClass(displayTimeEl, "datepicker-time");
-               Alfresco.util.setDomId(displayTimeEl, datePickerId + "-time");            
+               Alfresco.util.setDomId(displayTimeEl, datePickerId + "-time");
                containerEl.appendChild(displayTimeEl);
             }
 
@@ -1654,7 +1654,7 @@
                showTime: showTime,
                submitTime: showTime,
                mandatory: paramDef.isMandatory,
-               currentValue: (value && value != "") ? value : Alfresco.util.toISO8601(new Date()) 
+               currentValue: (value && value != "") ? value : Alfresco.util.toISO8601(new Date())
             };
             var datePicker = new Alfresco.DatePicker(datePickerId, valueId).setOptions(options).setMessages(
             {
@@ -1668,7 +1668,7 @@
             return valueEl;
          }
       },
-      
+
       _createButton: function (containerEl, configDef, paramDef, ruleConfig, onClickHandler)
       {
          var buttonEl = document.createElement("button");
@@ -1804,7 +1804,7 @@
        */
       _createResolvableValueSpan: function (containerEl, id, method, url, dataObj, displayValueHandler)
       {
-         var pathEl = document.createElement("span");         
+         var pathEl = document.createElement("span");
          Alfresco.util.setDomId(pathEl, id);
          if (url)
          {
@@ -2075,12 +2075,12 @@
                }
             }
          }
-         
+
          if (configDef.adHocPropertiesAllowed == true)
          {
             return {};
          }
-         
+
          return null;
       },
 
@@ -2135,7 +2135,7 @@
          {
             ruleConfig.parameterValues = {};
          }
-         ruleConfig.parameterValues[parameterName] = value;         
+         ruleConfig.parameterValues[parameterName] = value;
       }
 
    });
