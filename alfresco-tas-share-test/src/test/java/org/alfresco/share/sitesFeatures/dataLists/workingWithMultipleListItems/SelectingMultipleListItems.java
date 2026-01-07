@@ -136,7 +136,7 @@ public class SelectingMultipleListItems extends BaseTest
     }
 
     @TestRail (id = "C6404")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.TOBEFIXED })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.TOBEFIXED})
     public void selectAllByUsingInvertSelection()
     {
 

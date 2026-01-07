@@ -52,7 +52,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends AbstractSiteDashboardDash
     }
 
     @TestRail(id = "C2793")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , ShareGroups.TOBEFIXED })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , ShareGroups.TOBEFIXED})
     public void shouldConfigureAlfrescoAddonsRssFeedDashlet()
     {
         siteDashboardPage.navigate(site.get());

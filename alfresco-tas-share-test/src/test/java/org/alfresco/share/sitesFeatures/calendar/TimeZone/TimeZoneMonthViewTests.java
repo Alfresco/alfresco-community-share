@@ -161,7 +161,7 @@ public class TimeZoneMonthViewTests extends BaseTest
 
 //    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5930")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests", ShareGroups.TOBEFIXED })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests", ShareGroups.TOBEFIXED})
     public void multipleDaysEvent()
     {
         String currentEventName = "testEvent-C5930-" + random;
@@ -220,7 +220,7 @@ public class TimeZoneMonthViewTests extends BaseTest
 
 //    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5932")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests" , ShareGroups.TOBEFIXED })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests" , ShareGroups.TOBEFIXED})
     public void multipleWeeksEvent()
     {
         String currentEventName = "testEvent-C5932-" + random;
@@ -249,7 +249,7 @@ public class TimeZoneMonthViewTests extends BaseTest
     }
 
     @TestRail (id = "C5942")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.TOBEFIXED })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.TOBEFIXED})
     public void multipleWeeksAllDayEvent()
     {
         String currentEventName = "testEvent-C5942-" + random;
@@ -279,7 +279,7 @@ public class TimeZoneMonthViewTests extends BaseTest
 
 //    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5943")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests", ShareGroups.TOBEFIXED })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests", ShareGroups.TOBEFIXED})
     public void multipleMonthsEvent() throws InterruptedException {
         String currentEventName = "testEvent-C5943-" + random;
         changeTimeZone(clientATimeZone);
