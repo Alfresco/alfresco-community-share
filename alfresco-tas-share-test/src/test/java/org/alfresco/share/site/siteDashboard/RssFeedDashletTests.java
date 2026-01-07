@@ -54,7 +54,7 @@ public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C2795")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , ShareGroups.TOBEFIXED })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , ShareGroups.TOBEFIXED})
     public void shouldConfigureRSSFeedDashlet()
     {
         siteDashboardPage.navigate(site.get());

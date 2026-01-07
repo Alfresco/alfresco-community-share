@@ -127,7 +127,7 @@ public class SharedFilesManageAspectsTests extends BaseTest
     }
 
     @TestRail (id = "C8034")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
     public void manageAspectsApplyChanges()
     {
         log.info("Precondition: create folder in Shared folder from user ");

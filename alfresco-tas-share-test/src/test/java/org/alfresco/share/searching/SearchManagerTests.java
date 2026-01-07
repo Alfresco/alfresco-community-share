@@ -340,7 +340,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6307")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, ShareGroups.TOBEFIXED }, priority = 5)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, ShareGroups.TOBEFIXED}, priority = 5)
     public void verifyNumberOfFiltersProperty() {
         modifier1 = firstName1+" "+lastName1;
         modifier2 = firstName2+" "+lastName2;
@@ -407,7 +407,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6309")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, ShareGroups.TOBEFIXED }, priority = 6)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, ShareGroups.TOBEFIXED}, priority = 6)
     public void verifyMinimumRequiredResultsProperty() throws InterruptedException {
         modifier1 = firstName1+" "+lastName1;
         modifier2 = firstName2+" "+lastName2;
@@ -876,7 +876,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6313")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, "SearchTests", ShareGroups.TOBEFIXED }, priority = 2)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, "SearchTests", ShareGroups.TOBEFIXED}, priority = 2)
     public void verifySitesSection(){
 
         searchManagerPage.navigate();

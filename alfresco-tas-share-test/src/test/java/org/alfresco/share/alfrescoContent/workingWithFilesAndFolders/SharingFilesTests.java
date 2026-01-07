@@ -103,7 +103,7 @@ public class SharingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7096")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
     public void shareWithTwitter()
     {
         setupAuthenticatedSession(user, password);
@@ -175,7 +175,7 @@ public class SharingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7099")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
     public void unshareDocument()
     {
         /**
@@ -215,7 +215,7 @@ public class SharingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7649")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
     public void sharedFilesContentAvailability()
 
     {

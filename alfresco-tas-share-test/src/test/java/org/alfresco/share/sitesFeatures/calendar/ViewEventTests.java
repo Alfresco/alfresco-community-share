@@ -182,7 +182,7 @@ public class ViewEventTests extends BaseTest
     }
 
     @TestRail (id = "C5402")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.TOBEFIXED })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.TOBEFIXED})
     public void closeEventInformationPopup()
     {
         authenticateUsingLoginPage(user.get());

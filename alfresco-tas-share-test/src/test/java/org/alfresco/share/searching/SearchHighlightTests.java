@@ -272,7 +272,7 @@ public class SearchHighlightTests extends BaseTest
     }
 
     @TestRail (id = "C42560")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", ShareGroups.TOBEFIXED })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", ShareGroups.TOBEFIXED})
     public void highlightSearchWithWildcards()
     {
         log.info("Step 1: Login with username and navigate to Advanced Search page.");
@@ -359,7 +359,7 @@ public class SearchHighlightTests extends BaseTest
     }
 
     @TestRail (id = "C42563")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", ShareGroups.TOBEFIXED })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", ShareGroups.TOBEFIXED})
     public void highlightSearchWithDisjunctions()
     {
         log.info("Step 1: Login with username and navigate to Advanced Search page.");
