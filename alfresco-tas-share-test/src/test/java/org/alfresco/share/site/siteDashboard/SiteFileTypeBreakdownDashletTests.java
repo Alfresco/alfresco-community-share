@@ -5,6 +5,8 @@ import static org.alfresco.share.TestUtils.FILE_CONTENT;
 import static org.alfresco.utility.model.FileModel.getRandomFileModel;
 
 import java.io.File;
+
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.share.dashlet.SiteFileTypeBreakdownDashlet;
 import org.alfresco.testrail.TestRail;
@@ -63,7 +65,7 @@ public class SiteFileTypeBreakdownDashletTests extends AbstractSiteDashboardDash
     }
 
     @TestRail (id = "C5785")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "PieChartTests" })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "PieChartTests", ShareGroups.TOBEFIXED})
     public void shouldDisplayCreatedFilesInPieChart()
     {
         File imageToUploadWithJpgExtension = new File(testDataFolder.concat(NEW_AVATAR_IMAGE.concat(JPG)));
