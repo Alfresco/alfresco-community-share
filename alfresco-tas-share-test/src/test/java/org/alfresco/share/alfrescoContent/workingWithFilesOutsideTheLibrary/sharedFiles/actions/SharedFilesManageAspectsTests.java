@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
@@ -78,7 +79,7 @@ public class SharedFilesManageAspectsTests extends BaseTest
     }
 
     @TestRail (id = "C8038")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
     public void checkManageAspectActions()
     {
         log.info("Precondition: create folder in Shared folder from user ");
@@ -126,7 +127,7 @@ public class SharedFilesManageAspectsTests extends BaseTest
     }
 
     @TestRail (id = "C8034")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
     public void manageAspectsApplyChanges()
     {
         log.info("Precondition: create folder in Shared folder from user ");

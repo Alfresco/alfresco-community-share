@@ -21,7 +21,8 @@ mvn -B -ntp clean install \
                -Dshare.url="http://localhost:8080/share" \
                -Dadmin.user=admin '-Dadmin.password=admin' -Dbrowser.name=chrome \
                -Daims.enabled=false \
-               -Dsuite-name=${XML_SUITE}& # send the long living command to background!
+               -Dsuite-name=${XML_SUITE} \
+               "${@:2}" &  # send the long living command to background!
 
 # wait for the exit code of the background process
 wait $!

@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.ContentActions;
 import org.alfresco.dataprep.UserService;
@@ -268,7 +269,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6283")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, "SearchTests" }, priority = 4)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, "SearchTests", ShareGroups.TOBEFIXED}, priority = 4)
     public void verifyFilterAvailabilityProperty() throws InterruptedException {
         filterId = String.format("tag-filter%s", RandomData.getRandomAlphanumeric());
         filterName = String.format("tagFilter%s", RandomData.getRandomAlphanumeric());
@@ -339,7 +340,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6307")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 5)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, ShareGroups.TOBEFIXED}, priority = 5)
     public void verifyNumberOfFiltersProperty() {
         modifier1 = firstName1+" "+lastName1;
         modifier2 = firstName2+" "+lastName2;
@@ -406,7 +407,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6309")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 6)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, ShareGroups.TOBEFIXED}, priority = 6)
     public void verifyMinimumRequiredResultsProperty() throws InterruptedException {
         modifier1 = firstName1+" "+lastName1;
         modifier2 = firstName2+" "+lastName2;
@@ -875,7 +876,7 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6313")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, "SearchTests" }, priority = 2)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, "SearchTests", ShareGroups.TOBEFIXED}, priority = 2)
     public void verifySitesSection(){
 
         searchManagerPage.navigate();

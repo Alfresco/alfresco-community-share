@@ -3,6 +3,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 import java.net.URL;
 
 import org.alfresco.common.EnvProperties;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.LoginPage;
@@ -76,7 +77,7 @@ public class SharingFilesTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C7095")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
     public void shareWithFacebook()
     {
         setupAuthenticatedSession(user, password);
@@ -102,7 +103,7 @@ public class SharingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7096")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
     public void shareWithTwitter()
     {
         setupAuthenticatedSession(user, password);
@@ -174,7 +175,7 @@ public class SharingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7099")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
     public void unshareDocument()
     {
         /**
@@ -214,7 +215,7 @@ public class SharingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7649")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
     public void sharedFilesContentAvailability()
 
     {

@@ -6,6 +6,7 @@ import static org.testng.Assert.assertTrue;
 import java.io.IOException;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SiteService;
 
@@ -111,7 +112,7 @@ public class TimeZoneWeekViewTests extends BaseTest
 
  //   @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5960")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests" }, enabled = true)
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests" , ShareGroups.TOBEFIXED})
     public void singleDayEvent()
     {
         String currentEventName = "testEvent-C5960";
@@ -169,7 +170,7 @@ public class TimeZoneWeekViewTests extends BaseTest
 
 //    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5962")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests" }, enabled = true)
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests" , ShareGroups.TOBEFIXED})
     public void multipleDaysEvent()
     {
         String currentEventName = "testEvent-C5962";
@@ -291,7 +292,7 @@ public class TimeZoneWeekViewTests extends BaseTest
 
 //    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5966")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests" }, enabled = true)
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests" , ShareGroups.TOBEFIXED})
     public void multipleMonthsEvent()
     {
         String currentEventName = "testEvent-C5966";
@@ -321,7 +322,7 @@ public class TimeZoneWeekViewTests extends BaseTest
     }
 
     @TestRail (id = "C5968")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.TOBEFIXED})
     public void multipleMonthsAllDayEvent()
     {
         String currentEventName = "testEvent-C5968";
@@ -352,7 +353,7 @@ public class TimeZoneWeekViewTests extends BaseTest
 
 //    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5969")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests" }, enabled = true)
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests" , ShareGroups.TOBEFIXED})
     public void specificScenario()
     {
         String currentEventName = "testEvent-C5969";

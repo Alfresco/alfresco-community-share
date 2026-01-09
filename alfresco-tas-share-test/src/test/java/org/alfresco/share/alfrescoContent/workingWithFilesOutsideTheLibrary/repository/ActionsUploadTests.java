@@ -3,6 +3,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.rep
 import static org.alfresco.common.Utils.testDataFolder;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
@@ -91,7 +92,7 @@ public class ActionsUploadTests extends BaseTest
 
     //    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C8175")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
     public void updateDocumentNewVersion() {
         authenticateUsingLoginPage(testUser1);
         repositoryPage

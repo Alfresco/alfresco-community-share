@@ -1,6 +1,7 @@
 package org.alfresco.share.searching.peopleFinder;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.PeopleFinderPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.EditUserPage;
 import org.alfresco.share.BaseTest;
@@ -123,7 +124,7 @@ public class SearchByProfilePropertiesTest extends BaseTest
     }
 
     @TestRail (id = "C6451")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed", TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, ShareGroups.TOBEFIXED, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE })
     public void searchByFullUsername()
     {
         String identifier = RandomData.getRandomAlphanumeric();
