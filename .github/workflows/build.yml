@@ -62,8 +62,8 @@ jobs:
     if: >
       !contains(github.event.head_commit.message, '[no build]') &&
       inputs.commitMessage != '[no build]' &&
-      !contains(github.event.head_commit.message, '[force]') &&
-      inputs.commitMessage != '[force]'
+      !contains(github.event.head_commit.message, '[force') &&
+      inputs.commitMessage != '[force'
     needs: lint
     strategy:
       matrix:
@@ -72,10 +72,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.24.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.24.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: Setup Python
@@ -91,7 +91,7 @@ jobs:
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: bash scripts/ci/build.sh
       - name: Run ${{ matrix.stage }}
-        if: ${{ ( matrix.stage != 'source_clear' && github.ref_name != 'company_release') || matrix.stage == 'source_clear' }}
+        if: ( matrix.stage != 'source_clear' && github.ref_name != 'company_release') || matrix.stage == 'source_clear'
         run: bash scripts/ci/${{ matrix.stage }}.sh
         continue-on-error: true
 
@@ -122,7 +122,7 @@ jobs:
           sudo rm -r WEB-INF/lib
           sudo rm -rf share.war
           sudo jar -cvf share.war *
-      - uses: Alfresco/alfresco-build-tools/.github/actions/github-download-file@v5.6.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/github-download-file@v8.24.1
         with:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           repository: "Alfresco/veracode-baseline-archive"
@@ -177,8 +177,8 @@ jobs:
     if: >
       !contains(github.event.head_commit.message, '[skip tests]') &&
       inputs.commitMessage != '[skip tests]' &&
-      !contains(github.event.head_commit.message, '[force]') &&
-      inputs.commitMessage != '[force]'
+      !contains(github.event.head_commit.message, '[force') &&
+      inputs.commitMessage != '[force'
       &&
       github.event.repository.fork==false
     strategy:
@@ -216,8 +216,8 @@ jobs:
     if: >
       !contains(github.event.head_commit.message, '[skip tests]') &&
       inputs.commitMessage != '[skip tests]' &&
-      !contains(github.event.head_commit.message, '[force]') &&
-      inputs.commitMessage != '[force]'
+      !contains(github.event.head_commit.message, '[force') &&
+      inputs.commitMessage != '[force'
       &&
       github.event.repository.fork==false
     strategy:
@@ -255,8 +255,8 @@ jobs:
     if: >
       !contains(github.event.head_commit.message, '[skip tests]') &&
       inputs.commitMessage != '[skip tests]' &&
-      !contains(github.event.head_commit.message, '[force]') &&
-      inputs.commitMessage != '[force]'
+      !contains(github.event.head_commit.message, '[force') &&
+      inputs.commitMessage != '[force'
       &&
       github.event.repository.fork==false
     strategy:
@@ -315,8 +315,8 @@ jobs:
     if: >
       !contains(github.event.head_commit.message, '[skip tests]') &&
       inputs.commitMessage != '[skip tests]' &&
-      !contains(github.event.head_commit.message, '[force]') &&
-      inputs.commitMessage != '[force]'
+      !contains(github.event.head_commit.message, '[force') &&
+      inputs.commitMessage != '[force'
       &&
       github.event.repository.fork == false
       &&
@@ -399,8 +399,8 @@ jobs:
     if: >
       (!contains(github.event.head_commit.message, '[skip tests]') &&
       inputs.commitMessage != '[skip tests]') &&
-      (!contains(github.event.head_commit.message, '[force]') &&
-      inputs.commitMessage != '[force]')
+      (!contains(github.event.head_commit.message, '[force') &&
+      inputs.commitMessage != '[force')
       &&
       (github.event.repository.fork==false)
       &&
@@ -420,18 +420,10 @@ jobs:
       S3_BUCKET_NAME: ${{ vars.S3_BUCKET_PREFIX }}-${{ github.run_number }}
       S3_BUCKET2_NAME: ${{ vars.S3_BUCKET_PREFIX }}-worm-b2
     steps:
-      - name: Clean runner cache
-        run: sudo rm -rf /home/runner/actions-runner/cached/_diag/*
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.1.0
-        with:
-          merge-disk-volumes: true
-          root-reserve-mb: 12288
-          temp-reserve-mb: 100
-          swap-size-mb: 1024
-          build-mount-path: '/var/lib/docker/'
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v8.24.1
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.24.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
@@ -442,16 +434,16 @@ jobs:
           python-version: 3.x
       - name: Install google chrome version
         run: |
-            sudo apt-get purge google-chrome-stable
-            sudo apt-get autoremove
-            rm -rf ~/.config/google-chrome
-            rm -rf ~/.cache/google-chrome
-            wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_132.0.6834.159-1_amd64.deb
-            sudo apt-get install libu2f-udev
-            sudo dpkg -i google-chrome-stable_132.0.6834.159-1_amd64.deb
-            sudo apt-mark hold google-chrome-stable
-            google-chrome --version
-            sudo apt-mark showhold | grep google-chrome-stable
+          sudo apt-get purge google-chrome-stable
+          sudo apt-get autoremove
+          rm -rf ~/.config/google-chrome
+          rm -rf ~/.cache/google-chrome
+          wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_132.0.6834.159-1_amd64.deb
+          sudo apt-get install libu2f-udev
+          sudo dpkg -i google-chrome-stable_132.0.6834.159-1_amd64.deb
+          sudo apt-mark hold google-chrome-stable
+          google-chrome --version
+          sudo apt-mark showhold | grep google-chrome-stable
 
       - name: "Init"
         run: bash scripts/ci/init.sh
