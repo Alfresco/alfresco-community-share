@@ -62,8 +62,8 @@ jobs:
     if: >
       !contains(github.event.head_commit.message, '[no build]') &&
       inputs.commitMessage != '[no build]' &&
-      !contains(github.event.head_commit.message, '[force') &&
-      inputs.commitMessage != '[force'
+      !contains(github.event.head_commit.message, '[force]') &&
+      inputs.commitMessage != '[force]'
     needs: lint
     strategy:
       matrix:
@@ -72,10 +72,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.18.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.18.3
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: Setup Python
@@ -91,7 +89,7 @@ jobs:
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: bash scripts/ci/build.sh
       - name: Run ${{ matrix.stage }}
-        if: ( matrix.stage != 'source_clear' && github.ref_name != 'company_release') || matrix.stage == 'source_clear'
+        if: ${{ ( matrix.stage != 'source_clear' && github.ref_name != 'company_release') || matrix.stage == 'source_clear'  }}
         run: bash scripts/ci/${{ matrix.stage }}.sh
         continue-on-error: true
 
