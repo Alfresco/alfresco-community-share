@@ -2,6 +2,7 @@ package org.alfresco.share.alfrescoContent.viewingContent;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -17,6 +18,7 @@ import org.testng.annotations.*;
 
 import static org.alfresco.common.Utils.testDataFolder;
 import java.io.File;
+import org.alfresco.test.AlfrescoTest;
 
 /**
  * @author iulia.cojocea
@@ -76,6 +78,7 @@ public class ViewFileInfoAndOptionsTest extends BaseTest
         deleteSitesIfNotNull(site.get());
     }
     @TestRail (id = "C5883")
+    @AlfrescoTest (jira ="XAT-9772", id = "XAT-9777")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "DownloadTest" })
     public void viewFileInfoAndOptions()
     {
@@ -146,7 +149,9 @@ public class ViewFileInfoAndOptionsTest extends BaseTest
     }
 
     @TestRail (id = "MNT-24825")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "DownloadTest" })
+    @AlfrescoTest (jira ="XAT-9778")
+
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1, })
     public void verifyPDFdownload() {
         log.info("STEP 1: Navigate to 'Document Library' page for 'siteName' and verify folder name");
         documentLibraryPage

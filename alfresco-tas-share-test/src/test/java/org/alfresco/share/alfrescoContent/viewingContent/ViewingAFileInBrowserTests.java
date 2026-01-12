@@ -3,6 +3,7 @@ package org.alfresco.share.alfrescoContent.viewingContent;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
@@ -11,6 +12,7 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import org.alfresco.test.AlfrescoTest;
 
 import static org.alfresco.common.Utils.isFileInDirectory;
 
@@ -60,7 +62,8 @@ public class ViewingAFileInBrowserTests extends BaseTest
     }
 
     @TestRail (id = "C5920")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "DownloadTest" })
+    @AlfrescoTest (jira= "XAT-9784")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1, })
     public void verifyViewAFileInBrowser()
     {
         log.info("Step 1: Navigate to Document Library page for testSite and click on foldername.");
