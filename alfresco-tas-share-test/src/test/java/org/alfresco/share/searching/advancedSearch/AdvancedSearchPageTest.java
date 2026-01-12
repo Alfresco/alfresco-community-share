@@ -12,6 +12,7 @@ import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.searching.AdvancedSearchPage;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -135,7 +136,8 @@ public class AdvancedSearchPageTest extends BaseTest
     }
 
     @TestRail (id = "C5888")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @AlfrescoTest(jira = "XAT-9413")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH,ShareGroups.SHARE_PRIORITY_1})
     public void verifyAdvancedSearchPage() throws InterruptedException {
         authenticateUsingCookies(user.get());
         advancedSearchPage
