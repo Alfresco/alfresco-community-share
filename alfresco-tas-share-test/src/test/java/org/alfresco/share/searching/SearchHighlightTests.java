@@ -138,7 +138,7 @@ public class SearchHighlightTests extends BaseTest
     }
 
     @TestRail (id = "C42545")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH, })
     public void highlightSearchByTitle()
     {
         log.info("Step 1: Login with username and navigate to Advanced Search page.");
@@ -167,6 +167,7 @@ public class SearchHighlightTests extends BaseTest
     }
 
     @TestRail (id = "C42547")
+    //XAT-9528
     @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void highlightSearchByContent()
     {
@@ -384,6 +385,7 @@ public class SearchHighlightTests extends BaseTest
     }
 
     @TestRail (id = "C42564")
+    //XAT-9544
     @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void highlightSearchWithNegation()
     {
