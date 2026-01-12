@@ -1,5 +1,7 @@
 package org.alfresco.share.userProfile;
 
+import org.alfresco.constants.ShareGroups;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.po.share.user.profile.ChangePasswordPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
@@ -22,7 +24,8 @@ public class ChangePasswordTest extends BaseTest
     }
 
     @TestRail (id = "C2226")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER , TestGroup.INTEGRATION})
+    @AlfrescoTest(jira = "XAT-8178")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER , TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1})
     public void changeUserPassword()
     {
         authenticateUsingCookies(user.get());
