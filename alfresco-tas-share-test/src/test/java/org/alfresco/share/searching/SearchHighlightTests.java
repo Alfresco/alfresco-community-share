@@ -22,6 +22,7 @@ import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.CreateBlogPostPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -167,8 +168,8 @@ public class SearchHighlightTests extends BaseTest
     }
 
     @TestRail (id = "C42547")
-    //XAT-9528
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @AlfrescoTest(jira = "XAT-9338")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH,ShareGroups.SHARE_PRIORITY_1 })
     public void highlightSearchByContent()
     {
         log.info("Step 1: Login with username and navigate to Advanced Search page.");
@@ -385,8 +386,8 @@ public class SearchHighlightTests extends BaseTest
     }
 
     @TestRail (id = "C42564")
-    //XAT-9544
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @AlfrescoTest(jira = "XAT-9544")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, ShareGroups.SHARE_PRIORITY_1 })
     public void highlightSearchWithNegation()
     {
         log.info("Step 1: Login with username and navigate to Advanced Search page.");
