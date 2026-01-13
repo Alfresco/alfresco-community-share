@@ -81,8 +81,17 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
               </exclusion>
+              <exclusion>
+                <groupId>org.mozilla</groupId>
+                <artifactId>rhino</artifactId>
+              </exclusion>
             </exclusions>
         </dependency>
+      <dependency>
+        <groupId>org.mozilla</groupId>
+        <artifactId>rhino</artifactId>
+        <version>${dependency.rhino.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-webmvc</artifactId>
