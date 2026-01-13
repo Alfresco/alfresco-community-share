@@ -533,5 +533,5 @@ jobs:
       #        with:
       #          files: "**/target/surefire-reports/*.xml"
       - name: Clean S3 buckets
-        if: always()
+        if: ${{ always() && matrix.test == 'wormTestSuite'}}
         run: scripts/ci/cleanup.sh
