@@ -78,7 +78,7 @@ public class ViewFileInfoAndOptionsTest extends BaseTest
         deleteSitesIfNotNull(site.get());
     }
     @TestRail (id = "C5883")
-    @AlfrescoTest (jira ="XAT-9772", id = "XAT-9777")
+    @AlfrescoTest (jira ="XAT-9772, XAT-9777")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "DownloadTest" })
     public void viewFileInfoAndOptions()
     {
@@ -150,8 +150,7 @@ public class ViewFileInfoAndOptionsTest extends BaseTest
 
     @TestRail (id = "MNT-24825")
     @AlfrescoTest (jira ="XAT-9778")
-
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1, })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1, "DownloadTest" })
     public void verifyPDFdownload() {
         log.info("STEP 1: Navigate to 'Document Library' page for 'siteName' and verify folder name");
         documentLibraryPage
