@@ -2,8 +2,10 @@ package org.alfresco.share.userDashboard.dashlets;
 
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.DataWorkflow;
 import org.alfresco.utility.model.*;
@@ -31,7 +33,8 @@ public class MyTasksDashletTest extends AbstractUserDashboardDashletsTests
     }
 
     @TestRail (id = "C2122")
-    @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8215")
+    @Test(enabled = false, groups = {TestGroup.SANITY, TestGroup.USER_DASHBOARD, ShareGroups.SHARE_PRIORITY_1})
     public void checkMyTasksDashlet()
     {
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
