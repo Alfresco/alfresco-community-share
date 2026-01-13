@@ -2,10 +2,12 @@ package org.alfresco.share.adminTools.users;
 
 import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.EditUserPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UserProfileAdminToolsPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.TestGroup;
@@ -48,7 +50,8 @@ public class UserProfileTests extends BaseTest
     }
 
     @TestRail (id = "C9416")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
+    @AlfrescoTest(jira = "XAT-12103")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1 })
     public void browseEditUserAdminPage()
     {
         userProfileAdminToolsPage.navigate(user.get())
@@ -152,7 +155,8 @@ public class UserProfileTests extends BaseTest
     }
 
     @TestRail (id = "C9426")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
+    @AlfrescoTest(jira = "XAT-12112")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1 })
     public void enablingAccount()
     {
         editUserPage.navigate(user.get())

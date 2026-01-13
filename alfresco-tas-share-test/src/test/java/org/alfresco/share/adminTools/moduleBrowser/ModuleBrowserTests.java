@@ -1,8 +1,10 @@
 package org.alfresco.share.adminTools.moduleBrowser;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.admin.adminTools.ModuleBrowserPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
@@ -28,7 +30,8 @@ public class ModuleBrowserTests extends BaseTest
     }
 
     @TestRail (id = "C9498")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @AlfrescoTest(jira = "XAT-11934")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, ShareGroups.SHARE_PRIORITY_1 })
     public void accessModuleBrowserPage()
     {
         moduleBrowserPage.navigate().assertModuleBrowserPageIsOpened();
