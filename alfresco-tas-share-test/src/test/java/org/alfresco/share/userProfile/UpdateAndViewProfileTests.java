@@ -1,9 +1,11 @@
 package org.alfresco.share.userProfile;
 
 import org.alfresco.common.Utils;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.user.profile.EditUserProfilePage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
@@ -27,7 +29,8 @@ public class UpdateAndViewProfileTests extends BaseTest
     }
 
     @TestRail (id = "C2110")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @AlfrescoTest(id = "XAT-8131")
+    @Test(groups = {TestGroup.SANITY, TestGroup.USER, ShareGroups.SHARE_PRIORITY_1})
     public void checkUserProfilePage()
     {
         userProfilePage.navigate(user.get())
@@ -45,7 +48,8 @@ public class UpdateAndViewProfileTests extends BaseTest
     }
 
     @TestRail (id = "C2142, C2190")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER, TestGroup.INTEGRATION })
+    @AlfrescoTest(jira= "XAT-8136")
+    @Test(groups = {TestGroup.SANITY, TestGroup.USER, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1})
     public void updateUserProfile()
     {
         String[] userDetails = { "John", "Snow", "Lord", "Winterfell",
@@ -79,7 +83,8 @@ public class UpdateAndViewProfileTests extends BaseTest
     }
 
     @TestRail (id = "C2152, C2308")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @AlfrescoTest(jira = "XAT-8141")
+    @Test(groups = {TestGroup.SANITY, TestGroup.USER, ShareGroups.SHARE_PRIORITY_1})
     public void uploadNewPhoto()
     {
         userProfilePage.navigate(user.get())

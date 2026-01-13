@@ -1,8 +1,10 @@
 package org.alfresco.share.userDashboard.dashlets;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.WebViewDashlet;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -29,7 +31,8 @@ public class WebViewDashletTests extends AbstractUserDashboardDashletsTests
     }
 
     @TestRail (id = "C2143")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8229")
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD, ShareGroups.SHARE_PRIORITY_1})
     public void webViewDashlet()
     {
         userDashboardPage.navigate(user.get());
