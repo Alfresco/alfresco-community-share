@@ -20,6 +20,7 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 
 @Slf4j
@@ -67,7 +68,8 @@ public class ActionsUnzippingContentTests extends BaseTest
     }
 
     @TestRail (id = "C8256")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , ShareGroups.TOBEFIXED})
+    @AlfrescoTest(jira = "XAT-10926")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1})
     public void unzipZipFileToRepository()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");
@@ -115,7 +117,8 @@ public class ActionsUnzippingContentTests extends BaseTest
     }
 
     @TestRail (id = "C8257")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
+    @AlfrescoTest(jira = "XAT-10927")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 }, enabled = false)
     public void unzipAcpFileToRepository()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");
