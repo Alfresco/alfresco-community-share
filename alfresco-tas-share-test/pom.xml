@@ -234,12 +234,6 @@
               <suiteXmlFiles>
                   <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                </suiteXmlFiles>
-                <properties>
-                    <property>
-                        <name>junit</name>
-                        <value>true</value>
-                    </property>
-                </properties>
             </configuration>
          </plugin>
 
