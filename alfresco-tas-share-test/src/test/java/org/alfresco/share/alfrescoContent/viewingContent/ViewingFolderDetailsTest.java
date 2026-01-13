@@ -63,7 +63,7 @@ public class ViewingFolderDetailsTest extends BaseTest
 
     @TestRail (id = "C5850")
     @AlfrescoTest (jira="XAT-9758")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT , ShareGroups.SHARE_PRIORITY_1, "high-priority"})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT , ShareGroups.SHARE_PRIORITY_1})
     public void verifyViewFolderDetails()
     {
         log.info("Step 1: Navigate to Document Library page for testSite");

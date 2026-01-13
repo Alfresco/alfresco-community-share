@@ -63,7 +63,7 @@ public class ViewingAFileInBrowserTests extends BaseTest
 
     @TestRail (id = "C5920")
     @AlfrescoTest (jira= "XAT-9784")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1, })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1, "DownloadTest" })
     public void verifyViewAFileInBrowser()
     {
         log.info("Step 1: Navigate to Document Library page for testSite and click on foldername.");
