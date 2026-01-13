@@ -5,11 +5,13 @@ import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.WorkflowService;
 import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.tasksAndWorkflows.WorkflowsIveStartedPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -38,7 +40,8 @@ public class DeletingWorkflowsTests extends BaseTest
     private final ThreadLocal<UserModel> user1 = new ThreadLocal<>();
 
     @TestRail (id = "C8501")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @AlfrescoTest(jira = "XAT-11228")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, ShareGroups.SHARE_PRIORITY_1})
     public void deleteWorkflow()
     {
         log.info("PreCondition: Creating test user");
