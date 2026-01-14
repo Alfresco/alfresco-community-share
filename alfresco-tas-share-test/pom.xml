@@ -180,18 +180,6 @@
            <version>2.8.9</version>
        </dependency>
        <dependency>
-           <groupId>org.alfresco</groupId>
-           <artifactId>alfresco-share-tests</artifactId>
-           <version>26.1.0.14-SNAPSHOT</version>
-           <scope>test</scope>
-       </dependency>
-       <dependency>
-           <groupId>org.alfresco</groupId>
-           <artifactId>alfresco-share-amps</artifactId>
-           <version>26.1.0.14-SNAPSHOT</version>
-           <scope>test</scope>
-       </dependency>
-       <dependency>
            <groupId>org.alfresco.test</groupId>
            <artifactId>alfresco-testng</artifactId>
            <version>1.1</version>
