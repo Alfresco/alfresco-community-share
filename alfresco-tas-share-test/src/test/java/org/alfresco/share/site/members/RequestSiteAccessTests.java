@@ -2,10 +2,12 @@ package org.alfresco.share.site.members;
 
 import static org.alfresco.utility.constants.UserRole.SiteManager;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.site.members.PendingInvitesPage;
 import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
 import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.SiteModel;
@@ -46,7 +48,8 @@ public class RequestSiteAccessTests extends BaseTest
     }
 
     @TestRail(id = "C14280")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8415")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldNotDisplayUserRequestToJoinSiteWhenCancel()
     {
         getUserService().requestSiteMembership(requester.get().getUsername(), requester.get().getPassword(),
@@ -67,7 +70,8 @@ public class RequestSiteAccessTests extends BaseTest
     }
 
     @TestRail(id = "C14283")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8418")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldNotDisplayUserRequestInPending()
     {
         UserModel userGroupManager = dataUser.usingAdmin().createRandomTestUser();
@@ -103,7 +107,8 @@ public class RequestSiteAccessTests extends BaseTest
     }
 
     @TestRail(id = "C14284")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8419")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldReleaseTaskPendingRequestAsGroupManager()
     {
         UserModel userGroupManager = dataUser.usingAdmin().createRandomTestUser();
@@ -149,7 +154,8 @@ public class RequestSiteAccessTests extends BaseTest
     }
 
     @TestRail(id = "C14286")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8420")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldClaimTaskPendingRequestAsSiteManager()
     {
         getUserService()
