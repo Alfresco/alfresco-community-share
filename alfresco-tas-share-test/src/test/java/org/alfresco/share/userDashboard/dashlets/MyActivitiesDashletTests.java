@@ -2,9 +2,11 @@ package org.alfresco.share.userDashboard.dashlets;
 
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.enums.ActivitiesFilter;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.model.*;
@@ -50,7 +52,8 @@ public class MyActivitiesDashletTests extends AbstractUserDashboardDashletsTests
     }
 
     @TestRail (id = "C2112")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8205")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD,ShareGroups.SHARE_PRIORITY_1,ShareGroups.MISSING_STEPS }) //TODO: Add steps to verify for all types of activities
     public void checkCreateDocumentAndFolderActivity()
     {
         FileModel testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
@@ -79,7 +82,8 @@ public class MyActivitiesDashletTests extends AbstractUserDashboardDashletsTests
     }
 
     @TestRail (id = "C2114")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8207")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, ShareGroups.MISSING_STEPS,ShareGroups.SHARE_PRIORITY_1}) //TODO: Add steps to verify all types of activities are deleted
     public void checkDeleteDocumentActivity()
     {
         FileModel testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
