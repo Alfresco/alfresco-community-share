@@ -5,6 +5,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
@@ -26,6 +27,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 @Slf4j
 /**
  * @author Razvan.Dorobantu
@@ -69,7 +71,8 @@ public class MyFilesSocialFeaturesTests extends BaseTest {
     }
 
     @TestRail(id = "C12839")
-    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    @AlfrescoTest (jira= "XAT-10550")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void myFilesLikeFile()
     {
         log.info("Precondition: Navigate to My Files page and upload a file.");
@@ -99,7 +102,8 @@ public class MyFilesSocialFeaturesTests extends BaseTest {
     }
 
     @TestRail(id = "C13661")
-    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    @AlfrescoTest (jira= "XAT-10551")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void myFilesLikeFolder() {
         log.info("Precondition: Navigate to My Files page and create a folder.");
         myFilesPage
@@ -133,6 +137,7 @@ public class MyFilesSocialFeaturesTests extends BaseTest {
     }
 
     @TestRail(id = "C13662")
+    @AlfrescoTest (jira= "XAT-10552")
     @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
     public void myFilesUnlikeFile() {
         log.info("Precondition: Navigate to My Files page and upload a file");
@@ -163,7 +168,8 @@ public class MyFilesSocialFeaturesTests extends BaseTest {
     }
 
     @TestRail(id = "C13663")
-    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    @AlfrescoTest (jira= "XAT-10553")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void myFilesUnlikeFolder() {
         log.info("Precondition: Navigate to My Files page and create a folder.");
         myFilesPage
@@ -198,7 +204,8 @@ public class MyFilesSocialFeaturesTests extends BaseTest {
     }
 
     @TestRail(id = "C12841")
-    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    @AlfrescoTest (jira= "XAT-10554")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void myFilesAddCommentToFile() {
         log.info("Precondition: Navigate to My Files page and upload a file");
         myFilesPage
@@ -230,7 +237,8 @@ public class MyFilesSocialFeaturesTests extends BaseTest {
     }
 
     @TestRail (id = "C13664")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @AlfrescoTest (jira= "XAT-10555")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void myFilesAddCommentToFolder() {
         log.info("Precondition: Navigate to My Files page and create a folder.");
         myFilesPage
