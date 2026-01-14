@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.ContentService;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
@@ -17,6 +18,7 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.data.DataSite;
@@ -85,7 +87,8 @@ public class AccessingDataListsComponentTests extends BaseTest
     }
 
     @TestRail (id = "C5844")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, TestGroup.INTEGRATION })
+    @AlfrescoTest(jira = "XAT-8785")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1})
     public void onlySiteManagerIsAbleToRenameDataListsFeatures() throws DataPreparationException
     {
         log.info("Preconditions: Create userCollaborator, userContributor and userConsumer");

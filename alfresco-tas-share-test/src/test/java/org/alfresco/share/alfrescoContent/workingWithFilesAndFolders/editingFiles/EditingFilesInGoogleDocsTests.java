@@ -10,6 +10,7 @@ import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -18,7 +19,6 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.alfresco.test.AlfrescoTest;
 
 public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
 {
@@ -54,7 +54,7 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7056")
-    @AlfrescoTest (jira = "XAT-10245")
+    @AlfrescoTest(jira = "XAT-10245")
     @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS, ShareGroups.SHARE_PRIORITY_1}, enabled=false)
     public void editFilesInGoogleDocs() throws Exception
 
