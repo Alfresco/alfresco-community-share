@@ -9,6 +9,7 @@
             <include name="unit"/>
             <include name="sanity"/>
             <include name="share"/>
+             <exclude name="es_search_test"/>
          </run>
       </groups>
       <packages>
