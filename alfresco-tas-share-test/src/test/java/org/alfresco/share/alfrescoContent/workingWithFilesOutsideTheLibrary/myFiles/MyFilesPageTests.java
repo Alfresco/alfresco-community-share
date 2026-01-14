@@ -2,6 +2,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myF
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.pageCommon.DocumentsFilters;
@@ -15,6 +16,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.alfresco.common.Utils.testDataFolder;
+import org.alfresco.test.AlfrescoTest;
 
 @Slf4j
 /**
@@ -43,7 +45,7 @@ public class MyFilesPageTests extends BaseTest
         filters = new DocumentsFilters(webDriver);
     }
     @TestRail (id = "C7659")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void verifyMyFilesMainPage()  {
 
         log.info("Precondition: Login as user");
@@ -72,7 +74,8 @@ public class MyFilesPageTests extends BaseTest
     }
 
     @TestRail (id = "C7660")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
+    @AlfrescoTest (jira = "XAT-10401)
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 }, enabled = false)
     public void verifyMyFilesPageTags() {
 
         log.info("Precondition : Login as user and navigate to My Files page.");

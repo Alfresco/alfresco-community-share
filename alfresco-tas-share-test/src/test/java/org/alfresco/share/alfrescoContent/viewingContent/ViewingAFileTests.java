@@ -2,6 +2,7 @@ package org.alfresco.share.alfrescoContent.viewingContent;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DefaultProperties;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.FileActionsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
@@ -15,6 +16,7 @@ import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.FileType;
+import org.apache.commons.codec.digest.Sha2Crypt;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -24,6 +26,7 @@ import org.testng.annotations.Test;
 import static org.junit.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+import org.alfresco.test.AlfrescoTest;
 
 
 @Slf4j
@@ -73,7 +76,8 @@ public class ViewingAFileTests extends BaseTest
     }
 
     @TestRail (id = "C9917")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira= "XAT-9762")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void informationAndOptionsCheckAvailableInfo()
     {
         log.info("Navigate to the site document library and verify file present in the document library");
@@ -101,7 +105,8 @@ public class ViewingAFileTests extends BaseTest
     }
 
     @TestRail (id = "C9923")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-9773")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void informationAndOptionsCheckLinkToReturnToDocumentLibrary()
     {
         log.info("Navigate to the site document library and verify file present in the document library");
@@ -125,7 +130,8 @@ public class ViewingAFileTests extends BaseTest
     }
 
     @TestRail (id = "C9925")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira ="XAT-9774")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void informationAndOptionsLikeOption()
     {
         log.info("Navigate to the site document library and verify file present in the document library");
@@ -310,7 +316,8 @@ public class ViewingAFileTests extends BaseTest
     }
 
     @TestRail (id = "C6356")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-9766")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void documentTags()
     {
         getCmisApi().authenticateUser(user.get()).usingSite(site.get())

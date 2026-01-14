@@ -5,6 +5,8 @@ import static org.alfresco.po.share.site.ItemActions.MANAGE_RULES;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.RuleDetailsPage;
@@ -22,6 +24,7 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 public class EditRulesTests extends AbstractFolderRuleTest
 {
@@ -68,7 +71,8 @@ public class EditRulesTests extends AbstractFolderRuleTest
     }
 
     @TestRail(id = "C7254")
-    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
+    @AlfrescoTest(jira = "XAT-9918")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1 })
     public void shouldEditRuleDetails()
     {
         createFolderRule(user.get(),
@@ -114,7 +118,8 @@ public class EditRulesTests extends AbstractFolderRuleTest
     }
 
     @TestRail(id = "C7258")
-    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT})
+    @AlfrescoTest(jira = "XAT-9919")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void shouldRuleGetDisable()
     {
         createFolderRule(user.get(),

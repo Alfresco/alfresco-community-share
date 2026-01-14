@@ -4,6 +4,7 @@ import static org.alfresco.po.share.site.ItemActions.MANAGE_RULES;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.LinkedToRuleSetPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
@@ -20,6 +21,7 @@ import org.alfresco.utility.model.*;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 /**
  * @author Laura.Capsa
@@ -124,7 +126,8 @@ public class LinkingToDifferentRuleSetTest extends AbstractFolderRuleTest
     }
 
     @TestRail (id = "C7327")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
+    @AlfrescoTest(jira = "XAT-9945")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1 })
     public void verifyRuleIsLinked()
     {
         log.info("STEP1: Create a file in folder2");
