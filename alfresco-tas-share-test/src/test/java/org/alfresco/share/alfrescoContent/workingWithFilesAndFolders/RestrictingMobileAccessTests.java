@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.share.BaseTest;
 
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
@@ -8,6 +9,7 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.testng.annotations.*;
@@ -52,7 +54,8 @@ public class RestrictingMobileAccessTests extends BaseTest
     }
 
     @TestRail (id = "C7111")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10322")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void addRestrictableAspect()
     {
         log.info("Create file under document library in site");
@@ -84,7 +87,8 @@ public class RestrictingMobileAccessTests extends BaseTest
 
 
     @TestRail (id = "C7112")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10323")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void editRestrictableProperty()
     {
         log.info("Create file under document library in site");
@@ -138,7 +142,8 @@ public class RestrictingMobileAccessTests extends BaseTest
 
 
     @TestRail (id = "C7113")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10324")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void removeRestrictableProperty()
     {
         log.info("Create file under document library in site");

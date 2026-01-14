@@ -6,11 +6,13 @@ import static org.alfresco.common.Utils.testDataFolder;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 
 import org.alfresco.share.BaseTest;
 
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 
@@ -52,7 +54,8 @@ public class DownloadingContentTests extends BaseTest
         deleteSitesIfNotNull(site.get());
     }
     @TestRail (id = "C7080")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "DownloadTest" })
+    @AlfrescoTest(jira = "XAT-10267")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1, "DownloadTest" })
     public void downloadFileFromAlfresco()
     {
         log.info("Create a file into site document library");
