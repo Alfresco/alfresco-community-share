@@ -1,6 +1,7 @@
 package org.alfresco.share.searching;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
@@ -13,6 +14,7 @@ import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.EditUserPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UserProfileAdminToolsPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -88,7 +90,8 @@ public class SiteFinderTests extends BaseTest
 
 
     @TestRail (id = "C5876")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE })
+    @AlfrescoTest(jira = "XAT-9362")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, ShareGroups.SHARE_PRIORITY_1 })
     public void siteFinderPage()
     {
         testUser1 = dataUser.usingAdmin().createRandomTestUser();
