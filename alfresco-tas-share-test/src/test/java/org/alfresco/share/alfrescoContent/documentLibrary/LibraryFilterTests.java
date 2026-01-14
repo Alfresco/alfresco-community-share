@@ -2,8 +2,10 @@ package org.alfresco.share.alfrescoContent.documentLibrary;
 
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.testng.annotations.AfterMethod;
@@ -29,7 +31,8 @@ public class LibraryFilterTests extends BaseTest
     }
 
     @TestRail (id = "C6333")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9619")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void shouldOpenFoldersFromLibraryFilter()
     {
         FolderModel parentFolder = FolderModel.getRandomFolderModel();

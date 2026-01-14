@@ -4,6 +4,7 @@ import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertEquals;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -15,6 +16,7 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 @Slf4j
 
@@ -95,7 +97,8 @@ public class MyFilesUnzipContentTests extends BaseTest
  }
 
     @TestRail (id = "C7817")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
+    @AlfrescoTest(jira = "XAT-10505")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1}, enabled = false)
     public void unzipACPArchiveToMyFiles()
     {
         log.info("Precondition: Login as user, navigate to My Files page and upload a zip archive.");

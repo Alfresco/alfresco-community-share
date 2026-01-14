@@ -10,6 +10,8 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.*;
+import org.alfresco.test.AlfrescoTest;
+import org.alfresco.constants.ShareGroups;
 
 public class CreateFolderFromTemplateTests extends BaseTest
 {
@@ -37,7 +39,8 @@ public class CreateFolderFromTemplateTests extends BaseTest
     }
 
     @TestRail (id = "C6292")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9660")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void createFolderFromTemplate()
     {
         FolderModel discussions = new FolderModel("Discussions");

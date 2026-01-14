@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -131,7 +132,7 @@ public class MyFilesTests extends BaseTest
     }
 
     @TestRail (id = "C7658")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void verifyPresenceOfMyFilesInHeaderBar() {
         log.info("PreCondition: Creating a TestUser");
         user.set(getDataUser().usingAdmin().createRandomTestUser());

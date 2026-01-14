@@ -3,6 +3,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myF
 import static org.testng.Assert.*;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDialog;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
@@ -13,6 +14,7 @@ import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.BaseTest;
 
 import org.alfresco.testrail.TestRail;
+import org.alfresco.test.AlfrescoTest;
 
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.*;
@@ -153,7 +155,8 @@ public class MyFilesTaggingTests extends BaseTest
 
 
     @TestRail (id = "C7873")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10527")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void myFilesAddExistingTag()
     {
         log.info("Create Folder/File in document library.");
@@ -235,7 +238,8 @@ public class MyFilesTaggingTests extends BaseTest
     }
 
     @TestRail (id = "C7885")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10539")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1  })
     public void myFilesEditTagFile()
     {
         log.info("Create File in document library and move it to the my file page.");
@@ -294,7 +298,8 @@ public class MyFilesTaggingTests extends BaseTest
     }
 
     @TestRail (id = "C7886")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10540")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1  })
     public void myFilesRemoveTag()
     {
         log.info("Create File in document library and move it to myFiles Page.");
@@ -355,7 +360,8 @@ public class MyFilesTaggingTests extends BaseTest
     }
 
     @TestRail (id = "C7895")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "FlakyTests" })
+    @AlfrescoTest (jira = "XAT-10549")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "FlakyTests", ShareGroups.SHARE_PRIORITY_1  })
     public void myFilesUpdateTag()
     {
         log.info("Create File in document library and move it to MyFiles Page.");
