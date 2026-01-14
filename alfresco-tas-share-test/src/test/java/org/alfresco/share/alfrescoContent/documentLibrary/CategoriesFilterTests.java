@@ -12,6 +12,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import java.util.Collections;
+import org.alfresco.test.AlfrescoTest;
 
 public class CategoriesFilterTests extends BaseTest
 {
@@ -39,7 +40,8 @@ public class CategoriesFilterTests extends BaseTest
     }
 
     @TestRail (id = "C6910, C10595")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9567")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void verifyCategoryRootTreeNodes()
     {
         documentLibraryPage.navigate(site.get())
@@ -53,7 +55,8 @@ public class CategoriesFilterTests extends BaseTest
 
     @Bug(id = "APPS-3306", description = "Sub nodes of the root category are not expanding on click in Document Library filters. bug url: https://hyland.atlassian.net/browse/APPS-3306")
     @TestRail (id = "C6910, C10595")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.BUG})
+    @AlfrescoTest(jira = "XAT-9568")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.BUG, ShareGroups.SHARE_PRIORITY_1 })
     public void filterDocumentsByCategories()
     {
         FileModel englishFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);

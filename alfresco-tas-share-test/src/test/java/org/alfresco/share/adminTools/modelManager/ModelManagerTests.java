@@ -10,12 +10,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.user.admin.adminTools.DialogPages.CreateCustomTypeDialog;
 import org.alfresco.po.share.user.admin.adminTools.modelManager.ModelManagerPage;
 import org.alfresco.rest.model.RestCustomModel;
 import org.alfresco.rest.model.RestCustomTypeModel;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.CustomAspectModel;
 import org.alfresco.utility.model.CustomContentModel;
@@ -86,7 +88,8 @@ public class ModelManagerTests extends BaseTest
     }
 
     @TestRail (id = "C9516, C9520")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @AlfrescoTest(jira = "XAT-11959")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, ShareGroups.SHARE_PRIORITY_1  })
     public void activateModel()
     {
         String name = String.format("C9516Model-%s", getRandomAlphanumeric());
