@@ -205,6 +205,7 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
+          warning_on_retry: true
           command: mvn -B test -pl ${{ matrix.testModule }} -DfailIfNoTests=false
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
@@ -244,6 +245,7 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
+          warning_on_retry: true
           command: mvn -B test -Pags -pl :${{ matrix.testModule }} -DfailIfNoTests=false
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
@@ -299,6 +301,7 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
+          warning_on_retry: true
           command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml" -Dgroups=SharePriority1 -DexcludedGroups=bug,tobefixed
       - name: "Upload artifacts"
         if: always()
@@ -379,6 +382,7 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
+          warning_on_retry: true
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -485,6 +489,7 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
+          warning_on_retry: true
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
