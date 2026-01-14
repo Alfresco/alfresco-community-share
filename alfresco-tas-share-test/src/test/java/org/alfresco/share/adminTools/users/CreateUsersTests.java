@@ -2,9 +2,11 @@ package org.alfresco.share.adminTools.users;
 
 import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.CreateUserPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
@@ -47,7 +49,8 @@ public class CreateUsersTests extends BaseTest
     }
 
     @TestRail (id = "C9397")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
+    @AlfrescoTest(jira = "XAT-12084")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1})
     public void createUser()
     {
         UserModel user = UserModel.getRandomUserModel();
@@ -76,7 +79,8 @@ public class CreateUsersTests extends BaseTest
     }
 
     @TestRail (id = "C9405")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
+    @AlfrescoTest(jira = "XAT-12092")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1 })
     public void managePassword()
     {
         UserModel user = UserModel.getRandomUserModel();

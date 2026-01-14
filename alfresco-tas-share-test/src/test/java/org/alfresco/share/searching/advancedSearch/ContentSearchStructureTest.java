@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.alfresco.common.DataUtil;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.ContentService;
 import org.alfresco.dataprep.DashboardCustomization.Page;
@@ -23,6 +24,7 @@ import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 
 import org.alfresco.utility.data.RandomData;
@@ -87,7 +89,8 @@ public class ContentSearchStructureTest extends BaseTest
 
     @Bug (id = "ACE-5789")
     @TestRail (id = "C5951")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @AlfrescoTest(jira = "XAT-9399")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, ShareGroups.SHARE_PRIORITY_1 })
     public void searchByAWordOrPhraseAnywhereItExists()
     {
         String identifier = RandomData.getRandomAlphanumeric();
@@ -522,7 +525,9 @@ public class ContentSearchStructureTest extends BaseTest
     }
 
     @TestRail (id = "C5938")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH,ShareGroups.SHARE_PRIORITY_1 })
+    @AlfrescoTest(jira = "XAT-9405")
+
     public void searchByPropertyCreated()
     {
         siteModel.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
