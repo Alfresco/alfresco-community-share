@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
@@ -18,6 +19,7 @@ import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.site.wiki.WikiListPage;
 import org.alfresco.share.BaseTest;
 
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 
 import org.alfresco.utility.data.RandomData;
@@ -99,7 +101,8 @@ public class BrowsingWikiPagesTests extends BaseTest
     }
 
     @TestRail (id = "C5548")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira = "XAT-8672")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     public void browseWikiByTagTest()
     {
         log.info("Starting test C5548");
@@ -143,7 +146,8 @@ public class BrowsingWikiPagesTests extends BaseTest
     }
 
     @TestRail (id = "C5549")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira = "XAT-8673")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     public void browseWikiPagesAllPagesTest()
     {
 
@@ -190,7 +194,8 @@ public class BrowsingWikiPagesTests extends BaseTest
     }
 
     @TestRail (id = "C5550")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira = "XAT-8674")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     public void browseWikiPagesMyPagesTest()
     {
         List<String> siteTitles = new ArrayList<>();
