@@ -2,6 +2,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sha
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.site.ItemActions;
@@ -17,6 +18,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 import java.io.File;
 
@@ -73,7 +75,8 @@ public class DownloadTests extends BaseTest
     }
 
     @TestRail (id = "C8024")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira="XAT-10704")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void downloadFileFromAlfresco()
     {
         sharePage.navigateByMenuBar();
@@ -92,7 +95,8 @@ public class DownloadTests extends BaseTest
     }
 
     @TestRail (id = "C8027")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira="XAT-10705")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void downloadFolder()
     {
         sharePage.navigateByMenuBar();

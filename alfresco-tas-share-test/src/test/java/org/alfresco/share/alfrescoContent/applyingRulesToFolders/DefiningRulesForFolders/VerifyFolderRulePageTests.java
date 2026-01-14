@@ -4,6 +4,7 @@ import static org.alfresco.po.share.site.ItemActions.MANAGE_RULES;
 import static org.testng.Assert.assertEquals;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -15,6 +16,7 @@ import org.alfresco.utility.model.*;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,7 +68,8 @@ public class VerifyFolderRulePageTests extends AbstractFolderRuleTest
     }
 
     @TestRail(id = "C6367")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-9832")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void verifyFolderRulesPage()
     {
         siteDashboardPage.navigate(site.get()).navigateToDocumentLibraryPage();
