@@ -189,7 +189,6 @@ public class SiteFinderTests extends BaseTest
     }
 
     @TestRail (id = "C7195")
-
     @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void privateSiteLabel()
     {

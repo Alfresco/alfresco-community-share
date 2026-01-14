@@ -139,7 +139,7 @@ public class SearchHighlightTests extends BaseTest
     }
 
     @TestRail (id = "C42545")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH, })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
     public void highlightSearchByTitle()
     {
         log.info("Step 1: Login with username and navigate to Advanced Search page.");
