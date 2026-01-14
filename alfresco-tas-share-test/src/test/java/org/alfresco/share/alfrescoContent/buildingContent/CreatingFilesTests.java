@@ -2,6 +2,7 @@ package org.alfresco.share.alfrescoContent.buildingContent;
 
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
@@ -11,6 +12,7 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.*;
+import org.alfresco.test.AlfrescoTest;
 
 public class CreatingFilesTests extends BaseTest
 {
@@ -31,7 +33,8 @@ public class CreatingFilesTests extends BaseTest
     }
 
     @TestRail (id = "C6976, C6986")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9675")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void createPlainTextFile()
     {
         FileModel txtFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
@@ -73,7 +76,8 @@ public class CreatingFilesTests extends BaseTest
     }
 
     @TestRail (id = "C6978")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9677")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void createXMLFile()
     {
         FileModel xmlFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);

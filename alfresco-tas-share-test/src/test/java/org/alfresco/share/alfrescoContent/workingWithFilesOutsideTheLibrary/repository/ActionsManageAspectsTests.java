@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
@@ -14,6 +15,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 @Slf4j
 public class ActionsManageAspectsTests extends BaseTest
@@ -54,7 +56,8 @@ public class ActionsManageAspectsTests extends BaseTest
     }
 
     @TestRail (id = "C8254")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10910")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void checkAspectsForm()
     {
         authenticateUsingLoginPage(testUser1);
@@ -108,6 +111,7 @@ public class ActionsManageAspectsTests extends BaseTest
     }
 
     @TestRail (id = "C13763")
+    @AlfrescoTest(jira = "XAT-10910")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void manageAspectsForNonAdminOnRepositoryMainFolder() throws Exception {
 
