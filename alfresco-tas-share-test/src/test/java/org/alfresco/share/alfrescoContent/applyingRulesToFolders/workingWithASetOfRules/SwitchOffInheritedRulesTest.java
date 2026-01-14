@@ -2,6 +2,7 @@ package org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASe
 
 import static org.alfresco.po.share.site.ItemActions.MANAGE_RULES;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -78,7 +79,7 @@ public class SwitchOffInheritedRulesTest extends AbstractFolderRuleTest
     }
 
     @TestRail(id = "C7325")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1})
     public void shouldSwitchOffTheInheritRules()
     {
         siteDashboardPage
