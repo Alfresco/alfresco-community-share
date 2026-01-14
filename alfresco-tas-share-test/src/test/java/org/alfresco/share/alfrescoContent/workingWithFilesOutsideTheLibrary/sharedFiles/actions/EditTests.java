@@ -10,6 +10,7 @@ import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.cmis.CmisWrapper;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
@@ -32,6 +33,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 @Slf4j
 /**
@@ -110,7 +112,8 @@ public class EditTests extends BaseTest
     }
 
     @TestRail (id = "C7953")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10643")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void editFileProperties()
     {
 
@@ -174,7 +177,8 @@ public class EditTests extends BaseTest
     }
 
     @TestRail (id = "C7958")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10644")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void editFolderProperties() {
         log.info("Precondition: create folder in Shared folder from user2 ");
         authenticateUsingLoginPage(testUser1);
@@ -242,7 +246,8 @@ public class EditTests extends BaseTest
     }
 
     @TestRail (id = "C7979")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10645")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void editFileInAlfresco()
     {
         log.info("Precondition: upload document in Shared folder from user2 ");

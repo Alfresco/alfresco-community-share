@@ -26,6 +26,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.alfresco.common.Utils.testDataFolder;
+import org.alfresco.test.AlfrescoTest;
 @Slf4j
 /**
  * @author Razvan.Dorobantu
@@ -80,7 +81,8 @@ public class MyFilesEditTests extends BaseTest
 
 
     @TestRail (id = "C8186")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10438")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void myFilesEditFileProperties()
     {
         log.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
@@ -132,7 +134,8 @@ public class MyFilesEditTests extends BaseTest
     }
 
     @TestRail (id = "C8191")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10446")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void myFilesEditFolderProperties() throws Exception {
         log.info("Precondition: Login as user, navigate to My Files page and create a folder.");
         myFilesPage
@@ -234,7 +237,8 @@ public class MyFilesEditTests extends BaseTest
     }
 
     @TestRail (id = "C8227")
-    @Test ( groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS , ShareGroups.TOBEFIXED})
+    @AlfrescoTest (jira = "XAT-10440")
+    @Test ( groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS , ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1})
     public void myFilesEditFilesInGoogleDocs() throws Exception
     {
         log.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");
