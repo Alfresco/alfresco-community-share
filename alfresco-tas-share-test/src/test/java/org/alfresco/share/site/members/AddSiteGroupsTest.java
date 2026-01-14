@@ -10,10 +10,12 @@ import static org.alfresco.utility.constants.UserRole.SiteConsumer;
 import static org.alfresco.utility.constants.UserRole.SiteContributor;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.site.members.AddSiteGroupsPage;
 import org.alfresco.po.share.site.members.SiteGroupsPage;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.SiteModel;
@@ -55,7 +57,8 @@ public class AddSiteGroupsTest extends BaseTest
     }
 
     @TestRail (id = "C2777")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8361")
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldAddGroupWithManagerRole()
     {
         addSiteGroupsPage
@@ -86,7 +89,8 @@ public class AddSiteGroupsTest extends BaseTest
     }
 
     @TestRail (id = "C2778")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8362")
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldAddGroupWithCollaboratorRole()
     {
         addSiteGroupsPage
@@ -117,7 +121,8 @@ public class AddSiteGroupsTest extends BaseTest
     }
 
     @TestRail (id = "C2779")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8363")
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldAddGroupWithContributorRole()
     {
         addSiteGroupsPage
@@ -148,7 +153,8 @@ public class AddSiteGroupsTest extends BaseTest
     }
 
     @TestRail (id = "C2780")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8364")
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldAddGroupWithConsumerRole()
     {
         addSiteGroupsPage
@@ -179,7 +185,8 @@ public class AddSiteGroupsTest extends BaseTest
     }
 
     @TestRail (id = "C2785")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8368")
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldDisplayNotificationMessageWhenSearchGroupWithoutInput()
     {
         addSiteGroupsPage
@@ -192,6 +199,7 @@ public class AddSiteGroupsTest extends BaseTest
     }
 
     @TestRail (id = "C2785")
+    @AlfrescoTest(jira = "XAT-8368")
     @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
     public void shouldDisplaySpecificMessageWhenNoGroupIsFound()
     {
@@ -204,7 +212,8 @@ public class AddSiteGroupsTest extends BaseTest
     }
 
     @TestRail (id = "C2786")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest("XAT-8369")
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void onlySiteManagerCanAddGroupToSite()
     {
         GroupModel collaboratorGroup = dataGroup.usingAdmin().createRandomGroup();
@@ -242,7 +251,8 @@ public class AddSiteGroupsTest extends BaseTest
     }
 
     @TestRail (id = "C2846")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8372")
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldGroupMembersBeAddedToUsersList()
     {
         UserModel userToAddInGroup = getDataUser().usingAdmin().createRandomTestUser();
