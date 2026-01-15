@@ -70,7 +70,7 @@ public class MyFilesSelectContentTests extends BaseTest
     }
 
     @TestRail (id = "C7682")
-    @AlfrescoTest.(jira = "XAT-10415")
+    @AlfrescoTest(jira = "XAT-10415")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void selectFileByMenu()
     {
