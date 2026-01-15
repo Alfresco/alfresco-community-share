@@ -194,7 +194,8 @@ public class BrowsingWikiPagesTests extends BaseTest
     }
 
     @TestRail (id = "C5550")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira = "XAT-8674")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     public void browseWikiPagesMyPagesTest()
     {
         List<String> siteTitles = new ArrayList<>();

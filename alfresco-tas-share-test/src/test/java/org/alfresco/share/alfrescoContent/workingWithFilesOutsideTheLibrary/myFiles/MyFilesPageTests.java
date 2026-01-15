@@ -74,7 +74,7 @@ public class MyFilesPageTests extends BaseTest
     }
 
     @TestRail (id = "C7660")
-    @AlfrescoTest (jira = "XAT-10401)
+    @AlfrescoTest (jira = "XAT-10401")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 }, enabled = false)
     public void verifyMyFilesPageTags() {
 
