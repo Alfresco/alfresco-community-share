@@ -7,8 +7,10 @@ import static org.alfresco.utility.constants.UserRole.SiteCollaborator;
 import static org.alfresco.utility.constants.UserRole.SiteConsumer;
 import static org.alfresco.utility.constants.UserRole.SiteContributor;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.site.members.SiteGroupsPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.SiteModel;
@@ -39,7 +41,8 @@ public class SiteGroupsTest extends BaseTest
     }
 
     @TestRail(id = "C2819")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8378")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldDisplayAllSiteGroups()
     {
         GroupModel collaboratorGroup = dataGroup.usingAdmin().createRandomGroup();
@@ -66,7 +69,8 @@ public class SiteGroupsTest extends BaseTest
     }
 
     @TestRail(id = "C2821")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8380")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldDisplayGroupFullNameWhenSearch()
     {
         GroupModel consumerGroup = dataGroup.usingAdmin().createRandomGroup();
