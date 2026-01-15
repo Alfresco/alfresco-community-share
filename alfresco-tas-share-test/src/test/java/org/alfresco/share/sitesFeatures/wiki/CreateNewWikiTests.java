@@ -116,7 +116,8 @@ public class CreateNewWikiTests extends BaseTest
     }
 
     @TestRail (id = "C5524")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira = "XAT-8685")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES,ShareGroups.SHARE_PRIORITY_1 })
     public void createWikiPageFromWikiPageList()
     {
         String tagName = String.format("tag%s", RandomData.getRandomAlphanumeric());

@@ -6,6 +6,7 @@ import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.constants.ShareGroups;
 
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FolderModel;

@@ -7,13 +7,13 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditProp
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.*;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.alfresco.test.AlfrescoTest;
 
 @Slf4j
 public class EditFilesPropertiesTest extends BaseTest
@@ -64,7 +64,7 @@ public class EditFilesPropertiesTest extends BaseTest
     }
 
     @TestRail (id = "C7005")
-    @AlfrescoTest (jira="XAT-10211")
+    @AlfrescoTest(jira = "XAT-10195")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void editFileProperties()
     {

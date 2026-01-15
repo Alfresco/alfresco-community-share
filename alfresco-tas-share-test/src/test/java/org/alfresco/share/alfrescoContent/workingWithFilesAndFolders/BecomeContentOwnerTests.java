@@ -6,12 +6,14 @@ import static org.alfresco.utility.constants.UserRole.SiteCollaborator;
 import static org.testng.Assert.*;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.BecomeContentOwnerDialog_;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.*;
@@ -57,7 +59,8 @@ public class BecomeContentOwnerTests extends BaseTest
     }
 
     @TestRail (id = "C7152")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10361")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void becomeFileOwner()
     {
         UserModel contributer = dataUser.usingAdmin().createRandomTestUser();
@@ -167,7 +170,8 @@ public class BecomeContentOwnerTests extends BaseTest
     }
 
     @TestRail (id = "C7154")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10362")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void cancelBecomeOwner()
     {
         UserModel collaborator = dataUser.usingAdmin().createRandomTestUser();

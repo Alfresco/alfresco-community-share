@@ -107,7 +107,8 @@ public class DeleteWikiPageTests extends BaseTest
     }
 
     @TestRail (id = "C5517")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira = "XAT-8704")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1 })
     public void deleteWikiPageFromPageView()
     {
         log.info("Preconditions: create site and wiki page");
@@ -127,7 +128,8 @@ public class DeleteWikiPageTests extends BaseTest
     }
 
     @TestRail (id = "C5518")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira = "XAT-8705")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1 })
     public void deleteWikiPageFromWikiPageList()
     {
         log.info("Preconditions: create site and wiki pages");
