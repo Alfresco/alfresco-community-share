@@ -3,12 +3,14 @@ package org.alfresco.share.sitesFeatures.discussions;
 import java.util.Arrays;
 import java.util.Collections;
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.site.discussion.TopicListPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
@@ -82,7 +84,8 @@ public class BrowsingDiscussionTopicsTests extends BaseTest
     }
 
     @TestRail (id = "6199")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira = "XAT-8712")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     public void browseByTopicsFilter()
     {
         topicListPage.navigate(siteName.get().getId());

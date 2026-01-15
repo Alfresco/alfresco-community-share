@@ -1,6 +1,7 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
@@ -9,6 +10,7 @@ import org.alfresco.po.share.site.wiki.WikiListPage;
 import org.alfresco.po.share.site.wiki.WikiMainPage;
 import org.alfresco.po.share.site.wiki.WikiPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -67,7 +69,8 @@ public class CreateNewWikiTests extends BaseTest
     }
 
     @TestRail (id = "C5504")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira = "XAT-8678")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1 })
     public void createNewWikiPage()
     {
         // precondition

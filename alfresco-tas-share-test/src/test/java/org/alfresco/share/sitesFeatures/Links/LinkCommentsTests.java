@@ -1,6 +1,7 @@
 package org.alfresco.share.sitesFeatures.Links;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
@@ -8,11 +9,13 @@ import org.alfresco.po.share.site.link.CreateLinkPage;
 import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.po.share.site.link.LinkPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
+import org.ccil.cowan.tagsoup.ScanHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -114,8 +117,9 @@ public class LinkCommentsTests extends BaseTest
 
     }
 
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1 })
     @TestRail (id = "C6232")
+    @AlfrescoTest(jira = "XAT-9327")
     public void editLinkComment()
     {
         log.info("Precondition: Create site and add 'Links' page to it");
