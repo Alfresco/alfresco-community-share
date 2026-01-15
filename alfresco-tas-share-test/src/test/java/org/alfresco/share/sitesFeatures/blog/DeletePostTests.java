@@ -79,7 +79,6 @@ public class DeletePostTests extends BaseTest
     }
 
     @TestRail(id = "C5957")
-    //xrayid-8767
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
     public void shouldDisplayNoPostsFoundWhenDeleteDraftPost()
     {

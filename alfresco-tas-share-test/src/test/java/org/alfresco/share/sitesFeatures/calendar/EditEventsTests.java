@@ -12,7 +12,6 @@ import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.EditEventDialog;
 import org.alfresco.po.share.site.calendar.EventInformationDialog;
 import org.alfresco.share.BaseTest;
-import org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.SharedFilesTests;
 import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
