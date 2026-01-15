@@ -110,7 +110,6 @@ public class EditPostTests extends BaseTest
     }
 
     @TestRail(id = "C5560")
-    //Xrayid-8759
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
     public void shouldDisplayBlogPostDetailsWhenEditFromBlogPage()
     {
