@@ -73,7 +73,7 @@ public class ActionsUploadTests extends BaseTest
 
 
     @TestRail (id = "C8172")
-    @AlfrescoTest.(jira = "XAT-10837")
+    @AlfrescoTest(jira = "XAT-10837")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void uploadDocument()
     {
