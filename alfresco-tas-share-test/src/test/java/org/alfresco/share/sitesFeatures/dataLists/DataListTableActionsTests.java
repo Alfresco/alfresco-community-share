@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.SiteService;
@@ -80,7 +81,7 @@ public class DataListTableActionsTests extends BaseTest
 
 
     @TestRail (id = "C6864")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.MISSING_JIRA})
     public void duplicateAction()
     {
         log.info("Step 1: Hover over the new item and verify Edit, Duplicate, delete actions are visible");
@@ -103,7 +104,7 @@ public class DataListTableActionsTests extends BaseTest
     }
 
     @TestRail (id = "C6865")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES,ShareGroups.MISSING_JIRA })
     public void deleteAction()
     {
         log.info("Step 1: Hover over the new item and verify Edit, Duplicate, delete actions are visible");
@@ -123,7 +124,7 @@ public class DataListTableActionsTests extends BaseTest
     }
 
     @TestRail (id = "C6867")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES,ShareGroups.MISSING_JIRA})
     public void editAction()
     {
         log.info("Step 1: Hover over the new item and verify Edit, Duplicate, Delete actions are visible");

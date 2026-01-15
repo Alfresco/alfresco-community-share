@@ -10,6 +10,7 @@ import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.EditEventDialog;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
@@ -119,7 +120,8 @@ public class ViewEventTests extends BaseTest
     }
 
     @TestRail (id = "5408")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira="XAT-8569")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1 })
     public void viewEventWeekView()
     {
         authenticateUsingLoginPage(user.get());
