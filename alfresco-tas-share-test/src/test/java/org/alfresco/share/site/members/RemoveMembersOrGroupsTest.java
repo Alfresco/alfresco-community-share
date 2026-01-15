@@ -6,10 +6,12 @@ import static org.alfresco.po.enums.GroupRoles.MANAGER;
 import static org.alfresco.utility.constants.UserRole.SiteCollaborator;
 import static org.alfresco.utility.constants.UserRole.SiteConsumer;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.members.SiteGroupsPage;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.DataUser.ListUserWithRoles;
 import org.alfresco.utility.model.GroupModel;
@@ -48,7 +50,8 @@ public class RemoveMembersOrGroupsTest extends BaseTest
     }
 
     @TestRail(id = "C2882")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8396")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldRemoveUserCollaboratorFromPublicSite()
     {
         ListUserWithRoles userRoles = getDataUser()
@@ -78,7 +81,8 @@ public class RemoveMembersOrGroupsTest extends BaseTest
     }
 
     @TestRail(id = "C2883")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8397")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldRemoveSiteGroup()
     {
         GroupModel consumerGroup = dataGroup.usingAdmin().createRandomGroup();
@@ -109,7 +113,8 @@ public class RemoveMembersOrGroupsTest extends BaseTest
     }
 
     @TestRail(id = "C2890")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8399")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void managerIsAbleToRemoveMemberFromPrivateSite()
     {
         ListUserWithRoles consumersList = getDataUser()
@@ -137,7 +142,8 @@ public class RemoveMembersOrGroupsTest extends BaseTest
     }
 
     @TestRail(id = "C2892")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8402")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void removedUserShouldBeAbleToRejoinSite()
     {
         ListUserWithRoles consumersList = getDataUser()

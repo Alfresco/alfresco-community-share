@@ -7,11 +7,13 @@ import static org.alfresco.po.enums.GroupRoles.MANAGER;
 import static org.alfresco.utility.constants.UserRole.SiteCollaborator;
 import static org.alfresco.utility.constants.UserRole.SiteManager;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.dashlet.SiteMembersDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.members.SiteGroupsPage;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.SiteModel;
@@ -45,7 +47,8 @@ public class ChangeSiteRoleTests extends BaseTest
     }
 
     @TestRail(id = "C2835")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8382")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void siteManagerShouldBeAbleToChangeRoleFromCollaboratorToContributor()
     {
         SiteModel siteModel = dataSite.usingUser(userModel.get()).createPublicRandomSite();
@@ -70,7 +73,8 @@ public class ChangeSiteRoleTests extends BaseTest
     }
 
     @TestRail(id = "C2836")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8383")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void siteManagerShouldChangeRoleForGroup()
     {
         GroupModel groupModel = dataGroup.usingAdmin().createRandomGroup();
@@ -106,7 +110,8 @@ public class ChangeSiteRoleTests extends BaseTest
     }
 
     @TestRail(id = "C2837")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8384")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void siteManagerShouldChangeRoleToConsumer()
     {
         UserModel manager = dataUser.usingAdmin().createRandomTestUser();
