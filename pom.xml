@@ -100,7 +100,7 @@
 
         <repo.image.tag>${dependency.alfresco-enterprise-repo.version}</repo.image.tag>
         <docker.quay-expires.value>1w</docker.quay-expires.value>
-        <dependency.log4j.version>2.19.0</dependency.log4j.version>
+        <dependency.log4j.version>2.25.3</dependency.log4j.version>
     </properties>
 
     <scm>
