@@ -1,6 +1,7 @@
 package org.alfresco.share.site.accessingExistingSites;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -8,6 +9,7 @@ import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.po.share.user.profile.UserSitesListPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
@@ -61,7 +63,8 @@ public class EnteringSiteTests extends BaseTest
     }
 
     @TestRail (id = "C2977")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @AlfrescoTest(jira = "XAT-8544")
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void accessSiteUsingMySitesDashlet()
     {
         userDashboardPage.navigate(user1.get());
@@ -90,7 +93,8 @@ public class EnteringSiteTests extends BaseTest
     }
 
     @TestRail (id = "C2979")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @AlfrescoTest(jira = "XAT-8546")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void accessSiteUsingSitesMenuFavorites()
     {
         userDashboardPage.navigate(user1.get());
@@ -118,7 +122,8 @@ public class EnteringSiteTests extends BaseTest
     }
 
     @TestRail (id = "C2981")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @AlfrescoTest(jira = "XAT-8548")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void accessSiteUsingMyProfileSites()
     {
         userSitesListPage.navigate(user1.get())
@@ -129,7 +134,8 @@ public class EnteringSiteTests extends BaseTest
     }
 
     @TestRail (id = "C2982")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @AlfrescoTest(jira = "XAT-8549")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void accessSiteUsingSitesMenuMySites()
     {
         userDashboardPage.navigate(user1.get());

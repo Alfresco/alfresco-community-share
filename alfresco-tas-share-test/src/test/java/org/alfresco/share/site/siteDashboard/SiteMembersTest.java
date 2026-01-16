@@ -1,7 +1,9 @@
 package org.alfresco.share.site.siteDashboard;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteMembersDashlet;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.data.DataUser.ListUserWithRoles;
@@ -43,7 +45,8 @@ public class SiteMembersTest extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C2799")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8429")
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITE_DASHBOARD, ShareGroups.SHARE_PRIORITY_1})
     public void checkDisplayCreatedUserInSiteMembersDashlet()
     {
         siteDashboardPage.navigate(site.get());
