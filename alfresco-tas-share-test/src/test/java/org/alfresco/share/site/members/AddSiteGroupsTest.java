@@ -212,7 +212,7 @@ public class AddSiteGroupsTest extends BaseTest
     }
 
     @TestRail (id = "C2786")
-    @AlfrescoTest("XAT-8369")
+    @AlfrescoTest(jira="XAT-8369")
     @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void onlySiteManagerCanAddGroupToSite()
     {
