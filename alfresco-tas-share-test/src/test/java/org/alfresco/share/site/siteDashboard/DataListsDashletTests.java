@@ -3,11 +3,13 @@ package org.alfresco.share.site.siteDashboard;
 import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import static org.alfresco.utility.data.RandomData.getRandomAlphanumeric;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.DataListsService.DataList;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.enums.DataListTypes;
 import org.alfresco.po.share.dashlet.SiteDataListsDashlet;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.model.SiteModel;
@@ -63,7 +65,8 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5569")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8518")
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD,ShareGroups.SHARE_PRIORITY_1,ShareGroups.MISSING_STEPS })
     public void shouldDisplaySiteDataListsDashletWhenTwoListsItemsAreCreated()
     {
         dataListsService.get().createDataList(user.get().getUsername(), user.get().getPassword(),
