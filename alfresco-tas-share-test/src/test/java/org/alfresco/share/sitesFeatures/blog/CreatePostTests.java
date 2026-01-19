@@ -84,7 +84,7 @@ public class CreatePostTests extends BaseTest
     }
 
     @TestRail(id = "C5533")
-    @AlfrescoTest(jira="XAT-8749")
+    @AlfrescoTest(jira = "XAT-8749")
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldDisplayPostDetailsWhenCreatedFromBlogPage()
     {

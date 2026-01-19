@@ -120,7 +120,7 @@ public class ViewEventTests extends BaseTest
     }
 
     @TestRail (id = "5408")
-    @AlfrescoTest(jira="XAT-8569")
+    @AlfrescoTest(jira = "XAT-8569")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1 })
     public void viewEventWeekView()
     {
