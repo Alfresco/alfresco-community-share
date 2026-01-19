@@ -87,7 +87,7 @@ public class AccessingDataListsComponentTests extends BaseTest
     }
 
     @TestRail (id = "C5844")
-    @AlfrescoTest(jira = "XAT=8785")
+    @AlfrescoTest(jira = "XAT-8785")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1})
     public void onlySiteManagerIsAbleToRenameDataListsFeatures() throws DataPreparationException
     {

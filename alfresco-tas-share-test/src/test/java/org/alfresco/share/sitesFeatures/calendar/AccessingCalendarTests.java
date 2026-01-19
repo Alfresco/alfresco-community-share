@@ -83,7 +83,7 @@ public class AccessingCalendarTests extends BaseTest
 
     @TestRail (id = "C5437")
     @AlfrescoTest(jira = "XAT-8557")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.TOBEFIXED,ShareGroups.SHARE_PRIORITY_1})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1})
 
     public void accessTheCalendarPage()
     {

@@ -87,7 +87,7 @@ public class BrowsingTheCalendarTests extends BaseTest
     }
 
     @TestRail (id = "C5805")
-    @AlfrescoTest(jira = "8559")
+    @AlfrescoTest(jira = "XAT-8559")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     public void changeTheMainCalendarView()
     {

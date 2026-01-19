@@ -61,7 +61,7 @@ public class AddPostCommentTests extends BaseTest
     }
 
     @TestRail(id = "C6011")
-    @AlfrescoTest(jira="XAT-8770")
+    @AlfrescoTest(jira = "XAT-8770")
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldAddCommentToBlogPost()
     {

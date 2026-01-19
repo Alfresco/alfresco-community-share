@@ -86,7 +86,7 @@ public class DeletingAListItemTest extends BaseTest
     }
 
     @TestRail (id = "C6399")
-    @AlfrescoTest(jira = "XAT=8850")
+    @AlfrescoTest(jira = "XAT-8850")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     public void deleteSingleItemList()
     {

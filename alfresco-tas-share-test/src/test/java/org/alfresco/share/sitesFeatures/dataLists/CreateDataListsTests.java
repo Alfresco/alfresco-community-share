@@ -75,7 +75,7 @@ public class CreateDataListsTests extends BaseTest
     }
 
     @TestRail (id = "C5861")
-    @AlfrescoTest(jira = "8796")
+    @AlfrescoTest(jira = "XAT-8796")
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     public void createNewList()
     {

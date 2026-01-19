@@ -87,7 +87,7 @@ public class TagsTests extends BaseTest
     }
 
     @TestRail (id = "C3092")
-    @AlfrescoTest(jira ="Xat-8620")
+    @AlfrescoTest(jira ="XAT-8620")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     public void addTagForEvent() {
         String eventName = "event-C3092-" + random;
