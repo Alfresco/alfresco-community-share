@@ -82,9 +82,9 @@ public class CreatingNewLinkTests extends BaseTest {
         deleteUsersIfNotNull(user1.get());
     }
 
+    @AlfrescoTest(jira = "XAT-9308")
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     @TestRail(id = "C6180")
-    @AlfrescoTest(jira = "XAT-9308")
     public void createExternalLink() {
         log.info("STEP 1: Navigate to 'Links' page for siteName");
         linkPage.navigate(siteName.get()

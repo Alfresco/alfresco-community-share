@@ -347,9 +347,9 @@ import org.testng.annotations.Test;
         deleteSitesIfNotNull(siteName.get());
     }
 
+    @AlfrescoTest(jira = "XAT-9318")
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     @TestRail(id = "C6225")
-    @AlfrescoTest(jira = "XAT-9318")
     public void checkWhoCanEditALink()
     {
         log.info("Precondition: Create test site with user Manager");
