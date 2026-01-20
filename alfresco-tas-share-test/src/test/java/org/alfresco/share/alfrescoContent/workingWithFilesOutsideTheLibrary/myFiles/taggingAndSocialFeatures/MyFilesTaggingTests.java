@@ -361,7 +361,7 @@ public class MyFilesTaggingTests extends BaseTest
 
     @TestRail (id = "C7895")
     @AlfrescoTest (jira = "XAT-10549")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "FlakyTests", ShareGroups.SHARE_PRIORITY_1  })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "FlakyTests", ShareGroups.SHARE_PRIORITY_1, ShareGroups.TOBEFIXED  })
     public void myFilesUpdateTag()
     {
         log.info("Create File in document library and move it to MyFiles Page.");

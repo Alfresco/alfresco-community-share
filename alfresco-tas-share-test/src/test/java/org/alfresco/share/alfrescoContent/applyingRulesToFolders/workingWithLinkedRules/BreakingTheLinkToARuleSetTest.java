@@ -130,7 +130,7 @@ public class BreakingTheLinkToARuleSetTest extends AbstractFolderRuleTest
 
     @TestRail (id = "C7332")
     @AlfrescoTest(jira = "XAT-9950")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1})
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION})
     public void shouldUnlinkTheRules()
     {
         log.info("STEP1: Click 'Unlink' button for the linked rule set");
