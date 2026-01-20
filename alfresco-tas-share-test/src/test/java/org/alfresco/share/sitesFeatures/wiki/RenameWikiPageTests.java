@@ -66,7 +66,7 @@ public class RenameWikiPageTests extends BaseTest
 
     @TestRail (id = "C5500")
     @AlfrescoTest(jira = "XAT-8693")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1 })
     public void renameWikiMainPage()
     {
         log.info("Preconditions: create site and update wiki main page content");

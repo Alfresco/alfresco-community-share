@@ -9,6 +9,7 @@ import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
@@ -20,6 +21,7 @@ import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.EditItemPopUp;
 
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 
 import org.alfresco.utility.data.RandomData;
@@ -174,7 +176,8 @@ import org.testng.annotations.Test;
     }
 
     @TestRail(id = "C6713")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira = "XAT-9177")
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     public void saveEditItem()
     {
         log.info("STEP1: Click 'Edit' icon for the simple task list item to be edited");

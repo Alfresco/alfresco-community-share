@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
@@ -11,6 +12,7 @@ import org.alfresco.po.share.site.link.CreateLinkPage;
 import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.po.share.site.link.LinkPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -80,7 +82,8 @@ public class CreatingNewLinkTests extends BaseTest {
         deleteUsersIfNotNull(user1.get());
     }
 
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
+    @AlfrescoTest(jira = "XAT-9308")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     @TestRail(id = "C6180")
     public void createExternalLink() {
         log.info("STEP 1: Navigate to 'Links' page for siteName");
