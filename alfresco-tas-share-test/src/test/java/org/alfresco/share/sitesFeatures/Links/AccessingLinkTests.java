@@ -80,9 +80,9 @@ public class AccessingLinkTests extends BaseTest
         deleteUsersIfNotNull(user1.get());
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "singlePipelineFailure" , ShareGroups.SHARE_PRIORITY_1})
-    @TestRail(id = "C6250")
     @AlfrescoTest(jira = "XAT-9301")
+    @TestRail(id = "C6250")
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "singlePipelineFailure", ShareGroups.SHARE_PRIORITY_1 })
     public void accessingTheSiteLinks()
     {
         String newLinksPageName = "newLinks";

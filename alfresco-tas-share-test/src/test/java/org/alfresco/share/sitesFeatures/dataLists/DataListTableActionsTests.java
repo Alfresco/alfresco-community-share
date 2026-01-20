@@ -124,7 +124,7 @@ public class DataListTableActionsTests extends BaseTest
     }
 
     @TestRail (id = "C6867")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES,ShareGroups.MISSING_JIRA})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.MISSING_JIRA})
     public void editAction()
     {
         log.info("Step 1: Hover over the new item and verify Edit, Duplicate, Delete actions are visible");
