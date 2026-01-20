@@ -72,7 +72,7 @@ public class DeleteWikiPageTests extends BaseTest
 
     @TestRail (id = "C5515")
     @AlfrescoTest(jira = "XAT-8702")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1 })
     public void deleteWikiMainPageFromPageView()
     {
         log.info("Preconditions: create site and add wiki main page content");

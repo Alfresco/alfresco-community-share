@@ -107,7 +107,7 @@ public class EditWikiPageTests extends BaseTest
 
     @TestRail (id = "C5542")
     @AlfrescoTest(jira = "XAT-8687")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1 })
     public void editWikiPageFromPageView() throws InterruptedException {
         wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());
 
@@ -141,7 +141,7 @@ public class EditWikiPageTests extends BaseTest
 
     @TestRail (id = "C5543")
     @AlfrescoTest(jira = "XAT-8688")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES,ShareGroups.SHARE_PRIORITY_1 })
     public void editWikiPageFromWikiPageList()
     {
         wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());

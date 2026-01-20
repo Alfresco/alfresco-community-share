@@ -69,8 +69,8 @@ public class CreateNewWikiTests extends BaseTest
     }
 
     @TestRail (id = "C5504")
-    @AlfrescoTest(jira = "XAT-8680")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
+    @AlfrescoTest(jira = "XAT-8678")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1 })
     public void createNewWikiPage()
     {
         // precondition

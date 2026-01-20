@@ -147,7 +147,7 @@ public class BrowsingWikiPagesTests extends BaseTest
 
     @TestRail (id = "C5549")
     @AlfrescoTest(jira = "XAT-8673")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES,ShareGroups.SHARE_PRIORITY_1 })
     public void browseWikiPagesAllPagesTest()
     {
 
