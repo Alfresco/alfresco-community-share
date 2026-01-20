@@ -200,7 +200,6 @@ public class ReplyingToDiscussionTests extends BaseTest
 
     @TestRail (id = "6218")
     @AlfrescoTest(jira = "XAT-8723")
-
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     public void replyToAReply()
     {
