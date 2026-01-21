@@ -1,5 +1,5 @@
 # More infos about this image: https://github.com/Alfresco/alfresco-docker-base-tomcat
-FROM alfresco/alfresco-base-tomcat:tomcat10-jre21-rockylinux9@sha256:4d3aaaec64518b0126bb7889a2574f1ed6e65231dca98a66d67a266fd1c3af92
+FROM alfresco/alfresco-base-tomcat:tomcat11-jre21-rockylinux9@sha256:4cc7fe3f64e9d79792545b721dde5c19d911078f5936f69afed5df47e74735ae
 
 # Needed for installation but make sure another USER directive is added after
 # this with a non-root user
