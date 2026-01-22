@@ -8,11 +8,11 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-share-parent</artifactId>
-        <version>26.1.0.14-SNAPSHOT</version>
+        <version>26.1.0.20-SNAPSHOT</version>
     </parent>
 
     <properties>
-        <tomcat.version>10.1.11</tomcat.version>
+        <tomcat.version>11.0.15</tomcat.version>
         <license-header-location>${project.parent.basedir}</license-header-location>
     </properties>
 
@@ -196,7 +196,7 @@
         <dependency>
             <groupId>org.tuckey</groupId>
             <artifactId>urlrewritefilter</artifactId>
-            <version>4.0.4-jakarta-3</version>
+            <version>4.0.4-jakarta-4</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
