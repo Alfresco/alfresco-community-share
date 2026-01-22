@@ -5,7 +5,7 @@
    <parent>
       <groupId>org.alfresco</groupId>
       <artifactId>alfresco-share-parent</artifactId>
-      <version>26.1.0.14-SNAPSHOT</version>
+      <version>26.1.0.20-SNAPSHOT</version>
    </parent>
 
    <groupId>org.alfresco.tas</groupId>
@@ -128,7 +128,18 @@
          <groupId>org.alfresco.tas</groupId>
          <artifactId>restapi</artifactId>
          <version>${dependency.alfresco-community-repo.version}</version>
+          <exclusions>
+              <exclusion>
+                  <groupId>org.mozilla</groupId>
+                  <artifactId>rhino</artifactId>
+              </exclusion>
+          </exclusions>
       </dependency>
+       <dependency>
+           <groupId>org.mozilla</groupId>
+           <artifactId>rhino</artifactId>
+           <version>${dependency.rhino.version}</version>
+       </dependency>
 
       <dependency>
          <groupId>org.apache.logging.log4j</groupId>

@@ -7,7 +7,7 @@
     <parent>
         <artifactId>alfresco-wcmqs-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>26.1.0.14-SNAPSHOT</version>
+        <version>26.1.0.20-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -81,17 +81,26 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
               </exclusion>
+              <exclusion>
+                <groupId>org.mozilla</groupId>
+                <artifactId>rhino</artifactId>
+              </exclusion>
             </exclusions>
         </dependency>
       <dependency>
+        <groupId>org.mozilla</groupId>
+        <artifactId>rhino</artifactId>
+        <version>${dependency.rhino.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-webmvc</artifactId>
-        <version>7.0.0-M1</version>
+        <version>${dependency.spring.version}</version>
       </dependency>
         <dependency>
             <groupId>org.tuckey</groupId>
             <artifactId>urlrewritefilter</artifactId>
-            <version>4.0.4-jakarta-3</version>
+            <version>4.0.4-jakarta-4</version>
         </dependency>
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>

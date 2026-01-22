@@ -6,7 +6,7 @@
     <parent>
         <artifactId>alfresco-share-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>26.1.0.14-SNAPSHOT</version>
+        <version>26.1.0.20-SNAPSHOT</version>
     </parent>
 
     <build>
@@ -116,9 +116,17 @@
                     <groupId>org.alfresco</groupId>
                     <artifactId>alfresco-core</artifactId>
                 </exclusion>
-
+              <exclusion>
+                <groupId>org.mozilla</groupId>
+                <artifactId>rhino</artifactId>
+              </exclusion>
             </exclusions>
         </dependency>
+      <dependency>
+        <groupId>org.mozilla</groupId>
+        <artifactId>rhino</artifactId>
+        <version>${dependency.rhino.version}</version>
+      </dependency>
         <dependency>
             <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-webeditor</artifactId>
@@ -144,7 +152,7 @@
         <dependency>
             <groupId>org.tuckey</groupId>
             <artifactId>urlrewritefilter</artifactId>
-            <version>4.0.4-jakarta-3</version>
+            <version>4.0.4-jakarta-4</version>
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
