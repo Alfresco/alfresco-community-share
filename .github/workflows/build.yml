@@ -550,6 +550,7 @@ jobs:
           warning_on_retry: true
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dgroups=sanity -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ags-${{matrix.test}}-${GITHUB_RUN_NUMBER}-${JOB_NAME}-${{ github.run_id}}-${{ github.run_attempt }}
