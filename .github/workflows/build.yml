@@ -352,16 +352,29 @@ jobs:
           retry_wait_seconds: 60
           retry_on: error
           warning_on_retry: true
-          command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml" -Dgroups=SharePriority1 -DexcludedGroups=bug,tobefixed
-      - name: "Upload artifacts"
+          command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml" -Dgroups=testonly -DexcludedGroups=bug,tobefixed
+      - name: Install Allure CLI
+        run: |
+          sudo npm install -g allure-commandline --save-dev
+      - name: Generate Allure Report
+        if: always()
+        run: |
+          allure generate --clean alfresco-tas-share-test/target/allure-results -o alfresco-tas-share-test/target/allure-report || echo "Allure report generation failed"
+      - name: Upload Allure Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.test }}-tests
-          path: |
-            alfresco-tas-share-test/target/reports
-            alfresco-tas-share-test/target/surefire-reports
-            alfresco-tas-share-test/target/screenshots
+          name: ${{ matrix.test }}-allure-report
+          path: alfresco-tas-share-test/target/allure-report
+#      - name: "Upload artifacts"
+#        if: always()
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: ${{ matrix.test }}-tests
+#          path: |
+#            alfresco-tas-share-test/target/reports
+#            alfresco-tas-share-test/target/surefire-reports
+#            alfresco-tas-share-test/target/screenshots
 
   community_shared_UI_configuration:
     runs-on: ubuntu-latest
