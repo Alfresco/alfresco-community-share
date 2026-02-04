@@ -28,7 +28,7 @@ public class UserProfileSitesTests extends BaseTest
 
     @TestRail (id = "C2154")
     @AlfrescoTest(jira = "XAT-8183")
-    @Test(groups = {TestGroup.SANITY, TestGroup.USER, ShareGroups.SHARE_PRIORITY_1})
+    @Test(groups = {TestGroup.SANITY, TestGroup.USER, ShareGroups.SHARE_PRIORITY_1, "testonly"})
     public void viewSitesWhereUserHasMembershipTest()
     {
         UserModel invitedUser = dataUser.usingAdmin().createRandomTestUser();
