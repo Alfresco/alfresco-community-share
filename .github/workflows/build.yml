@@ -599,7 +599,21 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: ./artifacts
-
+      - name: Find and merge all Allure results
+        run: |
+          mkdir -p merged-allure-results
+          find ./artifacts -type d -name allure-results | while read d; do cp -r "$d"/* merged-allure-results/; done
+      - name: Install Allure CLI
+        run: |
+          sudo npm install -g allure-commandline --save-dev
+      - name: Generate Combined Allure Report
+        run: |
+          allure generate --clean merged-allure-results -o merged-allure-report || echo "Allure report generation failed"
+      - name: Upload Combined Allure Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: combined-allure-report
+          path: merged-allure-report
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         with:
