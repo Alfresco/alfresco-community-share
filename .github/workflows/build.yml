@@ -366,15 +366,15 @@ jobs:
         with:
           name: ${{ matrix.test }}-allure-report
           path: alfresco-tas-share-test/target/allure-report
-#      - name: "Upload artifacts"
-#        if: always()
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: ${{ matrix.test }}-tests
-#          path: |
-#            alfresco-tas-share-test/target/reports
-#            alfresco-tas-share-test/target/surefire-reports
-#            alfresco-tas-share-test/target/screenshots
+      - name: "Upload artifacts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.test }}-tests
+          path: |
+            alfresco-tas-share-test/target/reports
+            alfresco-tas-share-test/target/surefire-reports
+            alfresco-tas-share-test/target/screenshots
 
   community_shared_UI_configuration:
     runs-on: ubuntu-latest
@@ -626,3 +626,14 @@ jobs:
       - name: Clean S3 buckets
         if: ${{ always() && matrix.test == 'wormTestSuite'}}
         run: scripts/ci/cleanup.sh
+      - name: Summarize Test Results
+        run: |
+          python3 scripts/ci/summarize_test_results.py
+      - name: Publish Markdown Summary
+        run: |
+          cat test-summary.md >> $GITHUB_STEP_SUMMARY
+      - name: Upload HTML Test Summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-summary-html
+          path: test-summary.html
