@@ -56,7 +56,7 @@ public class CategoriesFilterTests extends BaseTest
     @Bug(id = "APPS-3306", description = "Sub nodes of the root category are not expanding on click in Document Library filters. bug url: https://hyland.atlassian.net/browse/APPS-3306")
     @TestRail (id = "C6910, C10595")
     @AlfrescoTest(jira = "XAT-9568")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.BUG, ShareGroups.SHARE_PRIORITY_1 })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void filterDocumentsByCategories()
     {
         FileModel englishFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
