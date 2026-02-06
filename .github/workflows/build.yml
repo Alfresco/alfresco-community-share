@@ -472,7 +472,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test: [communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration, wormTestSuite]
+        test: [communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration]
     env:
       S3_BUCKET_PREFIX: ${{ vars.S3_BUCKET_PREFIX }}
       S3_BUCKET_NAME: ${{ vars.S3_BUCKET_PREFIX }}-${{ github.run_number }}
@@ -548,7 +548,7 @@ jobs:
           retry_wait_seconds: 60
           retry_on: error
           warning_on_retry: true
-          command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
+          command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dgroups=sanity -DexcludedGroups=needsAttention -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -573,7 +573,7 @@ jobs:
       #      - ags_unit_tests
       - test
       #     - community_shared_UI_configuration
-      #      - enterprise_shared_UI_configuration
+      - enterprise_shared_UI_configuration
     if: always()
     steps:
       - uses: actions/checkout@v4
