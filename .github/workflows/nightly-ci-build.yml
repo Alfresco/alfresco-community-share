@@ -346,7 +346,7 @@ jobs:
           retry_wait_seconds: 60
           retry_on: error
           warning_on_retry: true
-          command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml" -Dgroups=SharePriority1 -DexcludedGroups=bug,tobefixed
+          command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml" -DexcludedGroups=bug
       - name: "Upload artifacts"
         if: always()
         uses: actions/upload-artifact@v4
