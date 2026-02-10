@@ -365,7 +365,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.test }}-allure-report
-          path: alfresco-tas-share-test/target/allure-report
+          path: alfresco-tas-share-test/allure-report
       - name: "Upload artifacts"
         if: always()
         uses: actions/upload-artifact@v4
