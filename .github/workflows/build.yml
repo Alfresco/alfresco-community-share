@@ -359,13 +359,13 @@ jobs:
       - name: Generate Allure Report
         if: always()
         run: |
-          allure generate --clean alfresco-tas-share-test/target/allure-results -o alfresco-tas-share-test/target/allure-report || echo "Allure report generation failed"
+          allure generate --clean alfresco-tas-share-test/allure-results -o alfresco-tas-share-test/target/allure-report || echo "Allure report generation failed"
       - name: Upload Allure Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.test }}-allure-report
-          path: alfresco-tas-share-test/allure-report
+          path: alfresco-tas-share-test/allure-results
       - name: "Upload artifacts"
         if: always()
         uses: actions/upload-artifact@v4
