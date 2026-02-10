@@ -31,6 +31,7 @@ import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.EditUserPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UserProfileAdminToolsPage;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -379,7 +380,8 @@ public class SearchManagerTests extends BaseTest
 
 
     @TestRail (id = "C6308")
-    @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE })
+    @AlfrescoTest(jira = "XAT-9502")
+    @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE,ShareGroups.SHARE_PRIORITY_1 })
     public void verifyMinimumFilterLengthProperty() {
         //test skipped due to edge case where minimufilterlengthproperty does not work, but no bug was opened
         filterId = "filter_modifier";
@@ -435,7 +437,8 @@ public class SearchManagerTests extends BaseTest
     }
 
     @TestRail (id = "C6288")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE }, priority = 7)
+    @AlfrescoTest(jira = "XAT-9518")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE,ShareGroups.SHARE_PRIORITY_1 }, priority = 7)
     public void createNewSearchFilterWithoutSaving()
     {
         filterId = String.format("close-filter%s", RandomData.getRandomAlphanumeric());

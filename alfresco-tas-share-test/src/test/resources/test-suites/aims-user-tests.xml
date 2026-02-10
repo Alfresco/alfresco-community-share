@@ -11,9 +11,9 @@
          </run>
       </groups>
       <classes>
-         <class name="org.alfresco.share.LoginAIMSTests" />
+         <class name="org.alfresco.share.login.LoginAIMSTests" />
          <class name="org.alfresco.share.ShareLogoAndVersionsTests" />
-         <class name="org.alfresco.share.ToolbarTests" />
+         <class name="org.alfresco.share.toolBar.ToolbarTests" />
          <class name="org.alfresco.share.userProfile.UserProfileContentTests" />
          <class name="org.alfresco.share.userProfile.UserProfileSitesTests" />
       </classes>

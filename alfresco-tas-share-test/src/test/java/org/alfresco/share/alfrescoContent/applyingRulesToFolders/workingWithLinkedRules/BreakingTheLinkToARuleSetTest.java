@@ -4,6 +4,7 @@ import static org.alfresco.po.share.site.ItemActions.MANAGE_RULES;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.LinkedToRuleSetPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
@@ -23,6 +24,7 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 /**
  * @author Laura.Capsa
@@ -127,7 +129,8 @@ public class BreakingTheLinkToARuleSetTest extends AbstractFolderRuleTest
     }
 
     @TestRail (id = "C7332")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
+    @AlfrescoTest(jira = "XAT-9950")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION})
     public void shouldUnlinkTheRules()
     {
         log.info("STEP1: Click 'Unlink' button for the linked rule set");

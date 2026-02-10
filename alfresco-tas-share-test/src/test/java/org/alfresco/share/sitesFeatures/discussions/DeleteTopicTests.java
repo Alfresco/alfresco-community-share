@@ -19,6 +19,7 @@ import org.alfresco.po.share.site.discussion.TopicViewPage;
 
 import org.alfresco.share.BaseTest;
 
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 
 import org.alfresco.utility.model.SiteModel;
@@ -114,7 +115,8 @@ public class DeleteTopicTests extends BaseTest
     }
 
     @TestRail (id = "6246")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira = "XAT-8733")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES,ShareGroups.SHARE_PRIORITY_1 })
     public void deleteTopicFromTopicViewPage()
     {
         //precondition

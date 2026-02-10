@@ -15,6 +15,7 @@ import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.EventInformationDialogPage;
 import org.alfresco.share.BaseTest;
 
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -161,7 +162,8 @@ public class TimeZoneMonthViewTests extends BaseTest
 
 //    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5930")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests", ShareGroups.TOBEFIXED })
+    @AlfrescoTest(jira = "XAT-8627")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests", ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1 })
     public void multipleDaysEvent()
     {
         String currentEventName = "testEvent-C5930-" + random;

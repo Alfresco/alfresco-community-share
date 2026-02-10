@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Share Priority 1 Test Suite" parallel="classes" thread-count="3">
+    <listeners>
+        <listener class-name="org.alfresco.share.RetryListener"/>
+    </listeners>
+
+    <test name="Share Priority 1 Tests">
+        <groups>
+            <run>
+                <include name="SharePriority1"/>
+                <exclude name="bug"/>
+                <exclude name="tobefixed"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="org.alfresco.*"></package>
+        </packages>
+    </test>
+</suite>
