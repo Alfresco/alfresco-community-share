@@ -2,6 +2,7 @@ package org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASe
 
 import static org.alfresco.po.share.site.ItemActions.MANAGE_RULES;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.RuleDetailsPage;
@@ -17,6 +18,7 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 public class DeleteRuleTest extends AbstractFolderRuleTest
 {
@@ -54,7 +56,8 @@ public class DeleteRuleTest extends AbstractFolderRuleTest
     }
 
     @TestRail(id = "C7267")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
+    @AlfrescoTest(jira = "XAT-9931")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1})
     public void shouldDeleteExistingRule()
     {
         createFolderRule(user.get(), folderToCheck, "copy", ruleName, description, false, true,

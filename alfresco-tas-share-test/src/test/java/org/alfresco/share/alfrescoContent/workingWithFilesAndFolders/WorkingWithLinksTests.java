@@ -3,6 +3,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 import static org.alfresco.common.Utils.testDataFolder;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
@@ -12,6 +13,7 @@ import org.alfresco.po.share.alfrescoContent.organizingContent.CopyMoveUnzipToDi
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.testng.annotations.*;
@@ -118,7 +120,8 @@ public class WorkingWithLinksTests extends BaseTest
     }
 
     @TestRail (id = "C42625")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
+    @AlfrescoTest(jira = "XAT-10375")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1 })
     public void linkToFileRedirectsToDocDetailsPage()
     {
         log.info("From Document actions, click on [Copy to] option and Select a destination folder and click [Create Link] button");
@@ -155,6 +158,7 @@ public class WorkingWithLinksTests extends BaseTest
     }
 
     @TestRail (id = "C42626")
+    @AlfrescoTest(jira = "XAT-10376")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void linkToFolderRedirectsToFolderContentsPage()
     {
@@ -278,7 +282,8 @@ public class WorkingWithLinksTests extends BaseTest
     }
 
     @TestRail (id = "C42629")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10379")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT,ShareGroups.SHARE_PRIORITY_1 })
     public void verifyDisplayedActionsForLinkToFile()
     {
         log.info("Precondition: For a file click 'Copy to' option");
@@ -394,7 +399,8 @@ public class WorkingWithLinksTests extends BaseTest
     }
 
     @TestRail (id = "C42632")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10382")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void deleteLinkRemovesLink()
     {
         log.info("Precondition: For a file click 'Copy to' option");

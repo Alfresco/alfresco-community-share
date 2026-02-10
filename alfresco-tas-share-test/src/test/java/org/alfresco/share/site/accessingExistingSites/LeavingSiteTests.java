@@ -6,6 +6,7 @@ import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -13,6 +14,7 @@ import org.alfresco.po.share.site.accessingExistingSites.LeaveSiteDialog;
 import org.alfresco.po.share.user.UserDashboardPage;
 
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 
 import org.alfresco.utility.constants.UserRole;
@@ -78,7 +80,8 @@ public class LeavingSiteTests extends BaseTest
     }
 
     @TestRail (id = "C2926")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @AlfrescoTest(jira = "XAT-8537")
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void verifyLeaveSitePopup()
     {
         log.info("PreCondition2: Any site is created by "+user1);
@@ -171,7 +174,8 @@ public class LeavingSiteTests extends BaseTest
     }
 
     @TestRail (id = "C2928")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @AlfrescoTest(jira = "XAT-8539")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void leaveSiteUsingSiteFinder()
     {
         log.info("PreCondition2: Any site is created by "+user1);

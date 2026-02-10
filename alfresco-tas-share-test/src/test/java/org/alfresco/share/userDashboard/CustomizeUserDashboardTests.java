@@ -2,12 +2,14 @@ package org.alfresco.share.userDashboard;
 
 import static org.testng.Assert.assertTrue;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.enums.Layout;
 import org.alfresco.po.share.dashlet.Dashlets;
 import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
 import org.alfresco.po.share.dashlet.MyTasksDashlet;
 import org.alfresco.po.share.user.CustomizeUserDashboardPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
@@ -35,7 +37,8 @@ public class CustomizeUserDashboardTests extends BaseTest
     }
 
     @TestRail (id = "C2853")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8192")
+    @Test(groups = {TestGroup.SANITY, TestGroup.USER_DASHBOARD, ShareGroups.SHARE_PRIORITY_1})
     public void changeDefaultDashlets()
     {
         customizeUserDashboard.navigate()
@@ -57,7 +60,8 @@ public class CustomizeUserDashboardTests extends BaseTest
     }
 
     @TestRail (id = "C2855")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8193")
+    @Test(groups = {TestGroup.SANITY, TestGroup.USER_DASHBOARD, ShareGroups.SHARE_PRIORITY_1})
     public void changeDashboardLayout()
     {
         authenticateUsingCookies(user.get());

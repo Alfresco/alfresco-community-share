@@ -1,7 +1,9 @@
 package org.alfresco.share.adminTools.groups;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.GroupsPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.GroupModel;
@@ -35,7 +37,8 @@ public class SubgroupsTests extends BaseTest
     }
 
     @TestRail (id = "C9476")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @AlfrescoTest(jira = "XAT-12163")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS,ShareGroups.SHARE_PRIORITY_1 })
     public void createSubgroup()
     {
         GroupModel subGroup = new GroupModel(RandomData.getRandomAlphanumeric());

@@ -1,5 +1,6 @@
 package org.alfresco.share.alfrescoContent.buildingContent;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
@@ -9,6 +10,7 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.*;
+import org.alfresco.test.AlfrescoTest;
 
 public class OrganizingFoldersTests extends BaseTest
 {
@@ -29,7 +31,8 @@ public class OrganizingFoldersTests extends BaseTest
     }
 
     @TestRail (id = "C6276, C6277")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9653")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void createNewFolderUsingMenu()
     {
         String randomFolder = RandomData.getRandomFolder();
@@ -66,7 +69,8 @@ public class OrganizingFoldersTests extends BaseTest
     }
 
     @TestRail (id = "C6291")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9656")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void checkFolderStructure()
     {
         FolderModel parentFolder = FolderModel.getRandomFolderModel();

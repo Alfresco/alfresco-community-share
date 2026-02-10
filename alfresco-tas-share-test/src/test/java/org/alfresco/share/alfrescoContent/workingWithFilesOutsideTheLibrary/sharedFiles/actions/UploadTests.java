@@ -21,6 +21,8 @@ import org.alfresco.utility.report.Bug;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
+
 
 
 import java.util.Arrays;
@@ -75,7 +77,8 @@ public class UploadTests extends BaseTest
     }
 
     @TestRail (id = "C7939")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
+    @AlfrescoTest(jira = "XAT-10622")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1})
     public void uploadDocument()
     {
 
@@ -109,7 +112,8 @@ public class UploadTests extends BaseTest
 
     @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C7942")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT  })
+    @AlfrescoTest(jira = "XAT-10623")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1})
     public void updateDocumentNewVersion()
     {
         String testFilePath = testDataFolder + doc2;
@@ -167,7 +171,8 @@ public class UploadTests extends BaseTest
             }
 
     @TestRail (id = "C13756")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10624")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void optionNotDisplayed()
     {
         String testFilePath = testDataFolder + doc3;

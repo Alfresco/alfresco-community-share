@@ -5,8 +5,10 @@ import static org.alfresco.share.TestUtils.FILE_CONTENT;
 import static org.alfresco.utility.model.FileModel.getRandomFileModel;
 import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteSearchDashlet;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.*;
@@ -44,7 +46,8 @@ public class SiteSearchDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C2775")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8522")
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, ShareGroups.SHARE_PRIORITY_1})
     public void checkDisplaySpecificMessageWhenNoSearchResultsReturned()
     {
         siteDashboardPage.navigate(site.get());

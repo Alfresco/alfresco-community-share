@@ -18,6 +18,7 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 import java.util.Arrays;
 import java.util.List;
@@ -127,7 +128,8 @@ public class SharedFilesManageAspectsTests extends BaseTest
     }
 
     @TestRail (id = "C8034")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED })
+    @AlfrescoTest(jira = "AT-10714")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1 })
     public void manageAspectsApplyChanges()
     {
         log.info("Precondition: create folder in Shared folder from user ");
@@ -182,7 +184,8 @@ public class SharedFilesManageAspectsTests extends BaseTest
 
 
     @TestRail (id = "C13761")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10716")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1 })
     public void manageAspectsActionMissing()
     {
         log.info("Precondition: create folder in Shared folder from user2 ");

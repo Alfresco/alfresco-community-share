@@ -10,10 +10,12 @@ import static org.alfresco.po.share.site.SiteConfigurationOptions.LEAVE_SITE;
 import static org.alfresco.utility.constants.UserRole.SiteCollaborator;
 import static org.alfresco.utility.constants.UserRole.SiteManager;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.members.SiteUsersPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
@@ -45,7 +47,8 @@ public class BecomeSiteManagerTest extends BaseTest
     }
 
     @TestRail(id = "C2848")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8389")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void becomeSiteManagerActionShouldNotBeDisplayedForCollaboratorUser()
     {
         UserModel collaborator = dataUser.usingAdmin().createRandomTestUser();
@@ -61,7 +64,8 @@ public class BecomeSiteManagerTest extends BaseTest
     }
 
     @TestRail(id = "C2849")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8390")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void becomeSiteManagerActionShouldNotBeDisplayedWhenAdminIsSiteManager()
     {
         dataUser.usingUser(userModel.get())
@@ -78,7 +82,8 @@ public class BecomeSiteManagerTest extends BaseTest
     }
 
     @TestRail(id = "C2850")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8391")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldBecomeSiteManagerUsingSiteConfigurationIcon()
     {
         dataUser.usingUser(userModel.get())
@@ -114,7 +119,8 @@ public class BecomeSiteManagerTest extends BaseTest
     }
 
     @TestRail(id = "C2854")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8392")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldBecomeSiteManagerFromSitesManagerWhenAdminIsSiteMember()
     {
         dataUser.usingUser(userModel.get())
@@ -137,7 +143,8 @@ public class BecomeSiteManagerTest extends BaseTest
     }
 
     @TestRail(id = "C2856")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8393")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void becomeSiteManagerActionShouldBeDisplayedWhenAdminIsNotSiteMember()
     {
         authenticateUsingCookies(getAdminUser());

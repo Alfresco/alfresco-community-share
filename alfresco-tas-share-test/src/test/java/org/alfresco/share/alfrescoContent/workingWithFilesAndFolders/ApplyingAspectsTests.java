@@ -2,12 +2,14 @@ package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 
 import org.alfresco.share.BaseTest;
 
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 
 import org.alfresco.utility.model.*;
@@ -79,7 +81,8 @@ public class ApplyingAspectsTests extends BaseTest
     }
 
     @TestRail (id = "C7105")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10315")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void manageAspectsApplyChanges()
     {
         log.info("Preconditions: Navigate to Document Details page for the test file");

@@ -3,9 +3,11 @@ package org.alfresco.share.site.siteDashboard;
 import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import static org.alfresco.common.Utils.testDataFolder;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.dashlet.ImagePreviewDashlet;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.DataContent;
 import org.alfresco.utility.model.FileModel;
@@ -69,7 +71,8 @@ public class ImagePreviewDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5422")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8481")
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, ShareGroups.SHARE_PRIORITY_1})
     public void shouldDisplayUploadedImagesInImagePreviewDashlet()
     {
         imageToUploadWithJpgExtension = new File(testDataFolder.concat(NEW_AVATAR_IMAGE.concat(JPG)));
@@ -102,7 +105,8 @@ public class ImagePreviewDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5421")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8480")
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, ShareGroups.SHARE_PRIORITY_1})
     public void shouldDisplayUploadedImageInDocumentDetailsPage()
     {
         siteDashboardPage.navigate(site.get());

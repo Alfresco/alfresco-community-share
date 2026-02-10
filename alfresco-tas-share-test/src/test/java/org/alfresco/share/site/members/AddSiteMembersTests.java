@@ -5,9 +5,11 @@ import static org.alfresco.po.enums.GroupRoles.CONSUMER;
 import static org.alfresco.po.enums.GroupRoles.CONTRIBUTOR;
 import static org.alfresco.po.enums.GroupRoles.MANAGER;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.site.members.AddSiteUsersPage;
 import org.alfresco.po.share.site.members.SiteMembersPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
@@ -47,7 +49,8 @@ public class AddSiteMembersTests extends BaseTest
     }
 
     @TestRail (id = "C2824")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8336")
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldDisplayEmptyMessagesForUserPanels()
     {
         addSiteUsersPage
@@ -60,7 +63,8 @@ public class AddSiteMembersTests extends BaseTest
 
     // Should be enabled after acs release 7.0.0
     @TestRail (id = "C3114")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES }, enabled = false)
+    @AlfrescoTest(jira = "XAT-8337")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1 }, enabled = false)
     public void shouldOpenNewBrowserTabWhenClickSeeMore()
     {
         addSiteUsersPage
@@ -74,7 +78,8 @@ public class AddSiteMembersTests extends BaseTest
     }
 
     @TestRail (id = "C2409")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8338")
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldAddManagerMemberToSite()
     {
         UserModel user = dataUser.usingAdmin().createRandomTestUser();
@@ -104,7 +109,8 @@ public class AddSiteMembersTests extends BaseTest
     }
 
     @TestRail (id = "C2410")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8339")
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldAddCollaboratorMemberToSite()
     {
         UserModel user = dataUser.usingAdmin().createRandomTestUser();
@@ -134,7 +140,8 @@ public class AddSiteMembersTests extends BaseTest
     }
 
     @TestRail (id = "C2411")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8341")
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldAddConsumerMemberToSite()
     {
         UserModel user = dataUser.usingAdmin().createRandomTestUser();
@@ -164,7 +171,8 @@ public class AddSiteMembersTests extends BaseTest
     }
 
     @TestRail (id = "C2412")
-    @Test (groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8340")
+    @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldAddContributorMemberToSite()
     {
         UserModel user = dataUser.usingAdmin().createRandomTestUser();

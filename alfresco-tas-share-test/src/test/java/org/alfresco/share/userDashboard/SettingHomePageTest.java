@@ -1,10 +1,12 @@
 package org.alfresco.share.userDashboard;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.PeopleFinderPage;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.profile.UserProfilePage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
@@ -47,7 +49,8 @@ public class SettingHomePageTest extends BaseTest
     }
 
     @TestRail (id = "C2859")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @AlfrescoTest(jira="XAT-8196")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, ShareGroups.SHARE_PRIORITY_1})
     public void useMyDashboard()
     {
         sharedFilesPage.navigate();
@@ -56,7 +59,7 @@ public class SettingHomePageTest extends BaseTest
         sharedFilesPage.assertSharedFilesPageIsOpened();
         toolbar.clickUserMenu().clickSetDashBoardAsHome();
         toolbar.clickHome();
-        
+
         userDashboardPage.assertUserDashboardPageIsOpened();
     }
 

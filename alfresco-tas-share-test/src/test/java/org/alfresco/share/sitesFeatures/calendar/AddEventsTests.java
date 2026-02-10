@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.Notification;
@@ -16,6 +17,7 @@ import org.alfresco.po.share.site.calendar.AddEventDialogPage;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
@@ -101,7 +103,8 @@ public class AddEventsTests extends BaseTest
     }
 
     @TestRail (id = "C3086")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira = "XAT-8573")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     public void verifyAddEventForm()
     {
         today = new DateTime();

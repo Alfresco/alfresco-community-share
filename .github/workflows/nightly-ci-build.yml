@@ -1,14 +1,8 @@
-name: alfresco_enterprise_share
+name: alfresco_enterprise_share_regression_ci
 
 on:
-  push:
-    branches:
-      - "fix/**"
-      - "feature/**"
-  pull_request:
-    branches:
-      - master
-      - "release/**"
+  schedule:
+    - cron: '30 15 * * *'
   workflow_call:
   workflow_dispatch:
     inputs:
@@ -352,7 +346,7 @@ jobs:
           retry_wait_seconds: 60
           retry_on: error
           warning_on_retry: true
-          command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml" -Dgroups=SharePriority1 -DexcludedGroups=bug,tobefixed
+          command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml" -DexcludedGroups=bug
       - name: "Upload artifacts"
         if: always()
         uses: actions/upload-artifact@v4
@@ -472,7 +466,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test: [communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration]
+        test: [communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration, wormTestSuite]
     env:
       S3_BUCKET_PREFIX: ${{ vars.S3_BUCKET_PREFIX }}
       S3_BUCKET_NAME: ${{ vars.S3_BUCKET_PREFIX }}-${{ github.run_number }}
@@ -492,16 +486,16 @@ jobs:
           python-version: 3.x
       - name: Install google chrome version
         run: |
-            sudo apt-get purge google-chrome-stable
-            sudo apt-get autoremove
-            rm -rf ~/.config/google-chrome
-            rm -rf ~/.cache/google-chrome
-            wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_132.0.6834.159-1_amd64.deb
-            sudo apt-get install libu2f-udev
-            sudo dpkg -i google-chrome-stable_132.0.6834.159-1_amd64.deb
-            sudo apt-mark hold google-chrome-stable
-            google-chrome --version
-            sudo apt-mark showhold | grep google-chrome-stable
+          sudo apt-get purge google-chrome-stable
+          sudo apt-get autoremove
+          rm -rf ~/.config/google-chrome
+          rm -rf ~/.cache/google-chrome
+          wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_132.0.6834.159-1_amd64.deb
+          sudo apt-get install libu2f-udev
+          sudo dpkg -i google-chrome-stable_132.0.6834.159-1_amd64.deb
+          sudo apt-mark hold google-chrome-stable
+          google-chrome --version
+          sudo apt-mark showhold | grep google-chrome-stable
 
       - name: "Init"
         run: bash scripts/ci/init.sh
@@ -548,7 +542,7 @@ jobs:
           retry_wait_seconds: 60
           retry_on: error
           warning_on_retry: true
-          command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dgroups=sanity -DexcludedGroups=needsAttention -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
+          command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -569,11 +563,11 @@ jobs:
     name: Publish Test Results
     runs-on: ubuntu-latest
     needs:
-      - unit_tests
-      - ags_unit_tests
+      #      - unit_tests
+      #      - ags_unit_tests
       - test
       #     - community_shared_UI_configuration
-      - enterprise_shared_UI_configuration
+      #      - enterprise_shared_UI_configuration
     if: always()
     steps:
       - uses: actions/checkout@v4

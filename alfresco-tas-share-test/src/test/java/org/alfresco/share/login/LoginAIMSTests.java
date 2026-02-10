@@ -1,7 +1,8 @@
-package org.alfresco.share;
+package org.alfresco.share.login;
 
 import org.alfresco.po.share.LoginAimsPage;
 import org.alfresco.po.share.toolbar.Toolbar;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
