@@ -45,6 +45,8 @@ env:
   GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
   GITHUB_ACTIONS_DEPLOY_TIMEOUT: 120
   SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
+  CHROME_VERSION: "132.0.6834.159-1"
+  CHROME_DOWNLOAD_URL: "https://mirror.vitalinux.educa.aragon.es/google/pool/main/g/google-chrome-stable"
 
 jobs:
   lint:
@@ -496,13 +498,12 @@ jobs:
             sudo apt-get autoremove
             rm -rf ~/.config/google-chrome
             rm -rf ~/.cache/google-chrome
-            wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_132.0.6834.159-1_amd64.deb
+            wget ${{ env.CHROME_DOWNLOAD_URL }}/google-chrome-stable_${{ env.CHROME_VERSION }}_amd64.deb
             sudo apt-get install libu2f-udev
-            sudo dpkg -i google-chrome-stable_132.0.6834.159-1_amd64.deb
+            sudo dpkg -i google-chrome-stable_${{ env.CHROME_VERSION }}_amd64.deb
             sudo apt-mark hold google-chrome-stable
             google-chrome --version
             sudo apt-mark showhold | grep google-chrome-stable
-
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Prepare before Test"
@@ -577,11 +578,6 @@ jobs:
     if: always()
     steps:
       - uses: actions/checkout@v4
-      #      - name: Download test artifacts
-      #        uses: actions/download-artifact@v4
-      #        with:
-      #          name: ${{ matrix.test }}-tests
-      #          path: ./artifacts
       - name: Download all test artifacts
         uses: actions/download-artifact@v4
         with:
@@ -591,11 +587,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         with:
           files: "artifacts/**/surefire-reports/TEST-*.xml"
-      #      - uses: actions/checkout@v4
-      #      - name: Publish Test Results
-      #        uses: EnricoMi/publish-unit-test-result-action@v2
-      #        with:
-      #          files: "**/target/surefire-reports/*.xml"
+
       - name: Clean S3 buckets
         if: ${{ always() && matrix.test == 'wormTestSuite'}}
         run: scripts/ci/cleanup.sh
