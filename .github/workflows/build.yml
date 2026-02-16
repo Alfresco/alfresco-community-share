@@ -591,8 +591,7 @@ jobs:
       - name: Merge Allure Results
         run: |
           mkdir -p merged-allure-results
-          find ./artifacts -type f -name "*.json" -exec cp {} merged-allure-results/ \;
-          find ./artifacts -type f -name "*.txt" -exec cp {} merged-allure-results/ \;
+          find ./artifacts -type d -name "allure-results" | while read d; do cp -r "$d"/* merged-allure-results/; done
 
       - name: Install Allure CLI
         run: sudo npm install -g allure-commandline
