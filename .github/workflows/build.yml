@@ -326,7 +326,7 @@ jobs:
           python-version: 3.x
       - name: "Init"
         run: bash scripts/ci/init.sh
-      - name:  "Prepare before Test"
+      - name: "Prepare before Test"
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - name: Download Docker images
@@ -359,18 +359,15 @@ jobs:
           ls -R alfresco-tas-share-test
           echo "Searching for allure-results directories..."
           find alfresco-tas-share-test -type d -name "allure-results"
-
           echo ""
           echo "Listing contents of any allure-results folders:"
           for d in $(find alfresco-tas-share-test -type d -name "allure-results"); do
           echo "---- $d ----"
           ls -la "$d"
           done
-
           echo ""
           echo "Checking target directory structure:"
           ls -la alfresco-tas-share-test/target || echo "No target directory found"
-
       - name: Upload Allure Results
         if: always()
         uses: actions/upload-artifact@v4
@@ -406,7 +403,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test: [communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests]
+        test: [ communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests ]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -496,7 +493,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test: [communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration, wormTestSuite]
+        test: [ communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration, wormTestSuite ]
     env:
       S3_BUCKET_PREFIX: ${{ vars.S3_BUCKET_PREFIX }}
       S3_BUCKET_NAME: ${{ vars.S3_BUCKET_PREFIX }}-${{ github.run_number }}
@@ -516,16 +513,16 @@ jobs:
           python-version: 3.x
       - name: Install google chrome version
         run: |
-            sudo apt-get purge google-chrome-stable
-            sudo apt-get autoremove
-            rm -rf ~/.config/google-chrome
-            rm -rf ~/.cache/google-chrome
-            wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_132.0.6834.159-1_amd64.deb
-            sudo apt-get install libu2f-udev
-            sudo dpkg -i google-chrome-stable_132.0.6834.159-1_amd64.deb
-            sudo apt-mark hold google-chrome-stable
-            google-chrome --version
-            sudo apt-mark showhold | grep google-chrome-stable
+          sudo apt-get purge google-chrome-stable
+          sudo apt-get autoremove
+          rm -rf ~/.config/google-chrome
+          rm -rf ~/.cache/google-chrome
+          wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_132.0.6834.159-1_amd64.deb
+          sudo apt-get install libu2f-udev
+          sudo dpkg -i google-chrome-stable_132.0.6834.159-1_amd64.deb
+          sudo apt-mark hold google-chrome-stable
+          google-chrome --version
+          sudo apt-mark showhold | grep google-chrome-stable
 
       - name: "Init"
         run: bash scripts/ci/init.sh
@@ -658,4 +655,3 @@ jobs:
         with:
           name: test-summary-html
           path: test-summary.html
-
