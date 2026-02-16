@@ -353,18 +353,11 @@ jobs:
           retry_on: error
           warning_on_retry: true
           command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml" -Dgroups=testonly -DexcludedGroups=bug,tobefixed
-      - name: Install Allure CLI
-        run: |
-          sudo npm install -g allure-commandline --save-dev
-      - name: Generate Allure Report
-        if: always()
-        run: |
-          allure generate --clean alfresco-tas-share-test/allure-results -o alfresco-tas-share-test/target/allure-report || echo "Allure report generation failed"
-      - name: Upload Allure Report
+      - name: Upload Allure Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.test }}-allure-report
+          name: allure-results-${{ matrix.test }}
           path: alfresco-tas-share-test/allure-results
       - name: "Upload artifacts"
         if: always()
@@ -590,33 +583,24 @@ jobs:
     if: always()
     steps:
       - uses: actions/checkout@v4
-      #      - name: Download test artifacts
-      #        uses: actions/download-artifact@v4
-      #        with:
-      #          name: ${{ matrix.test }}-tests
-      #          path: ./artifacts
-
-      - name: Upload Allure Results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-allure-results
-          path: alfresco-tas-share-test/target/allure-results
-      - name: Download all test artifacts
+      - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: ./artifacts
-      - name: Find and merge all Allure results
+
+      - name: Merge Allure Results
         run: |
           mkdir -p merged-allure-results
-          find ./artifacts -type d -name allure-results | while read d; do cp -r "$d"/* merged-allure-results/; done
+          find ./artifacts -type f -name "*.json" -exec cp {} merged-allure-results/ \;
+          find ./artifacts -type f -name "*.txt" -exec cp {} merged-allure-results/ \;
+
       - name: Install Allure CLI
-        run: |
-          sudo npm install -g allure-commandline --save-dev
-      - name: Generate Combined Allure Report
-        run: |
-          allure generate --clean merged-allure-results -o merged-allure-report || echo "Allure report generation failed"
-      - name: Upload Combined Allure Report
+        run: sudo npm install -g allure-commandline
+
+      - name: Generate Report
+        run: allure generate merged-allure-results -o merged-allure-report --clean
+
+      - name: Upload Final Report
         uses: actions/upload-artifact@v4
         with:
           name: combined-allure-report
@@ -625,11 +609,6 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         with:
           files: "artifacts/**/surefire-reports/TEST-*.xml"
-      #      - uses: actions/checkout@v4
-      #      - name: Publish Test Results
-      #        uses: EnricoMi/publish-unit-test-result-action@v2
-      #        with:
-      #          files: "**/target/surefire-reports/*.xml"
       - name: Clean S3 buckets
         if: ${{ always() && matrix.test == 'wormTestSuite'}}
         run: scripts/ci/cleanup.sh
