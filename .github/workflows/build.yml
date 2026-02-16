@@ -401,7 +401,7 @@ jobs:
       - name: Tag Docker image
         run: |
           docker images
-          docker image tag alfresco/alfresco-governance-repository-enterprise-base:$(docker images | grep '^alfresco/alfresco-governance-repository-enterprise-base ' | head -1 | awk '{print $2}') alfresco/alfresco-governance-repository-enterprise-base:latest
+          docker image tag alfresco/alfresco-governance-repository-enterprise-base:$(docker images --format "{{.Repository}}:{{.Tag}}" | grep '^alfresco/alfresco-governance-repository-enterprise-base:' | head -1 | cut -d: -f2) alfresco/alfresco-governance-repository-enterprise-base:latest
           docker images
       - name: Start Alfresco
         if: env.S3_BUCKET_PREFIX != ''
