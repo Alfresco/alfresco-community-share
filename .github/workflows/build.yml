@@ -377,7 +377,7 @@ jobs:
             sudo apt-get autoremove
             rm -rf ~/.config/google-chrome
             rm -rf ~/.cache/google-chrome
-            wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_132.0.6834.159-1_amd64.deb
+            wget https://mirror.vitalinux.educa.aragon.es/google/pool/main/g/google-chrome-stable/google-chrome-stable_132.0.6834.159-1_amd64.deb
             sudo apt-get install libu2f-udev
             sudo dpkg -i google-chrome-stable_132.0.6834.159-1_amd64.deb
             google-chrome --version
