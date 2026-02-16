@@ -353,6 +353,24 @@ jobs:
           retry_on: error
           warning_on_retry: true
           command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml" -Dgroups=testonly -DexcludedGroups=bug,tobefixed
+      - name: Debug Allure Output
+        run: |
+          echo "Listing allure results:"
+          ls -R alfresco-tas-share-test
+          echo "Searching for allure-results directories..."
+          find alfresco-tas-share-test -type d -name "allure-results"
+
+          echo ""
+          echo "Listing contents of any allure-results folders:"
+          for d in $(find alfresco-tas-share-test -type d -name "allure-results"); do
+          echo "---- $d ----"
+          ls -la "$d"
+          done
+
+          echo ""
+          echo "Checking target directory structure:"
+          ls -la alfresco-tas-share-test/target || echo "No target directory found"
+
       - name: Upload Allure Results
         if: always()
         uses: actions/upload-artifact@v4
@@ -571,54 +589,73 @@ jobs:
         run: bash amps/ags/ci/scripts/getLogs.sh
 
   publish_test_results:
-
     name: Publish Test Results
     runs-on: ubuntu-latest
     needs:
-      #      - unit_tests
-      #      - ags_unit_tests
       - test
-      #     - community_shared_UI_configuration
-      #      - enterprise_shared_UI_configuration
     if: always()
+
     steps:
       - uses: actions/checkout@v4
+
+      # Download all artifacts from test jobs
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: ./artifacts
 
+      # Merge all allure-results folders
       - name: Merge Allure Results
         run: |
           mkdir -p merged-allure-results
-          find ./artifacts -type d -name "allure-results" | while read d; do cp -r "$d"/* merged-allure-results/; done
 
+          for dir in $(find ./artifacts -type d -name "allure-results"); do
+            echo "Merging from $dir"
+            rsync -av "$dir"/ merged-allure-results/
+          done
+
+          echo "Merged file count:"
+          find merged-allure-results -name "*.json" | wc -l
+
+      # Install exact matching CLI version
       - name: Install Allure CLI
-        run: sudo npm install -g allure-commandline
+        run: |
+          npm install -g allure-commandline@2.32.0
+          allure --version
 
+      # Generate merged report
       - name: Generate Report
-        run: allure generate merged-allure-results -o merged-allure-report --clean
+        run: |
+          allure generate merged-allure-results \
+            -o merged-allure-report \
+            --clean
 
+          echo "Generated report structure:"
+          ls -R merged-allure-report
+
+      # Upload final report
       - name: Upload Final Report
         uses: actions/upload-artifact@v4
         with:
           name: combined-allure-report
           path: merged-allure-report
+
+      # Publish Surefire summary
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         with:
           files: "artifacts/**/surefire-reports/TEST-*.xml"
-      - name: Clean S3 buckets
-        if: ${{ always() && matrix.test == 'wormTestSuite'}}
-        run: scripts/ci/cleanup.sh
+
+      # Summary
       - name: Summarize Test Results
-        run: |
-          python3 scripts/ci/summarize_test_results.py
+        run: python3 scripts/ci/summarize_test_results.py
+
       - name: Publish Markdown Summary
-        run: |
-          cat test-summary.md >> $GITHUB_STEP_SUMMARY
+        run: cat test-summary.md >> $GITHUB_STEP_SUMMARY
+
       - name: Upload HTML Test Summary
         uses: actions/upload-artifact@v4
         with:
           name: test-summary-html
           path: test-summary.html
+
