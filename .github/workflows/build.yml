@@ -606,12 +606,15 @@ jobs:
         run: |
           mkdir -p merged-allure-results
 
-          for dir in $(find ./artifacts -type d -name "allure-results"); do
+          echo "Artifacts root:"
+          ls -la ./artifacts
+
+          for dir in ./artifacts/allure-results-*; do
             echo "Merging from $dir"
             rsync -av "$dir"/ merged-allure-results/
           done
 
-          echo "Merged file count:"
+          echo "Merged JSON count:"
           find merged-allure-results -name "*.json" | wc -l
 
       # Install exact matching CLI version
