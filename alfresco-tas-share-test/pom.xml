@@ -249,9 +249,15 @@
                <forkCount>2</forkCount>
                <reuseForks>true</reuseForks>
                <reportNameSuffix>${suite-name}</reportNameSuffix>
-              <suiteXmlFiles>
+               <suiteXmlFiles>
                   <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                </suiteXmlFiles>
+               <properties>
+                 <property>
+                   <name>listener</name>
+                   <value>io.qameta.allure.testng.AllureTestNg</value>
+                 </property>
+               </properties>
             </configuration>
          </plugin>
 
