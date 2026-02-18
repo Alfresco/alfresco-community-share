@@ -368,6 +368,12 @@
             <artifactId>jakarta.annotation-api</artifactId>
             <version>${dependency.jakarta-annotation-api.version}</version>
           </dependency>
+          <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>2.32.0</version>
+            <scope>test</scope>
+          </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -604,6 +610,12 @@
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <configuration>
+                        <properties>
+                            <property>
+                                <name>listener</name>
+                                <value>io.qameta.allure.testng.AllureTestNg</value>
+                            </property>
+                        </properties>
                         <!-- To prevent tests alfresco.log to be created in project roots -->
                         <workingDirectory>${project.build.directory}</workingDirectory>
                         <systemPropertyVariables>

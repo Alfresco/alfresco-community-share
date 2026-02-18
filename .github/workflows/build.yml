@@ -286,7 +286,7 @@ jobs:
         run: bash scripts/ci/init.sh
       - name: "Build"
         run: bash scripts/ci/build.sh
-      - name: Run ${{ matrix.testModule }} Unit Tests
+      - name: Run AGS Unit Tests
         uses: nick-fields/retry@v2
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
@@ -294,10 +294,9 @@ jobs:
           retry_wait_seconds: 60
           retry_on: error
           warning_on_retry: true
-          command: mvn -B test -Pags -pl :${{ matrix.testModule }} -DfailIfNoTests=false
+          command: mvn -B test -pl ${{ matrix.testModule }} -DfailIfNoTests=false
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
-
 
   test:
     runs-on: ubuntu-latest
@@ -361,22 +360,12 @@ jobs:
           ls -R alfresco-tas-share-test
           echo "Searching for allure-results directories..."
           find alfresco-tas-share-test -type d -name "allure-results"
-          echo ""
-          echo "Listing contents of any allure-results folders:"
-          for d in $(find alfresco-tas-share-test -type d -name "allure-results"); do
-          echo "---- $d ----"
-          ls -la "$d"
-          done
-          echo ""
-          echo "Checking target directory structure:"
-          ls -la alfresco-tas-share-test/target || echo "No target directory found"
       - name: Upload Allure Results
-        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results-${{ matrix.test }}
+          name: allure-results-test-${{ matrix.test }}
           path: alfresco-tas-share-test/target/allure-results
-      - name: "Upload artifacts"
+      - name: Upload artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -461,7 +450,14 @@ jobs:
           retry_on: error
           warning_on_retry: true
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
+      - name: Upload Allure Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-community_shared_ui_configuration-${{ matrix.test }}
+          path: amps/ags/rm-automation/rm-automation-ui/target/allure-results
       - name: Upload artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ags/community/${GITHUB_RUN_NUMBER}/${JOB_NAME}
@@ -473,7 +469,7 @@ jobs:
             solr.log
             share.log
       - name: Get logs
-        run: bash amps/ags/scripts/getLogs.sh
+        run: bash amps/ags/ci/scripts/getLogs.sh
 
   enterprise_shared_UI_configuration:
     runs-on: ubuntu-latest
@@ -571,6 +567,12 @@ jobs:
           retry_on: error
           warning_on_retry: true
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dgroups=sanity -DexcludedGroups=needsAttention -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
+      - name: Upload Allure Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-enterprise_shared_ui_configuration-${{ matrix.test }}
+          path: amps/ags/rm-automation/rm-automation-ui/target/allure-results
       - name: Upload artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -606,21 +608,28 @@ jobs:
         with:
           path: ./artifacts
 
-      # Merge all allure-results folders
-      - name: Merge Allure Results
+      # Merge Allure Results for each suite
+      - name: Merge Allure Results for Share
         run: |
-          mkdir -p merged-allure-results
-
-          echo "Artifacts root:"
-          ls -la ./artifacts
-
-          for dir in ./artifacts/allure-results-*; do
+          mkdir -p merged-allure-results-share
+          for dir in ./artifacts/allure-results-test-*; do
             echo "Merging from $dir"
-            rsync -av "$dir"/ merged-allure-results/
+            rsync -av "$dir"/ merged-allure-results-share/
           done
-
-          echo "Merged JSON count:"
-          find merged-allure-results -name "*.json" | wc -l
+      - name: Merge Allure Results for Enterprise Shared UI Config
+        run: |
+          mkdir -p merged-allure-results-enterprise
+          for dir in ./artifacts/allure-results-enterprise_shared_ui_configuration-*; do
+            echo "Merging from $dir"
+            rsync -av "$dir"/ merged-allure-results-enterprise/
+          done
+#      - name: Merge Allure Results for Community Shared UI Config
+#        run: |
+#          mkdir -p merged-allure-results-community
+#          for dir in ./artifacts/allure-results-community_shared_ui_configuration-*; do
+#            echo "Merging from $dir"
+#            rsync -av "$dir"/ merged-allure-results-community/
+#          done
 
       # Install exact matching CLI version
       - name: Install Allure CLI
@@ -628,28 +637,35 @@ jobs:
           npm install -g allure-commandline@2.32.0
           allure --version
 
-      # Generate merged report
-      - name: Generate Report
+      # Generate and upload reports for each suite
+      - name: Generate Share Allure Report
         run: |
-          allure generate merged-allure-results \
-            -o merged-allure-report \
-            --clean
-
-          echo "Generated report structure:"
-          ls -R merged-allure-report
-
-      # Upload final report
-      - name: Upload Final Report
+          allure generate merged-allure-results-share -o merged-allure-report-share --clean
+      - name: Upload Share Allure Report
         uses: actions/upload-artifact@v4
         with:
-          name: combined-allure-report
-          path: merged-allure-report
+          name: allure-report-share
+          path: merged-allure-report-share
 
-      # Publish Surefire summary
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
+      - name: Generate Enterprise Shared UI Config Allure Report
+        run: |
+          allure generate merged-allure-results-enterprise -o merged-allure-report-enterprise --clean
+      - name: Upload Enterprise Shared UI Config Allure Report
+        uses: actions/upload-artifact@v4
         with:
-          files: "artifacts/**/surefire-reports/TEST-*.xml"
+          name: allure-report-enterprise_shared_ui_configuration
+          path: merged-allure-report-enterprise
+
+#      - name: Generate Community Shared UI Config Allure Report
+#        run: |
+#          allure generate merged-allure-results-community -o merged-allure-report-community --clean
+#      - name: Upload Community Shared UI Config Allure Report
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: allure-report-community_shared_ui_configuration
+#          path: merged-allure-report-community
+
+      # (Optional) Add summary table generation for each suite here
 
       # Summary
       - name: Summarize Test Results
