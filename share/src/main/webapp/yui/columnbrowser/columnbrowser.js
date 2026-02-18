@@ -21,7 +21,7 @@
  */
 
 /**
- * Copyright (C) 2005-2013 Alfresco Software Limited.
+ * Copyright (C) 2005-2026 Alfresco Software Limited.
  *
  * This file is part of Alfresco
  *
@@ -100,7 +100,7 @@ YAHOO.namespace('extension');
     * @static
     */
    WidgetName = "ColumnBrowser";
-   
+
    /**
     * The internal table of ColumnBrowser instances.
     * @private
@@ -436,7 +436,7 @@ YAHOO.namespace('extension');
          /**
           * @attribute columnInfoBuilder
           * @description Must  be provided by the user of this component to take a custom data response and
-          * use that information to create a columnInfo object. 
+          * use that information to create a columnInfo object.
           * @default null
           * @type Object - A callback object {fn, scope, obj}
           */
@@ -503,7 +503,7 @@ YAHOO.namespace('extension');
          /**
           * @attribute url
           * @description The url to the root column
-          * follow scrolling in the ColumnBrowser.          
+          * follow scrolling in the ColumnBrowser.
           * @type String
           */
          columnBrowser.setAttributeConfig("url", {
@@ -528,7 +528,7 @@ YAHOO.namespace('extension');
 
       },
 
-      /**                                           
+      /**
        * Initialize and bind the event handlers.
        *
        * @method initEvents
@@ -537,7 +537,7 @@ YAHOO.namespace('extension');
       initEvents: function () {
           var columnBrowser = this,
               cssClass = columnBrowser.CLASSES;
-          
+
       },
 
       /**
@@ -764,6 +764,7 @@ YAHOO.namespace('extension');
                // Yes it did, scroll it
                this._carousel.scrollForward();
                this._isMoving = true;
+               this._resetMovingFlagIfStuck();
             } else {
                if (columnIndex >= 0) {
                   // todo set focus to newly created pane
@@ -813,7 +814,7 @@ YAHOO.namespace('extension');
             if(columnInfo.header.label) {
                // Create label
                var span = document.createElement('span');
-               Dom.addClass(buttons, "yui-columnbrowser-column-header-label");
+               Dom.addClass(span, "yui-columnbrowser-column-header-label");
                span.appendChild(document.createTextNode(columnInfo.header.label.text));
                header.appendChild(span);
             }
@@ -1028,7 +1029,7 @@ YAHOO.namespace('extension');
 
          // Highlight the item
          this._highlight(target);
-         
+
          // Decide how to display the child column items to this the item
          if (next) {
             // The column to th right has already been loaded form the server, use that information
@@ -1058,7 +1059,7 @@ YAHOO.namespace('extension');
       /**
        * Remove columns from the right to this index
        *
-       * @param columnIndex       
+       * @param columnIndex
        */
       _removeColumns: function(columnIndex) {
          // Remove from the carousel
@@ -1122,6 +1123,22 @@ YAHOO.namespace('extension');
        */
       _animationCompleteHandler: function(type, args, me) {
          this._isMoving = false;
+      },
+
+      /**
+       * This method acts as a safety fallback when the YUI Carousel "afterScroll" event does not fire at deeper levels,
+       * leaving _isMoving stuck as true. This prevents further navigation because click handling depends on that flag.
+       */
+      _resetMovingFlagIfStuck: function()
+      {
+         var me = this;
+         setTimeout(function()
+         {
+            if (me._isMoving)
+            {
+               me._isMoving = false;
+            }
+         }, 500);
       },
 
       /**
@@ -1403,7 +1420,7 @@ YAHOO.namespace('extension');
             copy.push(val[i]);
          }
          this._urlPath = copy;
-         this._urlPathUnPaginated = []; // unpaginated url path is now stale, when load() is called it will be populated.  
+         this._urlPathUnPaginated = []; // unpaginated url path is now stale, when load() is called it will be populated.
          return val;
       }
 
@@ -1440,7 +1457,7 @@ YAHOO.namespace('extension');
          // Listen for ColumnNav events
          var me = this;
          this.columnBrowser.on("itemSelect", function (itemInfo)
-         {            
+         {
             if (itemInfo)
             {
                me._addBreadCrumbItem(itemInfo.label, itemInfo.columnIndex, itemInfo.cssClass);
@@ -1485,10 +1502,10 @@ YAHOO.namespace('extension');
             for(var i = 0; i < items.length; i++)
             {
                Dom.removeClass(items[i], "yui-columnbrowser-breadcrumb-item-last");
-   
+
             }
             Dom.addClass(item, "yui-columnbrowser-breadcrumb-item-last");
-   
+
             var text = document.createElement("span");
             text.appendChild(document.createTextNode(label));
             YAHOO.util.Event.addListener(text, "click", this._onBreadCrumbClick, { columnIndex: columnIndex }, this);
@@ -1499,18 +1516,18 @@ YAHOO.namespace('extension');
                Dom.addClass(this, "yui-columnbrowser-breadcrumb-item-text-active");
             });
             // Remove css classes on mouseout
-            YAHOO.util.Event.addListener(text, "mouseout", function()         
+            YAHOO.util.Event.addListener(text, "mouseout", function()
             {
                Dom.removeClass(this, "yui-columnbrowser-breadcrumb-item-text-active");
             });
-   
+
             item.appendChild(text);
-   
+
             var separator = document.createElement("span");
             separator.appendChild(document.createTextNode(this.separator));
             Dom.addClass(separator, "yui-columnbrowser-breadcrumb-item-separator");
             item.appendChild(separator);
-   
+
             this.breadcrumbsEl.appendChild(item);
          }
       },
