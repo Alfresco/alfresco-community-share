@@ -400,7 +400,7 @@ public class WorkingWithLinksTests extends BaseTest
 
     @TestRail (id = "C42632")
     @AlfrescoTest(jira = "XAT-10382")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1, "testonly" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void deleteLinkRemovesLink()
     {
         log.info("Precondition: For a file click 'Copy to' option");
