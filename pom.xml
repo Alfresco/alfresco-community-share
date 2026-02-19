@@ -102,7 +102,6 @@
         <docker.quay-expires.value>1w</docker.quay-expires.value>
         <dependency.log4j.version>2.25.3</dependency.log4j.version>
         <allure.testng.version>2.32.0</allure.testng.version>
-        <testng.version>7.9.0</testng.version>
     </properties>
 
     <scm>
@@ -370,18 +369,6 @@
             <artifactId>jakarta.annotation-api</artifactId>
             <version>${dependency.jakarta-annotation-api.version}</version>
           </dependency>
-          <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-testng</artifactId>
-            <version>${allure.testng.version}</version>
-            <scope>test</scope>
-          </dependency>
-          <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
-            <scope>test</scope>
-          </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -618,12 +605,6 @@
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <configuration>
-                        <properties>
-                            <property>
-                                <name>listener</name>
-                                <value>io.qameta.allure.testng.AllureTestNg</value>
-                            </property>
-                        </properties>
                         <!-- To prevent tests alfresco.log to be created in project roots -->
                         <workingDirectory>${project.build.directory}</workingDirectory>
                         <systemPropertyVariables>

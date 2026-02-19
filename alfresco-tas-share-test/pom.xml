@@ -202,12 +202,6 @@
            <version>${allure.testng.version}</version>
            <scope>test</scope>
        </dependency>
-       <dependency>
-           <groupId>org.testng</groupId>
-           <artifactId>testng</artifactId>
-           <version>${testng.version}</version>
-           <scope>test</scope>
-       </dependency>
    </dependencies>
 
    <build>
@@ -250,6 +244,12 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <version>3.1.2</version>
             <configuration>
+                  <properties>
+                      <property>
+                          <name>listener</name>
+                          <value>io.qameta.allure.testng.AllureTestNg</value>
+                      </property>
+                  </properties>
                <redirectTestOutputToFile>false</redirectTestOutputToFile>
                <forkCount>2</forkCount>
                <reuseForks>true</reuseForks>
