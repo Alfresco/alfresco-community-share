@@ -55,12 +55,6 @@
          <artifactId>bcel</artifactId>
          <scope>provided</scope>
       </dependency>
-      <dependency>
-         <groupId>io.qameta.allure</groupId>
-         <artifactId>allure-testng</artifactId>
-         <version>${allure.testng.version}</version>
-         <scope>test</scope>
-      </dependency>
    </dependencies>
 
    <build>
@@ -102,12 +96,6 @@
          <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-               <properties>
-                  <property>
-                     <name>listener</name>
-                     <value>io.qameta.allure.testng.AllureTestNg</value>
-                  </property>
-               </properties>
                <includes>
                   <include>**/*UnitTest.java</include>
                </includes>
