@@ -1,13 +1,6 @@
 package org.alfresco.po.share.alfrescoContent;
 
-import static org.alfresco.common.Wait.WAIT_1;
-import static org.alfresco.common.Wait.WAIT_5;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
 import lombok.extern.slf4j.Slf4j;
-import org.alfresco.po.share.MyFilesPage;
-import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
@@ -19,6 +12,11 @@ import org.openqa.selenium.WebElement;
 
 import java.text.MessageFormat;
 import java.util.List;
+
+import static org.alfresco.common.Wait.WAIT_1;
+import static org.alfresco.common.Wait.WAIT_5;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 @Slf4j
 public class RepositoryPage extends DocumentLibraryPage implements AccessibleByMenuBar
 {
@@ -111,7 +109,7 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
             throw new TimeoutException(
                 "The action " + action.getActionName() + " could not be found for list item " + contentItem + " Selector: " + actionSelector);
         }
-        mouseOver(actionElement);
+//        mouseOver(actionElement);
         clickElement(actionElement);
         return this;
     }

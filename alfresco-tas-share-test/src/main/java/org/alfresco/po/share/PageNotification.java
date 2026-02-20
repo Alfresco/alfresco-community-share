@@ -1,6 +1,6 @@
 package org.alfresco.po.share;
+
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.alfresco.utility.web.HtmlPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

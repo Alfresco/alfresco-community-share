@@ -1,30 +1,23 @@
 package org.alfresco.po.adminconsole.directories;
 
-import static org.alfresco.utility.report.log.Step.STEP;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.common.Utils;
+import org.alfresco.po.Table;
 import org.alfresco.po.adminconsole.AdminConsolePage;
-import org.alfresco.po.adminconsole.directories.DirectoryManagement.AuthenticationChain;
-import org.alfresco.po.adminconsole.directories.DirectoryManagement.AuthenticationTestDialog;
-import org.alfresco.po.adminconsole.directories.DirectoryManagement.EditDirectoryDialog;
-import org.alfresco.po.adminconsole.directories.DirectoryManagement.SyncUserDirectoriesDialog;
-import org.alfresco.po.adminconsole.directories.DirectoryManagement.SyncUserDirectoryTestDialog;
-import org.alfresco.po.adminconsole.directories.DirectoryManagement.SynchronizationSettingsDialog;
-import org.alfresco.po.adminconsole.directories.DirectoryManagement.SynchronizationStatus;
+import org.alfresco.po.adminconsole.directories.DirectoryManagement.*;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.Select;
-import ru.yandex.qatools.htmlelements.element.Table;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.alfresco.utility.report.log.Step.STEP;
 
 @PageObject
 public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChain>
@@ -59,7 +52,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
     Select browserBasedAutomaticLogin;
 
     @FindBy (css = "input[value='Add']")
-    Button addButton;
+    WebElement addButton;
 
     @FindBy (css = ".column-full>p>b")
     WebElement syncStatusMessage;

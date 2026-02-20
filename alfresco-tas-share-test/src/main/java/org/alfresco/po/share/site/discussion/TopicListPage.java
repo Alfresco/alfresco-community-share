@@ -9,13 +9,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.Link;
 
 public class TopicListPage extends SiteCommon<TopicListPage>
 {
     @FindBy (css = "div.new-topic button[id$='default-create-button-button']")
-    private Button newTopicButton;
+    private WebElement newTopicButton;
     private final By tagsList = By.cssSelector("ul[id$='discussions-topiclist_x0023_default-tags'] .tag>a");
     private final By listTitle = By.className("listTitle");
     private final By newTopics = By.cssSelector("ul.filterLink .new>a");
