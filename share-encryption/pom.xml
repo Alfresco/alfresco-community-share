@@ -24,7 +24,9 @@
             <artifactId>jasypt</artifactId>
             <version>1.9.3</version>
         </dependency>
+      
     </dependencies>
+  
     <build>
         <plugins>
             <!-- Build a local jar, even if empty, to please maven-shade-plugin -->
