@@ -263,12 +263,6 @@
           <artifactId>guava</artifactId>
           <version>32.0.1-jre</version>
         </dependency>
-        <dependency>
-          <groupId>io.qameta.allure</groupId>
-          <artifactId>allure-testng</artifactId>
-          <version>${allure.testng.version}</version>
-          <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -330,14 +324,6 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
-                      <configuration>
-                          <properties>
-                            <property>
-                              <name>listener</name>
-                              <value>io.qameta.allure.testng.AllureTestNg</value>
-                            </property>
-                          </properties>
-                      </configuration>
                         <executions>
                             <execution>
                                 <id>integration-tests</id>
