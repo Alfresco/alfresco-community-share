@@ -687,8 +687,12 @@ jobs:
       - name: Add Allure Report Instructions to Summary
         if: always()
         run: |
-          echo "## 📊 Allure Final Report" >> $GITHUB_STEP_SUMMARY
+          echo "## 📊 Allure Reports" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Please download the final merged report from the **\"Upload Final Report\"** step in the **publish_test_results** job." >> $GITHUB_STEP_SUMMARY
+          echo "The Allure HTML reports are uploaded as workflow artifacts by the following steps in this job:" >> $GITHUB_STEP_SUMMARY
+          echo "- **Upload Share Allure Report** (artifact: \`allure-report-share\`)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Upload Enterprise Shared UI Config Allure Report** (artifact: \`allure-report-enterprise_shared_ui_configuration\`)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "You can download these artifacts from the **Artifacts** section of this workflow run." >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "🔗 [Open Workflow Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
