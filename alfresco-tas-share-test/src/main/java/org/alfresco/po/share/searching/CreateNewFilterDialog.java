@@ -1,12 +1,12 @@
 package org.alfresco.po.share.searching;
 
-import java.util.List;
-
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.BaseDialogComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 @Slf4j
 public class CreateNewFilterDialog extends BaseDialogComponent
@@ -18,7 +18,7 @@ public class CreateNewFilterDialog extends BaseDialogComponent
     private final By editIcon            = By.xpath("//img[@title=\"Edit the current entry\"]");
     private final By selectedSiteDetails = By.className("read-display");
     private final By sitesDropDownArrow  = By.xpath("(//input[@type=\"text\"])[35]");
-    private final By sitesNameDropdown   = By.className("dijitReset dijitMenuItemLabel");
+    private final By sitesNameDropdown = By.cssSelector(".dijitReset.dijitMenuItemLabel");
     private final By dropButton = By.xpath("(//input[@class=\"dijitReset dijitInputField dijitArrowButtonInner\"])[4]");
     private final By dropdown            = By.xpath("//td[@class=\"dijitReset dijitMenuItemLabel\"]");
 

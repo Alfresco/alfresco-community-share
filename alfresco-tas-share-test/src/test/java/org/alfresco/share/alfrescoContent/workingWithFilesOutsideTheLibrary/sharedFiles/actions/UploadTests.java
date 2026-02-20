@@ -105,9 +105,6 @@ public class UploadTests extends BaseTest
             .navigate();
         repositoryPage.select_ItemsAction(doc1, ItemActions.DELETE_DOCUMENT)
             .clickOnDeleteButtonOnDeletePrompt();
-
-
-
     }
 
     @Bug (id = "MNT-18059", status = Bug.Status.FIXED)

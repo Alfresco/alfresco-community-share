@@ -5,7 +5,7 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.Select;
+import org.openqa.selenium.support.ui.Select;
 
 /**
  * Created by Mirela Tifui on 11/24/2017.

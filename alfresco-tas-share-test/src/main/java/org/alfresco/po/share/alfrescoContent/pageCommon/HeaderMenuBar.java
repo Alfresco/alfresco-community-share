@@ -1,9 +1,6 @@
 package org.alfresco.po.share.alfrescoContent.pageCommon;
 
-import java.util.List;
-
 import lombok.extern.slf4j.Slf4j;
-import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
-import static org.testng.Assert.assertEquals;
+import java.util.List;
+
 import static org.testng.Assert.assertTrue;
 
 @Slf4j
@@ -56,6 +54,7 @@ public class HeaderMenuBar extends SiteCommon<HeaderMenuBar>
     public HeaderMenuBar clickSelectMenu()
     {
        clickElement(select_menu);
+       waitInSeconds(1);
        return this;
 
     }

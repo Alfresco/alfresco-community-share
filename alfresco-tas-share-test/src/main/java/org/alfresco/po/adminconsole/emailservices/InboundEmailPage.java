@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-import ru.yandex.qatools.htmlelements.element.Link;
 
 @PageObject
 public class InboundEmailPage extends AdminConsolePage<InboundEmailPage>
@@ -39,13 +38,13 @@ public class InboundEmailPage extends AdminConsolePage<InboundEmailPage>
     @FindBy (name = "tls-support")
     WebElement tlsSupport;
     @FindBy (css = "input[type=submit]")
-    Link saveButton;
+    WebElement saveButton;
     @FindBy (className = "cancel")
-    Link cancelButton;
+    WebElement cancelButton;
     @FindBy (className = "message")
     WebElement message;
     @FindBy (css = ".message>a")
-    Link xButton;
+    WebElement xButton;
 
     @Override
     protected String relativePathToURL()

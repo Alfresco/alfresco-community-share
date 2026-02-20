@@ -7,8 +7,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.context.annotation.Primary;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.TextInput;
 
 /**
  * @author Laura.Capsa
@@ -20,7 +18,7 @@ public class EditSiteDetailsDialog extends ShareDialog
     @FindBy (css = "[class*='Close']")
     protected WebElement closeCreateSitePopup;
     @FindBy (css = "div[id='EDIT_SITE_FIELD_TITLE'] input[class$='InputInner']")
-    private TextInput nameInput;
+    private WebElement nameInput;
     @FindBy (css = "div[id='EDIT_SITE_FIELD_TITLE'] label.label")
     private WebElement nameLabel;
     @FindBy (css = "div[id='EDIT_SITE_FIELD_DESCRIPTION'] textarea")
@@ -45,9 +43,9 @@ public class EditSiteDetailsDialog extends ShareDialog
     private WebElement editSiteDetailsDialog;
     @RenderWebElement
     @FindBy (css = "span[id='EDIT_SITE_DIALOG_OK_label']")
-    private Button saveButton;
+    private WebElement saveButton;
     @FindBy (css = "span[id='EDIT_SITE_DIALOG_CANCEL_label']")
-    private Button cancelButton;
+    private WebElement cancelButton;
 
     public void typeDetails(String title, String description)
     {

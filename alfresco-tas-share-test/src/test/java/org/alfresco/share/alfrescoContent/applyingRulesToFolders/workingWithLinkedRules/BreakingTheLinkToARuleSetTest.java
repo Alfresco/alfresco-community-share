@@ -1,10 +1,6 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithLinkedRules;
 
-import static org.alfresco.po.share.site.ItemActions.MANAGE_RULES;
-
 import lombok.extern.slf4j.Slf4j;
-
-import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.LinkedToRuleSetPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
@@ -12,19 +8,18 @@ import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.RuleDetailsP
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.alfrescoContent.applyingRulesToFolders.AbstractFolderRuleTest;
-
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
-
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.alfresco.test.AlfrescoTest;
+
+import static org.alfresco.po.share.site.ItemActions.MANAGE_RULES;
 
 /**
  * @author Laura.Capsa
@@ -130,7 +125,7 @@ public class BreakingTheLinkToARuleSetTest extends AbstractFolderRuleTest
 
     @TestRail (id = "C7332")
     @AlfrescoTest(jira = "XAT-9950")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION})
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
     public void shouldUnlinkTheRules()
     {
         log.info("STEP1: Click 'Unlink' button for the linked rule set");

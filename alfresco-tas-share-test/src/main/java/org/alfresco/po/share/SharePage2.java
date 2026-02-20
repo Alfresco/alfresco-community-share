@@ -21,6 +21,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.web.util.UriUtils;
+import java.time.Duration;
 
 @Slf4j
 public abstract class SharePage2<T> extends BasePage
@@ -126,7 +127,7 @@ public abstract class SharePage2<T> extends BasePage
 
     public T assertBrowserPageTitleIs(String expectedTitle)
     {
-        assertTrue(new WebDriverWait(webDriver.get(), defaultProperties.getExplicitWait())
+        assertTrue(new WebDriverWait(webDriver.get(), Duration.ofSeconds(defaultProperties.getExplicitWait()))
             .until(ExpectedConditions.titleIs(expectedTitle)), "Page title is correct");
         return (T) this;
     }

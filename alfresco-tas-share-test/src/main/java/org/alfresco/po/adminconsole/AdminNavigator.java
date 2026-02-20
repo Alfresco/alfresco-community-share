@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.context.ApplicationContext;
-import ru.yandex.qatools.htmlelements.element.Link;
 
 @PageObject
 public class AdminNavigator extends HtmlPage implements Navigator
@@ -15,17 +14,17 @@ public class AdminNavigator extends HtmlPage implements Navigator
     public static final String TenantConsole = "Tenant Console";
     @RenderWebElement
     @FindBy (linkText = "System Summary")
-    Link systemSymmary;
+    WebElement systemSymmary;
     @RenderWebElement
     @FindBy (linkText = "Model and Messages Console")
-    Link modelAndMessagesConsole;
+    WebElement modelAndMessagesConsole;
     @FindBy (className = "selected")
     WebElement selected;
 
     @Override
-    public Link getActiveLink()
+    public WebElement getActiveLink()
     {
-        return new Link(selected);
+        return selected;
     }
 
     @SuppressWarnings ("rawtypes")

@@ -6,8 +6,6 @@ import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.Link;
 
 @PageObject
 public class LicensePage extends AdminConsolePage<LicensePage>
@@ -18,12 +16,12 @@ public class LicensePage extends AdminConsolePage<LicensePage>
     WebElement intro;
     @RenderWebElement
     @FindBy (id = "upload-license")
-    Button uploadLicenseButton;
+    WebElement uploadLicenseButton;
     @RenderWebElement
     @FindBy (id = "apply-new-license")
-    Button applyNewLicenseButton;
+    WebElement applyNewLicenseButton;
     @FindBy (css = ".info>a")
-    Link uploadingNewLicense;
+    WebElement uploadingNewLicense;
     @Autowired
     private UploadNewLicenseDialog uploadNewLicenseDialog;
     @Autowired

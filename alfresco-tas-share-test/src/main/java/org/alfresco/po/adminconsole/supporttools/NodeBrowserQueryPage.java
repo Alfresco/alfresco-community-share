@@ -1,23 +1,21 @@
 package org.alfresco.po.adminconsole.supporttools;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import org.alfresco.po.Table;
 import org.alfresco.po.adminconsole.AdminConsolePage;
 import org.alfresco.po.adminconsole.supporttools.Node.NodeChild;
 import org.alfresco.po.adminconsole.supporttools.Node.NodeProperty;
-import org.alfresco.utility.exception.TestConfigurationException;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.asserts.SoftAssert;
-import ru.yandex.qatools.htmlelements.element.Select;
-import ru.yandex.qatools.htmlelements.element.Table;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @PageObject
 public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
@@ -221,29 +219,6 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
             softAssert.assertFalse(aspectsDisplayed.indexOf(aspect) == -1, String.format("[%s] is not displayed in Aspects table", aspect));
         }
         softAssert.assertAll();
-    }
-
-    public void assertNodeInformationIs(String nodeInformationName, String expectedNodeInformationValue) throws TestConfigurationException
-    {
-        ArrayList<String> actualNodeInformationName = new ArrayList<String>();
-        actualNodeInformationName.add("Reference");
-        actualNodeInformationName.add("Primary Path");
-        actualNodeInformationName.add("Type");
-        actualNodeInformationName.add("Parent");
-
-        int nodeRowID = actualNodeInformationName.indexOf(nodeInformationName);
-        if (nodeRowID < 0)
-        {
-            throw new TestConfigurationException("you did not define all Node Information values in your page object.");
-        }
-        /*
-            0 index based table
-            Reference	workspace://SpacesStore/8178a5e1-ad63-40f3-b7ac-a68c1195c3cc
-           if nodeRowID = 0 it will return Reference so we need the second column i.e. with index 1 (workspace://SpacesStore/8178a5e1-ad63-40f3-b7ac-a68c1195c3cc)
-         */
-        String actualNodeInformationValue = nodeInformationTable.getCellAt(nodeRowID, 1).getText();
-
-        Assert.assertEquals(actualNodeInformationValue, expectedNodeInformationValue, "Node Information ");
     }
 
     public enum Encryption

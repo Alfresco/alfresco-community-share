@@ -16,6 +16,7 @@ import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.FileType;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.JavascriptExecutor;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -98,12 +99,11 @@ public class TagTests extends BaseTest
         documentLibraryPage.usingContent(fileToCheck)
             .assertTagIsDisplayed(tagC8062);
         log.info(" Delete File");
+        repositoryPage.clickCheckBox(fileToCheck.getName());
         repositoryPage
             .select_ItemsAction(fileToCheck.getName(), ItemActions.DELETE_DOCUMENT)
             .clickOnDeleteButtonOnDeletePrompt();
-
     }
-
 
     @TestRail (id = "C8063")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
@@ -137,6 +137,7 @@ public class TagTests extends BaseTest
         documentLibraryPage.usingContent(folderToCheck)
             .assertTagIsDisplayed(tagC8063);
         log.info(" Delete Folder");
+        repositoryPage.clickCheckBox(folderToCheck.getName());
         repositoryPage
             .select_ItemsAction(folderToCheck.getName(), ItemActions.DELETE_DOCUMENT)
             .clickOnDeleteButtonOnDeletePrompt();
@@ -220,6 +221,7 @@ public class TagTests extends BaseTest
             .assertTagIsNotDisplayed(originalTag);
 
         log.info(" Delete File");
+        repositoryPage.clickCheckBox(fileToCheck.getName());
         repositoryPage
             .select_ItemsAction(fileToCheck.getName(), ItemActions.DELETE_DOCUMENT)
             .clickOnDeleteButtonOnDeletePrompt();
@@ -261,10 +263,10 @@ public class TagTests extends BaseTest
         repositoryPage
             .assertIsNoTagsTextDisplayed(fileToCheck.getName());
         log.info(" Delete File");
+        repositoryPage.clickCheckBox(fileToCheck.getName());
         repositoryPage
             .select_ItemsAction(fileToCheck.getName(), ItemActions.DELETE_DOCUMENT)
             .clickOnDeleteButtonOnDeletePrompt();
-
     }
 
     @TestRail (id = "C8096")
@@ -315,6 +317,7 @@ public class TagTests extends BaseTest
             .assertTagIsDisplayed(anothertagC8096)
             .assertTagIsNotDisplayed(tagC8096);
         log.info(" Delete File");
+        repositoryPage.clickCheckBox(fileToCheck.getName());
         repositoryPage
             .select_ItemsAction(fileToCheck.getName(), ItemActions.DELETE_DOCUMENT)
             .clickOnDeleteButtonOnDeletePrompt();

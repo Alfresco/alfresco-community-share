@@ -1,22 +1,6 @@
 package org.alfresco.po.share.site;
 
-import static org.alfresco.common.RetryTime.RETRY_TIME_80;
-import static org.alfresco.common.Utils.retryUntil;
-import static org.alfresco.common.Wait.WAIT_3;
-import static org.alfresco.common.Wait.WAIT_5;
-import static org.alfresco.common.Wait.WAIT_1;
-import static org.alfresco.common.Wait.WAIT_2;
-import static org.alfresco.utility.Utility.waitToLoopTime;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 import com.google.common.base.Function;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Utils;
@@ -41,6 +25,24 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
+
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
+import static org.alfresco.common.Utils.retryUntil;
+import static org.alfresco.common.Wait.WAIT_1;
+import static org.alfresco.common.Wait.WAIT_2;
+import static org.alfresco.common.Wait.WAIT_3;
+import static org.alfresco.common.Wait.WAIT_5;
+import static org.alfresco.utility.Utility.waitToLoopTime;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 @Slf4j
 public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO to be deleted
@@ -1587,6 +1589,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     }
 
     public DocumentLibraryPage clickNameRenameIcon(String contentName) {
+        setWaitingTime(2,500);
         mouseOverContentRow(contentName);
         WebElement renameIconElement = selectDocumentLibraryItemRow(contentName).findElement(renameIconInList);
         renameIconElement.click();
@@ -1603,7 +1606,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
 
     public DocumentLibraryPage clickFolderNameOnTableView(String folderName) {
         waitInSeconds(3);
-        By contentRowElement = By.xpath(String.format(contentNameInTableRow, folderName));
+        By contentRowElement = By.xpath(String.format(contentNameInRow, folderName));
         WebElement folderElement = selectDocumentLibraryItemRow(folderName);
         clickElement(folderElement.findElement(contentRowElement));
         return this;

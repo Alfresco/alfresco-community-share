@@ -1,11 +1,6 @@
 package org.alfresco.share.sitesFeatures.Links;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.extern.slf4j.Slf4j;
-
-import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
@@ -14,7 +9,6 @@ import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.link.LinkPage;
 import org.alfresco.share.BaseTest;
-import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
@@ -25,6 +19,9 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author iulia.cojocea
@@ -80,9 +77,8 @@ public class AccessingLinkTests extends BaseTest
         deleteUsersIfNotNull(user1.get());
     }
 
-    @AlfrescoTest(jira = "XAT-9301")
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "singlePipelineFailure" })
     @TestRail(id = "C6250")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "singlePipelineFailure", ShareGroups.SHARE_PRIORITY_1 })
     public void accessingTheSiteLinks()
     {
         String newLinksPageName = "newLinks";

@@ -1,12 +1,11 @@
 package org.alfresco.po.adminconsole.consoles;
-
+import org.alfresco.po.Table;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.Table;
 
 /**
  * Created by Mirela Tifui on 11/1/2017.

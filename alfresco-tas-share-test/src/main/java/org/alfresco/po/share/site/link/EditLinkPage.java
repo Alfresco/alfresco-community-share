@@ -1,7 +1,5 @@
 package org.alfresco.po.share.site.link;
 
-import java.util.List;
-
 import org.alfresco.po.share.site.SiteCommon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,9 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.Link;
-import ru.yandex.qatools.htmlelements.element.TextInput;
+
+import java.util.List;
+
 
 public class EditLinkPage extends SiteCommon<EditLinkPage>
 {
@@ -23,16 +21,16 @@ public class EditLinkPage extends SiteCommon<EditLinkPage>
     private By cancelButton = By.cssSelector("[id*=default-cancel-button]");
 
     @FindBy (css = "[id*=default-tag-input-field]")
-    private TextInput linkTag;
+    private WebElement linkTag;
 
     @FindBy (css = "[id*=default-add-tag-button-button]")
-    private Button addTagButton;
+    private WebElement addTagButton;
 
     @FindAll (@FindBy (css = "ul[id$='links-linkedit_x0023_default-current-tags'] .taglibrary-action>span"))
     private List<WebElement> currentTagList;
 
     @FindBy (css = "[id*=default-load-popular-tags-link]")
-    private Link popularTagsLink;
+    private WebElement popularTagsLink;
 
     private final By removeTag = By.cssSelector("span.remove");
     private final By tagsList = By.cssSelector("li.onRemoveTag a");

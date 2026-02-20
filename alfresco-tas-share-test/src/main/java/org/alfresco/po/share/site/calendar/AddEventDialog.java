@@ -1,7 +1,5 @@
 package org.alfresco.po.share.site.calendar;
 
-import java.util.List;
-
 import org.alfresco.po.share.ShareDialog;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
@@ -13,7 +11,8 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
-import ru.yandex.qatools.htmlelements.element.TextInput;
+
+import java.util.List;
 
 /**
  * Created by Claudia Agache on 7/11/2016.
@@ -36,13 +35,13 @@ public class AddEventDialog extends ShareDialog
 
     @RenderWebElement
     @FindBy (id = "eventEditPanel-title")
-    private TextInput eventTitle;
+    private WebElement eventTitle;
 
     @FindBy (css = "label[for='eventEditPanel-location']")
     private WebElement eventLocationLabel;
 
     @FindBy (id = "eventEditPanel-location")
-    private TextInput eventLocation;
+    private WebElement eventLocation;
 
     @FindBy (css = "label[for='eventEditPanel-description']")
     private WebElement eventDescriptionLabel;
@@ -141,7 +140,7 @@ public class AddEventDialog extends ShareDialog
      */
     public boolean isEventTitleDisplayedAndMandatory()
     {
-        return eventTitle.getWrappedElement().getAttribute("class").contains("mandatory") && eventTitleLabel.getText().equals("What:");
+        return eventTitle.getAttribute("class").contains("mandatory") && eventTitleLabel.getText().equals("What:");
     }
 
     /**
@@ -435,7 +434,7 @@ public class AddEventDialog extends ShareDialog
      */
     public boolean isEventTitleInvalid()
     {
-        return eventTitle.getWrappedElement().getAttribute("Class").contains("invalid");
+        return eventTitle.getAttribute("Class").contains("invalid");
     }
 
     /**
