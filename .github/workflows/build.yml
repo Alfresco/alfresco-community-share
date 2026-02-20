@@ -573,6 +573,7 @@ jobs:
         with:
           name: allure-results-enterprise_shared_ui_configuration-${{ matrix.test }}
           path: amps/ags/rm-automation/rm-automation-ui/target/allure-results
+          if-no-files-found: warn
       - name: Upload artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -613,15 +614,23 @@ jobs:
         run: |
           mkdir -p merged-allure-results-share
           for dir in ./artifacts/allure-results-test-*; do
-            echo "Merging from $dir"
-            rsync -av "$dir"/ merged-allure-results-share/
+            if [ -d "$dir" ]; then
+              echo "Merging from $dir"
+              rsync -av "$dir"/ merged-allure-results-share/
+            else
+              echo "No matching Share Allure results directory found for pattern: $dir"
+            fi
           done
       - name: Merge Allure Results for Enterprise Shared UI Config
         run: |
           mkdir -p merged-allure-results-enterprise
           for dir in ./artifacts/allure-results-enterprise_shared_ui_configuration-*; do
-            echo "Merging from $dir"
-            rsync -av "$dir"/ merged-allure-results-enterprise/
+            if [ -d "$dir" ]; then
+              echo "Merging from $dir"
+              rsync -av "$dir"/ merged-allure-results-enterprise/
+            else
+              echo "No matching Enterprise Shared UI Config Allure results directory found for pattern: $dir"
+            fi
           done
 #      - name: Merge Allure Results for Community Shared UI Config
 #        run: |
