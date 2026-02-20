@@ -1,4 +1,3 @@
-import os
 import glob
 import xml.etree.ElementTree as ET
 
@@ -11,7 +10,8 @@ summary = {
     'failed': 0,
     'skipped': 0,
     'flaky': 0,
-    'failures': []
+    'failures': [],
+    'warnings': []
 }
 
 def get_testcase_url(xml_path, testcase):
@@ -19,27 +19,30 @@ def get_testcase_url(xml_path, testcase):
     return f"{xml_path}#L1"
 
 for xml_file in xml_files:
-    tree = ET.parse(xml_file)
-    root = tree.getroot()
-    for testcase in root.findall('.//testcase'):
-        summary['total'] += 1
-        skipped = testcase.find('skipped') is not None
-        failure = testcase.find('failure') is not None or testcase.find('error') is not None
-        flaky = testcase.attrib.get('flaky') == 'true'
-        if skipped:
-            summary['skipped'] += 1
-        elif failure:
-            summary['failed'] += 1
-            summary['failures'].append({
-                'name': testcase.attrib.get('name'),
-                'classname': testcase.attrib.get('classname'),
-                'file': xml_file,
-                'url': get_testcase_url(xml_file, testcase)
-            })
-        elif flaky:
-            summary['flaky'] += 1
-        else:
-            summary['passed'] += 1
+    try:
+        tree = ET.parse(xml_file)
+        root = tree.getroot()
+        for testcase in root.findall('.//testcase'):
+            summary['total'] += 1
+            skipped = testcase.find('skipped') is not None
+            failure = testcase.find('failure') is not None or testcase.find('error') is not None
+            flaky = testcase.attrib.get('flaky') == 'true'
+            if skipped:
+                summary['skipped'] += 1
+            elif failure:
+                summary['failed'] += 1
+                summary['failures'].append({
+                    'name': testcase.attrib.get('name'),
+                    'classname': testcase.attrib.get('classname'),
+                    'file': xml_file,
+                    'url': get_testcase_url(xml_file, testcase)
+                })
+            elif flaky:
+                summary['flaky'] += 1
+            else:
+                summary['passed'] += 1
+    except (ET.ParseError, FileNotFoundError) as e:
+        summary['warnings'].append(f"Warning: Could not parse {xml_file}: {e}")
 
 # Markdown summary
 table = [
@@ -53,6 +56,11 @@ if summary['failures']:
     for fail in summary['failures']:
         # The URL is a placeholder; update if you have a real link
         table.append(f"- [{fail['classname']}.{fail['name']}]({fail['url']})")
+
+if summary['warnings']:
+    table.append('\n**Warnings:**')
+    for warning in summary['warnings']:
+        table.append(f'- {warning}')
 
 with open('test-summary.md', 'w', encoding='utf-8') as f:
     f.write('\n'.join(table))
@@ -71,8 +79,12 @@ if summary['failures']:
     for fail in summary['failures']:
         table_html += f"<li><a href='{fail['url']}'>{fail['classname']}.{fail['name']}</a></li>"
     table_html += '</ul>'
+if summary['warnings']:
+    table_html += '<h3>Warnings</h3><ul>'
+    for warning in summary['warnings']:
+        table_html += f'<li>{warning}</li>'
+    table_html += '</ul>'
 table_html += '</body></html>'
 
 with open('test-summary.html', 'w', encoding='utf-8') as f:
     f.write(table_html)
-
