@@ -365,6 +365,7 @@ jobs:
         with:
           name: allure-results-test-${{ matrix.test }}
           path: alfresco-tas-share-test/target/allure-results
+          if-no-files-found: warn
       - name: Upload artifacts
         if: always()
         uses: actions/upload-artifact@v4
