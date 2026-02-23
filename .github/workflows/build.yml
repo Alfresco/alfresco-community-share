@@ -254,7 +254,7 @@ jobs:
           retry_wait_seconds: 60
           retry_on: error
           warning_on_retry: true
-          command: mvn -B test -pl ${{ matrix.testModule }} -DfailIfNoTests=false
+          command: mvn -B test -Pags -pl :${{ matrix.testModule }} -DfailIfNoTests=false
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
 
