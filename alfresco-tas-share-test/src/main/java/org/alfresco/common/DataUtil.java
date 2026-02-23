@@ -1,5 +1,8 @@
 package org.alfresco.common;
 
+import org.alfresco.utility.web.common.Parameter;
+import org.openqa.selenium.WebElement;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -9,9 +12,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import org.alfresco.utility.web.common.Parameter;
-import org.openqa.selenium.WebElement;
 
 /**
  * Utility class for generating input data for tests

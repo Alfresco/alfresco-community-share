@@ -32,7 +32,7 @@ public class UploadNewLicenseDialog extends AdminConsoleDialog
     {
         if (env.getProperty("grid.enabled").equals("true"))
         {
-            ((RemoteWebDriver) (browser.getWrappedDriver())).setFileDetector(new LocalFileDetector());
+            ((RemoteWebDriver) (browser.getDriver())).setFileDetector(new LocalFileDetector());
         }
         browser.switchTo().frame(dialogFrame);
         browser.waitUntilElementIsPresent(fileField).sendKeys(filePath);

@@ -11,6 +11,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+
 
 /**
  * @author iulia.burca
@@ -48,7 +50,7 @@ public class DocumentTransformationEnginePage extends HtmlPage {
 
         for (int i = 0; i < numberOfRowsPerPage; i++) {
 
-            WebDriverWait wait = new WebDriverWait(driver, 30);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(String.format(fileNameColumn, i))));
 
             if (driver.findElement(By.cssSelector(String.format(fileNameColumn, i))).getText().equals(uploadedFile)

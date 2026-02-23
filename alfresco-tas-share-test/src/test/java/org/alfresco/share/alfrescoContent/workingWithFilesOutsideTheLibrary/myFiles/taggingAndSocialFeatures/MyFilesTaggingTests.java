@@ -1,7 +1,5 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.taggingAndSocialFeatures;
 
-import static org.testng.Assert.*;
-
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
@@ -10,21 +8,20 @@ import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategor
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
-
 import org.alfresco.share.BaseTest;
-
 import org.alfresco.testrail.TestRail;
 import org.alfresco.test.AlfrescoTest;
 
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.*;
-
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
 import java.util.Collections;
+
+import static org.testng.Assert.assertEquals;
 
 @Slf4j
 public class MyFilesTaggingTests extends BaseTest
@@ -275,7 +272,14 @@ public class MyFilesTaggingTests extends BaseTest
             .assertCheckAddedTagsList(tagName.toLowerCase(), fileToCheck.getName());
 
         myFilesPage.navigate();
+
         log.info("STEP1: Hover over the tag(s) from the content");
+        try {
+            Thread.sleep(Duration.ofSeconds(2));
+        }
+        catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         myFilesPage
             .mouseOverTags(fileToCheck.getName());
         myFilesPage
