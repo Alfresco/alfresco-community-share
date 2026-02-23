@@ -254,7 +254,7 @@ jobs:
           retry_wait_seconds: 60
           retry_on: error
           warning_on_retry: true
-          command: mvn -B test -Pags -pl :${{ matrix.testModule }} -DfailIfNoTests=false
+          command: mvn -B test -pl ${{ matrix.testModule }} -DfailIfNoTests=false
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
 
@@ -286,7 +286,7 @@ jobs:
         run: bash scripts/ci/init.sh
       - name: "Build"
         run: bash scripts/ci/build.sh
-      - name: Run AGS Unit Tests
+      - name: Run ${{ matrix.testModule }} Unit Tests
         uses: nick-fields/retry@v2
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
@@ -294,7 +294,7 @@ jobs:
           retry_wait_seconds: 60
           retry_on: error
           warning_on_retry: true
-          command: mvn -B test -pl ${{ matrix.testModule }} -DfailIfNoTests=false
+          command: mvn -B test -Pags -pl :${{ matrix.testModule }} -DfailIfNoTests=false
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
 
