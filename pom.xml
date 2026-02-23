@@ -22,8 +22,6 @@
         <module>packaging</module>
         <module>amps</module>
         <module>alfresco-tas-share-test</module>
-        <module>amps/ags/rm-community/rm-community-share</module>
-        <module>amps/ags/rm-enterprise/rm-enterprise-share</module>
     </modules>
 
     <properties>
