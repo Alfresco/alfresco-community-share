@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 /**
  * Replication Job Form component.
- * 
+ *
  * @namespace Alfresco
  * @class Alfresco.component.ReplicationJob
  */
@@ -39,7 +39,7 @@
 
    /**
     * ReplicationJob constructor.
-    * 
+    *
     * @param htmlId {String} The HTML id of the parent element
     * @return {Alfresco.component.ReplicationJob} The new ReplicationJob instance
     * @constructor
@@ -49,7 +49,7 @@
       Alfresco.component.ReplicationJob.superclass.constructor.call(this, "Alfresco.component.ReplicationJob", htmlId, ["button", "menu", "container", "json"]);
 
       // Initialise prototype properties
-      
+
       // Decoupled event listeners
 
       return this;
@@ -91,7 +91,7 @@
        * @type String
        */
       targetName: null,
-      
+
       /**
        * Object container for initialization options
        *
@@ -102,7 +102,7 @@
       {
          /**
           * Job Name - implies editing mode if set
-          * 
+          *
           * @property jobName
           * @type string
           */
@@ -167,19 +167,19 @@
             fn: this.onFormControlsLoaded,
             scope: this
          });
-         
+
          this.createPayloadControl(this.id + "-payloadContainer");
          this.createTransferTargetControl(this.id + "-transferTargetContainer");
          this.createScheduleStartControl(this.id + "-scheduleStartContainer");
-         
+
          this.widgets.scheduleCheckbox = Dom.get(this.id + "-scheduleEnabled");
          this.widgets.scheduleContainer = Dom.get(this.id + "-scheduleContainer");
          Event.addListener(this.widgets.scheduleCheckbox, "click", this.onScheduleChange, this, true);
-         
+
          YAHOO.Bubbling.on("mandatoryControlValueUpdated", this.onDatePickerMandatoryControlValueUpdated, this);
          YAHOO.Bubbling.on("registerValidationHandler", this.onRegisterValidationHandler, this);
       },
-      
+
       /**
        * Generate the Payload control
        *
@@ -241,7 +241,8 @@
             value: this.options.targetName,
             controlParams:
             {
-               startLocation: "/app:company_home/app:dictionary/app:transfers/app:transfer_groups/cm:default",
+
+               startLocation: "/app:company_home/app:dictionary/app:transfers/app:transfer_groups",
                valueType: "xpath;/app:company_home/app:dictionary/app:transfers/app:transfer_groups//cm:%VALUE%"
             },
             field:
@@ -272,7 +273,7 @@
             scope: this
          });
       },
-      
+
       /**
        * Generate the Schedule Start control
        *
@@ -318,7 +319,7 @@
 
          // Form definition
          this.form = new Alfresco.forms.Form(this.id + "-form");
-         
+
          // Validator - Name
          this.form.addValidation(this.id + "-prop_name", Alfresco.forms.validation.mandatory, null, "blur");
          this.form.addValidation(this.id + "-prop_name", Alfresco.forms.validation.nodeName, null, "keyup");
@@ -357,7 +358,7 @@
          {
             return !(scope.isScheduleEnabled() && !Alfresco.forms.validation.mandatory(field, args, event, form, silent, message));
          }, null, "blur");
-         
+
          this.form.setSubmitElements(this.widgets.submitButton);
          this.form.setAJAXSubmit(true,
          {
@@ -384,7 +385,7 @@
 
          // Initialise the form
          this.form.init();
-         
+
          // Initialise schedule hidden div state
          this.onScheduleChange();
 
@@ -418,7 +419,7 @@
          }
          return true;
       },
-      
+
       /**
        * Schedule enabled evaluator
        *
@@ -428,7 +429,7 @@
       {
          return (this.widgets.scheduleCheckbox.checked);
       },
-      
+
       /**
        * Schedule Checkbox onChange event handler
        *
@@ -444,10 +445,10 @@
          {
             Dom.addClass(this.widgets.scheduleContainer, "hidden");
          }
-         
+
          this.form.validate();
       },
-      
+
       /**
        * Called when a date has been selected from a date picker.
        * Will cause the forms validation to run.
@@ -460,7 +461,7 @@
       {
          this.form.validate();
       },
-      
+
       /**
        * Register validation handler event handler
        *
@@ -473,15 +474,15 @@
          // The date picker control needs to register validation handlers to check the
          // validity of manually entered dates and times, we register our own handler in
          // this case so we can also check whether the schedule is enabled or not.
-         
+
          // extract the validation arguments
          var validation = args[1];
-         
+
          // check the minimim required data is provided
          if (validation && validation.fieldId)
          {
             var scope = this;
-            
+
             // register our custom handler with the forms runtime instance
             this.form.addValidation(validation.fieldId, function ReplicationJob_fnValidateDateTime(field, args, event, form, silent, message)
             {
@@ -501,7 +502,7 @@
       {
          this._navigateForward();
       },
-      
+
       /**
        * Success handler
        *
@@ -512,7 +513,7 @@
       {
          this._navigateForward(response.json.data.name);
       },
-      
+
       /**
        * Failure handler
        *
@@ -527,7 +528,7 @@
             text: (response.json && response.json.message ? response.json.message : this.msg("message.unknown-error"))
          });
       },
-      
+
       /**
        * Navigate forward depending on the page outcome
        *
