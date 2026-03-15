@@ -54,15 +54,15 @@ jobs:
       &&
       !(failure() || cancelled())
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v15.9.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v15.9.1
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: 3.x
       - name: "Init"
@@ -75,7 +75,7 @@ jobs:
       - name: Verify release tag
         run: bash scripts/ci/verify_release_tag.sh
       - name: Get branch name
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v7.1.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v15.9.1
       - name: Release to Nexus
         run: bash scripts/ci/maven_release.sh
 
@@ -94,13 +94,13 @@ jobs:
       &&
       !(failure() || cancelled())
     steps:
-      - uses: actions/checkout@v4
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
+      - uses: actions/checkout@v6
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v15.9.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v15.9.1
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: 3.x
       - name: "Init"
@@ -109,8 +109,8 @@ jobs:
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - name: Get branch name
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v7.1.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/configure-git-author@v7.1.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v15.9.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/configure-git-author@v15.9.1
         with:
           username: ${{ env.GIT_USERNAME }}
           email: ${{ env.GIT_EMAIL }}
@@ -133,13 +133,13 @@ jobs:
       &&
       !(failure() || cancelled())
     steps:
-      - uses: actions/checkout@v4
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
+      - uses: actions/checkout@v6
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v15.9.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v15.9.1
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: 3.x
       - name: "Init"
@@ -147,7 +147,7 @@ jobs:
       - name: "Prepare before Test"
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/configure-git-author@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/configure-git-author@v15.9.1
         with:
           username: ${{ env.GIT_USERNAME }}
           email: ${{ env.GIT_EMAIL }}
