@@ -53,11 +53,11 @@ jobs:
     if: (!contains(github.event.head_commit.message, '[no lint]') && inputs.commitMessage != '[no lint]')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
+      - uses: actions/checkout@v6
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v15.9.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v15.9.1
 
   build:
     runs-on: ubuntu-latest
@@ -71,17 +71,17 @@ jobs:
       matrix:
         stage: [ source_clear ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v15.9.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v15.9.1
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: 3.x
       - name: "Prepare before Test"
@@ -105,11 +105,11 @@ jobs:
       github.actor != 'dependabot[bot]' &&
       !contains(github.event.head_commit.message, '[skip tests]')
     steps:
-      - uses: actions/checkout@v4
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
+      - uses: actions/checkout@v6
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v15.9.1
       - name: "Init"
         run: bash scripts/ci/init.sh
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v15.9.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: "Build"
@@ -124,14 +124,14 @@ jobs:
           sudo rm -r WEB-INF/lib
           sudo rm -rf share.war
           sudo jar -cvf share.war *
-      - uses: Alfresco/alfresco-build-tools/.github/actions/github-download-file@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/github-download-file@v15.9.1
         with:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           repository: "Alfresco/veracode-baseline-archive"
           file-path: "alfresco-enterprise-share/enterprise-share-baseline.json"
           target: "baseline.json"
       - name: "Run SAST Scan"
-        uses: veracode/Veracode-pipeline-scan-action@v1.0.20
+        uses: veracode/Veracode-pipeline-scan-action@v1.0.21
         with:
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY }}'
@@ -150,7 +150,7 @@ jobs:
         run: zip readable_output.zip results.json
       - name: Upload Artifact
         if: success() || failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Veracode Pipeline-Scan Results - Share (Human Readable)
           path: readable_output.zip
@@ -166,7 +166,7 @@ jobs:
       !contains(github.event.head_commit.message, '[skip tests]') &&
       !contains(github.event.head_commit.message, '[force]')
     steps:
-      - uses: Alfresco/ya-pmd-scan@v4.0.0
+      - uses: Alfresco/ya-pmd-scan@v4.4.1
         with:
           fail-on-new-issues: "false"
           create-github-annotations: "false"
@@ -184,16 +184,16 @@ jobs:
       &&
       github.event.repository.fork==false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.4.3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v15.9.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v15.9.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v15.9.1
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: 3.x
       - name: "Init"
@@ -212,7 +212,7 @@ jobs:
           mkdir -p docker-images
           docker save -o docker-images/alfresco-share.tar $(docker images --format "{{.Repository}}:{{.Tag}}" | grep -E "alfresco.*share|alfresco.*governance" | tr '\n' ' ')
       - name: Upload Docker images as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: docker-images
           path: docker-images/
@@ -234,20 +234,20 @@ jobs:
       matrix:
         testModule: [ share, share-encryption, web-framework-commons ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.4.3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v15.9.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v15.9.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v15.9.1
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
         run: bash scripts/ci/build.sh
       - name: Run Unit Tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -274,20 +274,20 @@ jobs:
       matrix:
         testModule: [ alfresco-governance-services-community-share, alfresco-governance-services-enterprise-share ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.4.3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v15.9.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v15.9.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v15.9.1
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
         run: bash scripts/ci/build.sh
       - name: Run ${{ matrix.testModule }} Unit Tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -313,16 +313,16 @@ jobs:
       matrix:
         test: [ user, admin-tools, admin-console ,content-actions, content-filters, user-dashboard, userRolesAndPermissions, applying-rules, searching1, searching2, alfresco-content1, alfresco-content2, alfresco-content-and-site-features, task-and-workflows, site, site-dashboard, sitesFeatures-calendar, site-members, sitesFeatures-dataLists, sitesFeatures ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.4.3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v15.9.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v15.9.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v15.9.1
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: 3.x
       - name: "Init"
@@ -331,7 +331,7 @@ jobs:
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - name: Download Docker images
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: docker-images
           path: docker-images/
@@ -346,7 +346,7 @@ jobs:
           bash amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           sudo free -m -t
       - name: Run ${{ matrix.test }} Test
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -361,14 +361,14 @@ jobs:
           echo "Searching for allure-results directories..."
           find alfresco-tas-share-test -type d -name "allure-results"
       - name: Upload Allure Results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: allure-results-test-${{ matrix.test }}
           path: alfresco-tas-share-test/target/allure-results
           if-no-files-found: warn
       - name: Upload artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.test }}-tests
           path: |
@@ -397,15 +397,15 @@ jobs:
       matrix:
         test: [ communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v15.9.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v15.9.1
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: 3.x
       - name: "Init"
@@ -414,7 +414,7 @@ jobs:
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - name: Download Docker images
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: docker-images
           path: docker-images/
@@ -443,7 +443,7 @@ jobs:
           bash amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           sudo free -m -t
       - name: Run tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -453,13 +453,13 @@ jobs:
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload Allure Results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: allure-results-community_shared_ui_configuration-${{ matrix.test }}
           path: amps/ags/rm-automation/rm-automation-ui/target/allure-results
       - name: Upload artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ags/community/${GITHUB_RUN_NUMBER}/${JOB_NAME}
           path:
@@ -498,16 +498,16 @@ jobs:
       S3_BUCKET_NAME: ${{ vars.S3_BUCKET_PREFIX }}-${{ github.run_number }}
       S3_BUCKET2_NAME: ${{ vars.S3_BUCKET_PREFIX }}-worm-b2
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.4.3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v15.9.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v15.9.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v15.9.1
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: 3.x
       - name: Install google chrome version
@@ -528,13 +528,13 @@ jobs:
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - name: "Configure AWS credentials"
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           aws-access-key-id: ${{ secrets.AGS_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AGS_AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.S3_BUCKET_REGION }}
       - name: Download Docker images
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: docker-images
           path: docker-images/
@@ -560,7 +560,7 @@ jobs:
           amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           free -m -t
       - name: Run tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -570,14 +570,14 @@ jobs:
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dgroups=sanity -DexcludedGroups=needsAttention -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload Allure Results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: allure-results-enterprise_shared_ui_configuration-${{ matrix.test }}
           path: amps/ags/rm-automation/rm-automation-ui/target/allure-results
           if-no-files-found: warn
       - name: Upload artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ags-${{matrix.test}}-${GITHUB_RUN_NUMBER}-${JOB_NAME}-${{ github.run_id}}-${{ github.run_attempt }}
           path: |
@@ -602,11 +602,11 @@ jobs:
     if: always()
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       # Download all artifacts from test jobs
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: ./artifacts
 
@@ -652,7 +652,7 @@ jobs:
         run: |
           allure generate merged-allure-results-share -o merged-allure-report-share --clean
       - name: Upload Share Allure Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: allure-report-share
           path: merged-allure-report-share
@@ -661,7 +661,7 @@ jobs:
         run: |
           allure generate merged-allure-results-enterprise -o merged-allure-report-enterprise --clean
       - name: Upload Enterprise Shared UI Config Allure Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: allure-report-enterprise_shared_ui_configuration
           path: merged-allure-report-enterprise
@@ -670,7 +670,7 @@ jobs:
 #        run: |
 #          allure generate merged-allure-results-community -o merged-allure-report-community --clean
 #      - name: Upload Community Shared UI Config Allure Report
-#        uses: actions/upload-artifact@v4
+#        uses: actions/upload-artifact@v7
 #        with:
 #          name: allure-report-community_shared_ui_configuration
 #          path: merged-allure-report-community
@@ -685,7 +685,7 @@ jobs:
         run: cat test-summary.md >> $GITHUB_STEP_SUMMARY
 
       - name: Upload HTML Test Summary
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-summary-html
           path: test-summary.html
