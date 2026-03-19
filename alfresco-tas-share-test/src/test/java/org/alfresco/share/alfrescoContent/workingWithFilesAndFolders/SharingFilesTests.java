@@ -11,6 +11,7 @@ import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.SocialFeatures;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -77,6 +78,7 @@ public class SharingFilesTests extends ContextAwareWebTest
 
 
     @TestRail (id = "C7095")
+    @AlfrescoTest(jira = "XAT-10279")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
     public void shareWithFacebook()
     {
@@ -103,7 +105,8 @@ public class SharingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7096")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
+    @AlfrescoTest(jira = "XAT-10280")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED })
     public void shareWithTwitter()
     {
         setupAuthenticatedSession(user, password);
@@ -149,7 +152,7 @@ public class SharingFilesTests extends ContextAwareWebTest
                 String url = getBrowser().getCurrentUrl();
                 String server = url.substring(7, 26);
                 String expectedLink = "http://" + server + "/share/s";
-                windowToSwitchToAlfresco = getBrowser().getWindowHandle();
+                windowToSwitchToAlfresco = getBrowser().getDriver().getWindowHandle();
                 LOG.info("Step 1: For file click Share icon");
                 social.clickShareButton(fielNameC7097);
                 getBrowser().waitUntilElementClickable(social.quickShareWindow, 10L);
@@ -161,7 +164,7 @@ public class SharingFilesTests extends ContextAwareWebTest
 
                 getBrowser().switchWindow();
                 social.loginToGoogleAccount();
-                windowToCloseGPlus = getBrowser().getWindowHandle();
+                windowToCloseGPlus = getBrowser().getDriver().getWindowHandle();
                 getBrowser().waitInSeconds(6);
                 Assert.assertEquals(getBrowser().getCurrentUrl().substring(0, 24), "https://plus.google.com/");
                 Assert.assertEquals(social.getLinkSharedWithGooglePlus(), expectedLink, "Link shared on Google Plus is not corerct");
@@ -175,7 +178,8 @@ public class SharingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7099")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
+    @AlfrescoTest(jira = "XAT-10281")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED })
     public void unshareDocument()
     {
         /**
@@ -203,6 +207,7 @@ public class SharingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7093")
+    @AlfrescoTest(jira = "XAT-10282")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void shareFolder()
 
@@ -215,7 +220,8 @@ public class SharingFilesTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7649")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
+    @AlfrescoTest(jira = "XAT-10277")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED,ShareGroups.SHARE_PRIORITY_1 })
     public void sharedFilesContentAvailability()
 
     {

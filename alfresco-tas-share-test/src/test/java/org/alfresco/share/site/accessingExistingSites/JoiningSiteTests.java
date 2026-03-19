@@ -1,6 +1,7 @@
 package org.alfresco.share.site.accessingExistingSites;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -11,6 +12,7 @@ import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
@@ -107,7 +109,8 @@ public class JoiningSiteTests extends BaseTest
     }
 
     @TestRail (id = "C2823")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @AlfrescoTest(jira = "XAT-8530")
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void joinPublicSiteFromSiteFinderPage() {
 
         String user2FirstName = user2.get().getFirstName();
@@ -147,7 +150,8 @@ public class JoiningSiteTests extends BaseTest
     }
 
     @TestRail (id = "C3053")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @AlfrescoTest(jira = "XAT-8531")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES,ShareGroups.SHARE_PRIORITY_1 })
     public void joinPublicSiteFromSiteDashboardPage() {
 
         String user2FirstName = user2.get().getFirstName();

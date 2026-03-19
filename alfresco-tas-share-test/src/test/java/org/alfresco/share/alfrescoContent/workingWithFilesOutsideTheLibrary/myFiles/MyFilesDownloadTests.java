@@ -5,6 +5,7 @@ import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -19,6 +20,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 /**
  * @author Razvan.Dorobantu
@@ -55,9 +57,11 @@ public class MyFilesDownloadTests extends BaseTest
        deleteUsersIfNotNull(user.get());
     }
 
-    @TestRail (id = "C7799")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT})
-    public void myFilesDownloadFileFromAlfresco() {
+    @TestRail(id = "C7799")
+    @AlfrescoTest (jira = "XAT-10489")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
+    public void myFilesDownloadFileFromAlfresco()
+    {
         log.info("Precondition: Navigate to My Files page and upload a file.");
         myFilesPage
             .navigate()
@@ -77,8 +81,9 @@ public class MyFilesDownloadTests extends BaseTest
         Assert.assertTrue(isFileInDirectory(testFile, null), "The file was not found in the specified location");
     }
 
-    @TestRail (id = "C7802")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @TestRail(id = "C7802")
+    @AlfrescoTest (jira = "XAT-10492")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void downloadFolder()
     {
         log.info("Precondition: Login as user, navigate to My Files page and create a folder.");

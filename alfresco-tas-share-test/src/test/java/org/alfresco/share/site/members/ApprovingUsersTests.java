@@ -3,6 +3,7 @@ package org.alfresco.share.site.members;
 import static org.alfresco.utility.constants.UserRole.SiteCollaborator;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.SiteService.Visibility;
 import org.alfresco.po.share.SiteFinderPage;
 import org.alfresco.po.share.dashlet.MySitesDashlet;
@@ -12,6 +13,7 @@ import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
 import org.alfresco.po.share.tasksAndWorkflows.MyTasksPage;
 import org.alfresco.po.share.tasksAndWorkflows.ViewTaskPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
@@ -62,7 +64,8 @@ public class ApprovingUsersTests extends BaseTest
     }
 
     @TestRail(id = "C2461")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8353")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldApproveUserToJoinSiteFromMyTaskPage()
     {
         UserModel userModel = dataUser.usingAdmin().createRandomTestUser();
@@ -111,7 +114,8 @@ public class ApprovingUsersTests extends BaseTest
     }
 
     @TestRail (id = "C2462")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8354")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldApproveUserFromMyTasksDashlet()
     {
         UserModel userModel = dataUser.usingAdmin().createRandomTestUser();
@@ -187,7 +191,8 @@ public class ApprovingUsersTests extends BaseTest
     }
 
     @TestRail (id = "C2464")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, TestGroup.INTEGRATION})
+    @AlfrescoTest(jira = "XAT-8356")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1})
     public void shouldRejectUserFromMyTasksDashlet()
     {
         UserModel userModel = dataUser.usingAdmin().createRandomTestUser();
@@ -226,7 +231,8 @@ public class ApprovingUsersTests extends BaseTest
     }
 
     @TestRail (id = "C2549")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES})
+    @AlfrescoTest(jira = "XAT-8358")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void onlySiteManagerShouldApproveRequestToJoinSite()
     {
         UserModel collaborator = dataUser.usingAdmin().createRandomTestUser();

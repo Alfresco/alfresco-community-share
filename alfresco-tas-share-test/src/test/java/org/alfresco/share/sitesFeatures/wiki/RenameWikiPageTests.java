@@ -1,12 +1,14 @@
 package org.alfresco.share.sitesFeatures.wiki;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.wiki.WikiListPage;
 import org.alfresco.po.share.site.wiki.WikiMainPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
@@ -63,7 +65,8 @@ public class RenameWikiPageTests extends BaseTest
     }
 
     @TestRail (id = "C5500")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira = "XAT-8693")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1 })
     public void renameWikiMainPage()
     {
         log.info("Preconditions: create site and update wiki main page content");
@@ -115,7 +118,8 @@ public class RenameWikiPageTests extends BaseTest
     }
 
     @TestRail (id = "C5502")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira = "XAT-8695")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     public void renameWikiPage()
     {
         log.info("Preconditions: create site and two wiki pages");

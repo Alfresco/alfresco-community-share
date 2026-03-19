@@ -4,12 +4,14 @@ import static org.alfresco.common.Utils.srcRoot;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.testng.annotations.*;
+import org.alfresco.test.AlfrescoTest;
 
 import java.io.File;
 
@@ -59,7 +61,8 @@ public class PreviewFileTest extends BaseTest
     }
 
     @TestRail (id = "C5884")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9763")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void previewFile()
     {
         log.info("Precondition : Uploading docFile, imageFile and videoFile in the folder");
