@@ -12,6 +12,7 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
 public class MovingContentTests extends BaseTest
 {
@@ -32,7 +33,7 @@ public class MovingContentTests extends BaseTest
     }
 
     @TestRail (id = "C7345")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void checkMoveFileToFolderInSite()
     {
         FolderModel destination = FolderModel.getRandomFolderModel();

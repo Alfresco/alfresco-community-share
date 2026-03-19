@@ -2,10 +2,12 @@ package org.alfresco.share.alfrescoContent.documentLibrary;
 
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.rest.core.RestAisAuthentication;
 import org.alfresco.rest.core.RestWrapper;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -37,7 +39,8 @@ public class TagsFilterTests extends BaseTest
     }
 
     @TestRail (id = "C6939")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9581")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void verifyTagsFilterWhenNoTagsAreAvailable()
     {
         documentLibraryPage.navigate(site.get())
@@ -47,7 +50,8 @@ public class TagsFilterTests extends BaseTest
     }
 
     @TestRail (id = "C6940")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9582")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void shouldDisplayContentWhenTagIsSelected() throws Exception
     {
         String tagFolder = RandomStringUtils.randomAlphabetic(4).toLowerCase();

@@ -132,7 +132,7 @@ public class TransformationServerTest extends ContextAwareWebTest
 
         LOG.info("STEP 3: Open " + properties.getTransformationServerUrl() + " and verify successful info about " + imageToTransform + " transformation.");
         navigate(properties.getTransformationServerUrl().toString());
-        assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser(), imageToTransform, PerformActionRulePage.Mimetype.BITMAP_IMAGE, userName), String.format("Document %s wasn't transformed!", imageToTransform));
+        assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser().getDriver(), imageToTransform, PerformActionRulePage.Mimetype.BITMAP_IMAGE, userName), String.format("Document %s wasn't transformed!", imageToTransform));
     }
 
 
@@ -151,7 +151,7 @@ public class TransformationServerTest extends ContextAwareWebTest
 
         LOG.info("STEP 3: Open " + properties.getTransformationServerUrl() + " and verify successful info about " + documentToTransform + " transformation.");
         navigate(properties.getTransformationServerUrl().toString());
-        assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser(), documentToTransform, PerformActionRulePage.Mimetype.ADOBE_PDF_DOCUMENT, userName), String.format("Document %s wasn't transformed!", documentToTransform));
+        assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser().getDriver(), documentToTransform, PerformActionRulePage.Mimetype.ADOBE_PDF_DOCUMENT, userName), String.format("Document %s wasn't transformed!", documentToTransform));
     }
 
 
@@ -170,7 +170,7 @@ public class TransformationServerTest extends ContextAwareWebTest
 
         LOG.info("STEP 3: Open " + properties.getTransformationServerUrl() + " and verify successful info about " + imageToTransform + " transformation.");
         navigate(properties.getTransformationServerUrl().toString());
-        assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser(), imageToTransform, PerformActionRulePage.Mimetype.JPEG_IMAGE, userName), String.format("Document %s wasn't transformed!", imageToTransform));
+        assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser().getDriver(), imageToTransform, PerformActionRulePage.Mimetype.JPEG_IMAGE, userName), String.format("Document %s wasn't transformed!", imageToTransform));
     }
 
 
@@ -189,7 +189,7 @@ public class TransformationServerTest extends ContextAwareWebTest
 
         LOG.info("STEP 3: Open " + properties.getTransformationServerUrl() + " URL and verify successful info about " + imageToTransform + " transformation.");
         navigate(properties.getTransformationServerUrl().toString());
-        assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser(), imageToTransform, PerformActionRulePage.Mimetype.GIF_IMAGE, userName), String.format("Document %s wasn't transformed!", imageToTransform));
+        assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser().getDriver(), imageToTransform, PerformActionRulePage.Mimetype.GIF_IMAGE, userName), String.format("Document %s wasn't transformed!", imageToTransform));
     }
 
 
@@ -208,7 +208,7 @@ public class TransformationServerTest extends ContextAwareWebTest
 
         LOG.info("STEP 3: Open " + properties.getTransformationServerUrl() + " URL and verify successful info about " + imageToTransform + " transformation.");
         navigate(properties.getTransformationServerUrl().toString());
-        assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser(), imageToTransform, PerformActionRulePage.Mimetype.PNG_IMAGE, userName), String.format("Document %s wasn't transformed!", imageToTransform));
+        assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser().getDriver(), imageToTransform, PerformActionRulePage.Mimetype.PNG_IMAGE, userName), String.format("Document %s wasn't transformed!", imageToTransform));
     }
 
 
@@ -228,7 +228,7 @@ public class TransformationServerTest extends ContextAwareWebTest
 
         LOG.info("STEP 3: Open " + properties.getTransformationServerUrl() + " URL and verify successful info about " + imageToTransform + " transformation.");
         navigate(properties.getTransformationServerUrl().toString());
-        assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser(), imageToTransform, PerformActionRulePage.Mimetype.TIFF_IMAGE, userName), String.format("Document %s wasn't transformed!", imageToTransform));
+        assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser().getDriver(), imageToTransform, PerformActionRulePage.Mimetype.TIFF_IMAGE, userName), String.format("Document %s wasn't transformed!", imageToTransform));
     }
 
 
@@ -247,10 +247,10 @@ public class TransformationServerTest extends ContextAwareWebTest
 
         LOG.info("STEP 3: Open " + properties.getTransformationServerUrl() + " and verify successful info about " + largeDocumentToTransform + " transformation.");
         navigate(properties.getTransformationServerUrl().toString());
-        assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser(), largeDocumentToTransform, PerformActionRulePage.Mimetype.ADOBE_PDF_DOCUMENT, userName), String.format("Document %s wasn't transformed!", largeDocumentToTransform));
+        assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser().getDriver(), largeDocumentToTransform, PerformActionRulePage.Mimetype.ADOBE_PDF_DOCUMENT, userName), String.format("Document %s wasn't transformed!", largeDocumentToTransform));
     }
-    
-    
+
+
     @TestRail (id = "C239088")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "TransformationServer" })
     public void nonSupportedTypesTransformation()
@@ -270,6 +270,6 @@ public class TransformationServerTest extends ContextAwareWebTest
 
         LOG.info("STEP 3: Open " + properties.getTransformationServerUrl() + " URL and verify successful info about " + nonSupportedDocumentToTransform + " transformation.");
         navigate(properties.getTransformationServerUrl().toString());
-        assertFalse(documentTransformationEnginePage.searchTransformation(getBrowser(), nonSupportedDocumentToTransform, Mimetype.ADOBE_PDF_DOCUMENT, userName), String.format("Document %s is present in Transformation Server but it shouldn't.", nonSupportedDocumentToTransform));
+        assertFalse(documentTransformationEnginePage.searchTransformation(getBrowser().getDriver(), nonSupportedDocumentToTransform, Mimetype.ADOBE_PDF_DOCUMENT, userName), String.format("Document %s is present in Transformation Server but it shouldn't.", nonSupportedDocumentToTransform));
     }
 }

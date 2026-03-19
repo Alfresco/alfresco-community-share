@@ -18,6 +18,7 @@ import org.alfresco.po.share.tasksAndWorkflows.TaskDetailsPage;
 import org.alfresco.po.share.tasksAndWorkflows.WorkflowDetailsPage;
 import org.alfresco.po.share.tasksAndWorkflows.WorkflowsIveStartedPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -56,7 +57,8 @@ public class EditingWorkflowsTests extends BaseTest
     private final ThreadLocal<UserModel> userC8465 = new ThreadLocal<>();
 
     @TestRail (id = "C8463")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @AlfrescoTest(jira = "XAT-11302")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, ShareGroups.SHARE_PRIORITY_1})
     public void editWorkflow() throws InterruptedException {
         log.info("Precondition: Create user and a workflow.");
         String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
@@ -104,7 +106,8 @@ public class EditingWorkflowsTests extends BaseTest
     }
 
     @TestRail (id = "C8464")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @AlfrescoTest(jira = "XAT-11303")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, ShareGroups.SHARE_PRIORITY_1})
     public void editTask()
     {
         log.info("Precondition: Create user and a workflow.");

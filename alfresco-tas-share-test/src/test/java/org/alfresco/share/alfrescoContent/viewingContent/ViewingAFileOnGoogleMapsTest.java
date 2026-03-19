@@ -4,6 +4,7 @@ import static org.alfresco.po.share.site.ItemActions.EDIT_PROPERTIES;
 import static org.alfresco.po.share.site.ItemActions.MANAGE_ASPECTS;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
@@ -18,6 +19,7 @@ import org.alfresco.utility.model.*;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 @Slf4j
 public class ViewingAFileOnGoogleMapsTest extends BaseTest
@@ -71,7 +73,8 @@ public class ViewingAFileOnGoogleMapsTest extends BaseTest
     }
 
     @TestRail (id = "C5921")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-9779")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void viewAFileOnGoogleMaps()
     {
         log.info("Step 1: Navigate to Document Library page and verify the folder present");
