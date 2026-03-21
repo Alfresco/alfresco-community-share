@@ -152,7 +152,7 @@ public class SharingFilesTests extends ContextAwareWebTest
                 String url = getBrowser().getCurrentUrl();
                 String server = url.substring(7, 26);
                 String expectedLink = "http://" + server + "/share/s";
-                windowToSwitchToAlfresco = getBrowser().getDriver().getWindowHandle();
+                windowToSwitchToAlfresco = getBrowser().getWindowHandle();
                 LOG.info("Step 1: For file click Share icon");
                 social.clickShareButton(fielNameC7097);
                 getBrowser().waitUntilElementClickable(social.quickShareWindow, 10L);
@@ -164,7 +164,7 @@ public class SharingFilesTests extends ContextAwareWebTest
 
                 getBrowser().switchWindow();
                 social.loginToGoogleAccount();
-                windowToCloseGPlus = getBrowser().getDriver().getWindowHandle();
+                windowToCloseGPlus = getBrowser().getWindowHandle();
                 getBrowser().waitInSeconds(6);
                 Assert.assertEquals(getBrowser().getCurrentUrl().substring(0, 24), "https://plus.google.com/");
                 Assert.assertEquals(social.getLinkSharedWithGooglePlus(), expectedLink, "Link shared on Google Plus is not corerct");
