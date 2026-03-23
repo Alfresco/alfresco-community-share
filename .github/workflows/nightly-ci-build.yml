@@ -1,4 +1,4 @@
-name: alfresco_enterprise_share_regression_ci
+name: alfresco_enterprise_share_regression_ci_23.N
 
 on:
   schedule:
