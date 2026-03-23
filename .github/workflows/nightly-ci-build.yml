@@ -1,14 +1,8 @@
-name: alfresco_enterprise_share
+name: alfresco_enterprise_share_regression_ci
 
 on:
-  push:
-    branches:
-      - "fix/**"
-      - "feature/**"
-  pull_request:
-    branches:
-      - master
-      - "release/**"
+  schedule:
+    - cron: '30 15 * * *'
   workflow_call:
   workflow_dispatch:
     inputs:
@@ -203,6 +197,7 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
+          warning_on_retry: true
           command: mvn -B test -pl ${{ matrix.testModule }} -DfailIfNoTests=false
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
@@ -242,6 +237,7 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
+          warning_on_retry: true
           command: mvn -B test -Pags -pl :${{ matrix.testModule }} -DfailIfNoTests=false
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
@@ -297,7 +293,7 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
-          command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml" -Dgroups=SharePriority1 -DexcludedGroups=bug,tobefixed
+          command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml"
       - name: "Upload artifacts"
         if: always()
         uses: actions/upload-artifact@v4
@@ -377,6 +373,7 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
+          warning_on_retry: true
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -487,11 +484,11 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
-          command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dgroups=sanity -DexcludedGroups=needsAttention -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
+          command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ags/${GITHUB_RUN_NUMBER}/${JOB_NAME}
+          name: ags-${{matrix.test}}-${GITHUB_RUN_NUMBER}-${JOB_NAME}-${{ github.run_id}}-${{ github.run_attempt }}
           path:
             amps/ags/rm-automation/rm-automation-ui/target/surefire-reports
             amps/ags/rm-automation/rm-automation-ui/target/reports
