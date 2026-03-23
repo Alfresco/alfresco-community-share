@@ -44,7 +44,7 @@ public class CancelWorkflowsTests extends BaseTest
     private final ThreadLocal<UserModel> user1 = new ThreadLocal<>();
 
     @TestRail (id = "C8434")
-    @AlfrescoTest(jira = "XAS-11225")
+    @AlfrescoTest(jira = "XAT-11225")
     @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, ShareGroups.SHARE_PRIORITY_1})
     public void cancelWorkflow()
     {
