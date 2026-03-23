@@ -84,7 +84,7 @@ public class MyFilesManageAspectsTests extends BaseTest
     }
 
     @TestRail (id = "C7810")
-    @AlfrescoTest (jira = "/XAT-10499")
+    @AlfrescoTest (jira = "XAT-10499")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void manageAspectsApplyChanges()  {
         log.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");
