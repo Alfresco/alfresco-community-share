@@ -2,12 +2,14 @@ package org.alfresco.share.userRolesAndPermissions.DashboardPermissions;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.UserService;
 
 import org.alfresco.po.share.site.SiteDashboardPage;
 
 import org.alfresco.share.BaseTest;
 
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 
 import org.alfresco.utility.model.SiteModel;
@@ -83,7 +85,8 @@ public class SiteDashboardPermissionsTests extends BaseTest
 
 
     @TestRail (id = "C8723")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
+    @AlfrescoTest(jira = "XAT-11374")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, ShareGroups.SHARE_PRIORITY_1 })
     public void siteDashboardPermissionsConsumerRole()
     {
         authenticateUsingLoginPage(userConsumer.get());
@@ -100,8 +103,8 @@ public class SiteDashboardPermissionsTests extends BaseTest
     }
 
     @TestRail (id = "C8724")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
-
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, ShareGroups.SHARE_PRIORITY_1 })
+    @AlfrescoTest(jira = "XAT-11375")
     public void siteDashboardPermissionsContributorRole()
     {
         authenticateUsingLoginPage(userContributor.get());
@@ -117,8 +120,8 @@ public class SiteDashboardPermissionsTests extends BaseTest
     }
 
     @TestRail (id = "C8725")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
-
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES, ShareGroups.SHARE_PRIORITY_1 })
+    @AlfrescoTest(jira = "XAT-11376")
     public void siteDashboardPermissionsCollaboratorRole()
     {
         authenticateUsingLoginPage(userCollaborator.get());
@@ -134,6 +137,7 @@ public class SiteDashboardPermissionsTests extends BaseTest
     }
 
     @TestRail (id = "C8726")
+    @AlfrescoTest(jira = "XAT-11377")
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_ROLES })
 
     public void siteDashboardPermissionsSiteManagerRole()

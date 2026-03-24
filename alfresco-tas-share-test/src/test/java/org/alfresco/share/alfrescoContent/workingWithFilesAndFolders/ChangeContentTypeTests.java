@@ -4,12 +4,14 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeContentTypeDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.*;
@@ -102,7 +104,8 @@ public class ChangeContentTypeTests extends BaseTest
 
 
     @TestRail (id = "C7166")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
+    @AlfrescoTest(jira = "XAT-10370")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1}, enabled = false)
     public void changeTypeFolder()
     {
         String folderName = String.format("Folder-C7166-%s", RandomData.getRandomAlphanumeric());
@@ -147,7 +150,8 @@ public class ChangeContentTypeTests extends BaseTest
     }
 
     @TestRail (id = "C7167")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10371")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void changeTypeFile()
     {
         log.info("Create a file in the site under document library.");

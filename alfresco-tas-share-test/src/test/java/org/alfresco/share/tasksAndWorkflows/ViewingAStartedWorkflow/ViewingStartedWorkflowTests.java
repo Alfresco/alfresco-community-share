@@ -3,6 +3,7 @@ package org.alfresco.share.tasksAndWorkflows.ViewingAStartedWorkflow;
 import java.util.Date;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.WorkflowService;
 import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
@@ -11,6 +12,7 @@ import org.alfresco.po.share.tasksAndWorkflows.WorkflowDetailsPage;
 import org.alfresco.po.share.tasksAndWorkflows.WorkflowsIveStartedPage;
 
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -46,7 +48,8 @@ public class ViewingStartedWorkflowTests extends BaseTest
     private final ThreadLocal<UserModel> c284893user2 = new ThreadLocal<>();
 
     @TestRail (id = "C8425")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @AlfrescoTest(jira = "XAT-11172")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, ShareGroups.SHARE_PRIORITY_1})
     public void viewWorkflowIveStarted()
     {
         workflowsIveStartedPage = new WorkflowsIveStartedPage(webDriver);
@@ -78,7 +81,8 @@ public class ViewingStartedWorkflowTests extends BaseTest
     }
 
     @TestRail (id = "C8426")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @AlfrescoTest(jira = "XAT-11173")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, ShareGroups.SHARE_PRIORITY_1})
     public void viewWorkflowAssignedToOtherUser()
     {
         myTasksPage = new MyTasksPage(webDriver);

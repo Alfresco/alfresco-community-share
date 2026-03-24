@@ -2,9 +2,11 @@ package org.alfresco.share.userDashboard.dashlets;
 
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SavedSearchDashlet;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.FileModel;
@@ -38,7 +40,8 @@ public class SavedSearchDashletTests extends AbstractUserDashboardDashletsTests
     }
 
     @TestRail (id = "C2427")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8247")
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD, ShareGroups.SHARE_PRIORITY_1})
     public void checkSavedSearchDashlet()
     {
         userDashboardPage.navigate(user.get());
