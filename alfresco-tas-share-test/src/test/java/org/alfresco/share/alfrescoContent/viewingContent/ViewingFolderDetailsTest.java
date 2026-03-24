@@ -1,12 +1,15 @@
 package org.alfresco.share.alfrescoContent.viewingContent;
 
 import lombok.extern.slf4j.Slf4j;
-
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.BaseTest;
+import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.model.TestGroup;
 
 import org.alfresco.utility.model.*;
 import org.testng.annotations.*;
@@ -49,7 +52,8 @@ public class ViewingFolderDetailsTest extends BaseTest
     }
 
     @TestRail (id = "C5850")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira="XAT-9758")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT , ShareGroups.SHARE_PRIORITY_1})
     public void verifyViewFolderDetails()
     {
         log.info("Step 1: Navigate to Document Library page for testSite");

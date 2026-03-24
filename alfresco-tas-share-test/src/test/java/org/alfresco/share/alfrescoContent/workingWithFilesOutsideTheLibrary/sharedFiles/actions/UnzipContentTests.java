@@ -19,6 +19,7 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 @Slf4j
 /**
@@ -111,7 +112,8 @@ public class UnzipContentTests extends BaseTest
     }
 
     @TestRail (id = "C8041")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT },enabled = false)
+    @AlfrescoTest (jira = "XAT-10721")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 },enabled = false)
     public void unzipAcpArchiveToSharedFiles()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");

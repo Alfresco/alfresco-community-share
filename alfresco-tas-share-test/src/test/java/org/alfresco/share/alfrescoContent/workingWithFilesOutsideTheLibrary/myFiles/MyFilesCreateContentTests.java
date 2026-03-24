@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
@@ -19,6 +20,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.Assert;
+import org.alfresco.test.AlfrescoTest;
 
 /**
  * @author Razvan.Dorobantu
@@ -66,7 +68,8 @@ public class MyFilesCreateContentTests extends BaseTest
     }
 
     @TestRail (id = "C7650")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @AlfrescoTest (jira = "XAT-10406")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void myFilesCreatePlainTextFile()
     {
         log.info("Precondition: Login as user and navigate to My Files page.");
@@ -110,7 +113,8 @@ public class MyFilesCreateContentTests extends BaseTest
     }
 
     @TestRail (id = "C7696")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10412")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void myFilesCreateHTMLFile()
     {
         log.info("Precondition: Login as user and navigate to My Files page.");
@@ -154,7 +158,8 @@ public class MyFilesCreateContentTests extends BaseTest
     }
 
     @TestRail (id = "C7697")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10413")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void myFilesCreateXMLFile()
     {
         log.info("Precondition: Login as user and navigate to My Files page.");
@@ -198,7 +203,8 @@ public class MyFilesCreateContentTests extends BaseTest
     }
 
     @TestRail (id = "C7653")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10408")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void myFilesCreateFolderFromTemplate()
     {
         log.info("Precondition: Login as user and navigate to My Files page.");
@@ -228,7 +234,8 @@ public class MyFilesCreateContentTests extends BaseTest
     }
 
     @TestRail (id = "C12858")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10414")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void myFilesCreateFileFromTemplate()
     {
         log.info("Precondition: To Create a Template File");

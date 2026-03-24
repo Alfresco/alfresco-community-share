@@ -1,7 +1,9 @@
 package org.alfresco.share.adminTools.users;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -21,7 +23,8 @@ public class UserToolTests extends BaseTest
     }
 
     @TestRail (id = "C9392")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
+    @AlfrescoTest(jira = "XAT-12079")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1})
     public void accessingUsersTool()
     {
         usersPage.navigate();
@@ -33,7 +36,8 @@ public class UserToolTests extends BaseTest
     }
 
     @TestRail (id = "C9393")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @AlfrescoTest(jira = "XAT-12080")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS,ShareGroups.SHARE_PRIORITY_1 })
     public void verifySearch()
     {
         String identifier = RandomData.getRandomAlphanumeric();

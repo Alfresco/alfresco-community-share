@@ -1,10 +1,11 @@
-package org.alfresco.share;
+package org.alfresco.share.login;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.alfresco.po.share.LoginPage;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -64,7 +65,7 @@ public class LoginTests extends BaseTest
         loginPage.navigate()
             .assertLoginPageIsOpened()
             .assertLoginPageTitleIsCorrect().login(validUser);
-        
+
         userDashboardPage.assertUserDashboardPageIsOpened()
             .assertUserDashboardPageTitleIsCorrect()
             .assertPageHeaderIsCorrect(validUser);
@@ -112,7 +113,7 @@ public class LoginTests extends BaseTest
             loginPage.typePassword(password);
             loginPage.clickLogin();
         }
-        
+
         userDashboardPage.assertUserDashboardPageIsOpened();
     }
 
@@ -122,7 +123,7 @@ public class LoginTests extends BaseTest
     {
         specialUserList.forEach(specialUser -> {
             loginPage.navigate().login(specialUser);
-            
+
             userDashboardPage.assertPageHeaderIsCorrect(specialUser);
             deleteAllCookiesIfNotNull();
         });
@@ -134,7 +135,7 @@ public class LoginTests extends BaseTest
     {
         loginPage.navigate();
         loginPage.login(specialPassUser);
-        
+
         userDashboardPage.assertUserDashboardPageIsOpened();
     }
 }

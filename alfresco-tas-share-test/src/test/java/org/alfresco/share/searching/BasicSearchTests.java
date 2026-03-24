@@ -38,7 +38,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
-
+import org.alfresco.test.AlfrescoTest;
 @Slf4j
 /**
  * @author Laura.Capsa
@@ -106,7 +106,8 @@ public class BasicSearchTests extends BaseTest
     }
 
     @TestRail (id = "C5933")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @AlfrescoTest(jira = "XAT-9338")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH,ShareGroups.SHARE_PRIORITY_1 })
     public void verifyLiveSearchableContent() {
         String userName1 = user1.get().getUsername();
         String userName2 = user2.get().getUsername();

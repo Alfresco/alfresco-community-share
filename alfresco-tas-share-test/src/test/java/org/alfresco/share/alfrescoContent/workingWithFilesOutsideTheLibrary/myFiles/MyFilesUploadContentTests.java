@@ -3,7 +3,9 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myF
 import static org.alfresco.common.Utils.testDataFolder;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
+import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.ItemActions;
@@ -15,6 +17,7 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 @Slf4j
 
@@ -51,7 +54,8 @@ public class MyFilesUploadContentTests extends BaseTest
         deleteUsersIfNotNull(user.get());
     }
     @TestRail (id = "C7651")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10424")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void myFilesUploadDocument()
     {
         log.info("STEP1: On the My Files page upload a file.");
@@ -66,7 +70,8 @@ public class MyFilesUploadContentTests extends BaseTest
 
     //    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C7792")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10427")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void myFilesUpdateDocumentNewVersion() throws InterruptedException {
         String testFile = RandomData.getRandomAlphanumeric() + "testFile.txt";
         String newVersionFile = RandomData.getRandomAlphanumeric() + "newVersionFile.txt";

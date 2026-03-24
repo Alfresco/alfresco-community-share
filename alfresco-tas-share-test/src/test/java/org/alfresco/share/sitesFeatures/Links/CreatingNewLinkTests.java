@@ -8,6 +8,7 @@ import org.alfresco.po.share.site.link.CreateLinkPage;
 import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.po.share.site.link.LinkPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -68,10 +69,10 @@ public class CreatingNewLinkTests extends BaseTest
         deleteUsersIfNotNull(user1.get());
     }
 
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail (id = "C6180")
-    public void createExternalLink()
-    {
+    @AlfrescoTest(jira = "XAT-9308")
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
+    @TestRail(id = "C6180")
+    public void createExternalLink() {
         log.info("STEP 1: Navigate to 'Links' page for siteName");
         linkPage.navigate(siteName.get().getId());
         Assert.assertTrue(linkPage.getNoLinksFoundMsg().equals("No links found."), "No link should be displayed!");
@@ -113,10 +114,9 @@ public class CreatingNewLinkTests extends BaseTest
         Assert.assertTrue(linkPage.getCurrentUrl().contains("google"), "After clicking on the link, the title is: " + linkPage.getCurrentUrl());
     }
 
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail (id = "C6182")
-    public void createInternalLink()
-    {
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
+    @TestRail(id = "C6182")
+    public void createInternalLink() {
         log.info("STEP 1: Navigate to 'Links' page for siteName");
         linkPage.navigate(siteName.get().getId());
         Assert.assertTrue(linkPage.getNoLinksFoundMsg().equals("No links found."), "No link should be displayed!");
@@ -163,10 +163,9 @@ public class CreatingNewLinkTests extends BaseTest
         Assert.assertEquals(linkPage.getLinkTitle(), linkTitle, "Link not displayed in Liks list");
     }
 
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail (id = "C6182")
-    public void cancelCreatingNewLink()
-    {
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
+    @TestRail(id = "C6182")
+    public void cancelCreatingNewLink() {
         log.info("STEP 1: Navigate to 'Links' page for siteName");
         linkPage.navigate(siteName.get().getId());
         Assert.assertTrue(linkPage.getNoLinksFoundMsg().equals("No links found."), "No link should be displayed!");

@@ -5,6 +5,7 @@ import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
@@ -15,6 +16,7 @@ import org.alfresco.po.share.site.link.LinkPage;
 
 import org.alfresco.share.BaseTest;
 
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 
 import org.alfresco.utility.data.RandomData;
@@ -61,7 +63,7 @@ public class EditingLinkTests extends BaseTest
     private final ThreadLocal<UserModel> testUser = new ThreadLocal<>();
     private final ThreadLocal<SiteModel> siteName = new ThreadLocal<>();
 
-    @BeforeMethod (alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
         log.info("Precondition: Test users are created");
@@ -76,16 +78,17 @@ public class EditingLinkTests extends BaseTest
 
     }
 
-    @AfterMethod (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void cleanup()
     {
         contentService.deleteTreeByPath(getAdminUser().getUsername(), getAdminUser().getPassword(), "/User Homes/" + testUser.get().getUsername());
         deleteUsersIfNotNull(testUser.get());
     }
 
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail (id = "C6184")
-    public void editLinkFromLinkPageView() {
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail(id = "C6184")
+    public void editLinkFromLinkPageView()
+    {
         currentDate = new DateTime();
         log.info("Precondition: Create site, add 'Links' page to it and create an external link");
         linkTags.add("tag1");
@@ -141,9 +144,10 @@ public class EditingLinkTests extends BaseTest
 
     }
 
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail (id = "C6185")
-    public void editLinkFromLinksPage() {
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail(id = "C6185")
+    public void editLinkFromLinksPage()
+    {
         currentDate = new DateTime();
         log.info("Precondition: Create site, add 'Links' page to it and create an external link");
         linkTags.add("tag1");
@@ -209,8 +213,8 @@ public class EditingLinkTests extends BaseTest
         deleteSitesIfNotNull(siteName.get());
     }
 
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
-    @TestRail (id = "C6186")
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @TestRail(id = "C6186")
     public void cancelEditingLink()
     {
         currentDate = new DateTime();

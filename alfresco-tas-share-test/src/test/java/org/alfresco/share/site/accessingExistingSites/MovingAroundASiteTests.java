@@ -4,6 +4,7 @@ import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.site.CustomizeSitePage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
@@ -13,6 +14,7 @@ import org.alfresco.po.share.site.members.SiteMembersPage;
 
 import org.alfresco.share.BaseTest;
 
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 
 import org.alfresco.utility.model.SiteModel;
@@ -67,7 +69,8 @@ public class MovingAroundASiteTests extends BaseTest
     }
 
     @TestRail (id = "C3034")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SITES })
+    @AlfrescoTest(jira="XAT-8554")
+    @Test(groups = { TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void verifyDefaultAreas() {
         log.info("PreCondition2: Any site is created by "+user1);
         siteName.set(getDataSite().usingUser(user1.get()).createPublicRandomSite());
@@ -96,7 +99,8 @@ public class MovingAroundASiteTests extends BaseTest
     }
 
     @TestRail (id = "C3035")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
+    @AlfrescoTest(jira="XAT-8555")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void addAdditionalFeatures() {
         log.info("PreCondition2: Any site is created by "+user1);
         siteName.set(getDataSite().usingUser(user1.get()).createPublicRandomSite());

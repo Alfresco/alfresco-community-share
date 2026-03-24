@@ -3,6 +3,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.rep
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
@@ -25,6 +26,7 @@ import org.alfresco.utility.model.FolderModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 @Slf4j
 public class ActionsCreateTests extends BaseTest
@@ -93,7 +95,8 @@ public class ActionsCreateTests extends BaseTest
 
 
     @TestRail (id = "C8156")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10820")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void createPlainTextDocumentInRepository()
     {
         FileModel txtFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
@@ -122,7 +125,8 @@ public class ActionsCreateTests extends BaseTest
 
 
     @TestRail (id = "C8161")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10824")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void createHTMLDocumentInRepository()
     {
         FileModel htmlFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
@@ -151,7 +155,8 @@ public class ActionsCreateTests extends BaseTest
 
 
     @TestRail (id = "C8162")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10825")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void createXMLFile()
     {
         FileModel xmlFile = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
@@ -179,7 +184,8 @@ public class ActionsCreateTests extends BaseTest
     }
 
     @TestRail (id = "C8159")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10823")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void createDocumentFromTemplate()
     {
         authenticateUsingLoginPage(testUser1);
@@ -216,7 +222,8 @@ public class ActionsCreateTests extends BaseTest
     }
 
     @TestRail (id = "C8158")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @AlfrescoTest(jira = "XAT-10821")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void createFolderFromTemplateInRepository()
     {
         authenticateUsingLoginPage(testUser1);
@@ -268,7 +275,8 @@ public class ActionsCreateTests extends BaseTest
     }
 
     @TestRail (id = " C13746")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10826")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void checkThatTheCreateOptionIsAvailableForAdminInMainRepository() {
         authenticateUsingLoginPage(getAdminUser());
         repositoryPage

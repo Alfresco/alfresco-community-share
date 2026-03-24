@@ -1,10 +1,11 @@
-package org.alfresco.share;
+package org.alfresco.share.toolBar;
 
 import static org.alfresco.share.TestUtils.ALFRESCO_ADMIN_GROUP;
 
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.profile.UserProfilePage;
+import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
