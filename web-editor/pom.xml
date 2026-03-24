@@ -116,9 +116,17 @@
                     <groupId>org.alfresco</groupId>
                     <artifactId>alfresco-core</artifactId>
                 </exclusion>
-
+              <exclusion>
+                <groupId>org.mozilla</groupId>
+                <artifactId>rhino</artifactId>
+              </exclusion>
             </exclusions>
         </dependency>
+      <dependency>
+        <groupId>org.mozilla</groupId>
+        <artifactId>rhino</artifactId>
+        <version>${dependency.rhino.version}</version>
+      </dependency>
         <dependency>
             <groupId>org.alfresco.surf</groupId>
             <artifactId>spring-webeditor</artifactId>
