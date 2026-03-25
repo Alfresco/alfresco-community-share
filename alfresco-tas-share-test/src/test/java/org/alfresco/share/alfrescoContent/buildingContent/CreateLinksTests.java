@@ -2,6 +2,7 @@ package org.alfresco.share.alfrescoContent.buildingContent;
 
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.dashlet.MyActivitiesDashlet;
 import org.alfresco.po.share.dashlet.SiteActivitiesDashlet;
@@ -20,6 +21,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 public class CreateLinksTests extends BaseTest
 {
@@ -54,6 +56,7 @@ public class CreateLinksTests extends BaseTest
     }
 
     @TestRail (id = "C42605")
+    @AlfrescoTest(jira = "XAT-9739")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void verifyCreateLinkButtonFromDocLibraryActions()
     {
@@ -73,7 +76,8 @@ public class CreateLinksTests extends BaseTest
     }
 
     @TestRail (id = "C42607")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9741")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void verifyCreateLinkButtonFromDocLibrarySelectedItemsMultipleItems()
     {
         FileModel file2 = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
@@ -90,7 +94,8 @@ public class CreateLinksTests extends BaseTest
     }
 
     @TestRail (id = "C42608")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9742")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void verifyCreateLinkButtonFromDocumentDetailsActions()
     {
         documentDetailsPage.navigate(file.get())
@@ -157,7 +162,8 @@ public class CreateLinksTests extends BaseTest
     }
 
     @TestRail (id = "C42620")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9754")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void duplicateLinksAreNotAllowed()
     {
         FolderModel folder = FolderModel.getRandomFolderModel();
@@ -188,7 +194,8 @@ public class CreateLinksTests extends BaseTest
     }
 
     @TestRail (id = "C42622")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9756")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void createdLinkDisplayedInSiteActivitiesDashlet()
     {
         documentLibraryPage.navigate(site.get())

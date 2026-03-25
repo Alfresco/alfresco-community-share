@@ -4,8 +4,10 @@ import java.util.Arrays;
 
 import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MyDiscussionsDashlet;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
@@ -42,7 +44,8 @@ public class MyDiscussionsDashletTests extends AbstractSiteDashboardDashletsTest
     }
 
     @TestRail (id = "C2791")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8521")
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, ShareGroups.SHARE_PRIORITY_1})
     public void shouldDisplaySpecificMessageWhenMyDiscussionDashletHasNoTopics()
     {
         siteDashboardPage.navigate(site.get());

@@ -1,26 +1,14 @@
-name: alfresco_enterprise_share
+name: alfresco_enterprise_share_regression_ci_23.N
 
 on:
-  push:
-    branches:
-      - "fix/**"
-      - "feature/**"
-  pull_request:
-    branches:
-      - master
-      - "release/**"
+  schedule:
+    - cron: '30 15 * * *'
   workflow_call:
-    inputs:
-      commitMessage:
-        description: Commit message passed from caller
-        required: false
-        type: string
   workflow_dispatch:
     inputs:
       commitMessage:
         description: Enter the Commit Message
         required: true
-
 env:
   JAVA_VERSION: "21"
   HOSTED_ZONE: dev.envalfresco.com
@@ -209,6 +197,7 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
+          warning_on_retry: true
           command: mvn -B test -pl ${{ matrix.testModule }} -DfailIfNoTests=false
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
@@ -248,6 +237,7 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
+          warning_on_retry: true
           command: mvn -B test -Pags -pl :${{ matrix.testModule }} -DfailIfNoTests=false
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
@@ -282,7 +272,7 @@ jobs:
           python-version: 3.x
       - name: "Init"
         run: bash scripts/ci/init.sh
-      - name: "Prepare before Test"
+      - name:  "Prepare before Test"
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - name: Build Docker image
@@ -303,7 +293,7 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
-          command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml" -Dgroups=SharePriority1 -DexcludedGroups=bug,tobefixed
+          command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml"
       - name: "Upload artifacts"
         if: always()
         uses: actions/upload-artifact@v4
@@ -333,7 +323,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test: [ communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests ]
+        test: [communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -383,6 +373,7 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
+          warning_on_retry: true
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -493,11 +484,11 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
-          command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dgroups=sanity -DexcludedGroups=needsAttention -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
+          command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ags/${GITHUB_RUN_NUMBER}/${JOB_NAME}
+          name: ags-${{matrix.test}}-${GITHUB_RUN_NUMBER}-${JOB_NAME}-${{ github.run_id}}-${{ github.run_attempt }}
           path:
             amps/ags/rm-automation/rm-automation-ui/target/surefire-reports
             amps/ags/rm-automation/rm-automation-ui/target/reports

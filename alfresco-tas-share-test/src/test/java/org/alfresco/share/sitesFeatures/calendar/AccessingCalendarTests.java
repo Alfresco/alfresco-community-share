@@ -19,6 +19,7 @@ import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.share.BaseTest;
 import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -81,7 +82,8 @@ public class AccessingCalendarTests extends BaseTest
     }
 
     @TestRail (id = "C5437")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.TOBEFIXED})
+    @AlfrescoTest(jira = "XAT-8557")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1})
 
     public void accessTheCalendarPage()
     {

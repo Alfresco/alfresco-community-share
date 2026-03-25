@@ -2,10 +2,12 @@ package org.alfresco.share.site.siteDashboard;
 
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.enums.ActivitiesDaysRangeFilter;
 import org.alfresco.po.enums.ActivitiesFilter;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteActivitiesDashlet;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.model.*;
@@ -51,7 +53,8 @@ public class SiteActivitiesTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C2809")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8454")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD, ShareGroups.SHARE_PRIORITY_1})
     public void verifyDateRangeFilter()
     {
         FileModel file = FileModel.getRandomFileModel(FileType.XML, FILE_CONTENT);
@@ -85,7 +88,8 @@ public class SiteActivitiesTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C12835")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8457")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD,ShareGroups.SHARE_PRIORITY_1 })
     public void verifyUpdateGroupRoleActivityIsDisplayed()
     {
         GroupModel groupToUpdate = dataGroup.usingAdmin().createRandomGroup();

@@ -1,12 +1,14 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 
 import org.alfresco.utility.model.*;
@@ -60,7 +62,8 @@ public class EditingFilesInAlfrescoTests extends BaseTest
     }
 
     @TestRail (id = "C7036")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10226")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void verifyEditFileProperties()
     {
         log.info("Create File in document library.");

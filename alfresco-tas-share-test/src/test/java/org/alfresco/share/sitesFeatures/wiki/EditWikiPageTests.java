@@ -7,6 +7,7 @@ import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
@@ -20,6 +21,7 @@ import org.alfresco.po.share.site.wiki.WikiPage;
 
 import org.alfresco.share.BaseTest;
 
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 
 import org.alfresco.utility.data.RandomData;
@@ -104,7 +106,8 @@ public class EditWikiPageTests extends BaseTest
     }
 
     @TestRail (id = "C5542")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira = "XAT-8687")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1 })
     public void editWikiPageFromPageView() throws InterruptedException {
         wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());
 
@@ -137,7 +140,8 @@ public class EditWikiPageTests extends BaseTest
     }
 
     @TestRail (id = "C5543")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira = "XAT-8688")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES,ShareGroups.SHARE_PRIORITY_1 })
     public void editWikiPageFromWikiPageList()
     {
         wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());

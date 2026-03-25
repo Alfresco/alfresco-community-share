@@ -9,11 +9,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.site.discussion.*;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -197,7 +199,8 @@ public class ReplyingToDiscussionTests extends BaseTest
     }
 
     @TestRail (id = "6218")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES})
+    @AlfrescoTest(jira = "XAT-8723")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     public void replyToAReply()
     {
         today = df.format(new Date());

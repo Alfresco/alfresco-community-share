@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.socialFeatures;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.BaseTest;
@@ -8,6 +9,8 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.*;
 import org.testng.annotations.*;
+import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 @Slf4j
 public class ManagingCommentsTests extends BaseTest
@@ -54,7 +57,7 @@ public class ManagingCommentsTests extends BaseTest
     }
 
     @TestRail (id = "C9934")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void commentsDeleteComment()
     {
         log.info("Precondition: click on the file created in the site where comment to be added.");

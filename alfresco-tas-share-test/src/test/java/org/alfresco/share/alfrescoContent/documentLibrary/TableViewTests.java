@@ -1,9 +1,11 @@
 package org.alfresco.share.alfrescoContent.documentLibrary;
 
 import static org.alfresco.share.ContextAwareWebTest.FILE_CONTENT;
+import org.alfresco.constants.ShareGroups;
 
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.apache.chemistry.opencmis.client.api.CmisObject;
@@ -33,10 +35,10 @@ public class TableViewTests extends BaseTest
         authenticateUsingCookies(user.get());
     }
 
-    @TestRail (id = "C2266, C2267")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
-    public void checkContentInTableView()
-    {
+    @TestRail(id = "C2266, C2267")
+    @AlfrescoTest(jira = "XAT-9610")
+    @Test(groups = {TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
+    public void checkContentInTableView() {
         String fileDescription = RandomStringUtils.randomAlphabetic(10);
         String fileTitle = RandomStringUtils.randomAlphabetic(5);
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);

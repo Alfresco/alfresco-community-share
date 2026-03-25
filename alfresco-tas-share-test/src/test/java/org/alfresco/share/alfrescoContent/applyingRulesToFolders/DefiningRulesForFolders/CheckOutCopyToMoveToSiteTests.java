@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.applyingRulesToFolders.DefiningRulesForFolders;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.ManageRulesPage;
@@ -14,6 +15,7 @@ import org.alfresco.utility.model.*;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -84,7 +86,8 @@ public class CheckOutCopyToMoveToSiteTests extends AbstractFolderRuleTest
     }
 
     @TestRail (id = "C7285")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9845")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void checkoutToSite()
     {
         siteDashboardPage.navigate(site.get()).navigateToDocumentLibraryPage();
@@ -151,7 +154,8 @@ public class CheckOutCopyToMoveToSiteTests extends AbstractFolderRuleTest
 
 
     @TestRail (id = "C7284")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9846")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void moveToSite()
     {
         siteDashboardPage.navigate(site.get()).navigateToDocumentLibraryPage();
@@ -216,7 +220,8 @@ public class CheckOutCopyToMoveToSiteTests extends AbstractFolderRuleTest
     }
 
     @TestRail (id = "C7283")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9844")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void copyToSite()
     {
         siteDashboardPage.navigate(site.get()).navigateToDocumentLibraryPage();
