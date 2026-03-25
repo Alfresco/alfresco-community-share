@@ -10,11 +10,6 @@ on:
       - master
       - "release/**"
   workflow_call:
-    inputs:
-      commitMessage:
-        description: Commit message passed from caller
-        required: false
-        type: string
   workflow_dispatch:
     inputs:
       commitMessage:
