@@ -4,6 +4,7 @@ import static org.alfresco.share.TestUtils.FILE_CONTENT;
 import static org.alfresco.utility.model.FileModel.getRandomFileModel;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteContentDashlet;
 import org.alfresco.testrail.TestRail;
@@ -73,7 +74,7 @@ public class SiteContentDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C588523")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD, ShareGroups.SHARE_PRIORITY_1,ShareGroups.MISSING_JIRA})
     public void shouldDisplayCreatedFileInDocumentDetailsPage()
     {
         FileModel fileModel = getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);

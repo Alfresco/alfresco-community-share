@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.ContentService;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
@@ -23,6 +24,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 @Slf4j
 /**
  * @author Razvan.Dorobantu
@@ -62,7 +64,8 @@ public class MyFilesSelectContentTests extends BaseTest
     }
 
     @TestRail (id = "C7682")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10415")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void selectFileByMenu()
     {
         log.info("Precondition: Login as user, navigate to My Files page and upload a file.");

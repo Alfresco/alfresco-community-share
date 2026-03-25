@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.ContentActions;
 import org.alfresco.dataprep.SiteService;
@@ -34,6 +35,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 @Slf4j
 public class DefiningRulesForFolderTests extends BaseTest
@@ -108,7 +110,8 @@ public class DefiningRulesForFolderTests extends BaseTest
     }
 
     @TestRail (id = "C6367")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9832")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void verifyFolderRulesPage()
     {
         String folderName = "Folder-C6367-" + random;
@@ -166,7 +169,8 @@ public class DefiningRulesForFolderTests extends BaseTest
     }
 
     @TestRail (id = "C6372")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9833")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void createRule()
     {
         String ruleName1 = "rule-C6372-" + random;
@@ -254,7 +258,8 @@ public class DefiningRulesForFolderTests extends BaseTest
     }
 
     @TestRail (id = "C7239")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9835")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void createAndCreateAnother()
     {
         String ruleName1 = "rule1-C7239-" + random;
@@ -335,7 +340,7 @@ public class DefiningRulesForFolderTests extends BaseTest
     }
 
     @TestRail (id = "C7245")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void disableRule()
     {
         String ruleName1 = "rule-C7245-" + random;

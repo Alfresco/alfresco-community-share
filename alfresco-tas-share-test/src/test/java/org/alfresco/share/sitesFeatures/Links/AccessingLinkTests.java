@@ -71,7 +71,7 @@ public class AccessingLinkTests extends BaseTest
     }
 
     @Test(groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "singlePipelineFailure" })
-    @TestRail (id = "C6250")
+    @TestRail(id = "C6250")
     public void accessingTheSiteLinks()
     {
         String newLinksPageName = "newLinks";

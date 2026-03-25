@@ -6,6 +6,7 @@ import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.constants.ShareGroups;
 
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FolderModel;
@@ -16,6 +17,8 @@ import org.alfresco.utility.model.TestGroup;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
+
 
 @Slf4j
 /**
@@ -45,7 +48,8 @@ public class DeleteTests extends BaseTest
     }
 
     @TestRail (id = "C8014")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10632")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void deleteDocument() throws Exception {
         log.info("PreCondition: Create a File in"+ testUser1 +"Shared Files Folder ");
         authenticateUsingLoginPage(testUser1);
@@ -78,7 +82,8 @@ public class DeleteTests extends BaseTest
     }
 
     @TestRail (id = "C8015")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = ("XAT-10633"))
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void deleteFolder() throws Exception {
 
         log.info("PreCondition: Create a Folder in"+ testUser1 +"Shared Files Folder ");
@@ -111,7 +116,8 @@ public class DeleteTests extends BaseTest
     }
 
     @TestRail (id = "C13759")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10634")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void optionNotDisplayed() throws Exception {
         log.info("PreCondition: Create a File & Folder in"+ testUser2 +"Shared Files Folder ");
         authenticateUsingLoginPage(testUser2);

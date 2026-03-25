@@ -11,7 +11,7 @@ import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.RuleDetailsP
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.share.alfrescoContent.applyingRulesToFolders.AbstractFolderRuleTest;
-
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 
 import org.alfresco.utility.data.RandomData;
@@ -124,6 +124,7 @@ public class LinkingToDifferentRuleSetTest extends AbstractFolderRuleTest
     }
 
     @TestRail (id = "C7327")
+    @AlfrescoTest(jira = "XAT-9945")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
     public void verifyRuleIsLinked()
     {

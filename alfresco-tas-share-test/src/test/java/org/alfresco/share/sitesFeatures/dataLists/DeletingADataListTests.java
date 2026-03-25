@@ -3,6 +3,7 @@ package org.alfresco.share.sitesFeatures.dataLists;
 import junit.framework.Assert;
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.DataListsService.DataList;
@@ -13,6 +14,7 @@ import org.alfresco.po.share.site.dataLists.DataListsPage;
 import org.alfresco.po.share.site.dataLists.DeleteListPopUp;
 import org.alfresco.share.BaseTest;
 
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 
 import org.alfresco.utility.model.SiteModel;
@@ -75,7 +77,8 @@ public class DeletingADataListTests extends BaseTest
     }
 
     @TestRail (id = "C5911")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @AlfrescoTest(jira = "XAT-8828")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
     public void deletingExistingListWithSiteManagerUser()
     {
         log.info("Step 1: On the Data Lists page hoover mouse over the List from the Lists panel and click on the 'Delete' button.");

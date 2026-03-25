@@ -249,8 +249,8 @@ public class TransformationServerTest extends ContextAwareWebTest
         navigate(properties.getTransformationServerUrl().toString());
         assertTrue(documentTransformationEnginePage.searchTransformation(getBrowser(), largeDocumentToTransform, PerformActionRulePage.Mimetype.ADOBE_PDF_DOCUMENT, userName), String.format("Document %s wasn't transformed!", largeDocumentToTransform));
     }
-    
-    
+
+
     @TestRail (id = "C239088")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "TransformationServer" })
     public void nonSupportedTypesTransformation()

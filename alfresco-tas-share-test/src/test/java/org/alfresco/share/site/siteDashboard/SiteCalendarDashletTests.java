@@ -7,9 +7,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteCalendarDashlet;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
@@ -74,7 +76,8 @@ public class SiteCalendarDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5499")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8462")
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, ShareGroups.SHARE_PRIORITY_1})
     public void shouldDisplayEventWithPredefinedTimeInterval()
     {
         DateTime startDate = DateTime.now();

@@ -5,6 +5,7 @@ import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.PeopleFinderPage;
 import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.EditUserPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -36,7 +37,8 @@ public class SearchByProfilePropertiesTest extends BaseTest
         deleteUsersIfNotNull(testUser2);
     }
     @TestRail (id = "C6655")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE })
+    @AlfrescoTest(jira = "XAT-9372")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE,ShareGroups.SHARE_PRIORITY_1 })
     public void searchByUsernameOrName()
     {
         String identifier = RandomData.getRandomAlphanumeric();
