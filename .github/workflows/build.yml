@@ -20,6 +20,7 @@ on:
       commitMessage:
         description: Enter the Commit Message
         required: true
+
 env:
   JAVA_VERSION: "21"
   HOSTED_ZONE: dev.envalfresco.com
