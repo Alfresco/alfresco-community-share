@@ -45,7 +45,7 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
-    needs: [alfresco_enterprise_share]
+    needs: [ alfresco_enterprise_share ]
     if: >
       (!contains(github.event.head_commit.message, '[no release]')
       && inputs.commitMessage != '[no release]')

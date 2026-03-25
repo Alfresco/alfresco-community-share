@@ -281,7 +281,7 @@ jobs:
           python-version: 3.x
       - name: "Init"
         run: bash scripts/ci/init.sh
-      - name:  "Prepare before Test"
+      - name: "Prepare before Test"
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - name: Build Docker image
@@ -332,7 +332,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test: [communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests]
+        test: [ communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests ]
     steps:
       - uses: actions/checkout@v4
         with:
