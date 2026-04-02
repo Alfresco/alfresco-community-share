@@ -38,6 +38,8 @@ jobs:
   alfresco_enterprise_share:
     uses: ./.github/workflows/build.yml
     secrets: inherit
+    with:
+      commitMessage: ${{ github.event.head_commit.message }}
 
   release:
     runs-on: ubuntu-latest
