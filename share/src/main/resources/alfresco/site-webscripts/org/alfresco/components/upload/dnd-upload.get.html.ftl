@@ -13,6 +13,7 @@
    <@inlineScript group="upload">
       dndUpload.setInMemoryLimit("${inMemoryLimit}");
       dndUpload.setMaximumFileSizeLimit(${fileUploadSizeLimit});
+      dndUpload.setBatchSize(${batchSize});
    </@>
 </@>
 
@@ -29,9 +30,9 @@
                   <input id="${el}-file-selection-button-overlay" type="button" value="${msg("button.selectFiles")}" tabindex="0"/>
                </div>
             </div>
-         
+
             <div id="${el}-filelist-table" class="fileUpload-filelist-table"></div>
-      
+
             <div class="status-wrapper">
                <span id="${el}-status-span" class="status"></span>
             </div>
@@ -43,7 +44,7 @@
                  <span id="${el}-aggregate-progress-span" class="aggregate-progressSuccess-span">&nbsp;</span>
               </div>
             </div>
-      
+
             <div id="${el}-versionSection-div">
                 <div id="${el}-compare-versions" class="hidden compare-versions">
                    <div class="header">
@@ -126,7 +127,7 @@
                   </div>
                </div>
             </div>
-      
+
             <!-- Templates for a file row -->
             <div style="display:none">
                <div id="${el}-left-div" class="fileupload-left-div">
