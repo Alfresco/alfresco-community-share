@@ -9,6 +9,8 @@ on:
     branches:
       - master
       - "release/**"
+  schedule:
+    - cron: '0 13 * * *' # 18:30 IST nightly
   workflow_call:
   workflow_dispatch:
     inputs:
