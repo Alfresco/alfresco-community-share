@@ -19,12 +19,6 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>alfresco-web-framework-commons</artifactId>
-            <version>${project.version}</version>
-            <classifier>classes</classifier>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-share-encryption</artifactId>
             <version>${project.version}</version>
         </dependency>
