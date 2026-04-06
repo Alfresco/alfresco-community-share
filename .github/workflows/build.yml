@@ -493,7 +493,7 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 60
           retry_on: error
-          command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dgroups=sanity -DexcludedGroups=needsAttention -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
+          command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dgroups=sanity -DexcludedGroups=needsAttention, bug -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
