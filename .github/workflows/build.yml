@@ -173,7 +173,7 @@ jobs:
         with:
           fail-on-new-issues: "false"
           create-github-annotations: "false"
-          classpath-enable: "true"
+          classpath-enable: "false"
 
   unit_tests:
     name: "Unit tests"
