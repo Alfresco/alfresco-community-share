@@ -12,6 +12,12 @@ on:
   schedule:
     - cron: '0 13 * * *' # 18:30 IST nightly
   workflow_call:
+    inputs:
+      commitMessage:
+        description: Enter the Commit Message
+        required: false
+        default: ''
+        type: string
   workflow_dispatch:
     inputs:
       commitMessage:
