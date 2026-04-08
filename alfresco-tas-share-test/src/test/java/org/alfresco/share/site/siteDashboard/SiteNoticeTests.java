@@ -3,8 +3,10 @@ package org.alfresco.share.site.siteDashboard;
 import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SiteNoticeDashlet;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
@@ -53,7 +55,8 @@ public class SiteNoticeTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5558")
-    @Test (groups = {TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8503")
+    @Test (groups = {TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, ShareGroups.SHARE_PRIORITY_1})
     public void shouldSuccessFullyConfigureSiteNoticeDashlet()
     {
         siteDashboardPage.navigate(site.get());

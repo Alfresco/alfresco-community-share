@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.pageCommon.HeaderMenuBar;
@@ -17,6 +18,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 @Slf4j
 public class ActionsDeleteTests extends BaseTest
@@ -61,7 +63,8 @@ public class ActionsDeleteTests extends BaseTest
     }
 
     @TestRail (id = "C8308")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10978")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
 
     public void deleteDocument()
     {
@@ -117,7 +120,8 @@ public class ActionsDeleteTests extends BaseTest
     }
 
     @TestRail (id = "C13749")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10980")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
 
     public void nonAdminUserCanNotDeleteFileOrFolderFromTheMainRepository() throws Exception {
 

@@ -11,6 +11,7 @@ import org.alfresco.po.share.site.link.CreateLinkPage;
 import org.alfresco.po.share.site.link.LinkDetailsViewPage;
 import org.alfresco.po.share.site.link.LinkPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -80,6 +81,7 @@ public class CreatingNewLinkTests extends BaseTest {
         deleteUsersIfNotNull(user1.get());
     }
 
+    @AlfrescoTest(jira = "XAT-9308")
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
     @TestRail(id = "C6180")
     public void createExternalLink() {

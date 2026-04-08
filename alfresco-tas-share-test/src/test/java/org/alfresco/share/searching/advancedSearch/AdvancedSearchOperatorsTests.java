@@ -2,11 +2,13 @@ package org.alfresco.share.searching.advancedSearch;
 
 import static org.testng.Assert.assertTrue;
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -198,7 +200,8 @@ public class AdvancedSearchOperatorsTests extends BaseTest
     }
 
     @TestRail (id = "C7407")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, ShareGroups.SHARE_PRIORITY_1})
+    @AlfrescoTest(jira = "XAT-9431")
     public void explicitSpansPositions()
     {
         documentLibraryPage

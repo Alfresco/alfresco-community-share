@@ -9,6 +9,7 @@ import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.ContentService;
 import org.alfresco.dataprep.DashboardCustomization;
@@ -21,6 +22,7 @@ import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.po.share.site.blog.BlogPostListPage;
 import org.alfresco.po.share.site.blog.CreateBlogPostPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -137,7 +139,7 @@ public class SearchHighlightTests extends BaseTest
     }
 
     @TestRail (id = "C42545")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH})
     public void highlightSearchByTitle()
     {
         log.info("Step 1: Login with username and navigate to Advanced Search page.");
@@ -166,7 +168,8 @@ public class SearchHighlightTests extends BaseTest
     }
 
     @TestRail (id = "C42547")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @AlfrescoTest(jira = "XAT-9338")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH,ShareGroups.SHARE_PRIORITY_1 })
     public void highlightSearchByContent()
     {
         log.info("Step 1: Login with username and navigate to Advanced Search page.");
@@ -204,7 +207,7 @@ public class SearchHighlightTests extends BaseTest
     }
 
     @TestRail (id = "C42550")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, ShareGroups.TOBEFIXED})
     public void highlightSearchByContentOnDifferentPage()
     {
         log.info("Step 1: Login with username and navigate to Advanced Search page.");
@@ -271,7 +274,7 @@ public class SearchHighlightTests extends BaseTest
     }
 
     @TestRail (id = "C42560")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", ShareGroups.TOBEFIXED })
     public void highlightSearchWithWildcards()
     {
         log.info("Step 1: Login with username and navigate to Advanced Search page.");
@@ -358,7 +361,7 @@ public class SearchHighlightTests extends BaseTest
     }
 
     @TestRail (id = "C42563")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SearchTests", ShareGroups.TOBEFIXED })
     public void highlightSearchWithDisjunctions()
     {
         log.info("Step 1: Login with username and navigate to Advanced Search page.");
@@ -383,7 +386,8 @@ public class SearchHighlightTests extends BaseTest
     }
 
     @TestRail (id = "C42564")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @AlfrescoTest(jira = "XAT-9544")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, ShareGroups.SHARE_PRIORITY_1 })
     public void highlightSearchWithNegation()
     {
         log.info("Step 1: Login with username and navigate to Advanced Search page.");

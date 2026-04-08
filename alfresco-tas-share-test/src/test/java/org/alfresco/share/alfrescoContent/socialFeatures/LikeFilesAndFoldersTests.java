@@ -9,7 +9,8 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.*;
 import org.testng.annotations.*;
-
+import org.alfresco.test.AlfrescoTest;
+import org.alfresco.constants.ShareGroups;
 @Slf4j
 public class LikeFilesAndFoldersTests extends BaseTest
 {
@@ -50,7 +51,8 @@ public class LikeFilesAndFoldersTests extends BaseTest
     }
 
     @TestRail (id = "C7906")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10165")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void likeFile()
     {
         fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, description);
@@ -80,7 +82,8 @@ public class LikeFilesAndFoldersTests extends BaseTest
     }
 
     @TestRail (id = "7907")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10166")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void likeFolder()
     {
         folderToCheck = FolderModel.getRandomFolderModel();
@@ -149,7 +152,8 @@ public class LikeFilesAndFoldersTests extends BaseTest
         }
 
     @TestRail (id = "C7909")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10168")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
 
     public void unlikeFolder()
     {
@@ -188,7 +192,8 @@ public class LikeFilesAndFoldersTests extends BaseTest
     }
 
     @TestRail (id = "C7910")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10169")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void addCommentToFile()
     {
         fileToCheck = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, description);
@@ -215,7 +220,8 @@ public class LikeFilesAndFoldersTests extends BaseTest
     }
 
     @TestRail (id = "C7911")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10170")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void addCommentToFolder()
     {
         folderToCheck = FolderModel.getRandomFolderModel();

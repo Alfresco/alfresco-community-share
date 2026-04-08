@@ -4,6 +4,7 @@ import static org.alfresco.common.Utils.testDataFolder;
 import static org.testng.Assert.assertEquals;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
@@ -19,6 +20,7 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 
 @Slf4j
@@ -66,7 +68,8 @@ public class ActionsUnzippingContentTests extends BaseTest
     }
 
     @TestRail (id = "C8256")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10926")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1})
     public void unzipZipFileToRepository()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");
@@ -114,7 +117,8 @@ public class ActionsUnzippingContentTests extends BaseTest
     }
 
     @TestRail (id = "C8257")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT }, enabled = false)
+    @AlfrescoTest(jira = "XAT-10927")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 }, enabled = false)
     public void unzipAcpFileToRepository()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");

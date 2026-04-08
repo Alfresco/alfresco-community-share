@@ -2,6 +2,7 @@ package org.alfresco.share.alfrescoContent.applyingRulesToFolders.workingWithASe
 
 import static org.alfresco.po.share.site.ItemActions.MANAGE_RULES;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SelectDestinationDialog;
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.EditRulesPage;
@@ -68,7 +69,7 @@ public class ManuallyRunningRulesTest extends AbstractFolderRuleTest
     }
 
     @TestRail(id = "C7320")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1})
     public void shouldAbleToRunCreatedRule()
     {
         createFolderRule(user.get(),

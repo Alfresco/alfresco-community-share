@@ -2,8 +2,10 @@ package org.alfresco.share.userDashboard.dashlets;
 
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.enums.DocumentsFilter;
 import org.alfresco.po.share.dashlet.MyDocumentsDashlet;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.testng.annotations.*;
@@ -26,7 +28,8 @@ public class MyDocumentsDashletTests extends AbstractUserDashboardDashletsTests
     }
 
     @TestRail (id = "C2134")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
+    @AlfrescoTest(jira="XAT-8225")
+    @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD, ShareGroups.SHARE_PRIORITY_1})
     public void checkDetailedView()
     {
         FileModel testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
@@ -50,7 +53,7 @@ public class MyDocumentsDashletTests extends AbstractUserDashboardDashletsTests
                 .assertRemoveFromFavoriteIsDisplayed()
             .removeFromFavorite()
                 .assertAddToFavoriteIsDisplayed()
-            //.assertNoDescriptionIsDisplayed() //TODO: uncomment after APPS-882 is fixed
+            .assertNoDescriptionIsDisplayed()
             .assertVersionIs(1.0)
             .assertThumbnailIsDisplayed()
             .selectDocument().assertDocumentTitleEquals(testFile);

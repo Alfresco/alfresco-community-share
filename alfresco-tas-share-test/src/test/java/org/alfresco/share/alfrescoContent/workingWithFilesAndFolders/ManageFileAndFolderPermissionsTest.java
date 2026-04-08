@@ -1,10 +1,12 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ManagePermissionsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.*;
 import org.testng.annotations.AfterMethod;
@@ -107,7 +109,8 @@ public class ManageFileAndFolderPermissionsTest extends BaseTest
     }
 
     @TestRail (id = "C7121")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10331")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void saveManagePermissions()
     {
         log.info("Navigate to the Site Document Library.");
@@ -149,7 +152,8 @@ public class ManageFileAndFolderPermissionsTest extends BaseTest
     }
 
     @TestRail (id = "C7124")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10333")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void turnOffInheritPermissions()
     {
         log.info("Precondition: Navigate to Manage Permissions page for the file.");
@@ -209,7 +213,8 @@ public class ManageFileAndFolderPermissionsTest extends BaseTest
     }
 
     @TestRail (id = "C7125")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10334")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void turnOnInheritPermissions()
     {
         log.info("Precondition1: Navigate to Manage Permission page for the file and set Inherit Permissions to off.");
@@ -271,7 +276,8 @@ public class ManageFileAndFolderPermissionsTest extends BaseTest
     }
 
     @TestRail (id = "C7143")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10335")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void deleteUser()
     {
         log.info("Navigate to the Site Document Library and go to the Manage Permission page of file.");
