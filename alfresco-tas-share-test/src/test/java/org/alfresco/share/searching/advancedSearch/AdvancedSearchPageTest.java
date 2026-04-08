@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.SitePagesService;
@@ -11,6 +12,7 @@ import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.searching.AdvancedSearchPage;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -134,7 +136,8 @@ public class AdvancedSearchPageTest extends BaseTest
     }
 
     @TestRail (id = "C5888")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @AlfrescoTest(jira = "XAT-9413")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH,ShareGroups.SHARE_PRIORITY_1})
     public void verifyAdvancedSearchPage() throws InterruptedException {
         authenticateUsingCookies(user.get());
         advancedSearchPage
@@ -195,7 +198,7 @@ public class AdvancedSearchPageTest extends BaseTest
 
     @Bug (id = "ACE-5789")
     @TestRail (id = "C5891")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SinglePipelineFailure",  "SearchTests" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, "SinglePipelineFailure",  "SearchTests", ShareGroups.TOBEFIXED})
     public void searchByKeyword() {
         String identifier = RandomData.getRandomAlphanumeric();
         siteModel.set(getDataSite().usingUser(user.get()).createPublicRandomSite());

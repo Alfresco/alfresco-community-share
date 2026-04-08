@@ -3,6 +3,7 @@ package org.alfresco.share.alfrescoContent.socialFeatures;
 import static org.junit.Assert.assertEquals;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
@@ -20,6 +21,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 @Slf4j
 public class ManagingCommentsTests extends BaseTest
@@ -212,7 +214,8 @@ public class ManagingCommentsTests extends BaseTest
     }
 
     @TestRail (id = "C7594")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10182")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void addCommentSiteManager()
     {
         authenticateUsingCookies(user2.get());
@@ -270,7 +273,8 @@ public class ManagingCommentsTests extends BaseTest
     }
 
     @TestRail (id = "C7598")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10186")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void editCommentSiteManager()
     {
         log.info("Precondition: click on the file created in the site where comment to be added.");
@@ -314,7 +318,8 @@ public class ManagingCommentsTests extends BaseTest
     }
 
     @TestRail (id = "C7589")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10177")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void deleteCommentAndCancel()
     {
         log.info("Precondition: click on the file created in the site where comment to be added.");
@@ -335,7 +340,7 @@ public class ManagingCommentsTests extends BaseTest
     }
 
     @TestRail (id = "C7590")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , ShareGroups.TOBEFIXED})
     public void addCommentLinks()
     {
         log.info("Precondition: click on the file created in the site where comment to be added.");

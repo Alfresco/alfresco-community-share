@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.DataListsService;
 import org.alfresco.dataprep.SiteService;
@@ -87,7 +88,7 @@ public class SelectingMultipleListItems extends BaseTest
     }
 
     @TestRail (id = "C6403")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.TOBEFIXED})
     public void selectAllItemsTest()
     {
 
@@ -135,7 +136,7 @@ public class SelectingMultipleListItems extends BaseTest
     }
 
     @TestRail (id = "C6404")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.TOBEFIXED })
     public void selectAllByUsingInvertSelection()
     {
 

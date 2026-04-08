@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
@@ -17,6 +18,7 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 import java.util.Arrays;
 import java.util.List;
@@ -78,7 +80,7 @@ public class SharedFilesManageAspectsTests extends BaseTest
     }
 
     @TestRail (id = "C8038")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
     public void checkManageAspectActions()
     {
         log.info("Precondition: create folder in Shared folder from user ");
@@ -126,7 +128,8 @@ public class SharedFilesManageAspectsTests extends BaseTest
     }
 
     @TestRail (id = "C8034")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "tobefixed" })
+    @AlfrescoTest(jira = "AT-10714")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1 })
     public void manageAspectsApplyChanges()
     {
         log.info("Precondition: create folder in Shared folder from user ");
@@ -181,7 +184,8 @@ public class SharedFilesManageAspectsTests extends BaseTest
 
 
     @TestRail (id = "C13761")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10716")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1 })
     public void manageAspectsActionMissing()
     {
         log.info("Precondition: create folder in Shared folder from user2 ");

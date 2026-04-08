@@ -2,9 +2,11 @@ package org.alfresco.share.adminTools;
 
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.user.admin.adminTools.TagManagerPage;
 import org.alfresco.rest.model.RestTagModelsCollection;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FileType;
@@ -61,7 +63,8 @@ public class TagManagerTests extends BaseTest
     }
 
     @TestRail (id = "C9385")
-    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
+    @AlfrescoTest(jira = "XAT-11937")
+    @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, ShareGroups.SHARE_PRIORITY_1})
     public void verifyTagManagerPage()
     {
         tagManagerPage.navigate();

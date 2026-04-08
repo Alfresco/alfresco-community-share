@@ -10,6 +10,7 @@ import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.ContentService;
 import org.alfresco.dataprep.DashboardCustomization;
@@ -37,7 +38,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
-
+import org.alfresco.test.AlfrescoTest;
 @Slf4j
 /**
  * @author Laura.Capsa
@@ -105,7 +106,8 @@ public class BasicSearchTests extends BaseTest
     }
 
     @TestRail (id = "C5933")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @AlfrescoTest(jira = "XAT-9338")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH,ShareGroups.SHARE_PRIORITY_1 })
     public void verifyLiveSearchableContent() {
         String userName1 = user1.get().getUsername();
         String userName2 = user2.get().getUsername();
@@ -178,7 +180,7 @@ public class BasicSearchTests extends BaseTest
     }
 
     @TestRail (id = "C5945")
-    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH })
+    @Test(groups = { TestGroup.SANITY, TestGroup.SEARCH , ShareGroups.TOBEFIXED})
     public void verifySearchPage()
     {
         log.info("Precondition: Creating random file in the site under document library");

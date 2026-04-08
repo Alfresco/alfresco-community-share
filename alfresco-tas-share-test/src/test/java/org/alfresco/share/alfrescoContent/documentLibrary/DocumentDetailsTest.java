@@ -1,11 +1,13 @@
 package org.alfresco.share.alfrescoContent.documentLibrary;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.FileType;
@@ -105,7 +107,8 @@ public class DocumentDetailsTest extends BaseTest
     }
 
     @TestRail (id = "C2277")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9636")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void tagsToggle()
     {
         documentLibraryPages.navigate(site.get())
@@ -117,7 +120,8 @@ public class DocumentDetailsTest extends BaseTest
     }
 
     @TestRail (id = "C2278")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9637")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void editTagIcon()
     {
         documentLibraryPages.navigate(site.get())
