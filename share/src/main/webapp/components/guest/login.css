@@ -107,7 +107,7 @@ div.login
 
 .login-copy
 {
-   color: #fff;
+   color: #808080;
    font-size: 85%;
    margin-top: 16px;
    text-align: center;
@@ -131,18 +131,23 @@ div.login
 
 .ENTERPRISE .form-fields.login .form-field > span.yui-button > .first-child
 {
-   background-color: #0c79bf;
-   border-color: #0c79bf;
+   background-color: #5654AC;
+   border-color: #5654AC;
 }
 
 .ENTERPRISE .login .product-name
 {
-   color: #0c79bf;
+  color: #0055B8;
+  font-family: Open Sans Bold, Roboto, sans-serif;
+  letter-spacing: 1px;
 }
 
 .ENTERPRISE .login .product-tagline
 {
-   display: block;
+  display: block;
+  color: #0055B8;
+  font-family: Open Sans, Roboto, sans-serif;
+  letter-spacing: 1px;
 }
 
 .ENTERPRISE .login .product-community
@@ -157,7 +162,11 @@ div.login
 
 body.ENTERPRISE
 {
-   background-color: #0c79bf;
+  background-color: #ffffff;
+  background-image: url(../../components/images/Hyland_Login_Graphic.svg);
+  background-size: auto 100%;
+  background-position: right center;
+  background-repeat: no-repeat;
 }
 
 body.UNKNOWN
