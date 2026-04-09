@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
@@ -14,6 +15,7 @@ import org.alfresco.po.share.site.SitePageType;
 import org.alfresco.po.share.site.wiki.WikiListPage;
 import org.alfresco.po.share.site.wiki.WikiMainPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.exception.DataPreparationException;
 import org.alfresco.utility.model.SiteModel;
@@ -73,7 +75,8 @@ public class AccessingTheWikiTests extends BaseTest
     }
 
     @TestRail (id = "C5493")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, TestGroup.INTEGRATION })
+    @AlfrescoTest(jira = "XAT-8670")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1})
     public void accessWikiMainPageTest() throws DataPreparationException
     {
         log.info("Step 1 : Click on wiki tab and inspect the elements on the wiki main page");

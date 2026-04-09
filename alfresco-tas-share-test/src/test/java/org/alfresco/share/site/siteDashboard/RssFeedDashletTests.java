@@ -2,6 +2,7 @@ package org.alfresco.share.site.siteDashboard;
 
 import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.RssFeedDashlet;
 import org.alfresco.testrail.TestRail;
@@ -40,7 +41,7 @@ public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5568")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , ShareGroups.TOBEFIXED})
     public void checkDisplaySpecificMessageWhenRssFeedListIsEmpty()
     {
         siteDashboardPage.navigate(site.get());
@@ -53,7 +54,7 @@ public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C2795")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , ShareGroups.TOBEFIXED })
     public void shouldConfigureRSSFeedDashlet()
     {
         siteDashboardPage.navigate(site.get());

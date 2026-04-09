@@ -2,6 +2,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.rep
 
 import static org.alfresco.common.Utils.testDataFolder;
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
@@ -16,6 +17,7 @@ import org.alfresco.utility.model.TestGroup;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,7 +73,8 @@ public class ActionsSelectTests extends BaseTest
     }
 
     @TestRail (id = "C8163")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10828")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void selectFile()
     {
 
@@ -139,6 +142,7 @@ public class ActionsSelectTests extends BaseTest
     }
 
     @TestRail (id = "C8164")
+    @AlfrescoTest(jira = "XAT-10829")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void selectFolder()
     {

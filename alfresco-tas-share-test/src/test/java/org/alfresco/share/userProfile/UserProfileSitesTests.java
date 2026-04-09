@@ -1,7 +1,9 @@
 package org.alfresco.share.userProfile;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.user.profile.UserSitesListPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.model.SiteModel;
@@ -25,7 +27,8 @@ public class UserProfileSitesTests extends BaseTest
     }
 
     @TestRail (id = "C2154")
-    @Test (groups = { TestGroup.SANITY, TestGroup.USER })
+    @AlfrescoTest(jira = "XAT-8183")
+    @Test(groups = {TestGroup.SANITY, TestGroup.USER, ShareGroups.SHARE_PRIORITY_1})
     public void viewSitesWhereUserHasMembershipTest()
     {
         UserModel invitedUser = dataUser.usingAdmin().createRandomTestUser();

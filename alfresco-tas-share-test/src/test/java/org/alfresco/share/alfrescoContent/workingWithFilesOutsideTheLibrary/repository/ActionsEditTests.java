@@ -1,6 +1,7 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
@@ -19,6 +20,7 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 import java.util.Collections;
 
@@ -85,7 +87,8 @@ public class ActionsEditTests extends BaseTest
 
 
     @TestRail (id = "C7737")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10851")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1 })
     public void repositoryEditFilesProperties()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");
@@ -205,7 +208,7 @@ public class ActionsEditTests extends BaseTest
     }
 
     @TestRail (id = "C7767")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , ShareGroups.TOBEFIXED })
     public void repositoryEditFileInAlfresco()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");
@@ -262,7 +265,8 @@ public class ActionsEditTests extends BaseTest
     }
 
     @TestRail (id = "C7782")
-    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS })
+    @AlfrescoTest(jira = "XAT-10886")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS , ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1 })
     public void repositoryEditFilesInGoogleDocs()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");

@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
@@ -24,6 +25,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 /**
  * @author Razvan.Dorobantu
@@ -68,7 +70,8 @@ public class MyFilesDownloadTests extends BaseTest
     }
 
     @TestRail(id = "C7799")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10489")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void myFilesDownloadFileFromAlfresco()
     {
         log.info("Precondition: Navigate to My Files page and upload a file.");
@@ -86,7 +89,8 @@ public class MyFilesDownloadTests extends BaseTest
     }
 
     @TestRail(id = "C7802")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest (jira = "XAT-10492")
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void downloadFolder()
     {
         log.info("Precondition: Login as user, navigate to My Files page and create a folder.");
@@ -113,7 +117,7 @@ public class MyFilesDownloadTests extends BaseTest
     }
 
     @TestRail(id = "XAT-10433")
-    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, "DownloadTest" })
+    @Test(groups = { TestGroup.SANITY, TestGroup.CONTENT, "DownloadTest", ShareGroups.SHARE_PRIORITY_1 })
     public void performingActionsOnSeveralSelectedItemsDownloadAsZip()
     {
         log.info("Step1: Login as user, navigate to My Files page and create a couple of plain text files.");
