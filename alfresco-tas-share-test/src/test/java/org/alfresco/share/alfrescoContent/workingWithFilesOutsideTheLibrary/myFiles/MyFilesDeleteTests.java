@@ -6,6 +6,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.MyFilesPage;
@@ -25,6 +26,7 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 @Slf4j
 /**
@@ -71,7 +73,8 @@ public class MyFilesDeleteTests extends BaseTest
     }
 
     @TestRail (id = "C7896")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @AlfrescoTest (id="XAT-10560")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void myFilesDeleteDocument()
     {
         log.info("Precondition: Navigate to My Files page and upload a file.");
@@ -99,7 +102,8 @@ public class MyFilesDeleteTests extends BaseTest
     }
 
     @TestRail (id = "C7896")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @AlfrescoTest (id="XAT-10561")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void myFilesDeleteFolder()
     {
         log.info("Precondition: Navigate to My Files page and create a folder.");

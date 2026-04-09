@@ -2,6 +2,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFil
 
 import static org.alfresco.common.Utils.testDataFolder;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.SiteService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
@@ -9,6 +10,7 @@ import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.ContextAwareWebTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -52,7 +54,8 @@ public class EditingFilesInGoogleDocsTests extends ContextAwareWebTest
     }
 
     @TestRail (id = "C7056")
-    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS }, enabled=false)
+    @AlfrescoTest(jira = "XAT-10245")
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS, ShareGroups.SHARE_PRIORITY_1}, enabled=false)
     public void editFilesInGoogleDocs() throws Exception
 
     {

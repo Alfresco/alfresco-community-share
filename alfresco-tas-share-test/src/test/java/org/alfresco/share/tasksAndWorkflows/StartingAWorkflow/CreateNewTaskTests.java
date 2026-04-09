@@ -8,6 +8,7 @@ import java.util.Date;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataUtil;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.UserDashlet;
@@ -25,6 +26,7 @@ import org.alfresco.po.share.tasksAndWorkflows.EditTaskPage;
 import org.alfresco.po.share.tasksAndWorkflows.StartWorkflowPage;
 import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
@@ -163,7 +165,8 @@ public class CreateNewTaskTests extends BaseTest
 
 //    @Bug (id = "MNT-17015 won't fix")
     @TestRail (id = "C8344")
-    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @AlfrescoTest(jira = "XAT-11067")
+    @Test (groups = { TestGroup.SANITY, TestGroup.TASKS, ShareGroups.SHARE_PRIORITY_1})
     public void createNewTaskAndAssignToYourself()
     {
         String firstName = testUser.get().getFirstName();
@@ -194,7 +197,8 @@ public class CreateNewTaskTests extends BaseTest
 
 //    @Bug (id = "MNT-17015", status = Bug.Status.FIXED)
     @TestRail (id = "C8345")
-    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS })
+    @AlfrescoTest(jira = "XAT-11068")
+    @Test(groups = { TestGroup.SANITY, TestGroup.TASKS, ShareGroups.SHARE_PRIORITY_1 })
     public void createNewTaskAndAssignToAnotherUser()
     {
         String C8345firstName = C8345username.get().getFirstName();

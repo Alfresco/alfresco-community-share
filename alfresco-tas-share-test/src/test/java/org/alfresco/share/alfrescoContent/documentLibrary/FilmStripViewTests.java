@@ -2,6 +2,7 @@ package org.alfresco.share.alfrescoContent.documentLibrary;
 
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
@@ -9,6 +10,7 @@ import org.alfresco.utility.model.*;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 public class FilmStripViewTests extends BaseTest
 {
@@ -29,7 +31,8 @@ public class FilmStripViewTests extends BaseTest
     }
 
     @TestRail (id = "C2247, C2246")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9590")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void checkContentsInFilmstripView()
     {
         FileModel txtFile = new FileModel("a-text-file.txt", FileType.TEXT_PLAIN, FILE_CONTENT);

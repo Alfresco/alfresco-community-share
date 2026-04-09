@@ -4,8 +4,10 @@ import static org.alfresco.share.TestUtils.FILE_CONTENT;
 import static org.alfresco.utility.model.FileModel.getRandomFileModel;
 import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.SavedSearchDashlet;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.*;
@@ -41,7 +43,8 @@ public class SavedSearchDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C2787")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD })
+    @AlfrescoTest(jira = "XAT-8525")
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, ShareGroups.SHARE_PRIORITY_1})
     public void checkNotDisplayResultsWhenDashletConfigurationIsCancelled()
     {
         siteDashboardPage.navigate(site.get());

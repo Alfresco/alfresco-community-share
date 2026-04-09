@@ -1,8 +1,10 @@
 package org.alfresco.share.userDashboard.dashlets;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.MyDiscussionsDashlet;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
@@ -38,7 +40,8 @@ public class MyDiscussionsDashletTests extends AbstractUserDashboardDashletsTest
     }
 
     @TestRail (id = "C2774")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD  })
+    @AlfrescoTest(jira="XAT-8243")
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD, ShareGroups.SHARE_PRIORITY_1})
     public void checkMyDiscussionsDashlet()
     {
         userDashboardPage.navigate(user.get());

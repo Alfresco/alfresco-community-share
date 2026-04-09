@@ -3,6 +3,7 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.rep
 import static org.alfresco.common.Utils.testDataFolder;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
@@ -18,6 +19,7 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 @Slf4j
 /**
@@ -71,7 +73,8 @@ public class ActionsUploadTests extends BaseTest
 
 
     @TestRail (id = "C8172")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT})
+    @AlfrescoTest(jira = "XAT-10837")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void uploadDocument()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");
@@ -91,7 +94,8 @@ public class ActionsUploadTests extends BaseTest
 
     //    @Bug (id = "MNT-18059", status = Bug.Status.FIXED)
     @TestRail (id = "C8175")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-10843")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
     public void updateDocumentNewVersion() {
         authenticateUsingLoginPage(testUser1);
         repositoryPage

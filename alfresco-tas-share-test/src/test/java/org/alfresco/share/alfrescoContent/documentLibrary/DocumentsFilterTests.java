@@ -4,6 +4,7 @@ import static org.alfresco.po.enums.DocumentsFilter.*;
 import static org.alfresco.share.TestUtils.FILE_CONTENT;
 import static org.alfresco.utility.constants.UserRole.SiteManager;
 
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.site.DocumentLibraryPage2;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
@@ -11,6 +12,7 @@ import org.alfresco.utility.model.*;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.alfresco.test.AlfrescoTest;
 
 public class DocumentsFilterTests extends BaseTest
 {
@@ -48,7 +50,8 @@ public class DocumentsFilterTests extends BaseTest
     }
 
     @TestRail (id = "C6321")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9554")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void shouldDisplayFileWhenImEditingFilterIsSelected()
     {
         FileModel testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
@@ -63,7 +66,8 @@ public class DocumentsFilterTests extends BaseTest
     }
 
     @TestRail (id = "C10597")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9559")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void shouldDisplayFileWhenOthersAreEditingFilterIsSelected()
     {
         UserModel invitedUser = getDataUser().usingAdmin().createRandomTestUser();
@@ -82,7 +86,8 @@ public class DocumentsFilterTests extends BaseTest
     }
 
     @TestRail (id = "C6325")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @AlfrescoTest(jira = "XAT-9563")
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void viewFilesFromMyFavorites() throws Exception
     {
         FileModel testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
