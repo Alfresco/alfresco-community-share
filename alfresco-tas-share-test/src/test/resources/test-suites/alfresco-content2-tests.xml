@@ -10,15 +10,15 @@
             <include name="sanity"/>
             <include name="share"/>
             <include name="regression"/>
-            <exclude name="integration"></exclude>
+            <exclude name="integration"/>
             <exclude name="unit"/>
             <exclude name="SmartFolders"/>
             <exclude name="ExternalUsers"/>
             <exclude name="office"/>
             <exclude name="TransformationServer"/>
             <exclude name="xsstests"/>
-            <exclude name="admin-tools"></exclude>
-            <exclude name="google-docs"></exclude>
+            <exclude name="admin-tools"/>
+            <exclude name="google-docs"/>
             <include name="sites"/>
             <exclude name="user-dashboard"/>
             <exclude name="site-dashboard"/>
@@ -28,14 +28,14 @@
          </run>
       </groups>
       <packages>
-         <package name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles"></package>
-         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions"></package>
-         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.taggingAndSocialFeatures"></package>
-         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles"></package>
-         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions"></package>
-         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.additionalActions"></package>
-         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository"></package>
-         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles"></package>
+         <package name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles"/>
+         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions"/>
+         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.taggingAndSocialFeatures"/>
+         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles"/>
+         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions"/>
+         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.additionalActions"/>
+         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository"/>
+         <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles"/>
       </packages>
    </test>
 </suite>
