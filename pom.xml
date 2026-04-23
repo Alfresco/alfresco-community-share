@@ -63,7 +63,7 @@
 
         <dependency.webscripts.version>10.3</dependency.webscripts.version>
         <dependency.surf.version>10.4</dependency.surf.version>
-
+        <dependency.plexus-utils.version>4.0.3</dependency.plexus-utils.version>
         <dependency.alfresco-sdk.version>2.2.0</dependency.alfresco-sdk.version>
         <dependency.dom4j.version>2.1.3</dependency.dom4j.version>
         <dependency.slf4j.version>2.0.3</dependency.slf4j.version>
@@ -156,6 +156,10 @@
                         <groupId>com.asual.lesscss</groupId>
                         <artifactId>lesscss-engine</artifactId>
                     </exclusion>
+                    <exclusion>
+                      <groupId>org.codehaus.plexus</groupId>
+                      <artifactId>plexus-utils</artifactId>
+                   </exclusion>
                   <exclusion>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-webmvc</artifactId>
@@ -171,6 +175,17 @@
                 <groupId>org.alfresco.surf</groupId>
                 <artifactId>spring-surf-api</artifactId>
                 <version>${dependency.surf.version}</version>
+              <exclusions>
+                <exclusion>
+                  <groupId>org.codehaus.plexus</groupId>
+                  <artifactId>plexus-utils</artifactId>
+                </exclusion>
+              </exclusions>
+            </dependency>
+            <dependency>
+              <groupId>org.codehaus.plexus</groupId>
+              <artifactId>plexus-utils</artifactId>
+              <version>${dependency.plexus-utils.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
