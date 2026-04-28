@@ -230,6 +230,21 @@
        *          fileName: {string},                // filename
        *          nodeRef: {string}                  // nodeRef if the file has been uploaded successfully
        *       }
+       *
+       * MEMORY IMPACT WARNING:
+       *   Each entry holds ~15 properties, including:
+       *     - uploadData:  object with 12 sub-properties, one of which (uploadData.filedata)
+       *                    is a browser File object reference. Although the File object itself
+       *                    is managed by the browser, the JS reference keeps it alive in GC.
+       *     - request:     a completed XMLHttpRequest whose responseText (the server JSON
+       *                    response) remains buffered in memory until the object is released.
+       *     - 7 DOM element references (progress, progressPercentage, progressInfo, etc.)
+       *
+       *   At scale (e.g. no. of files × ~15 properties), this can hold thousands of
+       *   XHR response buffers and File references simultaneously. To mitigate this,
+       *   _processUploadCompletion() nulls out uploadData and request immediately after
+       *   a file succeeds, and _applyCompletionDOMUpdates() nulls DOM refs once the
+       *   visual update is done. The full fileStore is wiped by _clear() when the panel closes.
        */
       fileStore: null,
 
@@ -300,6 +315,29 @@
        * @type int
        */
       MODE_MULTI_UPLOAD: 3,
+
+      /**
+       * Number of files processed per batch inside _addFiles / _processBatch.
+       * Set at startup by setBatchSize(), which reads the <batch-size> element from the
+       * <file-upload> section of share-documentlibrary-config.xml.
+       *
+       * Tuning guide:
+       *   Lower  (e.g. 100)  — reduces peak memory per batch, useful when files are large
+       *                        or the browser's JS heap is under pressure.
+       *   Higher (e.g. 5000) — fewer batch boundaries, marginally faster loop overhead,
+       *                        but holds more state in memory simultaneously.
+       *   Default of 1000 is a balanced starting point for typical DnD upload scenarios.
+       *
+       * To change the value, edit share-documentlibrary-config.xml:
+       *   <file-upload>
+       *     <batch-size>500</batch-size>
+       *   </file-upload>
+       *
+       * @property BATCH_SIZE
+       * @type int
+       * @default 1000
+       */
+      BATCH_SIZE: 1000,
 
       /**
        * The default config for the gui state for the uploader.
@@ -380,12 +418,12 @@
 
       /**
        * HTMLElement of type input that is used for selecting files for uploading.
-       * 
+       *
        * @property fileSelectionInput
        * @type HTMLElement
        */
       fileSelectionInput: null,
-      
+
       /**
        * HTMLElement of type radio button for major or minor version
        *
@@ -503,6 +541,32 @@
       },
 
       /**
+       * Sets the number of files processed per batch when adding files to the upload queue.
+       * Called automatically from the FTL using the value read from the <batch-size> element
+       * in the <file-upload> section of share-documentlibrary-config.xml.
+       *
+       * Invalid values (non-numeric, zero or negative) are ignored and the default of 1000 is kept.
+       *
+       * @method setBatchSize
+       * @param size {int} Number of files per batch
+       */
+      setBatchSize: function DNDUpload_setBatchSize(size)
+      {
+         var parsedBatchSize = parseInt(size, 10);
+         if (isNaN(parsedBatchSize) || parsedBatchSize <= 0)
+         {
+            // Leave BATCH_SIZE at its prototype default of 1000
+            Alfresco.logger.warn("Non-positive or non-numerical value set for \"batch-size\" in share-documentlibrary-config.xml: ", size);
+
+         }
+         else
+         {
+            this.BATCH_SIZE = parsedBatchSize;
+            Alfresco.logger.info("Number of files in each batch is - "+this.BATCH_SIZE);
+         }
+      },
+
+      /**
        * Fired by YUI when parent element is available for scripting.
        * Initial History Manager event registration
        *
@@ -568,10 +632,10 @@
       {
          // Do nothing
       },
-      
+
       /**
-       * Called when files are selected from the input element. 
-       * 
+       * Called when files are selected from the input element.
+       *
        * @method onBrowseButtonClick
        * @param event {object} a file selection "change" event
        */
@@ -588,7 +652,7 @@
                // Check the data table has been set up (it might not be if this is the first invocation)...
                this.dataTable.set("height", "204px", true);
             }
-            
+
             // Do some checks to ensure that we can proceed with some kind of upload
             var allZeroByteFiles = true;
             for (var i=0; i<files.length; i++)
@@ -599,7 +663,7 @@
                   break;
                }
             }
-            
+
             if (allZeroByteFiles)
             {
                // All the files selected are zero bytes in length - process the files anyway as this will
@@ -610,12 +674,12 @@
             {
                if (this.suppliedConfig.mode == this.MODE_SINGLE_UPDATE)
                {
-                  // If we're doing an update then we don't want to start the upload immediately as this 
+                  // If we're doing an update then we don't want to start the upload immediately as this
                   // will not allow the user the opportunity to set the version update level or add a
                   // comment...
                   this.widgets.uploadButton.set("disabled", false);
                   Dom.removeClass(this.widgets.uploadButton, "hidden");
-                  
+
                   var newUploadedFile = evt.target.files[0];
                   if (this.showConfig.newVersion && this._isNewFileName(this.showConfig.jsNode, newUploadedFile))
                   {
@@ -641,7 +705,7 @@
             // No files selected, do nothing.
          }
       },
-      
+
       /**
        * Show can be called multiple times and will display the uploader dialog
        * in different ways depending on the config parameter.
@@ -683,13 +747,13 @@
          {
              throw new Error("An updateNodeRef, uploadDirectory, destination or uploadURL must be provided");
          }
-         
+
          // Apply the config before it is shown
          this._resetGUI();
 
          // Apply the config before it is shown
          this._applyConfig();
-         
+
          // If files is not defined then assume we need to select them...
          if (this.showConfig.files == null || this.showConfig.files.length == 0)
          {
@@ -712,10 +776,10 @@
                   this.fileSelectionInputParent = this.widgets.fileSelectionOverlayButton._button.parentNode;
                   this.fileSelectionInputParent.removeChild(this.widgets.fileSelectionOverlayButton._button);
                }
-               
+
                this.fileSelectionInput = document.createElement("input");
                Dom.setAttribute(this.fileSelectionInput, "type", "file");
-               
+
                // Only set the multiple attribute on the input element if running in multi-file upload
                // (i.e. we don't want to allow multiple file selection when updating a file)
                if (this.suppliedConfig.mode !== this.MODE_SINGLE_UPLOAD && this.suppliedConfig.mode !== this.MODE_SINGLE_UPDATE)
@@ -749,7 +813,7 @@
                {
                   this.fileSelectionInput.parentNode.removeChild(this.fileSelectionInput); // Remove the old node...
                }
-               
+
                this.fileSelectionInput = document.createElement("input");
                Dom.setAttribute(this.fileSelectionInput, "type", "file");
 
@@ -764,7 +828,7 @@
                Event.addListener(this.fileSelectionInput, "change", this.onFileSelection, this, true);
                this.widgets.fileSelectionOverlayButton._button.parentNode.appendChild(this.fileSelectionInput);
             }
-            
+
             // Enable the Esc key listener
             this.widgets.escapeListener.enable();
             this.widgets.enterListener = new KeyListener(this.widgets.fileSelectionOverlayButton._button,
@@ -828,8 +892,8 @@
             }
          }
          this.aggregateUploadTargetSize = aggregateSize;
-         
-         // Recursively add files to the queue
+
+         // Iteratively add files to the queue in batches
          this._addFiles(0, _files.length, this);
 
          // Start uploads
@@ -872,213 +936,298 @@
       },
 
       /**
-       * A function that adds the file to the table, increments the file count and then recurses. Recursion is used instead of iteration
-       * because the progress events do not contain enough information to link them back to the file they relate. The alternative
-       * to recursion is to assign custom data to the XMLHttpRequest.upload object but the FireFox browser can randomly lose
-       * this data and stall the upload. Using recursion ensures that the "fileId" variable is set correctly as the event listener
-       * functions will only find the correct value in their immediate closure (using iteration it will always end up as the
-       * last value)
-       * 
+       * Safely updates a DOM element with triple-layer protection.
+       * This prevents errors when uploading large batches of files where DOM elements may not be rendered yet.
+       *
+       * @method _safeDOMUpdate
+       * @param element {HTMLElement} The DOM element to update (can be null/undefined)
+       * @param updateFn {Function} Function that performs the update, receives the element as parameter
+       * @return {Boolean} true if update succeeded, false otherwise
+       * @private
+       */
+      _safeDOMUpdate: function DNDUpload__safeDOMUpdate(element, updateFn)
+      {
+         // Triple protection: null check + nodeType check + try-catch
+         if (element && element.nodeType === 1)
+         {
+            try {
+               updateFn(element);
+               return true;
+            } catch(ex) {
+               // Silently fail - UI update errors should not stop uploads
+               return false;
+            }
+         }
+         return false;
+      },
+
+      /**
+       * This function iterates through all the files that have been selected for upload
+       * and adds all the variables, functions and data required to perform the upload. It is called with an index
+       * value and the maximum number of files and will iterate through all files from index to max.
+       * The function will skip files that don't validate (i.e. are too large, contain invalid characters, etc)
+       * but will still process all the other files that are valid.
+       *
+       * Files are processed in batches whose size is controlled by the BATCH_SIZE property (default: 1000),
+       * which is configured via the <batch-size> element in share-documentlibrary-config.xml.
+       *
        * @method _addFiles
        * @param i The index in the file to upload
-       * @param max The count of files to upload (recursion stops when i is no longer less than max)
-       * @param scope Should be set to the widget scope (i.e. this). 
+       * @param max The count of files to upload (iteration stops when i is no longer less than max)
+       * @param scope Should be set to the widget scope (i.e. this).
        */
       _addFiles: function DNDUpload__addFiles(i, max, scope)
       {
-         var uniqueFileToken;
-         if (i < max)
+         // Read BATCH_SIZE from the instance property (set by setBatchSize() from XML config).
+         // Fall back to 1000 if the value is somehow invalid at this point.
+         var batchSize = (typeof scope.BATCH_SIZE === "number" && scope.BATCH_SIZE > 0)
+                         ? Math.floor(scope.BATCH_SIZE)
+                         : 1000;
+         var currentIndex = i;
+
+         while (currentIndex < max)
          {
-            var file = scope.showConfig.files[i];
-            if (!this._getFileValidationErrors(file))
+            var end = Math.min(currentIndex + batchSize, max);
+            scope._processBatch(currentIndex, end, scope);
+            currentIndex = end;
+         }
+      },
+
+      /**
+       * Process a batch of files for upload.
+       *
+       * @method _processBatch
+       * @param start The start index of the batch
+       * @param end The end index of the batch (exclusive)
+       * @param scope Should be set to the widget scope (i.e. this).
+       */
+      _processBatch: function DNDUpload__processBatch(start, end, scope)
+      {
+         var uniqueFileToken, data;
+         for (var i = start; i < end; i++)
+         {
+            // IIFE per iteration: gives each loop iteration its own function scope so that
+            // fileId (and every var that depends on it) is correctly captured by the async
+            // XHR callbacks (progressListener, successListener, failureListener).
+            // This is the ES5-compatible (because yuicompressor-maven-plugin version supports ES5)
+            // equivalent of using 'let i' in the for-loop header.
+            (function(iterIndex)
             {
-               var fileId = "file" + i;
                try
                {
-                  /**
-                   * UPLOAD PROGRESS LISTENER
-                   */
-                  var progressListener = function DNDUpload_progressListener(e)
+                  var file = scope.showConfig.files[iterIndex];
+                  if (!scope._getFileValidationErrors(file))
                   {
-                    Alfresco.logger.debug("File upload progress update received", e);
-                    if (e.lengthComputable)
-                    {
+                     // fileId is frozen per IIFE call — each callback closes over its own value
+                     var fileId = "file" + iterIndex;
+
+                     /**
+                      * UPLOAD PROGRESS LISTENER
+                      */
+                     var progressListener = function DNDUpload_progressListener(e)
+                     {
+                        Alfresco.logger.debug("File upload progress update received", e);
+                        if (e.lengthComputable)
+                        {
+                           try
+                           {
+                              var percentage = Math.round((e.loaded * 100) / e.total),
+                                  fileInfo = scope.fileStore[fileId];
+
+                              if (fileInfo)
+                              {
+                                 // Safely update progress percentage
+                                 scope._safeDOMUpdate(fileInfo.progressPercentage, function(el) {
+                                    el.innerHTML = percentage + "%";
+                                 });
+
+                                 // Safely update progress bar position
+                                 scope._safeDOMUpdate(fileInfo.progress, function(el) {
+                                    var left = (-400 + ((percentage / 100) * 400));
+                                    Dom.setStyle(el, "left", left + "px");
+                                 });
+
+                                 // Always track progress data even if UI isn't ready
+                                 scope._updateAggregateProgress(fileInfo, e.loaded);
+                                 // Save value of how much has been loaded for the next iteration
+                                 fileInfo.lastProgress = e.loaded;
+                              }
+                           }
+                           catch(exception)
+                           {
+                              Alfresco.logger.error("The following error occurred processing an upload progress event: ", exception);
+                           }
+                        }
+                        else
+                        {
+                           Alfresco.logger.debug("File upload progress not computable", e);
+                        }
+                     };
+
+                     /**
+                      * UPLOAD COMPLETION LISTENER
+                      */
+                     var successListener = function DNDUpload_successListener(e)
+                     {
                         try
                         {
-                           var percentage = Math.round((e.loaded * 100) / e.total),
-                               fileInfo = scope.fileStore[fileId];
-                           fileInfo.progressPercentage.innerHTML = percentage + "%";
-   
-                           // Set progress position
-                           var left = (-400 + ((percentage/100) * 400));
-                           Dom.setStyle(fileInfo.progress, "left", left + "px");
-                           scope._updateAggregateProgress(fileInfo, e.loaded);
-   
-                           // Save value of how much has been loaded for the next iteration
-                           fileInfo.lastProgress = e.loaded;
+                           Alfresco.logger.debug("File upload completion notification received", e);
+
+                           // The individual file has been transferred completely.
+                           // Now adjust the gui for the individual file row.
+                           var fileInfo = scope.fileStore[fileId];
+                           if (!fileInfo)
+                           {
+                              Alfresco.logger.error("DNDUpload successListener: no fileStore entry for " + fileId);
+                              return;
+                           }
+                           if (fileInfo.request.readyState != 4)
+                           {
+                              // There is an occasional timing issue where the upload completion event fires before
+                              // the readyState is correctly updated. This means that we can't check the upload actually
+                              // completed successfully, if this occurs then we'll attach a function to the onreadystatechange
+                              // extension point and things to catch up before we check everything was ok...
+                              fileInfo.request.onreadystatechange = function DNDUpload_onreadystatechange()
+                              {
+                                 if (fileInfo.request.readyState == 4)
+                                 {
+                                    scope._processUploadCompletion(fileInfo);
+                                 }
+                              };
+                           }
+                           else
+                           {
+                              // If the request correctly indicates that the response has returned then we can process
+                              // it to ensure that files have been uploaded correctly.
+                              scope._processUploadCompletion(fileInfo);
+                           }
                         }
                         catch(exception)
                         {
-                           Alfresco.logger.error("The following error occurred processing an upload progress event: ", exception);
+                           Alfresco.logger.error("The following error occurred processing an upload completion event: ", exception);
                         }
-                    }
-                    else
-                    {
-                        Alfresco.logger.debug("File upload progress not computable", e);
-                    }
-                 };
-   
-                 /**
-                  * UPLOAD COMPLETION LISTENER
-                  */
-                 var successListener = function DNDUpload_successListener(e)
-                 {
-                    try
-                    {
-                       Alfresco.logger.debug("File upload completion notification received", e);
-   
-                       // The individual file has been transfered completely
-                       // Now adjust the gui for the individual file row
-                       var fileInfo = scope.fileStore[fileId];
-                       if (fileInfo.request.readyState != 4)
-                       {
-                          // There is an occasional timing issue where the upload completion event fires before
-                          // the readyState is correctly updated. This means that we can't check the upload actually
-                          // completed successfully, if this occurs then we'll attach a function to the onreadystatechange
-                          // extension point and things to catch up before we check everything was ok...
-                          fileInfo.request.onreadystatechange = function DNDUpload_onreadystatechange()
-                          {
-                             if (fileInfo.request.readyState == 4)
-                             {
-                                scope._processUploadCompletion(fileInfo);
-                             }
-                          }
-                       }
-                       else
-                       {
-                          // If the request correctly indicates that the response has returned then we can process
-                          // it to ensure that files have been uploaded correctly.
-                          scope._processUploadCompletion(fileInfo);
-                       }
-                    }
-                    catch(exception)
-                    {
-                       Alfresco.logger.error("The following error occurred processing an upload completion event: ", exception);
-                    }
-                  };
-   
-                  /**
-                   * UPLOAD FAILURE LISTENER
-                   */
-                  var failureListener = function DNDUpload_failureListener(e)
-                  {
-                     try
+                     };
+
+                     /**
+                      * UPLOAD FAILURE LISTENER
+                      */
+                     var failureListener = function DNDUpload_failureListener(e)
                      {
-                        var fileInfo = scope.fileStore[fileId];
-   
+                        try
+                        {
+                           var fileInfo = scope.fileStore[fileId];
                            // This sometimes gets called twice, make sure we only adjust the gui once
-                           if (fileInfo.state !== scope.STATE_FAILURE)
+                           if (fileInfo && fileInfo.state !== scope.STATE_FAILURE)
                            {
                               scope._processUploadFailure(fileInfo, e.status);
                            }
                         }
                         catch(exception)
+                        {
+                           Alfresco.logger.error("The following error occurred processing an upload failure event: ", exception);
+                        }
+                     };
+
+                     // Get the name of the file (note that we use ".name" and NOT ".fileName" which is non-standard
+                     // and its use will break FireFox 7)...
+                     var fileName = file.name,
+                         updateNameAndMimetype = false;
+                     if (!!scope.showConfig.newVersion && scope.showConfig.updateFilename && scope.showConfig.updateFilename !== fileName)
                      {
-                        Alfresco.logger.error("The following error occurred processing an upload failure event: ", exception);
+                        updateNameAndMimetype = true;
                      }
-                  };
-   
-                  // Get the name of the file (note that we use ".name" and NOT ".fileName" which is non-standard and it's use 
-                  // will break FireFox 7)...
-                  var fileName = file.name,
-                      updateNameAndMimetype = false;
-                  if (!!scope.showConfig.newVersion && scope.showConfig.updateFilename && scope.showConfig.updateFilename !== fileName)
-                  {
-                      updateNameAndMimetype = true;
-                  }
-               
-                  // Add the event listener functions to the upload properties of the XMLHttpRequest object...
-                  var request = new XMLHttpRequest();
-                  
-                  // Add the data to the upload property of XMLHttpRequest so that we can determine which file each
-                  // progress update relates to (the event argument passed in the progress function does not contain
-                  // file name details)...
-                  request.upload._fileData = fileId;
-                  request.upload.addEventListener("progress", progressListener, false);
-                  request.upload.addEventListener("load", successListener, false);
-                  request.upload.addEventListener("error", failureListener, false);
-                  
-                  // Construct the data that will be passed to the YUI DataTable to add a row...
-                  data = {
-                      id: fileId,
-                      name: fileName,
-                      size: scope.showConfig.files[i].size
-                  };
 
-                  // Get the nodeRef to update if available (this is required to perform version update)...
-                  var updateNodeRef = null;
-                  if (scope.suppliedConfig && scope.suppliedConfig.updateNodeRef)
-                  {
-                     updateNodeRef = scope.suppliedConfig.updateNodeRef;
-                  }
-                  
-                  // Construct an object containing the data required for file upload...
-                  var uploadDir = file.relativePath || "";
-                  if (scope.showConfig.uploadDirectory && scope.showConfig.uploadDirectory !== "/")
-                  {
-                     uploadDir = scope.showConfig.uploadDirectory + "/" + uploadDir;
-                  }
-                  var uploadData =
-                  {
-                     filedata: scope.showConfig.files[i],
-                     filename: fileName,
-                     destination: scope.showConfig.destination,
-                     siteId: scope.showConfig.siteId,
-                     containerId: scope.showConfig.containerId,
-                     uploaddirectory: uploadDir,
-                     createdirectory: true,
-                     majorVersion: !scope.minorVersion.checked,
-                     updateNodeRef: updateNodeRef,
-                     description: scope.description.value,
-                     overwrite: scope.showConfig.overwrite,
-                     thumbnails: scope.showConfig.thumbnails,
-                     username: scope.showConfig.username,
-                     updateNameAndMimetype: updateNameAndMimetype
-                  };
-                  
-                  // Add the upload data to the file store. It is important that we don't initiate the XMLHttpRequest
-                  // send operation before the YUI DataTable has finished rendering because if the file being uploaded
-                  // is small and the network is quick we could receive the progress/completion events before we're
-                  // ready to handle them.
-                  scope.fileStore[fileId] =
-                  {
-                     state: scope.STATE_ADDED,
-                     fileName: fileName,
-                     nodeRef: updateNodeRef,
-                     uploadData: uploadData,
-                     request: request
-                  };
+                     // Add the event listener functions to the upload properties of the XMLHttpRequest object...
+                     var request = new XMLHttpRequest();
 
-                  // Add file to file table
-                  scope.dataTable.addRow(data);
-                  scope.addedFiles[uniqueFileToken] = scope._getUniqueFileToken(data);
+                     // Add the data to the upload property of XMLHttpRequest so that we can determine which file each
+                     // progress update relates to (the event argument passed in the progress function does not contain
+                     // file name details)...
+                     request.upload._fileData = fileId;
+                     request.upload.addEventListener("progress", progressListener, false);
+                     request.upload.addEventListener("load", successListener, false);
+                     request.upload.addEventListener("error", failureListener, false);
 
-                  // Enable the Esc key listener
-                  scope.widgets.escapeListener.enable();
-                  scope.panel.setFirstLastFocusable();
-                  scope.panel.show();
+                     // Construct the data that will be passed to the YUI DataTable to add a row...
+                     data = {
+                        id: fileId,
+                        name: fileName,
+                        size: scope.showConfig.files[iterIndex].size
+                     };
+
+                     // Get the nodeRef to update if available (this is required to perform version update)...
+                     var updateNodeRef = null;
+                     if (scope.suppliedConfig && scope.suppliedConfig.updateNodeRef)
+                     {
+                        updateNodeRef = scope.suppliedConfig.updateNodeRef;
+                     }
+
+                     // Construct an object containing the data required for file upload...
+                     var uploadDir = file.relativePath || "";
+                     if (scope.showConfig.uploadDirectory && scope.showConfig.uploadDirectory !== "/")
+                     {
+                        uploadDir = scope.showConfig.uploadDirectory + "/" + uploadDir;
+                     }
+                     var uploadData =
+                     {
+                        filedata: scope.showConfig.files[iterIndex],
+                        filename: fileName,
+                        destination: scope.showConfig.destination,
+                        siteId: scope.showConfig.siteId,
+                        containerId: scope.showConfig.containerId,
+                        uploaddirectory: uploadDir,
+                        createdirectory: true,
+                        majorVersion: !scope.minorVersion.checked,
+                        updateNodeRef: updateNodeRef,
+                        description: scope.description.value,
+                        overwrite: scope.showConfig.overwrite,
+                        thumbnails: scope.showConfig.thumbnails,
+                        username: scope.showConfig.username,
+                        updateNameAndMimetype: updateNameAndMimetype
+                     };
+
+                     // Add the upload data to the file store. It is important that we don't initiate the XMLHttpRequest
+                     // send operation before the YUI DataTable has finished rendering because if the file being uploaded
+                     // is small and the network is quick we could receive the progress/completion events before we're
+                     // ready to handle them.
+                     scope.fileStore[fileId] =
+                     {
+                        state: scope.STATE_ADDED,
+                        fileName: fileName,
+                        nodeRef: updateNodeRef,
+                        uploadData: uploadData,
+                        request: request,
+                        // Initialize DOM element references as null - will be populated during DataTable rendering
+                        progress: null,
+                        progressPercentage: null,
+                        progressInfo: null,
+                        progressStatusIncomplete: null,
+                        progressStatusComplete: null,
+                        progressStatusFailed: null,
+                        fileSizeInfo: null,
+                        contentType: null,
+                        lastProgress: 0,
+                        retryCount: 0
+                     };
+
+                     // Add file to file table
+                     scope.dataTable.addRow(data);
+                     scope.addedFiles[uniqueFileToken] = scope._getUniqueFileToken(data);
+
+                     // Enable the Esc key listener
+                     scope.widgets.escapeListener.enable();
+                     scope.panel.setFirstLastFocusable();
+                     scope.panel.show();
+                  }
                }
                catch(exception)
                {
                   Alfresco.logger.error("DNDUpload_show: The following exception occurred processing a file to upload: ", exception);
                }
-            }
-            
-            // If we've not hit the max, recurse info the function...
-            scope._addFiles(i+1, max, scope);
+            }(i)); // pass current 'i' into IIFE — frozen as 'iterIndex' for this iteration's closures
          }
       },
-      
+
       /**
        * Called from show when an upload complete event fires.
        *
@@ -1088,41 +1237,154 @@
        */
       _processUploadCompletion: function DND__processUploadCompletion(fileInfo)
       {
+         // Guard: request may already have been nulled if this is a duplicate completion
+         // call (e.g. via the onreadystatechange timing path after the first call cleaned up).
+         if (!fileInfo.request)
+         {
+            return;
+         }
+
          if (fileInfo.request.status == "200")
          {
             var response = Alfresco.util.parseJSON(fileInfo.request.responseText);
 
-            // update noderef and filename from response
+            // Update noderef and filename from response
             fileInfo.nodeRef = response.nodeRef;
             fileInfo.fileName = response.fileName;
             fileInfo.state = this.STATE_SUCCESS;
 
-            // Add the label "Successful" after the filename, updating the fileName from the response
-            Dom.addClass(fileInfo.progressStatusIncomplete, "hidden");
-            Dom.removeClass(fileInfo.progressStatusComplete, "hidden");
+            // BUSINESS LOGIC: always run immediately, regardless of DOM readiness
+            // Guard against double-counting in case retry fires after logic already ran.
+            if (!fileInfo.completionProcessed)
+            {
+               fileInfo.completionProcessed = true;
 
-            // Change the style of the progress bar
-            Dom.removeClass(fileInfo.progress, "fileupload-progressSuccess-span");
-            Dom.addClass(fileInfo.progress, "fileupload-progressFinished-span");
+               this.noOfSuccessfulUploads++;
 
-            // Move the progress bar to "full" progress
-            Dom.setStyle(fileInfo.progress, "left", 0 + "px");
-            fileInfo.progressPercentage.innerHTML = "100%";
-            this.noOfSuccessfulUploads++;
-            this._updateAggregateProgress(fileInfo, fileInfo.uploadData.filedata.size);
+               // Always update aggregate progress regardless of UI state
+               if (fileInfo.uploadData && fileInfo.uploadData.filedata && fileInfo.uploadData.filedata.size)
+               {
+                  this._updateAggregateProgress(fileInfo, fileInfo.uploadData.filedata.size);
+               }
 
-            // Adjust the rest of the gui
-            this._updateStatus();
-            this._adjustGuiIfFinished();
+               // Adjust the rest of the gui
+               this._updateStatus();
+               this._adjustGuiIfFinished();
 
-            // Upload remaining files
-            this._spawnUploads();
+               // Upload remaining files
+               this._spawnUploads();
+
+               // MEMORY CLEANUP: release the two heaviest per-file allocations now that
+               // business logic is done. uploadData holds a File object reference (keeps
+               // the browser File alive in GC) and request holds the full XHR response
+               // buffer. For large number of files these accumulate significantly.
+               // state, fileName and nodeRef are kept — they are still read by
+               // _adjustGuiIfFinished() and onCancelOkButtonClick().
+               fileInfo.uploadData = null;
+               fileInfo.request = null;
+            }
+
+            // DOM UPDATES: deferred separately so uploads never stall waiting for render
+            this._applyCompletionDOMUpdates(fileInfo);
          }
          else
          {
             // Process the upload failure...
             this._processUploadFailure(fileInfo, fileInfo.request.status);
          }
+      },
+
+      /**
+       * Applies the DOM-only visual updates for a successfully completed upload row.
+       * Separated from _processUploadCompletion so that business logic (counters, spawning)
+       * always runs immediately, while DOM updates are safely retried until elements are rendered.
+       * Retries up to 50 times with progressive delay (~5 seconds total) to handle very large
+       * uploads where the DataTable render loop is still catching up.
+       *
+       * @method _applyCompletionDOMUpdates
+       * @param fileInfo {object} An entry from the fileStore
+       * @private
+       */
+
+
+      _applyCompletionDOMUpdates: function DND__applyCompletionDOMUpdates(fileInfo)
+      {
+         var domReady = (fileInfo.progressPercentage && fileInfo.progressPercentage.nodeType === 1) &&
+            (fileInfo.progress && fileInfo.progress.nodeType === 1) &&
+            (fileInfo.progressStatusIncomplete && fileInfo.progressStatusIncomplete.nodeType === 1);
+
+         if (!domReady)
+         {
+            // DOM not rendered yet — retry with progressive delay (first 10 at 50ms, then 100ms)
+            fileInfo.domRetryCount = (fileInfo.domRetryCount || 0) + 1;
+            if (fileInfo.domRetryCount <= 50)
+            {
+               var scope = this;
+               var delay = fileInfo.domRetryCount <= 10 ? 50 : 100;
+               setTimeout(function()
+               {
+                  scope._applyCompletionDOMUpdates(fileInfo);
+               }, delay);
+            }
+            else
+            {
+               Alfresco.logger.warn("DOM update abandoned after 50 retries for fileId: " + fileInfo.fileName);
+               // After 50 retries (~5s), silently give up on DOM update only — upload already counted.
+               // Release DOM refs even though updates failed — no point keeping them.
+               this._releaseDOMRefs(fileInfo);
+
+            }
+            return;
+         }
+
+         // Mark the row as "Successful"
+         this._safeDOMUpdate(fileInfo.progressStatusIncomplete, function(el) {
+            Dom.addClass(el, "hidden");
+         });
+
+         this._safeDOMUpdate(fileInfo.progressStatusComplete, function(el) {
+            Dom.removeClass(el, "hidden");
+         });
+
+         // Change the style of the progress bar
+         this._safeDOMUpdate(fileInfo.progress, function(el) {
+            Dom.removeClass(el, "fileupload-progressSuccess-span");
+            Dom.addClass(el, "fileupload-progressFinished-span");
+            Dom.setStyle(el, "left", 0 + "px");
+         });
+
+         // Update progress percentage to 100%
+         this._safeDOMUpdate(fileInfo.progressPercentage, function(el) {
+            el.innerHTML = "100%";
+         });
+
+         // MEMORY CLEANUP: DOM updates are complete; release all 7 element references.
+         this._releaseDOMRefs(fileInfo);
+      },
+
+      /**
+       * Nulls out all DOM element references on a fileStore entry after they are no longer needed.
+       * Called once the completion DOM update has finished (or retries have exhausted).
+       * Keeps state, fileName and nodeRef which are still required by _adjustGuiIfFinished
+       * and onCancelOkButtonClick.
+       *
+       * @method _releaseDOMRefs
+       * @param fileInfo {object} An entry from the fileStore
+       * @private
+       */
+      _releaseDOMRefs: function DNDUpload__releaseDOMRefs(fileInfo)
+      {
+         fileInfo.progress = null;
+         fileInfo.progressPercentage = null;
+         fileInfo.progressInfo = null;
+         fileInfo.progressStatusIncomplete = null;
+         fileInfo.progressStatusComplete = null;
+         fileInfo.progressStatusFailed = null;
+         fileInfo.fileSizeInfo = null;
+         fileInfo.contentType = null;
+         fileInfo.domRetryCount = null;
+         fileInfo.completionProcessed = null;
+         fileInfo.lastProgress = null;
       },
 
       /**
@@ -1152,7 +1414,7 @@
 
          fileInfo.state = this.STATE_FAILURE;
          var errormsg = fileInfo.request.status+" "+fileInfo.request.statusText; //default
-         
+
          try
          {
              errormsg = JSON.parse(fileInfo.request.responseText).message;
@@ -1171,22 +1433,39 @@
          {
             msg = Alfresco.util.message("label.failure", this.name, errormsg);
          }
-         fileInfo.fileSizeInfo["innerHTML"] = fileInfo.fileSizeInfo["innerHTML"] + " (" + $html(msg) + ")";
-         fileInfo.fileSizeInfo.setAttribute("title", msg);
-         fileInfo.progressInfo.setAttribute("title", msg);
-         fileInfo.progressInfo.parentElement.setAttribute("title", msg);
 
-         // Hide the incomplete image and show the failed image...
-         Dom.addClass(fileInfo.progressStatusIncomplete, "hidden");
-         Dom.removeClass(fileInfo.progressStatusFailed, "hidden");
-         
-         // Change the style of the progress bar
-         Dom.removeClass(fileInfo.progress, "fileupload-progressSuccess-span");
-         Dom.addClass(fileInfo.progress, "fileupload-progressFailure-span");
+         // Update UI elements safely
+         this._safeDOMUpdate(fileInfo.fileSizeInfo, function(el) {
+            el.innerHTML = el.innerHTML + " (" + $html(msg) + ")";
+            el.setAttribute("title", msg);
+         });
 
-         // Set the progress bar to "full" progress
-         Dom.setStyle(fileInfo.progress, "left", 0 + "px");
-         this._updateAggregateProgress(fileInfo, fileInfo.uploadData.filedata.size);
+         this._safeDOMUpdate(fileInfo.progressInfo, function(el) {
+            el.setAttribute("title", msg);
+            if (el.parentElement && el.parentElement.nodeType === 1) {
+               el.parentElement.setAttribute("title", msg);
+            }
+         });
+
+         this._safeDOMUpdate(fileInfo.progressStatusIncomplete, function(el) {
+            Dom.addClass(el, "hidden");
+         });
+
+         this._safeDOMUpdate(fileInfo.progressStatusFailed, function(el) {
+            Dom.removeClass(el, "hidden");
+         });
+
+         this._safeDOMUpdate(fileInfo.progress, function(el) {
+            Dom.removeClass(el, "fileupload-progressSuccess-span");
+            Dom.addClass(el, "fileupload-progressFailure-span");
+            Dom.setStyle(el, "left", 0 + "px");
+         });
+
+         // Always update aggregate progress and counters regardless of UI state
+         if (fileInfo.uploadData && fileInfo.uploadData.filedata && fileInfo.uploadData.filedata.size)
+         {
+            this._updateAggregateProgress(fileInfo, fileInfo.uploadData.filedata.size);
+         }
 
          // Adjust the rest of the gui
          this.noOfFailedUploads++;
@@ -1228,7 +1507,7 @@
          {
             this.onReady();
          }
-         
+
          // Reset references and the gui before showing it
          this.state = this.STATE_UPLOADING; // We're going to start uploading as soon as the dialog is shown
          this.noOfFailedUploads = 0;
@@ -1355,7 +1634,7 @@
             formData.append("overwrite", fileInfo.uploadData.overwrite);
             formData.append("thumbnails", fileInfo.uploadData.thumbnails);
             formData.append("updatenameandmimetype", fileInfo.uploadData.updateNameAndMimetype)
-            
+
             if (fileInfo.uploadData.updateNodeRef)
             {
                formData.append("updateNodeRef", fileInfo.uploadData.updateNodeRef);
@@ -1448,7 +1727,7 @@
                customFormData += rn + "Content-Disposition: form-data; name=\"thumbnails\"";
                customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.thumbnails)) + rn + "--" + multipartBoundary + "--";
             }
-            
+
             fileInfo.request.open("POST",  url, true);
             fileInfo.request.setRequestHeader("Content-Type", "multipart/form-data; boundary=" + multipartBoundary);
             fileInfo.request.sendAsBinary(customFormData);
@@ -1473,7 +1752,7 @@
          Dom.addClass(this.compareVersionsSection, "hidden");
          this.processFilesForUpload(this.showConfig.files);
       },
-      
+
       /**
        * Fired when the user clicks the cancel/ok button.
        * The action taken depends on what state the uploader is in.
@@ -1553,7 +1832,7 @@
                      currentPath: this.showConfig.path
                   });
                }
-               
+
                // potentially new folders created under parent
                YAHOO.Bubbling.fire("folderCreated",
                {
@@ -1944,7 +2223,7 @@
                // Call the onFileUploadComplete callback in the correct scope
                callback.fn.call((typeof callback.scope == "object" ? callback.scope : this), objComplete, callback.obj);
             }
-            
+
             if (objComplete.failed.length === 0)
             {
                this.onCancelOkButtonClick();
@@ -2003,7 +2282,7 @@
 
       /**
        * Checks whether the user attempts to upload a file with a different name/extension
-       * 
+       *
        * @method _isNewFileName
        * @private
        */
@@ -2015,8 +2294,8 @@
       },
 
       /**
-       * Updates compare version sections information accordingly 
-       * 
+       * Updates compare version sections information accordingly
+       *
        * @method _updateCompareVersionsSection
        * @private
        */
@@ -2033,10 +2312,10 @@
          Dom.get(this.id + "-new-version-filename").innerHTML = $html(newVersionFile.name);
          Dom.get(this.id + "-new-version-icon").src = Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' + Alfresco.util.getFileIconByMimetype(newVersionFile.type, 48);
       },
-      
+
       /**
        * Update the new file version's mimetype in the comparison section
-       * 
+       *
        * @method _setComparisonNewVersionMimetype
        * @private
        */
@@ -2044,10 +2323,10 @@
       {
          Dom.get(this.id + "-new-version-mimetype").innerHTML = mimetype !== "" ? mimetype : this.msg("label.mimetype.unknown");
       },
-      
+
       /**
        * Set the new file version's mimetype with the mimetype's description from the response object
-       * 
+       *
        * @method _extractNewVersionMimetypeDescription
        * @private
        */
@@ -2055,7 +2334,7 @@
       {
          var mimetypesResponse = response.json.data;
          var selectedMimetype = String(new Object(mimetype)).toLowerCase();
-          
+
          if (mimetypesResponse[selectedMimetype])
          {
              scope._setComparisonNewVersionMimetype(mimetypesResponse[selectedMimetype].description);
@@ -2063,12 +2342,12 @@
          else
          {
              scope._setComparisonNewVersionMimetype(selectedMimetype);
-         }  
+         }
       },
-      
+
       /**
        * Set the new file version's mimetype with the original mimetype extracted as 'file.type'
-       * 
+       *
        * @method _setNewVersionDefaultMimetype
        * @private
        */
@@ -2076,11 +2355,11 @@
       {
          scope._setComparisonNewVersionMimetype(mimetype);
       },
-      
-      
+
+
       /**
        * Given a particular mimetype retrieve its human readable description by calling the appropriate api
-       * 
+       *
        * @method getMimetypeDescription
        */
       getMimetypeDescription: function DNDUpload_getMimetypeDescription(mimetype, successCallbackFn, failureCallbackFn)
