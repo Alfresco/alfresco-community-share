@@ -2670,8 +2670,7 @@ var TextLayerBuilder = function textLayerBuilder(textLayerDiv, pageIdx, pdfJsPlu
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');
 
-    // No point in rendering so many divs as it'd make the browser unusable
-    // even after the divs are rendered
+
     var MAX_TEXT_DIVS_TO_RENDER = 100000;
     if (textDivs.length > MAX_TEXT_DIVS_TO_RENDER) {
       return;
@@ -2680,6 +2679,11 @@ var TextLayerBuilder = function textLayerBuilder(textLayerDiv, pageIdx, pdfJsPlu
     for (var i = 0, ii = textDivs.length; i < ii; i++) {
       var textDiv = textDivs[i];
       if ('isWhitespace' in textDiv.dataset) {
+        if ('hasEOL' in textDiv.dataset) {
+          var br = document.createElement('br');
+          br.setAttribute('role', 'presentation');
+          textLayerFrag.appendChild(br);
+        }
         continue;
       }
 
@@ -2687,29 +2691,112 @@ var TextLayerBuilder = function textLayerBuilder(textLayerDiv, pageIdx, pdfJsPlu
       var width = ctx.measureText(textDiv.textContent).width;
 
       if (width > 0) {
-        textLayerFrag.appendChild(textDiv);
-        var textScale = textDiv.dataset.canvasWidth / width;
+        var canvasWidth = parseFloat(textDiv.dataset.canvasWidth);
+        var charCount = textDiv.textContent.length;
         var rotation = textDiv.dataset.angle;
-        var transform = 'scale(' + textScale + ', 1)';
-        transform = 'rotate(' + rotation + 'deg) ' + transform;
 
-         // ALFRESCO CHANGES
-         // Share extras changed to use Yahoo dom.
-         // TODO: Work out some more efficient way of determining
-         // prefix as original method do, instead of setting all.
-         Dom.setStyle(textDiv, '-ms-transform', 'scale(' + textScale + ', 1)');
-         Dom.setStyle(textDiv, '-webkit-transform', 'scale(' + textScale + ', 1)');
-         Dom.setStyle(textDiv, '-moz-transform', 'scale(' + textScale + ', 1)');
-         Dom.setStyle(textDiv, '-ms-transformOrigin', '0% 0%');
-         Dom.setStyle(textDiv, '-webkit-transformOrigin', '0% 0%');
-         Dom.setStyle(textDiv, '-moz-transformOrigin', '0% 0%');
-         // END ALFRESCO CHANGES
+        if (charCount > 1) {
+          var extraWidth = canvasWidth - width;
+          textDiv.style.letterSpacing = (extraWidth / (charCount - 1)) + 'px';
+        } else {
+          var textScale = canvasWidth / width;
+          textDiv.style.transform = 'scaleX(' + textScale + ')';
+        }
+
+        if (parseFloat(rotation) !== 0) {
+          var existing = textDiv.style.transform || '';
+          textDiv.style.transform = 'rotate(' + rotation + 'deg) ' + existing;
+        }
+        textDiv.style.transformOrigin = '0% 0%';
+
+        textLayerFrag.appendChild(textDiv);
+      }
+
+      if ('hasEOL' in textDiv.dataset) {
+        var br = document.createElement('br');
+        br.setAttribute('role', 'presentation');
+        textLayerFrag.appendChild(br);
       }
     }
 
     this.textLayerDiv.appendChild(textLayerFrag);
     this.renderingDone = true;
     this.updateMatches();
+
+    if (!this.textLayerDiv._copyHandlerAttached) {
+      this.textLayerDiv._copyHandlerAttached = true;
+      var tlSelf = this;
+      this.textLayerDiv.addEventListener('copy', function(e) {
+        var selection = window.getSelection();
+        if (!selection.rangeCount)
+        {
+           return;
+        }
+
+        var range = selection.getRangeAt(0);
+        var divs = tlSelf.textDivs;
+        var text = '';
+        var prevTop = null;
+        var prevFontSize = 0;
+        var anySelected = false;
+
+        for (var idx = 0; idx < divs.length; idx++) {
+          var td = divs[idx];
+
+          if ('isWhitespace' in td.dataset) {
+            if (anySelected) {
+              text += ' ';
+            }
+            continue;
+          }
+
+          if (!selection.containsNode(td, true)) {
+            if (anySelected) {
+              break;
+            }
+            continue;
+          }
+          anySelected = true;
+
+          var top = parseFloat(td.style.top);
+          var fontSize = parseFloat(td.style.fontSize) || 12;
+          if (prevTop !== null) {
+            var threshold = Math.max(prevFontSize, fontSize) * 0.5;
+            if (Math.abs(top - prevTop) > threshold) {
+              text = text.replace(/ +$/, '');
+              text += '\n';
+            }
+          }
+          prevTop = top;
+          prevFontSize = fontSize;
+
+          var tdText = td.textContent;
+          var textNode = td.firstChild;
+          if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+            var startOffset = 0;
+            var endOffset = tdText.length;
+            if (range.startContainer === textNode) {
+              startOffset = range.startOffset;
+            }
+            if (range.endContainer === textNode) {
+              endOffset = range.endOffset;
+            }
+            tdText = tdText.substring(startOffset, endOffset);
+          }
+          text += tdText;
+        }
+
+        if (text) {
+           if (e.clipboardData) {
+              e.clipboardData.setData('text/plain', text);
+              e.preventDefault();
+           } else if (window.clipboardData) {
+              window.clipboardData.setData('Text', text);
+              e.preventDefault();
+           }
+        }
+      });
+    }
   };
 
   this.setupRenderLayoutTimer = function textLayerSetupRenderLayoutTimer() {
@@ -2735,8 +2822,9 @@ var TextLayerBuilder = function textLayerBuilder(textLayerDiv, pageIdx, pdfJsPlu
   };
 
   this.appendText = function textLayerBuilderAppendText(geom, styles) {
+
     var style = styles[geom.fontName];
-    var textDiv = document.createElement('div');
+    var textDiv = document.createElement('span');
     this.textDivs.push(textDiv);
     if (!/\S/.test(geom.str)) {
       textDiv.dataset.isWhitespace = true;
@@ -2764,6 +2852,10 @@ var TextLayerBuilder = function textLayerBuilder(textLayerDiv, pageIdx, pdfJsPlu
       textDiv.dataset.canvasWidth = geom.height * this.viewport.scale;
     } else {
       textDiv.dataset.canvasWidth = geom.width * this.viewport.scale;
+    }
+
+    if (geom.hasEOL) {
+      textDiv.dataset.hasEOL = true;
     }
 
   };
