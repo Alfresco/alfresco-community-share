@@ -52,7 +52,7 @@
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
         <!-- common dependencies-->
-        <dependency.spring.version>7.0.2</dependency.spring.version>
+        <dependency.spring.version>7.0.7</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
 
         <dependency.aikau.version>1.1.4</dependency.aikau.version>
@@ -77,7 +77,7 @@
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
         <dependency.org-json.version>20231013</dependency.org-json.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
-        <spring.security.version>7.0.4</spring.security.version>
+        <spring.security.version>7.0.5</spring.security.version>
 
         <alfresco.googledrive.version>4.1.0</alfresco.googledrive.version>
 
