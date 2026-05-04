@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 - 2020 Alfresco Software Limited.
+ * Copyright 2005 - 2026 Alfresco Software Limited.
  *
  * This file is part of the Alfresco software.
  * If the software was purchased under a paid Alfresco license, the terms of the paid license agreement will prevail.
@@ -63,6 +63,7 @@ public class AIMSConfig
    private String atIssuerAttribute;
    private Set<String> scopes;
    private String[] extraEndpointsToRedirect;
+   private boolean scopeValidationDisabled;
 
     /**
      *
@@ -201,6 +202,8 @@ public class AIMSConfig
         {
             this.setExtraEndpointsToRedirect(null);
         }
+
+        this.setScopeValidationDisabled(Boolean.parseBoolean(config.getConfigElementValue("scopeValidationDisabled")));
     }
 
     /**
@@ -442,5 +445,15 @@ public class AIMSConfig
 
     public void setExtraEndpointsToRedirect(String[] extraEndpointsToRedirect) {
         this.extraEndpointsToRedirect = extraEndpointsToRedirect;
+    }
+
+    public boolean isScopeValidationDisabled()
+    {
+        return scopeValidationDisabled;
+    }
+
+    public void setScopeValidationDisabled(boolean scopeValidationDisabled)
+    {
+        this.scopeValidationDisabled = scopeValidationDisabled;
     }
 }

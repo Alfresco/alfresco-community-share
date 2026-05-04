@@ -15,6 +15,7 @@
         <secret>${aims.secret}</secret>
         <scopes>${aims.scopes}</scopes>
         <atIssuerAttribute>${aims.atIssuerAttribute}</atIssuerAttribute>
+        <scopeValidationDisabled>${aims.scopeValidationDisabled}</scopeValidationDisabled>
     </config>
 
 </alfresco-config>

@@ -68,6 +68,7 @@ public class AIMSConfigTest extends BaseTest
         System.clearProperty("aims.secret");
         System.clearProperty("aims.scopes");
         System.clearProperty("aims.atIssuerAttribute");
+        System.clearProperty("aims.scopeValidationDisabled");
     }
 
     /**
@@ -112,6 +113,62 @@ public class AIMSConfigTest extends BaseTest
         Assert.assertFalse(aimsConfig.isEnabled());
         Assert.assertEquals(Set.of("email", "profile", "openid"), aimsConfig.getScopes());
         Assert.assertEquals("issuer", aimsConfig.getAtIssuerAttribute());
+        Assert.assertFalse(aimsConfig.isScopeValidationDisabled());
+    }
+
+    /**
+     * Test if scopeValidationDisabled is set to true when configured
+     */
+    public void testScopeValidationDisabledTrue()
+    {
+        this.clearSystemProperties();
+        System.setProperty("aims.scopeValidationDisabled", "true");
+
+        AIMSConfig aimsConfig = this.initAIMSConfig();
+
+        Assert.assertTrue(aimsConfig.isScopeValidationDisabled());
+    }
+
+    /**
+     * Test that scopeValidationDisabled defaults to false when set to explicit "false"
+     */
+    public void testScopeValidationDisabledExplicitFalse()
+    {
+        this.clearSystemProperties();
+        System.setProperty("aims.scopeValidationDisabled", "false");
+
+        AIMSConfig aimsConfig = this.initAIMSConfig();
+
+        Assert.assertFalse(aimsConfig.isScopeValidationDisabled());
+    }
+
+    /**
+     * Test that scopeValidationDisabled defaults to false for invalid/non-boolean values
+     */
+    public void testScopeValidationDisabledInvalidValue()
+    {
+        this.clearSystemProperties();
+        System.setProperty("aims.scopeValidationDisabled", "notABoolean");
+
+        AIMSConfig aimsConfig = this.initAIMSConfig();
+
+        Assert.assertFalse(aimsConfig.isScopeValidationDisabled());
+    }
+
+    /**
+     * Test that scopeValidationDisabled=true preserves custom API scopes in configured scopes
+     */
+    public void testScopeValidationDisabledWithCustomScopes()
+    {
+        this.clearSystemProperties();
+        System.setProperty("aims.scopeValidationDisabled", "true");
+        System.setProperty("aims.scopes", "openid,profile,email,api://client-id/alf_access");
+
+        AIMSConfig aimsConfig = this.initAIMSConfig();
+
+        Assert.assertTrue(aimsConfig.isScopeValidationDisabled());
+        Assert.assertTrue(aimsConfig.getScopes().contains("api://client-id/alf_access"));
+        Assert.assertEquals(Set.of("openid", "profile", "email", "api://client-id/alf_access"), aimsConfig.getScopes());
     }
 
     /**
