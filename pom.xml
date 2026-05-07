@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>alfresco-share-parent</artifactId>
-    <version>25.4.0.18-SNAPSHOT</version>
+    <version>25.4.0.31-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Alfresco Share Parent</name>
 
@@ -30,11 +30,11 @@
         <version.revision>0</version.revision>
         <amp.min.version>${version.major}.0.0</amp.min.version>
 
-        <dependency.alfresco-community-repo.version>25.4.0.35</dependency.alfresco-community-repo.version>
-        <dependency.alfresco-enterprise-repo.version>25.4.0.18</dependency.alfresco-enterprise-repo.version>
+        <dependency.alfresco-community-repo.version>25.4.0.43</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-enterprise-repo.version>25.4.0.26</dependency.alfresco-enterprise-repo.version>
 
-        <dependency.alfresco-transform-service.version>4.4.0</dependency.alfresco-transform-service.version>
-        <dependency.alfresco-transform-core.version>5.4.0</dependency.alfresco-transform-core.version>
+        <dependency.alfresco-transform-service.version>4.4.1</dependency.alfresco-transform-service.version>
+        <dependency.alfresco-transform-core.version>5.4.1</dependency.alfresco-transform-core.version>
         <alfresco.api-explorer.version>25.3.0</alfresco.api-explorer.version>
         <dependency.jakarta-annotation-api.version>2.1.1</dependency.jakarta-annotation-api.version>
 
@@ -52,7 +52,7 @@
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
         <!-- common dependencies-->
-        <dependency.spring.version>6.2.12</dependency.spring.version>
+        <dependency.spring.version>6.2.18</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
 
         <dependency.aikau.version>1.1.4</dependency.aikau.version>
@@ -63,7 +63,7 @@
 
         <dependency.webscripts.version>10.2</dependency.webscripts.version>
         <dependency.surf.version>10.1</dependency.surf.version>
-
+        <dependency.plexus-utils.version>4.0.3</dependency.plexus-utils.version>
         <dependency.alfresco-sdk.version>2.2.0</dependency.alfresco-sdk.version>
         <dependency.dom4j.version>2.1.3</dependency.dom4j.version>
         <dependency.slf4j.version>2.0.3</dependency.slf4j.version>
@@ -77,7 +77,7 @@
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
         <dependency.org-json.version>20231013</dependency.org-json.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
-        <spring.security.version>6.5.9</spring.security.version>
+        <spring.security.version>6.5.10</spring.security.version>
 
         <alfresco.googledrive.version>4.1.0</alfresco.googledrive.version>
 
@@ -100,7 +100,7 @@
 
         <repo.image.tag>${dependency.alfresco-enterprise-repo.version}</repo.image.tag>
         <docker.quay-expires.value>1w</docker.quay-expires.value>
-        <dependency.log4j.version>2.25.3</dependency.log4j.version>
+        <dependency.log4j.version>2.25.4</dependency.log4j.version>
     </properties>
 
     <scm>
@@ -155,22 +155,37 @@
                         <groupId>com.asual.lesscss</groupId>
                         <artifactId>lesscss-engine</artifactId>
                     </exclusion>
-                  <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-webmvc</artifactId>
-                  </exclusion>
+                    <exclusion>
+                      <groupId>org.codehaus.plexus</groupId>
+                      <artifactId>plexus-utils</artifactId>
+                    </exclusion>
+                    <exclusion>
+                      <groupId>org.springframework</groupId>
+                      <artifactId>spring-webmvc</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
           <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>6.2.12</version>
+            <version>6.2.18</version>
           </dependency>
             <dependency>
                 <groupId>org.alfresco.surf</groupId>
                 <artifactId>spring-surf-api</artifactId>
                 <version>${dependency.surf.version}</version>
+                <exclusions>
+                  <exclusion>
+                    <groupId>org.codehaus.plexus</groupId>
+                    <artifactId>plexus-utils</artifactId>
+                </exclusion>
+              </exclusions>
             </dependency>
+          <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-utils</artifactId>
+            <version>${dependency.plexus-utils.version}</version>
+          </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>

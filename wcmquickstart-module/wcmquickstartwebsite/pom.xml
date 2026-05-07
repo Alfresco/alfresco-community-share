@@ -7,7 +7,7 @@
     <parent>
         <artifactId>alfresco-wcmqs-parent</artifactId>
         <groupId>org.alfresco</groupId>
-        <version>25.4.0.18-SNAPSHOT</version>
+        <version>25.4.0.31-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -95,7 +95,7 @@
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-webmvc</artifactId>
-        <version>7.0.0-M1</version>
+        <version>7.0.7</version>
       </dependency>
         <dependency>
             <groupId>org.tuckey</groupId>
