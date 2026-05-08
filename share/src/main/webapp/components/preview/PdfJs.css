@@ -410,11 +410,16 @@ canvas {
   font-family: sans-serif;
 }
 
-.textLayer > div {
+.textLayer > span {
   color: transparent;
   position: absolute;
   line-height:1.3;
   white-space:pre;
+  display:inline;
+}
+
+.textLayer > br {
+  user-select: none;
 }
 
 .textLayer .highlight {

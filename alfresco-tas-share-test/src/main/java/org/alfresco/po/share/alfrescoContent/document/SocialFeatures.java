@@ -55,7 +55,7 @@ public class SocialFeatures extends DocumentLibraryPage
     private WebElement loginButtonOnSharedFilePage;
     @FindBy (xpath = "//a[text()='Document Details']")
     private WebElement documentDetailsButtonOnSharedFilePage;
-    @FindBy (css = ".textLayer>div")
+    @FindBy (css = ".textLayer>span")
     private WebElement contentFromSharedFilePage;
     private By commentLinkSelector = By.cssSelector(".comment");
     private By commentCounterSelector = By.cssSelector(".comment-count");
