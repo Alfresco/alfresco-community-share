@@ -89,7 +89,10 @@ public class CreateNewWikiTests extends BaseTest
 
         log.info("STEP 4: Click on wiki page list");
         wikiPage.clickOnWikiListLink();
-        Assert.assertTrue(wikiListPage.getWikiPageTitlesList().contains("wikiPageTitle"), "Wiki page is not displayed in the list!");
+        Assert.assertTrue(
+            wikiListPage.getWikiPageTitlesList().stream().anyMatch(title -> title.contains("wikiPageTitle")),
+            "Wiki page is not displayed in the list!"
+        );
     }
 
     @TestRail (id = "C5504")

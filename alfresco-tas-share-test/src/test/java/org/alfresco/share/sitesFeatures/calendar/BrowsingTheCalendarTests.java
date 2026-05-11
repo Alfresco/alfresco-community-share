@@ -1,10 +1,5 @@
 package org.alfresco.share.sitesFeatures.calendar;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization;
@@ -13,7 +8,6 @@ import org.alfresco.po.share.site.calendar.AddEventDialogPage;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.CalendarUtility;
 import org.alfresco.po.share.site.calendar.MiniCalendar;
-import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.share.BaseTest;
 import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
@@ -23,7 +17,14 @@ import org.alfresco.utility.model.UserModel;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 @Slf4j
 public class BrowsingTheCalendarTests extends BaseTest

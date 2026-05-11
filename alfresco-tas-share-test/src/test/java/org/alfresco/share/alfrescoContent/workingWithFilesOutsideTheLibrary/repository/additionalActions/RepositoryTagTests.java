@@ -17,6 +17,7 @@ import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.UserModel;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -50,6 +51,9 @@ public class RepositoryTagTests extends BaseTest
 
         log.info("PreCondition1: Any test user is created");
         testUser1 = dataUser.usingAdmin().createUser(user, password);
+        Assert.assertNotNull(testUser1, "testUser1 was not created (null)");
+        Assert.assertNotNull(testUser1.getUsername(), "testUser1 username is null");
+
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("Create Folder and File in Admin Repository-> User Homes ");

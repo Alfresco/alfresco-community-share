@@ -1,11 +1,5 @@
 package org.alfresco.po.share.site.calendar;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.site.SiteCommon;
@@ -16,6 +10,13 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 @Slf4j
 public class CalendarPage extends SiteCommon<CalendarPage>
@@ -58,6 +59,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     private final By previousMonthArrow = By.cssSelector("#calendarcontainer[style*='display: block'] .calnavleft");
     private ArrayList<String> monthValues = new ArrayList<>(
         Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"));
+
     public CalendarPage(ThreadLocal<WebDriver> webDriver)
     {
         super(webDriver);
@@ -129,7 +131,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
         log.info("Assert calendar event title equals: {}", expectedCalendarEventTitle);
         waitInSeconds(2);
         assertEquals(getEventTitleFromCalendar(expectedCalendarEventTitle).getText(), expectedCalendarEventTitle,
-        String.format("Calendar event title not equals %s ", expectedCalendarEventTitle));
+            String.format("Calendar event title not equals %s ", expectedCalendarEventTitle));
 
         return this;
     }
@@ -164,6 +166,7 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     public void click_Event(String eventName)
     {
         log.info("Click event: {}", eventName);
+        refresh();
         waitInSeconds(2);
         refresh();
         findFirstElementWithValue(EventName, eventName).click();
@@ -186,6 +189,13 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     {
         log.info("Click day button");
         clickElement(dayButton);
+        int localRetryCount = 5;
+        while(!getWebDriver().findElement(dayButton).getAttribute("tabindex").equals("0") && localRetryCount > 0)
+        {
+            log.warn("Day view is not updated - retry: {}", 6 - localRetryCount);
+            waitInSeconds(2);
+            localRetryCount--;
+        }
         return this;
     }
 
@@ -193,12 +203,26 @@ public class CalendarPage extends SiteCommon<CalendarPage>
     {
         log.info("Click week button");
         clickElement(weekButton);
+        int localRetryCount = 5;
+        while(!getWebDriver().findElement(weekButton).getAttribute("tabindex").equals("0") && localRetryCount > 0)
+        {
+            log.warn("Week view is not updated - retry: {}", 6 - localRetryCount);
+            waitInSeconds(2);
+            localRetryCount--;
+        }
         return new CalendarPage(webDriver);
     }
 
     public CalendarPage clickMonthButton()
     {
         clickElement(monthButton);
+        int localRetryCount = 5;
+        while(!getWebDriver().findElement(monthButton).getAttribute("tabindex").equals("0") && localRetryCount > 0)
+        {
+            log.warn("Month view is not updated - retry: {}", 6 - localRetryCount);
+            waitInSeconds(2);
+            localRetryCount--;
+        }
         return this;
     }
 

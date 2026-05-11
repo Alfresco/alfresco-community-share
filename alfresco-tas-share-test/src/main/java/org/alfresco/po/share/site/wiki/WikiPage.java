@@ -42,7 +42,7 @@ public class WikiPage extends SiteCommon<WikiPage>
     {
 
         waitUntilWebElementIsDisplayedWithRetry(findElement(wikiPageListLink), 3);
-        findElement(wikiPageListLink).click();
+        waitUntilElementClickable(findElement(wikiPageListLink)).click();
         return new WikiListPage(webDriver);
     }
 
@@ -71,7 +71,8 @@ public class WikiPage extends SiteCommon<WikiPage>
 
     public String getWikiPageContent()
     {
-        return findElement(wikiPageContent).getText().trim();
+        String wikiPageText = findElement(wikiPageContent).getText().trim();
+        return wikiPageText;
     }
 
     public WikiDetailsPage clickOnDetailsLink()

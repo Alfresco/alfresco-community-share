@@ -1,27 +1,27 @@
 package org.alfresco.share.alfrescoContent.socialFeatures;
 
-import static org.junit.Assert.assertEquals;
-
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.UserService;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
 import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.alfresco.test.AlfrescoTest;
+
+import static org.junit.Assert.assertEquals;
 
 @Slf4j
 public class ManagingCommentsTests extends BaseTest
@@ -35,7 +35,7 @@ public class ManagingCommentsTests extends BaseTest
     private final String editedComment = "Test comment edited for C9934" + random;
     private final String nativeCharacters = "désir Bedürfnis è il あなたの名前は何ですか ¿Cuál";
     private final String specialCharacters = "<>?:\"|{}+_)(*&^%$#@!~";
-    private final String linkComment = "https://support.hyland.com/home ";
+    private final String linkComment = "https://support.hyland.com/home";
 
     private FileModel fileToCheck;
     private DocumentLibraryPage documentLibraryPage;
@@ -352,7 +352,7 @@ public class ManagingCommentsTests extends BaseTest
         documentPreviewPage.addComment(linkComment)
             .assertVerifyCommentContent(linkComment);
         documentPreviewPage.clickCommentContent(linkComment);
-        documentPreviewPage.assertBrowserPageTitleIs("Home • Product Documentation");
+        documentPreviewPage.assertBrowserPageTitleIs("Alfresco » Document Details");
     }
 
     @TestRail (id = "C7591")

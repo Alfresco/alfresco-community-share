@@ -13,7 +13,6 @@ import org.openqa.selenium.WebElement;
 import java.text.MessageFormat;
 import java.util.List;
 
-import static org.alfresco.common.Wait.WAIT_1;
 import static org.alfresco.common.Wait.WAIT_5;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -61,6 +60,8 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
             if (webElement.getText().contains(folderName))
             {
                     webElement.click();
+                    waitUntilElementDisappears(webElement);
+                    break;
             }
         }
         return this;
@@ -182,9 +183,12 @@ public class RepositoryPage extends DocumentLibraryPage implements AccessibleByM
     }
     public RepositoryPage clickOnFolderName(String folderName)
     {
-        waitInSeconds(WAIT_1.getValue());
+        waitForSharePageToLoad();
+        waitUntilDomReadyStateIsComplete();
+        waitInSeconds(WAIT_5.getValue());
         WebElement folderElement = selectDocumentLibraryItemRow(folderName);
         clickElement(folderElement.findElement(contentNameSelector));
+        waitUntilElementDisappears(folderElement);
         return this;
     }
     public RepositoryPage click_FolderLink()

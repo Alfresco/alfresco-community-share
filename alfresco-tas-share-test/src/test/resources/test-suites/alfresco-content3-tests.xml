@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Sanity Test Suite2" parallel="classes" thread-count="1">
+<suite name="Sanity Test Suite3" parallel="classes" thread-count="1">
     <listeners>
         <listener class-name="org.alfresco.share.RetryListener"/>
     </listeners>
@@ -32,9 +32,9 @@
             </run>
         </groups>
         <packages>
-            <package name="org.alfresco.share.alfrescoContent.workingWithFilesAndFolders.editingFiles"></package>
-            <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.repository.additionalActions"></package>
-            <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles.taggingAndSocialFeatures"></package>
+            <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.myFiles"></package>
+            <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions"></package>
+            <package name="org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.additionalActions"></package>
         </packages>
     </test>
 </suite>

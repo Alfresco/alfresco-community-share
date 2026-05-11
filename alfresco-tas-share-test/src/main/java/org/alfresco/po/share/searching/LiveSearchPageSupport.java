@@ -1,7 +1,8 @@
 package org.alfresco.po.share.searching;
+
 import org.alfresco.po.share.site.DocumentLibraryPage;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -78,23 +79,20 @@ public class LiveSearchPageSupport extends DocumentLibraryPage {
     }
     public boolean isScopeRepositoryDisplayed(String searchTerm)
     {
-
+        int retryCount = 10;
+        while (retryCount > 0)
         {
             waitInSeconds(3);
             clearAndType(searchBoxInput, searchTerm);
-            waitInSeconds(10);
-            clearAndType(searchBoxInput, searchTerm);
-            waitInSeconds(10);
-            clearAndType(searchBoxInput, searchTerm);
-            waitInSeconds(3);
-            clearAndType(searchBoxInput, searchTerm);
-            waitInSeconds(10);
-            clearAndType(searchBoxInput, searchTerm);
-            waitInSeconds(10);
-            clearAndType(searchBoxInput, searchTerm);
-            WebElement scopeRepository = findElement(By.cssSelector("div[class^='alf-livesearch-context__repo']"));
-            return scopeRepository.isDisplayed();
+            waitInSeconds(5);
+            List<WebElement> scopeElements = findElements(By.cssSelector("div[class^='alf-livesearch-context__repo']"));
+            if (!scopeElements.isEmpty() && scopeElements.get(0).isDisplayed())
+            {
+                return true;
+            }
+            retryCount--;
         }
+        return false;
     }
     public boolean isScopeSitesDisplayed()
     {

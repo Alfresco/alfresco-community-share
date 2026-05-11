@@ -6,4 +6,5 @@ public interface ShareGroups {
     String SHARE_PRIORITY_1 = "SharePriority1";
     String MISSING_JIRA = "MissingJira";
     String MISSING_STEPS ="MissingSteps";
+    String TOBEDELETED = "tobedeleted";
 }

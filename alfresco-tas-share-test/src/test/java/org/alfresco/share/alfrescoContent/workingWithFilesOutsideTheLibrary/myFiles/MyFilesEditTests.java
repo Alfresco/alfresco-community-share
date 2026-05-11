@@ -4,10 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.MyFilesPage;
 import org.alfresco.po.share.alfrescoContent.RepositoryPage;
-import org.alfresco.po.share.alfrescoContent.buildingContent.CreateContentPage;
 import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
 import org.alfresco.po.share.alfrescoContent.document.DocumentDetailsPage;
-import org.alfresco.po.share.alfrescoContent.document.GoogleDocsCommon;
 import org.alfresco.po.share.alfrescoContent.document.GoogleDocsLogIn;
 import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.alfrescoContent.organizingContent.taggingAndCategorizingContent.SelectDialog;
@@ -15,18 +13,18 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAl
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
 import static org.alfresco.common.Utils.testDataFolder;
-import org.alfresco.test.AlfrescoTest;
 @Slf4j
 /**
  * @author Razvan.Dorobantu
@@ -238,7 +236,7 @@ public class MyFilesEditTests extends BaseTest
 
     @TestRail (id = "C8227")
     @AlfrescoTest (jira = "XAT-10440")
-    @Test ( groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS , ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1})
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS , ShareGroups.TOBEDELETED, ShareGroups.SHARE_PRIORITY_1})
     public void myFilesEditFilesInGoogleDocs() throws Exception
     {
         log.info("Precondition: Login as user, navigate to My Files page and create a plain text file.");

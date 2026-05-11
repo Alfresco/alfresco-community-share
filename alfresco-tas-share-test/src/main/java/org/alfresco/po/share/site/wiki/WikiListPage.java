@@ -101,7 +101,9 @@ public class WikiListPage extends SiteCommon<WikiListPage>
 
     public EditWikiPage clickEdit(String wikiPage)
     {
-        selectWikiDetailsRow(wikiPage).findElement(editPage).click();
+        WebElement editPageButton = selectWikiDetailsRow(wikiPage).findElement(editPage);
+        waitUntilElementClickable(editPageButton).click();
+        waitUntilElementDisappears(editPageButton);
         return new EditWikiPage(webDriver);
     }
 
@@ -257,7 +259,7 @@ public class WikiListPage extends SiteCommon<WikiListPage>
      */
     public void clickSpecificTag(String tagName)
     {
-        findElement(By.cssSelector("a[rel='" + tagName + "']")).click();
+        waitUntilElementClickable(findElement(By.cssSelector("a[rel='" + tagName + "']"))).click();
     }
 
     /**

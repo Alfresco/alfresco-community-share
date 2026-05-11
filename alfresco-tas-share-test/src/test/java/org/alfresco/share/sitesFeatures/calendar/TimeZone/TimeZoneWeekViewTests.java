@@ -1,33 +1,29 @@
 package org.alfresco.share.sitesFeatures.calendar.TimeZone;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
-import java.io.IOException;
-
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SiteService;
-
 import org.alfresco.po.share.Notification;
 import org.alfresco.po.share.site.calendar.AddEventDialogPage;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.EventInformationDialogPage;
-
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-
 import org.joda.time.DateTime;
+import org.openqa.selenium.chromium.HasCdp;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.Map;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 @Slf4j
 /**
@@ -50,8 +46,8 @@ public class TimeZoneWeekViewTests extends BaseTest
     DateTime nextWeek;
     DateTime aMonthAgo;
     DateTime nextMonth;
-    private String clientATimeZone = "tzutil /s \"GTB Standard Time\"";
-    private String clientBTimeZone = "tzutil /s \"GMT Standard Time\"";
+    private String clientATimeZone = "Europe/Athens";   // UTC+2 winter / UTC+3 summer
+    private String clientBTimeZone = "Europe/London";   // UTC+0 winter / UTC+1 summer
     private final ThreadLocal<UserModel> user = new ThreadLocal<>();
     private final ThreadLocal<SiteModel> siteName = new ThreadLocal<>();
     @BeforeMethod (alwaysRun = true)
@@ -99,14 +95,25 @@ public class TimeZoneWeekViewTests extends BaseTest
         return date.toString("EEEE, d MMMM, yyyy") + " at " + hour;
     }
 
-    private void changeTimeZone(String command)
+    private void changeTimeZone(String timeZoneId)
     {
         try
         {
-            Runtime.getRuntime().exec(command);
-        } catch (IOException e)
+            if (webDriver.get() instanceof HasCdp cdpDriver)
+            {
+                cdpDriver.executeCdpCommand(
+                    "Emulation.setTimezoneOverride",
+                    Map.of("timezoneId", timeZoneId)
+                );
+            }
+            else
+            {
+                log.warn("WebDriver does not support CDP - timezone override skipped");
+            }
+        }
+        catch (Exception e)
         {
-            e.printStackTrace();
+            log.error("Failed to set timezone to: " + timeZoneId, e);
         }
     }
 
@@ -126,7 +133,6 @@ public class TimeZoneWeekViewTests extends BaseTest
         addEventDialogPage.typeInStartTimeInput("2:30 PM");
         addEventDialogPage.typeInEndTimeInput("5:30 PM");
         addEventDialogPage.clickSaveButton();
-//        assertEquals(notification.getDisplayedNotification(), "Event created", "'Event created' pop-up appears.");
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is created and displayed on the 'Calendar' page.");
         assertEquals(calendarPage.getEventStartTimeFromCalendar(currentEventName), "2:30pm", "Event starting time is the one filled at creation.");
 
@@ -155,7 +161,6 @@ public class TimeZoneWeekViewTests extends BaseTest
         addEventDialogPage.checkAllDayCheckBox();
         addEventDialogPage.clickSaveButton();
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is created and displayed on the 'Calendar' page.");
-//        assertTrue(calendarPage.isAllDayEvent(currentEventName), "Created event is an all day event.");
 
         log.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
@@ -215,7 +220,6 @@ public class TimeZoneWeekViewTests extends BaseTest
         addEventDialogPage.selectEndDateFromCalendarPicker(dayAfterTomorrow.getDayOfMonth(), dayAfterTomorrow.getMonthOfYear(), dayAfterTomorrow.getYear());
         addEventDialogPage.clickSaveButton();
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is created and displayed on the 'Calendar' page.");
-//        assertTrue(calendarPage.isAllDayEvent(currentEventName), "Event created is an all day event.");
 
         log.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
@@ -277,7 +281,6 @@ public class TimeZoneWeekViewTests extends BaseTest
         addEventDialogPage.selectEndDateFromCalendarPicker(nextWeek.getDayOfMonth(), nextWeek.getMonthOfYear(), nextWeek.getYear());
         addEventDialogPage.clickSaveButton();
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is created and displayed on the 'Calendar' page.");
-//        assertTrue(calendarPage.isAllDayEvent(currentEventName), "Event created is an all day event.");
 
         log.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);
@@ -338,7 +341,6 @@ public class TimeZoneWeekViewTests extends BaseTest
         addEventDialogPage.selectEndDateFromCalendarPicker(nextMonth.getDayOfMonth(), nextMonth.getMonthOfYear(), nextMonth.getYear());
         addEventDialogPage.clickSaveButton();
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is created and displayed on the 'Calendar' page.");
-//        assertTrue(calendarPage.isAllDayEvent(currentEventName), "Event created is an all day event.");
 
         log.info("STEP 2: Open 'Calendar' page ('Week' view) on clientB and verify event's details, by clicking on the event.");
         changeTimeZone(clientBTimeZone);

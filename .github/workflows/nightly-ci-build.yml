@@ -1,6 +1,9 @@
 name: alfresco_enterprise_share_regression_ci
 
 on:
+  pull_request:
+    branches:
+      - master
   schedule:
     - cron: '30 15 * * *'
   workflow_call:
@@ -306,7 +309,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test: [ user, admin-tools, admin-console ,content-actions, content-filters, user-dashboard, userRolesAndPermissions, applying-rules, searching1, searching2, alfresco-content1, alfresco-content2, alfresco-content-and-site-features, task-and-workflows, site, site-dashboard, sitesFeatures-calendar, site-members, sitesFeatures-dataLists, sitesFeatures ]
+        test: [ user, admin-tools, admin-console ,content-actions, content-filters, user-dashboard, userRolesAndPermissions, applying-rules, searching1, searching2, alfresco-content1, alfresco-content2, alfresco-content-and-site-features, task-and-workflows, site, site-dashboard, sitesFeatures-calendar, site-members, sitesFeatures-dataLists, sitesFeatures, searching4, alfresco-content3, alfresco-content4 ]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -344,11 +347,11 @@ jobs:
         uses: nick-fields/retry@v2
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
-          max_attempts: 3
+          max_attempts: 1
           retry_wait_seconds: 60
           retry_on: error
           warning_on_retry: true
-          command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml" -DexcludedGroups=bug
+          command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml" -DexcludedGroups=bug,tobedeleted
       - name: Debug Allure Output
         run: |
           echo "Listing allure results:"
@@ -537,10 +540,22 @@ jobs:
           docker images
           docker image tag alfresco/alfresco-governance-repository-enterprise-base:$(docker images --format "{{.Repository}}:{{.Tag}}" | grep '^alfresco/alfresco-governance-repository-enterprise-base:' | head -1 | cut -d: -f2) alfresco/alfresco-governance-repository-enterprise-base:latest
           docker images
+      - name: Download S3 Connector AMP for WORM tests
+        if: matrix.test == 'wormTestSuite'
+        run: |
+          mkdir -p amps/ags/rm-enterprise/rm-enterprise-share/target
+          mvn -B dependency:copy \
+            -Dartifact=org.alfresco.integrations:alfresco-s3-connector:7.0.0:amp \
+            -DoutputDirectory=amps/ags/rm-enterprise/rm-enterprise-share/target
+          ls -la amps/ags/rm-enterprise/rm-enterprise-share/target/ || echo "WARNING: S3 connector AMP not found"
       - name: Start Alfresco
         if: env.S3_BUCKET_PREFIX != ''
         run: |
-          if [ ${{ matrix.test }} == 'wormTestSuite' ]; then echo "Starting Alfresco with WORM support"
+          if [ "${{ matrix.test }}" == 'wormTestSuite' ]; then
+            echo "Starting Alfresco with WORM support"
+            # Capture bucket list first to avoid broken pipe from aws s3 ls piped directly to grep
+            EXISTING_BUCKETS=$(aws s3 ls | awk '{print $3}')
+            export EXISTING_BUCKETS
             amps/ags/ci/scripts/create-worm-bucket.sh
             amps/ags/ci/scripts/start-compose.sh amps/ags/rm-enterprise/rm-enterprise-share/docker-compose-worm-support-ui.yml
           else

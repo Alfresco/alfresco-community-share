@@ -1,44 +1,38 @@
 package org.alfresco.share.searching;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import lombok.extern.slf4j.Slf4j;
-
 import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.ContentService;
 import org.alfresco.dataprep.DashboardCustomization;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
-
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.calendar.CalendarUtility;
 import org.alfresco.po.share.toolbar.Toolbar;
-
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
-
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.alfresco.test.AlfrescoTest;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 @Slf4j
 /**
  * @author Laura.Capsa
@@ -139,32 +133,32 @@ public class BasicSearchTests extends BaseTest
 
         log.info("STEP2: Fill in toolbar search field with a user name");
         toolbar.searchInToolbar(userName2);
-        assertTrue(toolbar.isResultDisplayedInLiveSearch(userName2), "Live search result list contains the searched user.");
+        assertTrue(toolbar.isResultDisplayedLiveSearch(userName2), "Live search result list contains the searched user.");
 
         log.info("STEP3: Click a user link from search results");
         toolbar.clickResultFromLiveSearch(userName2);
 
         log.info("STEP4: Fill in toolbar search field with a site name");
         toolbar.searchInToolbar(siteName);
-        assertTrue(toolbar.isResultDisplayedInLiveSearch(siteName), "Live search result list contains the searched site.");
+        assertTrue(toolbar.isResultDisplayedLiveSearch(siteName), "Live search result list contains the searched site.");
 
         log.info("STEP5: Click a site link from search results");
         toolbar.clickResult(siteName);
 
         log.info("STEP6: Fill in toolbar search field with a document name");
         toolbar.searchInToolbar(docName1);
-        assertTrue(toolbar.isResultDisplayedInLiveSearch(docName1), "Live search result list contains the searched document.");
+        assertTrue(toolbar.isResultDisplayedLiveSearch(docName1), "Live search result list contains the searched document.");
 
         log.info("STEP7: Click a document link from search results");
         toolbar.clickResult(docName1);
 
         log.info("STEP8: Fill in toolbar search field with a wiki page");
         toolbar.searchInToolbar(wikiPage);
-        assertTrue(toolbar.isResultDisplayedInLiveSearch(wikiPage), "Live search result list contains the searched wiki page");
+        assertTrue(toolbar.isResultDisplayedLiveSearch(wikiPage), "Live search result list contains the searched wiki page");
 
         log.info("STEP9: Fill in toolbar search field with a blog post");
         toolbar.searchInToolbar(blogPost);
-        assertTrue(toolbar.isResultDisplayedInLiveSearch(blogPost), "Live search result list contains the searched blog post");
+        assertTrue(toolbar.isResultDisplayedLiveSearch(blogPost), "Live search result list contains the searched blog post");
 
         log.info("STEP10: Fill in toolbar search field with a calendar event");
         toolbar.searchInToolbar(calendarEvent);
