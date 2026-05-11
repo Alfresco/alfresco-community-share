@@ -5,7 +5,7 @@ PS4="\[\e[35m\]+ \[\e[m\]"
 set -vex
 pushd "$(dirname "${BASH_SOURCE[0]}")/../"
 
-if aws s3 ls | awk '{print $3}' | grep -q "^${S3_BUCKET2_NAME}$" ; then
+if aws s3 ls 2>/dev/null | awk '{print $3}' | grep -q "^${S3_BUCKET2_NAME}$" ; then
   echo "Bucket ${S3_BUCKET2_NAME} already exists"
   exit 0
 fi

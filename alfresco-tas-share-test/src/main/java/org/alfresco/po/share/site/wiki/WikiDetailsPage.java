@@ -132,6 +132,7 @@ public class WikiDetailsPage extends SiteCommon<WikiDetailsPage>
     public ViewWikiPage clickOnViewPageLink()
     {
         clickElement(wikiViewPageLink);
+        waitUntilElementDisappears(wikiViewPageLink);
         return new ViewWikiPage(webDriver);
     }
 

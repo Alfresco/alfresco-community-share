@@ -1,8 +1,5 @@
 package org.alfresco.share.sitesFeatures.calendar;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
@@ -24,9 +21,12 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Claudia Agache on 7/15/2016.
@@ -353,7 +353,6 @@ public class AddEventsTests extends BaseTest
     {
         authenticateUsingLoginPage(user1.get());
         calendarPage.navigate(siteName.get().getId());
-        String stuff = today.toString("EEEE, d MMMM, yyyy");
         log.info("STEP 1: Click on any date from the calendar");
         calendarPage.clickTodayInCalendars();
         assertTrue(addEventDialogPage.isDialogDisplayed(), "'Add Event' dialog box is opened.");

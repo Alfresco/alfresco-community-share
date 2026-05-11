@@ -1,15 +1,5 @@
 package org.alfresco.po.share.searching;
 
-import static org.alfresco.common.RetryTime.RETRY_TIME_80;
-import static org.alfresco.common.Wait.*;
-import static org.alfresco.utility.Utility.waitToLoopTime;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
@@ -20,6 +10,18 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import static org.alfresco.common.RetryTime.RETRY_TIME_80;
+import static org.alfresco.common.Wait.WAIT_2;
+import static org.alfresco.common.Wait.WAIT_3;
+import static org.alfresco.utility.Utility.waitToLoopTime;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 @Slf4j
 public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMenuBar
@@ -410,7 +412,9 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public boolean isFilterOptionDisplayed(String filterId, String filterOption)
     {
         waitInSeconds(3);
+        waitUntilDomReadyStateIsComplete();
         WebElement filterElement = findElement(By.id("FCTSRCH_" + filterId));
+        waitUntilElementIsVisible(filterElement,1000);
         return findFirstElementWithValue(filterElement.findElements(By.cssSelector(".filterLabel")), filterOption) != null;
     }
 

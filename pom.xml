@@ -102,6 +102,7 @@
         <docker.quay-expires.value>1w</docker.quay-expires.value>
         <dependency.log4j.version>2.25.4</dependency.log4j.version>
         <allure.testng.version>2.32.0</allure.testng.version>
+        <guava.version>32.0.1-jre</guava.version>
     </properties>
 
     <scm>
@@ -383,6 +384,11 @@
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
             <version>${dependency.jakarta-annotation-api.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
           </dependency>
         </dependencies>
     </dependencyManagement>

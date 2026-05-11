@@ -1,10 +1,5 @@
 package org.alfresco.po.share.user.admin.adminTools.usersAndGroups;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.SharePage2;
 import org.alfresco.utility.model.GroupModel;
@@ -13,6 +8,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 @Slf4j
 public class CreateUserPage extends SharePage2<CreateUserPage>
@@ -94,6 +95,7 @@ public class CreateUserPage extends SharePage2<CreateUserPage>
 
     public CreateUserPage setFirstName(String firstName)
     {
+        waitUntilElementClickable(firstNameInputField);
         waitInSeconds(3);
         clearAndType(firstNameInputField, firstName);
         return this;

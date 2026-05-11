@@ -1,7 +1,5 @@
 package org.alfresco.share.site.siteDashboard;
 
-import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
-
 import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.RssFeedDashlet;
@@ -12,6 +10,8 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 
 public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
 {
@@ -28,7 +28,7 @@ public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
 
     private RssFeedDashlet rssFeedDashlet;
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod(alwaysRun = true, groups = { ShareGroups.TOBEDELETED})
     public void setupTest()
     {
         rssFeedDashlet = new RssFeedDashlet(webDriver);
@@ -41,7 +41,7 @@ public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C5568")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , ShareGroups.TOBEFIXED})
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , ShareGroups.TOBEDELETED})
     public void checkDisplaySpecificMessageWhenRssFeedListIsEmpty()
     {
         siteDashboardPage.navigate(site.get());
@@ -54,7 +54,7 @@ public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
     }
 
     @TestRail (id = "C2795")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , ShareGroups.TOBEFIXED })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , ShareGroups.TOBEDELETED })
     public void shouldConfigureRSSFeedDashlet()
     {
         siteDashboardPage.navigate(site.get());
@@ -75,7 +75,7 @@ public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
             .assertRssFeedLinkIsOpenedInNewBrowserTab(EXPECTED_URL);
     }
 
-    @AfterMethod(alwaysRun = true)
+    @AfterMethod(alwaysRun = true, groups = {ShareGroups.TOBEDELETED})
     public void cleanupTest()
     {
         deleteUsersIfNotNull(user.get());

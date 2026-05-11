@@ -1,24 +1,22 @@
 package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sharedFiles.actions;
 
 import lombok.extern.slf4j.Slf4j;
-
 import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.FileModel;
-import org.alfresco.utility.model.FolderModel;
-import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.TestGroup;
-
+import org.alfresco.utility.model.UserModel;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.alfresco.test.AlfrescoTest;
 
 import java.io.File;
 
@@ -33,18 +31,21 @@ public class DownloadTests extends BaseTest
     private UserModel testUser1;
     private FileModel testFile;
     private FolderModel testFolder;
-
+    private boolean setupSucceeded = false;
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest() throws Exception {
         sharePage = new SharedFilesPage(webDriver);
         deleteDialog = new DeleteDialog(webDriver);
 
-        log.info("PreCondition1: Any test user is created");
         testUser1 = dataUser.usingAdmin().createRandomTestUser();
+        Assert.assertNotNull(testUser1, "Precondition failed: test user was not created");
+
+        // If your UserModel can be partially created, assert username too:
+        Assert.assertNotNull(testUser1.getUsername(), "Precondition failed: test user username is null");
+
         getCmisApi().authenticateUser(getAdminUser());
 
-        log.info("Create a Folder and File in Admin Repository-> User Homes ");
         authenticateUsingLoginPage(testUser1);
 
         testFolder = FolderModel.getRandomFolderModel();
@@ -52,25 +53,38 @@ public class DownloadTests extends BaseTest
 
         testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "description");
         getCmisApi().usingAdmin().usingShared().createFile(testFile).assertThat().existsInRepo();
+
         authenticateUsingCookies(getAdminUser());
 
+        setupSucceeded = true;
     }
 
     @AfterMethod(alwaysRun = true)
     public void cleanUp()
     {
-        log.info("Delete the file & folder Created in Precondition");
-        sharePage
-            .navigateByMenuBar()
-            .selectItemAction(testFile.getName(), ItemActions.DELETE_DOCUMENT);
-        deleteDialog
-            .confirmDeletion();
-        sharePage
-            .selectItemAction(testFolder.getName(), ItemActions.DELETE_FOLDER);
-        deleteDialog
-            .confirmDeletion();
 
-        log.info("Delete the user Created in Precondition");
+        if (!setupSucceeded)
+        {
+            deleteUsersIfNotNull(testUser1);
+            return;
+        }
+
+        try
+        {
+            if (testFile != null)
+            {
+                getCmisApi().usingAdmin().usingResource(testFile).delete();
+            }
+            if (testFolder != null)
+            {
+                getCmisApi().usingAdmin().usingResource(testFolder).delete();
+            }
+        }
+        catch (Exception ignored)
+        {
+            log.warn("No test file or folder present");
+        }
+
         deleteUsersIfNotNull(testUser1);
     }
 

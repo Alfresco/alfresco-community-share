@@ -1,7 +1,5 @@
 package org.alfresco.share.site.siteDashboard;
 
-import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
-
 import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.enums.DashletHelpIcon;
 import org.alfresco.po.share.dashlet.RssFeedDashlet;
@@ -9,7 +7,11 @@ import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import static org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 
 public class AlfrescoAddonsRssFeedDashletTests extends AbstractSiteDashboardDashletsTests
 {
@@ -25,7 +27,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends AbstractSiteDashboardDash
 
     private RssFeedDashlet rssFeedDashlet;
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod(alwaysRun = true, groups = {ShareGroups.TOBEDELETED})
     public void setupTest()
     {
         rssFeedDashlet = new RssFeedDashlet(webDriver);
@@ -38,7 +40,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends AbstractSiteDashboardDash
     }
 
     @TestRail (id = "C5568")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , ShareGroups.TOBEFIXED})
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , ShareGroups.TOBEDELETED})
     public void checkDisplaySpecificMessageWhenAlfrescoAddonsRssFeedListIsEmpty()
     {
         siteDashboardPage.navigate(site.get());
@@ -52,7 +54,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends AbstractSiteDashboardDash
     }
 
     @TestRail(id = "C2793")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , ShareGroups.TOBEFIXED })
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.SITE_DASHBOARD, "RSS_FEED" , ShareGroups.TOBEDELETED })
     public void shouldConfigureAlfrescoAddonsRssFeedDashlet()
     {
         siteDashboardPage.navigate(site.get());
@@ -73,7 +75,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends AbstractSiteDashboardDash
             .assertRssFeedLinkIsOpenedInNewBrowserTab(EXPECTED_URL);
     }
 
-    @AfterMethod(alwaysRun = true)
+    @AfterMethod(alwaysRun = true, groups = {ShareGroups.TOBEDELETED})
     public void cleanupTest()
     {
         deleteUsersIfNotNull(user.get());

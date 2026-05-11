@@ -1,13 +1,5 @@
 package org.alfresco.po.share.alfrescoContent.document;
 
-import static org.alfresco.common.Utils.isFileInDirectory;
-import static org.alfresco.common.Wait.WAIT_1;
-import static org.alfresco.common.Wait.WAIT_2;
-import static org.testng.Assert.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.DataUtil;
 import org.alfresco.common.Wait;
@@ -19,12 +11,25 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.ChangeCo
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesPage;
 import org.alfresco.utility.exception.PageOperationException;
 import org.alfresco.utility.model.FileModel;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
+import static org.alfresco.common.Utils.isFileInDirectory;
+import static org.alfresco.common.Wait.WAIT_1;
+import static org.alfresco.common.Wait.WAIT_2;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertTrue;
 
 
 @Slf4j
@@ -1199,9 +1204,9 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     public DocumentDetailsPage clickCommentContent(String content)
     {
         log.info("click comment content {}", content);
-        By commentContent = By.xpath("//a[text()=\"https://support.hyland.com/home\"]");
-        waitUntilElementIsPresent(commentContent);
-        findElement(commentContent).click();
+        By commentContentLocator = By.xpath(String.format("//p[contains(text(),'%s')]", content));
+        waitUntilElementIsPresent(commentContentLocator);
+        findElement(commentContentLocator).click();
         return this;
     }
 }

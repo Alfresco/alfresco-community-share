@@ -13,6 +13,7 @@ import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditInAl
 import org.alfresco.po.share.alfrescoContent.workingWithFilesAndFolders.EditPropertiesDialog;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.BaseTest;
+import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.TestGroup;
@@ -20,7 +21,6 @@ import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.alfresco.test.AlfrescoTest;
 
 import java.util.Collections;
 
@@ -266,7 +266,7 @@ public class ActionsEditTests extends BaseTest
 
     @TestRail (id = "C7782")
     @AlfrescoTest(jira = "XAT-10886")
-    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS , ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1 })
+    @Test (groups = { TestGroup.SANITY, TestGroup.GOOGLE_DOCS , ShareGroups.TOBEDELETED, ShareGroups.SHARE_PRIORITY_1 })
     public void repositoryEditFilesInGoogleDocs()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");

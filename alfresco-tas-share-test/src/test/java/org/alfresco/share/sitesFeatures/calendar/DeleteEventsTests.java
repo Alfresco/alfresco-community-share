@@ -1,42 +1,36 @@
 package org.alfresco.share.sitesFeatures.calendar;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import lombok.extern.slf4j.Slf4j;
-
 import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization.DashletLayout;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.DashboardCustomization.SiteDashlet;
 import org.alfresco.dataprep.SitePagesService;
 import org.alfresco.dataprep.SiteService;
-
 import org.alfresco.po.share.DeleteDialog;
 import org.alfresco.po.share.dashlet.SiteCalendarDashlet;
 import org.alfresco.po.share.site.SiteDashboardPage;
 import org.alfresco.po.share.site.calendar.CalendarPage;
 import org.alfresco.po.share.site.calendar.EventInformationDialogPage;
-
 import org.alfresco.share.BaseTest;
 import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
-
 import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 @Slf4j
 /**

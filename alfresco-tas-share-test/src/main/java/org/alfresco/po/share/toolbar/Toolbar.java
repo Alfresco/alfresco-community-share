@@ -1,9 +1,5 @@
 package org.alfresco.po.share.toolbar;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.common.Utils;
 import org.alfresco.po.share.BasePage;
@@ -15,7 +11,17 @@ import org.alfresco.po.share.searching.AdvancedSearchPage;
 import org.alfresco.po.share.searching.SearchPage;
 import org.alfresco.po.share.user.admin.SitesManagerPage;
 import org.alfresco.po.share.user.admin.adminTools.ApplicationPage;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotInteractableException;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
+
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 
 @Slf4j
 public class Toolbar extends BasePage
@@ -324,37 +330,23 @@ public class Toolbar extends BasePage
         return false;
     }
 
-    public boolean isResultDisplayedInLiveSearch(String query)
-    {
-        int retryCounter = 0;
-        while (!isElementDisplayed(By.xpath("//div[contains(@class, 'alf-live-search')]//div")) && retryCounter < 4)
-        {
-            waitInSeconds(2);
-            refresh();
-            searchInToolbar(query);
-            retryCounter++;
-        }
-        waitUntilElementsAreVisible(By.xpath("//div[contains(@class, 'alf-live-search')]//div"));
-        waitUntilElementsAreVisible(By.cssSelector("div.alf-livesearch-item>a"));
-
-        waitInSeconds(2);
-        List<WebElement> searchResults = findElements(searchResultsInToolbar);
-        for (WebElement result : searchResults)
-        {
-            if (result.getText().contains(query))
-                return true;
-        }
-        return false;
-    }
     public boolean isResultDisplayedLiveSearch(String query)
     {
-        int retryCounter = 0;
-        while (!isElementDisplayed(By.xpath("//div[contains(@class, 'alf-live-search')]//div")) && retryCounter < 8)
+        int retryCounter = 8;
+        while (retryCounter > 0)
         {
-            waitInSeconds(2);
             refresh();
             searchInToolbar(query);
-            retryCounter++;
+
+            if(findElements(By.xpath("//div[contains(@class, 'alf-live-search')]//div")).isEmpty())
+            {
+                waitInSeconds(5);
+                retryCounter--;
+            }
+            else
+            {
+                break;
+            }
         }
         waitUntilElementsAreVisible(By.xpath("//div[contains(@class, 'alf-live-search')]//div"));
         waitUntilElementsAreVisible(By.cssSelector("div.alf-livesearch-item>a"));

@@ -19,7 +19,7 @@ public class RssFeedDashletTest extends AbstractUserDashboardDashletsTests
 
     private final ThreadLocal<UserModel> user = new ThreadLocal<>();
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod(alwaysRun = true, groups = { ShareGroups.TOBEDELETED })
     public void setupTest()
     {
         rssFeedDashlet = new RssFeedDashlet(webDriver);
@@ -31,7 +31,7 @@ public class RssFeedDashletTest extends AbstractUserDashboardDashletsTests
     }
 
     @TestRail (id = "C2162")
-    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD, "RSSFeedDashletTest", ShareGroups.TOBEFIXED})
+    @Test (groups = { TestGroup.REGRESSION, TestGroup.USER_DASHBOARD, "RSSFeedDashletTest", ShareGroups.TOBEDELETED})
     public void verifyNewsFeedDashlet()
     {
         userDashboardPage.navigate(user.get());
@@ -48,7 +48,7 @@ public class RssFeedDashletTest extends AbstractUserDashboardDashletsTests
             .assertRssFeedLinkIsOpenedInNewBrowserTab(sampleRssFeedTitle);
     }
 
-    @AfterMethod(alwaysRun = true)
+    @AfterMethod(alwaysRun = true, groups = {ShareGroups.TOBEDELETED})
     public void cleanup()
     {
         deleteUsersIfNotNull(user.get());

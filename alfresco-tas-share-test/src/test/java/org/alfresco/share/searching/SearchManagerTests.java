@@ -1,12 +1,5 @@
 package org.alfresco.share.searching;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import java.util.Arrays;
-import java.util.List;
-
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.CMISUtil;
@@ -42,6 +35,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 @Slf4j
 
 public class SearchManagerTests extends BaseTest
@@ -102,7 +102,32 @@ public class SearchManagerTests extends BaseTest
     public void setupTest(){
 
         log.info("Step 1: user creation using admin user.");
-        getCmisApi().authenticateUser(getAdminUser());
+        int maxRetries = 5;
+        for (int attempt = 1; attempt <= maxRetries; attempt++)
+        {
+            try
+            {
+                getCmisApi().authenticateUser(getAdminUser());
+                break;
+            }
+            catch (Exception e)
+            {
+                log.warn("CMIS authentication attempt {} of {} failed: {}", attempt, maxRetries, e.getMessage());
+                if (attempt == maxRetries)
+                {
+                    throw e;
+                }
+                try
+                {
+                    Thread.sleep(10000);
+                }
+                catch (InterruptedException ie)
+                {
+                    Thread.currentThread().interrupt();
+                    throw new RuntimeException("Interrupted while waiting for CMIS service", ie);
+                }
+            }
+        }
         authenticateUsingLoginPage(getAdminUser());
         testUser1 = dataUser.usingAdmin().createRandomTestUser();
         testUser2 = dataUser.usingAdmin().createRandomTestUser();

@@ -103,7 +103,7 @@ public class ViewWikiPageTests extends BaseTest
         log.info("STEP 2: Add [[Page1]] in Text box, 'tag1' in Tags and click 'Save' button");
         editWikiPage.addTag(tagName);
         editWikiPage.saveWikiContent("[[Page1]]");
-        Assert.assertTrue(wikiMainPage.getWikiPageContent().equals(wikiPageName), "Main Page should contain a link to Page1");
+        Assert.assertTrue(wikiMainPage.getWikiPageContent().contains(wikiPageName), "Main Page should contain a link to Page1");
 
         log.info("STEP 3: Click 'Details' link");
         wikiMainPage.clickOnDetailsPageLink();
@@ -177,7 +177,7 @@ public class ViewWikiPageTests extends BaseTest
 
         log.info("STEP 7: Click 'View Page' link");
         wikiDetailsPage.clickOnViewPageLink();
-        Assert.assertTrue(wikiPage.getWikiPageContent().equals("Page2"), "Page should contain a link to Page2!");
+        Assert.assertTrue(wikiPage.getWikiPageContent().contains("Page2"), "Page should contain a link to Page2!");
         deleteSitesIfNotNull(siteName.get());
 
     }

@@ -104,6 +104,7 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
     public List<String> getWikiPageTagsList()
     {
         List<String> wikiPageTags = new ArrayList<>();
+        waitUntilElementIsVisible(wikiPageContent);
         for (WebElement wikiPageTag : findElements(wikiPageTagsList))
         {
             wikiPageTags.add(wikiPageTag.getText());

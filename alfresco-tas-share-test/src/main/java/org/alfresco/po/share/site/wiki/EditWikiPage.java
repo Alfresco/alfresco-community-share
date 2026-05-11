@@ -1,6 +1,5 @@
 package org.alfresco.po.share.site.wiki;
 
-import java.util.List;
 import org.alfresco.po.share.site.SelectDocumentPopupPage;
 import org.alfresco.po.share.site.SiteCommon;
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +9,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
 
 public class EditWikiPage extends SiteCommon<EditWikiPage>
 {
@@ -57,6 +58,7 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
     {
         switchTo().frame(waitUntilElementIsVisible(wikiPageContent));
         WebElement editable = switchTo().activeElement();
+        editable.click();
         editable.sendKeys(content);
         switchTo().defaultContent();
         clickElement(saveButton);

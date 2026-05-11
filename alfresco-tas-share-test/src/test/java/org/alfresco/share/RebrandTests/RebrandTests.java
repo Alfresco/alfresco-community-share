@@ -1,10 +1,7 @@
 package org.alfresco.share.RebrandTests;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
 import lombok.extern.slf4j.Slf4j;
+import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.AboutPopUpPage;
 import org.alfresco.po.share.LoginPage;
 import org.alfresco.po.share.searching.AdvancedSearchPage;
@@ -12,13 +9,16 @@ import org.alfresco.po.share.user.UserDashboardPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.model.TestGroup;
-
 import org.apache.chemistry.opencmis.commons.data.RepositoryInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 @Slf4j
 public class RebrandTests extends BaseTest
 {
@@ -28,7 +28,7 @@ public class RebrandTests extends BaseTest
     AdvancedSearchPage advancedSearch;
 
     @TestRail (id = "C42575, C42576, C42577, C42578, C42580, C42579")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SHARE, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SHARE, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, ShareGroups.BUG})
     public void checkLoginPage()
     {
         login = new LoginPage(webDriver);
