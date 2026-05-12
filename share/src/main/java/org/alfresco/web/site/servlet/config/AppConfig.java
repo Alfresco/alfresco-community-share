@@ -227,6 +227,11 @@ public class AppConfig
 
     private Set<String> getSupportedScopes(Scope scopes)
     {
+        if (aimsConfig.isScopeValidationDisabled())
+        {
+            // Bypass filtering: send configured scopes as-is (required for Entra which does not list custom API scopes in scopes_supported)
+            return this.scopes;
+        }
         return scopes.stream()
             .filter(this::hasShareScope)
             .map(Identifier::getValue)
