@@ -347,6 +347,7 @@
         <useIdTokenHint>${aims.logout.useIdTokenHint}</useIdTokenHint>
         <shareContext>${aims.shareContext.value}</shareContext>
         <extraEndpointsToRedirect>${aims.extraEndpointsToRedirect}</extraEndpointsToRedirect>
+        <scopeValidationDisabled>${aims.scopeValidationDisabled}</scopeValidationDisabled>
     </config>
 
     <!-- Cookie Headers-->

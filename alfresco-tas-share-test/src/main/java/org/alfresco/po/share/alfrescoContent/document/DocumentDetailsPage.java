@@ -80,7 +80,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By deleteCommentPrompt = By.id("prompt_h");
     private final By editCommentBoxTitle = By.xpath("//h2[text()= 'Edit Comment...']");
     private final By saveButtonEditComment = By.xpath("//button[text()='Save']");
-    private final By contentText = By.cssSelector("div[class ='textLayer']>div");
+    private final By contentText = By.cssSelector("div[class ='textLayer']>span");
     private final By noContentText = By.cssSelector("div[class ='message']");
     private final By contentTittle = By.xpath("(//span[@class='viewmode-value'])[2]");
     private final By contentDescription = By.xpath("(//span[@class='viewmode-value'])[3]");
