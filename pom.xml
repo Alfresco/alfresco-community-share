@@ -273,6 +273,12 @@
             <artifactId>nimbus-jose-jwt</artifactId>
             <version>10.0.2</version>
           </dependency>
+          <!-- Override neethi transitive dependency from cxf-rt-ws-policy -->
+          <dependency>
+            <groupId>org.apache.neethi</groupId>
+            <artifactId>neethi</artifactId>
+            <version>3.2.2</version>
+          </dependency>
             <!-- SHA-2400 -->
             <dependency>
                 <groupId>org.apache.maven</groupId>
