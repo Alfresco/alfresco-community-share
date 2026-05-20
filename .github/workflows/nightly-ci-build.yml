@@ -1,9 +1,6 @@
 name: alfresco_enterprise_share_regression_ci
 
 on:
-  pull_request:
-    branches:
-      - master
   schedule:
     - cron: '30 15 * * *'
   workflow_call:
