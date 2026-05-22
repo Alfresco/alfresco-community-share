@@ -1,9 +1,6 @@
 name: alfresco_enterprise_share_regression_ci
 
 on:
-  pull_request:
-    branches:
-      - master
   schedule:
     - cron: '30 15 * * *'
   workflow_call:
@@ -98,7 +95,7 @@ jobs:
     name: "Pipeline SAST Scan  - Share"
     runs-on: ubuntu-latest
     if: >
-      (github.ref_name == 'master' || startsWith(github.ref_name, 'release/') || github.event_name == 'pull_request') &&
+      (github.ref_name == 'master' || startsWith(github.ref_name, 'release/')) &&
       github.actor != 'dependabot[bot]' &&
       !contains(github.event.head_commit.message, '[skip tests]')
     steps:
@@ -158,10 +155,11 @@ jobs:
     name: "PMD Scan"
     runs-on: ubuntu-latest
     if: >
-      github.event_name == 'pull_request' &&
+      (github.ref_name == 'master' || startsWith(github.ref_name, 'release/')) &&
       !contains(github.event.head_commit.message, '[skip pmd]') &&
       !contains(github.event.head_commit.message, '[skip tests]') &&
-      !contains(github.event.head_commit.message, '[force]')
+      !contains(github.event.head_commit.message, '[force]') &&
+      inputs.commitMessage == '[pmd]'
     steps:
       - uses: Alfresco/ya-pmd-scan@v4.0.0
         with:
@@ -478,7 +476,7 @@ jobs:
       && inputs.commitMessage != '[skip ags]')) || (contains(github.event.head_commit.message, '[ags]')
       || inputs.commitMessage == '[ags]'))
       ||
-      (github.event_name == 'pull_request' && (github.base_ref == 'master' || startsWith(github.base_ref, 'release/')))
+      (github.base_ref == 'master' || startsWith(github.base_ref, 'release/'))
     needs: build_docker_image
     strategy:
       fail-fast: false
