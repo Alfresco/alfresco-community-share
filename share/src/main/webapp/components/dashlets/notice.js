@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 /**
  * Notice dashlet component.
- * 
+ *
  * @namespace Alfresco
  * @class Alfresco.dashlet.Notice
  */
@@ -38,10 +38,95 @@
       $combine = Alfresco.util.combinePaths,
       $encodeHTML = Alfresco.util.encodeHTML;
 
+   /**
+    * Defence-in-depth sanitiser used for the in-page preview that runs after
+    * the user saves the Site Notice. The authoritative sanitiser runs on the
+    * server (SiteNoticeTextSanitizer.sanitize); this mirrors that policy on
+    * the client so that an attacker who bypasses TinyMCE's content filter
+    * (e.g. via the browser console) cannot trigger XSS through the innerHTML
+    * assignment below, while still preserving the formatting tags and inline
+    * styles produced by TinyMCE.
+    *
+    * Strips: script/iframe/object/embed/link/meta/base/form/style/frame/frameset
+    * elements, all on* event-handler attributes, and non-standard URI schemes
+    * on href/src/action/formaction/xlink:href attributes (using an allowlist
+    * that mirrors the server-side allowStandardUrlProtocols policy).
+    */
+   var FORBIDDEN_TAGS =
+   {
+      SCRIPT: 1, IFRAME: 1, OBJECT: 1, EMBED: 1, LINK: 1, META: 1,
+      BASE: 1, FORM: 1, STYLE: 1, FRAME: 1, FRAMESET: 1
+   };
+   var URI_ATTRS =
+   {
+      href: 1, src: 1, action: 1, formaction: 1, "xlink:href": 1
+   };
+   // Allowlist of safe URL schemes that mirrors server-side allowStandardUrlProtocols().
+   // Rejects javascript:, data:, vbscript:, and other XSS vectors.
+   var SAFE_URL_PATTERN = /^(?:https?|mailto|ftp|ftps|file|tel|sms|news|nntp|feed|webcal|irc|ircs|ssh|sftp|smb|nfs|git|svn|tel|sip|sips|callto|skype|geo|maps):/i;
+
+   var sanitizeNoticeHTML = function Notice_sanitizeNoticeHTML(html)
+   {
+      if (html === null || typeof html === "undefined" || html === "")
+      {
+         return "";
+      }
+      if (typeof DOMParser === "undefined")
+      {
+         // Older browser fallback: fully encode so no markup is rendered.
+         return $encodeHTML(html);
+      }
+      var doc = new DOMParser().parseFromString("<div>" + html + "</div>", "text/html");
+      var root = doc.body && doc.body.firstChild;
+      if (!root)
+      {
+         return "";
+      }
+      var nodes = root.querySelectorAll("*");
+      for (var i = nodes.length - 1; i >= 0; i--)
+      {
+         var el = nodes[i];
+         if (FORBIDDEN_TAGS[el.tagName])
+         {
+            if (el.parentNode)
+            {
+               el.parentNode.removeChild(el);
+            }
+            continue;
+         }
+         var attrs = el.attributes;
+         for (var j = attrs.length - 1; j >= 0; j--)
+         {
+            var attr = attrs[j],
+               name = attr.name.toLowerCase(),
+               value = attr.value;
+            if (name.indexOf("on") === 0)
+            {
+               el.removeAttribute(attr.name);
+            }
+            else if (URI_ATTRS[name])
+            {
+               // Check if the URI has a protocol scheme
+               var trimmedValue = value.replace(/^\s+/, "");
+               if (trimmedValue.indexOf(":") !== -1)
+               {
+                  // Has a scheme - must match the safe URL pattern
+                  if (!SAFE_URL_PATTERN.test(trimmedValue))
+                  {
+                     el.removeAttribute(attr.name);
+                  }
+               }
+               // Relative URLs (no scheme) are allowed
+            }
+         }
+      }
+      return root.innerHTML;
+   };
+
 
    /**
     * Notice dashlet constructor.
-    * 
+    *
     * @param {String} htmlId The HTML id of the parent element
     * @return {Alfresco.dashlet.Notice} The new component instance
     * @constructor
@@ -75,7 +160,7 @@
 
       /**
        * Fired by YUI when parent element is available for scripting
-       * 
+       *
        * @method onReady
        */
       onReady: function Notice_onReady()
@@ -96,15 +181,15 @@
       onConfigClick: function Notice_onConfigClick(e)
       {
          var actionUrl = Alfresco.constants.URL_SERVICECONTEXT + "modules/dashlet/config/" + encodeURIComponent(this.options.componentId);
-         
+
          Event.stopEvent(e);
-         
+
          if (!this.configDialog)
          {
             this.configDialog = new Alfresco.module.SimpleDialog(this.id + "-configDialog").setOptions(
             {
                width: "50em",
-               templateUrl: Alfresco.constants.URL_SERVICECONTEXT + "modules/notice/config", 
+               templateUrl: Alfresco.constants.URL_SERVICECONTEXT + "modules/notice/config",
                actionUrl: actionUrl,
                onSuccess:
                {
@@ -113,9 +198,12 @@
                      // Refresh the dashlet
                      var title = Dom.get(this.configDialog.id + "-title").value,
                         text = Dom.get(this.configDialog.id + "-text").value;
-                     // Write the title and text into the dashlet
+                     // Write the title and text into the dashlet. Sanitise the text
+                     // to mirror the server-side SiteNoticeTextSanitizer.sanitize policy
+                     // and prevent XSS from being injected via the in-page preview
+                     // (defence-in-depth for ACS Site Notice stored XSS finding).
                      Dom.get(this.id + "-title").innerHTML = $encodeHTML(YAHOO.lang.trim(title) != "" ? title : this.msg("notice.defaultTitle"));
-                     Dom.get(this.id + "-text").innerHTML = text != "" ? text : "<p>" + this.msg("notice.defaultText") + "</p>";
+                     Dom.get(this.id + "-text").innerHTML = text != "" ? sanitizeNoticeHTML(text) : "<p>" + $encodeHTML(this.msg("notice.defaultText")) + "</p>";
                   },
                   scope: this
                },
@@ -165,7 +253,7 @@
             {
                Dom.setStyle(p_args[1].panel.element, "display", "block");
             }
-            YAHOO.Bubbling.subscribe("showPanel", showPanel, this.configDialog);                        
+            YAHOO.Bubbling.subscribe("showPanel", showPanel, this.configDialog);
          }
          else
          {
@@ -178,13 +266,13 @@
          Event.on(document, "focusin", function(e) {
             Event.stopEvent(e);
          });
-         
+
          this.configDialog.show();
       },
-      
+
       /**
        * Handles the content being changed in the TinyMCE control.
-       * 
+       *
        * @method _onTextContentChange
        * @param type
        * @param args
@@ -196,6 +284,6 @@
          // save the current contents of the editor to the underlying textarea
          this.editor.save();
       }
-      
+
    });
 })();
