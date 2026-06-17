@@ -63,9 +63,7 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
     public void typeTopicContent(String content)
     {
         waitUntilElementIsVisible(topicContent);
-        WebElement contentFrame = findElement(topicContent);
-        contentFrame.click();
-        switchToFrame(contentFrame.getAttribute("id"));
+        switchToFrame(findElement(topicContent).getAttribute("id"));
         WebElement editable = switchTo().activeElement();
         editable.clear();
         editable.sendKeys(content);
