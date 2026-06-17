@@ -59,8 +59,12 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
 
     public CreateBlogPostPage setContent(String blogPostContentText)
     {
-        switchTo().frame(findElement(By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe")));
+        WebElement contentFrame = findElement(By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe"));
+        contentFrame.click();
+        switchTo().frame(contentFrame);
         WebElement element = findElement(By.id("tinymce"));
+        element.click();
+        element.clear();
         element.sendKeys(blogPostContentText);
         switchTo().defaultContent();
         return this;
