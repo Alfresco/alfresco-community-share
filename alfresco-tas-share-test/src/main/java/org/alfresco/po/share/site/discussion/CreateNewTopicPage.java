@@ -64,11 +64,11 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
     {
         waitUntilElementIsVisible(topicContent);
         WebElement contentFrame = findElement(topicContent);
-        contentFrame.click();
+        clickElement(contentFrame);
         switchToFrame(contentFrame.getAttribute("id"));
         WebElement editable = switchTo().activeElement();
-        editable.clear();
-        editable.sendKeys(content);
+        clickElement(editable);
+        clearAndType(editable, content);
         switchToDefaultContent();
     }
 

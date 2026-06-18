@@ -234,12 +234,11 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     {
         waitInSeconds(3);
         WebElement replyFrame = waitUntilElementIsVisible(replyTextArea);
-        replyFrame.click();
+        clickElement(replyFrame);
         switchToFrame(replyFrame.getAttribute("id"));
         WebElement editable = switchTo().activeElement();
-        editable.click();
-        editable.clear();
-        editable.sendKeys(content);
+        clickElement(editable);
+        clearAndType(editable, content);
         switchToDefaultContent();
     }
 
