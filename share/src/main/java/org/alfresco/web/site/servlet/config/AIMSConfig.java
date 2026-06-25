@@ -64,6 +64,7 @@ public class AIMSConfig
    private Set<String> scopes;
    private String[] extraEndpointsToRedirect;
    private boolean scopeValidationDisabled;
+   private boolean allowIdpBypass;
 
     /**
      *
@@ -204,6 +205,15 @@ public class AIMSConfig
         }
 
         this.setScopeValidationDisabled(Boolean.parseBoolean(config.getConfigElementValue("scopeValidationDisabled")));
+
+        if (!StringUtils.isEmpty(config.getConfigElementValue("allowIdpBypass")))
+        {
+            this.setAllowIdpBypass(Boolean.parseBoolean(config.getConfigElementValue("allowIdpBypass")));
+        }
+        else
+        {
+            this.setAllowIdpBypass(false);
+        }
     }
 
     /**
@@ -456,4 +466,15 @@ public class AIMSConfig
     {
         this.scopeValidationDisabled = scopeValidationDisabled;
     }
+
+    public void setAllowIdpBypass(boolean allowIdpBypass)
+    {
+        this.allowIdpBypass = allowIdpBypass;
+    }
+
+    public boolean isAllowIdpBypass()
+    {
+        return allowIdpBypass;
+    }
+
 }
