@@ -12,10 +12,18 @@ on:
   workflow_call:
   workflow_dispatch:
 
+# Set the default (global) permissions to read-only.
+# Grant write permissions explicitly at the job level only where needed.
+permissions:
+  contents: read
+
 jobs:
   scan-dependencies:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    # Submitting the dependency snapshot to the GitHub dependency graph requires write access.
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/maven-dependency-scan@v15.9.0

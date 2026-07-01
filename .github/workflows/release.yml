@@ -7,6 +7,11 @@ on:
       - master
       - release/**
 
+# Set the default (global) permissions to read-only.
+# Grant write permissions explicitly at the job level only where needed.
+permissions:
+  contents: read
+
 env:
   JAVA_VERSION: "21"
   HOSTED_ZONE: dev.envalfresco.com
