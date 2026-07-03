@@ -134,6 +134,7 @@ import java.util.UUID;
 
 import java.util.Collection;
 import java.util.Base64;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -182,6 +183,7 @@ public class AIMSFilter implements Filter
     private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
     private final OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient = new RestClientAuthorizationCodeTokenResponseClient();
     private final OAuth2AccessTokenResponseClient<OAuth2RefreshTokenGrantRequest> refreshTokenResponseClient = new RestClientRefreshTokenTokenResponseClient();
+    private final ConcurrentHashMap<String, Object> userLocks = new ConcurrentHashMap<>();
     private ThrowableAnalyzer throwableAnalyzer;
     private final JwtDecoderFactory<ClientRegistration> jwtDecoderFactory = new OidcIdTokenDecoderFactory();
     private final GrantedAuthoritiesMapper authoritiesMapper = (authorities) -> {
@@ -536,49 +538,49 @@ public class AIMSFilter implements Filter
             .getAttribute(this.principalAttribute);
         String accessToken = authenticationResult.getAccessToken()
             .getTokenValue();
-        synchronized (this)
+        try
         {
-            try
-            {
-                // Init request context for further use on getting user
-                this.initRequestContext(request, response);
+            // Init request context for further use on getting user
+            this.initRequestContext(request, response);
 
-                // Get the alfTicket from repo, using the JWT token from Idp
-                String alfTicket = this.getAlfTicket(session, username, accessToken);
-                if (alfTicket != null)
+            // Get the alfTicket from repo, using the JWT token from Idp
+            String alfTicket = this.getAlfTicket(session, username, accessToken);
+            if (alfTicket != null)
+            {
+                synchronized (session)
                 {
                     // Ensure User ID is in session so the web-framework knows we have logged in
                     session.setAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID, username);
                     session.setAttribute(UserFactory.SESSION_ATTRIBUTE_EXTERNAL_AUTH_AIMS, true);
-
-                    // Set the alfTicket into connector's session for further use on repo calls (will be set on the RemoteClient)
-                    Connector connector = this.connectorService.getConnector(ALFRESCO_ENDPOINT_ID, username, session);
-                    connector.getConnectorSession()
-                        .setParameter(AlfrescoAuthenticator.CS_PARAM_ALF_TICKET, alfTicket);
-
-                    // Set credential username for further use on repo
-                    // if there is no pass, as in our case, there will be a "X-Alfresco-Remote-User" header set using this value
-                    CredentialVault vault = FrameworkUtil.getCredentialVault(session, username);
-                    Credentials credentials = vault.newCredentials(AlfrescoUserFactory.ALFRESCO_ENDPOINT_ID);
-                    credentials.setProperty(Credentials.CREDENTIAL_USERNAME, username);
-                    vault.store(credentials);
-
-                    // Inform the Slingshot login controller of a successful login attempt as further processing may be required ?
-                    this.loginController.beforeSuccess(request, response);
-
-                    // Initialise the user metadata object used by some web scripts
-                    this.initUser(request);
-
                 }
-                else
-                {
-                    LOGGER.error("Could not get an alfTicket from Repository.");
-                }
+
+                // Set the alfTicket into connector's session for further use on repo calls (will be set on the RemoteClient)
+                Connector connector = this.connectorService.getConnector(ALFRESCO_ENDPOINT_ID, username, session);
+                connector.getConnectorSession()
+                    .setParameter(AlfrescoAuthenticator.CS_PARAM_ALF_TICKET, alfTicket);
+
+                // Set credential username for further use on repo
+                // if there is no pass, as in our case, there will be a "X-Alfresco-Remote-User" header set using this value
+                CredentialVault vault = FrameworkUtil.getCredentialVault(session, username);
+                Credentials credentials = vault.newCredentials(AlfrescoUserFactory.ALFRESCO_ENDPOINT_ID);
+                credentials.setProperty(Credentials.CREDENTIAL_USERNAME, username);
+                vault.store(credentials);
+
+                // Inform the Slingshot login controller of a successful login attempt as further processing may be required ?
+                this.loginController.beforeSuccess(request, response);
+
+                // Initialise the user metadata object used by some web scripts
+                this.initUser(request);
+
             }
-            catch (Exception e)
+            else
             {
-                throw new AlfrescoRuntimeException("Failed to complete AIMS authentication process.", e);
+                LOGGER.error("Could not get an alfTicket from Repository.");
             }
+        }
+        catch (Exception e)
+        {
+            throw new AlfrescoRuntimeException("Failed to complete AIMS authentication process.", e);
         }
     }
 
@@ -703,13 +705,17 @@ public class AIMSFilter implements Filter
         }
     }
 
-    private synchronized void processAuthorizationResponse(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+    private void processAuthorizationResponse(HttpServletRequest request, HttpServletResponse response, HttpSession session)
         throws IOException {
         /**
          * Construct Authorization Request & Response
          */
-        OAuth2AuthorizationRequest authorizationRequest = this.authorizationRequestRepository
-            .removeAuthorizationRequest(request, response);
+        OAuth2AuthorizationRequest authorizationRequest;
+        synchronized (session)
+        {
+            authorizationRequest = this.authorizationRequestRepository
+                .removeAuthorizationRequest(request, response);
+        }
         MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
         String redirectUri = UrlUtils.buildFullRequestUrl(request);
         OAuth2AuthorizationResponse authorizationResponse = convert(params, redirectUri);
@@ -1002,56 +1008,63 @@ public class AIMSFilter implements Filter
         this.redirectStrategy.sendRedirect(request, response, redirectUri.toUriString());
     }
 
-    private synchronized void refreshToken(SecurityContext attribute, HttpSession session)
+    private void refreshToken(SecurityContext attribute, HttpSession session)
     {
         OAuth2LoginAuthenticationToken oAuth2LoginAuthenticationToken =
             (OAuth2LoginAuthenticationToken) attribute.getAuthentication();
-        /**
-         * do something to get new access token
-         */
-        ClientRegistration clientRegistration = oAuth2LoginAuthenticationToken.getClientRegistration();
-        /**
-         * Call Auth server token endpoint to refresh token.
-         */
-        OAuth2RefreshTokenGrantRequest refreshTokenGrantRequest =
-            new OAuth2RefreshTokenGrantRequest(clientRegistration, oAuth2LoginAuthenticationToken.getAccessToken(),
-                                               oAuth2LoginAuthenticationToken.getRefreshToken());
-        OAuth2AccessTokenResponse accessTokenResponse =
-            this.refreshTokenResponseClient.getTokenResponse(refreshTokenGrantRequest);
-        /**
-         * Convert id_token to OidcToken.
-         */
-        OidcIdToken idToken = createOidcToken(clientRegistration, accessTokenResponse);
-        /**
-         * Since I have already implemented a custom OidcUserService, reuse existing
-         * code to get new user.
-         */
-        OidcUser oidcUser = new DefaultOidcUser(Collections.emptyList(), idToken, clientRegistration.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName());
 
-        /**
-         * Create new authentication(OAuth2LoginAuthenticationToken).
-         */
-        Collection<? extends GrantedAuthority> mappedAuthorities =
-            this.authoritiesMapper.mapAuthorities(oidcUser.getAuthorities());
-        OAuth2LoginAuthenticationToken authenticationResult = new OAuth2LoginAuthenticationToken(clientRegistration,
-                                                                                                 oAuth2LoginAuthenticationToken.getAuthorizationExchange(),
-                                                                                                 oidcUser,
-                                                                                                 mappedAuthorities,
-                                                                                                 accessTokenResponse.getAccessToken(),
-                                                                                                 accessTokenResponse.getRefreshToken());
-        authenticationResult.setDetails(oAuth2LoginAuthenticationToken.getDetails());
-        /**
-         * Update access_token and refresh_token by saving new authorized client.
-         */
-        OAuth2AuthorizedClient updatedAuthorizedClient =
-            new OAuth2AuthorizedClient(clientRegistration, oAuth2LoginAuthenticationToken.getName(),
-                                       accessTokenResponse.getAccessToken(), accessTokenResponse.getRefreshToken());
-        this.oauth2ClientService.saveAuthorizedClient(updatedAuthorizedClient, authenticationResult);
-        /**
-         * Set new authentication in SecurityContextHolder.
-         */
-        attribute.setAuthentication(authenticationResult);
-        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, attribute);
+        String username = oAuth2LoginAuthenticationToken.getName();
+        Object userLock = userLocks.computeIfAbsent(username, k -> new Object());
+
+        synchronized (userLock)
+        {
+            /**
+             * do something to get new access token
+             */
+            ClientRegistration clientRegistration = oAuth2LoginAuthenticationToken.getClientRegistration();
+            /**
+             * Call Auth server token endpoint to refresh token.
+             */
+            OAuth2RefreshTokenGrantRequest refreshTokenGrantRequest =
+                new OAuth2RefreshTokenGrantRequest(clientRegistration, oAuth2LoginAuthenticationToken.getAccessToken(),
+                                                oAuth2LoginAuthenticationToken.getRefreshToken());
+            OAuth2AccessTokenResponse accessTokenResponse =
+                this.refreshTokenResponseClient.getTokenResponse(refreshTokenGrantRequest);
+            /**
+             * Convert id_token to OidcToken.
+             */
+            OidcIdToken idToken = createOidcToken(clientRegistration, accessTokenResponse);
+            /**
+             * Since I have already implemented a custom OidcUserService, reuse existing
+             * code to get new user.
+             */
+            OidcUser oidcUser = new DefaultOidcUser(Collections.emptyList(), idToken, clientRegistration.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName());
+
+            /**
+             * Create new authentication(OAuth2LoginAuthenticationToken).
+             */
+            Collection<? extends GrantedAuthority> mappedAuthorities =
+                this.authoritiesMapper.mapAuthorities(oidcUser.getAuthorities());
+            OAuth2LoginAuthenticationToken authenticationResult = new OAuth2LoginAuthenticationToken(clientRegistration,
+                                                                                                    oAuth2LoginAuthenticationToken.getAuthorizationExchange(),
+                                                                                                    oidcUser,
+                                                                                                    mappedAuthorities,
+                                                                                                    accessTokenResponse.getAccessToken(),
+                                                                                                    accessTokenResponse.getRefreshToken());
+            authenticationResult.setDetails(oAuth2LoginAuthenticationToken.getDetails());
+            /**
+             * Update access_token and refresh_token by saving new authorized client.
+             */
+            OAuth2AuthorizedClient updatedAuthorizedClient =
+                new OAuth2AuthorizedClient(clientRegistration, oAuth2LoginAuthenticationToken.getName(),
+                                        accessTokenResponse.getAccessToken(), accessTokenResponse.getRefreshToken());
+            this.oauth2ClientService.saveAuthorizedClient(updatedAuthorizedClient, authenticationResult);
+            /**
+             * Set new authentication in SecurityContextHolder.
+             */
+            attribute.setAuthentication(authenticationResult);
+            session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, attribute);
+        }
     }
 
     private OAuth2TokenValidator<Jwt> createCustomValidator(ProviderDetails providerDetails)
