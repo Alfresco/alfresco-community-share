@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
 
 # Set the default (global) permissions to read-only.
-# Grant write permissions explicitly at the job level only where needed.
+# Grant write permissions explicitly on the job level only where needed.
 permissions:
   contents: read
 

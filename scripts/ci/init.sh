@@ -24,8 +24,17 @@ else
   export NAMESPACE="travis-share-$GITHUB_RUN_NUMBER"
 fi
 
-echo "::set-env name=TAG_NAME::$TAG_NAME"
-echo "::set-env name=NAMESPACE::$NAMESPACE"
+# Export values for subsequent steps (GitHub Actions)
+if [ -n "${GITHUB_ENV:-}" ]; then
+  {
+    echo "TAG_NAME=${TAG_NAME}"
+    echo "NAMESPACE=${NAMESPACE}"
+  } >> "$GITHUB_ENV"
+else
+  # Fallback for non-GitHub-Actions environments
+  export TAG_NAME
+  export NAMESPACE
+fi
 
 if [[ "${JOB_NAME,,}" =~ ^deploy$|^report$|^teardown$ ]]; then
   # AWS Tools

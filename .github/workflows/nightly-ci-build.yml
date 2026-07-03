@@ -1,5 +1,8 @@
 name: alfresco_enterprise_share_regression_ci
 
+permissions:
+  contents: read
+
 on:
   schedule:
     - cron: '30 15 * * *'
@@ -10,41 +13,17 @@ on:
         description: Enter the Commit Message
         required: true
 
-# Set the default (global) permissions to read-only.
-# Grant write permissions explicitly at the job level only where needed.
-permissions:
-  contents: read
-
 env:
   JAVA_VERSION: "21"
   HOSTED_ZONE: dev.envalfresco.com
-  MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-  MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-  QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-  QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
-  DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   BRANCH_NAME: ${{ github.ref_name }}
-  GIT_PASSWORD: ${{ secrets.BOT_GITHUB_TOKEN }}
-  GIT_EMAIL: ${{ secrets.BOT_GITHUB_EMAIL }}
-  GIT_USERNAME: ${{ secrets.BOT_GITHUB_USERNAME }}
   S3_BUCKET_REGION: "us-east-1"
   ALFRESCO_URL: "http://localhost:8080/alfresco/"
   SHARE_URL: "http://localhost:8181/share"
   DISPLAY: :99.0
   WEBDRIVER_ARGUMENTS: '-Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dorg.alfresco.rm.timeout_seconds.MEDIUM=30'
-  ALF_PWD: ${{ secrets.ALF_PWD }}
-  ARTIFACTS_BUCKET: ${{ secrets.ARTIFACTS_BUCKET }}
-  ARTIFACTS_KEY: ${{ secrets.ARTIFACTS_KEY }}
-  ARTIFACTS_SECRET: ${{ secrets.ARTIFACTS_SECRET }}
-  MASTER_URL: ${{ secrets.MASTER_URL }}
-  SSL_CERT: ${{ secrets.SSL_CERT }}
-  ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-  AGS_AWS_ACCESS_KEY_ID: ${{ secrets.AGS_AWS_ACCESS_KEY_ID }}
-  AGS_AWS_SECRET_ACCESS_KEY: ${{ secrets.AGS_AWS_SECRET_ACCESS_KEY }}
   GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
   GITHUB_ACTIONS_DEPLOY_TIMEOUT: 120
-  SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
   CHROME_VERSION: "132.0.6834.159-1"
   CHROME_DOWNLOAD_URL: "https://mirror.vitalinux.educa.aragon.es/google/pool/main/g/google-chrome-stable"
 
@@ -53,7 +32,7 @@ jobs:
     if: (!contains(github.event.head_commit.message, '[no lint]') && inputs.commitMessage != '[no lint]')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
         with:
           java-version: ${{ env.JAVA_VERSION }}
@@ -67,11 +46,13 @@ jobs:
       !contains(github.event.head_commit.message, '[force') &&
       inputs.commitMessage != '[force'
     needs: lint
-    strategy:
-      matrix:
-        stage: [ source_clear ]
+    env:
+      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
@@ -79,9 +60,14 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
       - name: "Init"
+        env:
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: bash scripts/ci/init.sh
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: 3.x
       - name: "Prepare before Test"
@@ -91,29 +77,44 @@ jobs:
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+        env:
+          GIT_PASSWORD: ${{ secrets.BOT_GITHUB_TOKEN }}
+          GIT_USERNAME: ${{ vars.BOT_GITHUB_USERNAME }}
         run: bash scripts/ci/build.sh
-      - name: Run ${{ matrix.stage }}
-        if: ( matrix.stage != 'source_clear' && github.ref_name != 'company_release') || matrix.stage == 'source_clear'
-        run: bash scripts/ci/${{ matrix.stage }}.sh
+      - name: Run source_clear
+        env:
+          SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
+        run: bash scripts/ci/source_clear.sh
         continue-on-error: true
 
   veracode_sast_share:
     name: "Pipeline SAST Scan  - Share"
     runs-on: ubuntu-latest
     if: >
-      (github.ref_name == 'master' || startsWith(github.ref_name, 'release/')) &&
+      (github.ref_name == 'master' || startsWith(github.ref_name, 'release/') || github.event_name == 'workflow_dispatch') &&
       github.actor != 'dependabot[bot]' &&
       !contains(github.event.head_commit.message, '[skip tests]')
+    env:
+      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
       - name: "Init"
+        env:
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: bash scripts/ci/init.sh
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+        env:
+          GIT_PASSWORD: ${{ secrets.BOT_GITHUB_TOKEN }}
+          GIT_USERNAME: ${{ vars.BOT_GITHUB_USERNAME }}
         run: bash scripts/ci/build.sh
       - name: "Prepare Share War for SAST Scan"
         run: |
@@ -131,7 +132,7 @@ jobs:
           file-path: "alfresco-enterprise-share/enterprise-share-baseline.json"
           target: "baseline.json"
       - name: "Run SAST Scan"
-        uses: veracode/Veracode-pipeline-scan-action@v1.0.20
+        uses: veracode/Veracode-pipeline-scan-action@e7b4fe35b0cc32c530ca6d9c6737f0f7ea0ba4f7 # v1.0.21
         with:
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY }}'
@@ -150,7 +151,7 @@ jobs:
         run: zip readable_output.zip results.json
       - name: Upload Artifact
         if: success() || failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: Veracode Pipeline-Scan Results - Share (Human Readable)
           path: readable_output.zip
@@ -161,7 +162,7 @@ jobs:
     name: "PMD Scan"
     runs-on: ubuntu-latest
     if: >
-      (github.ref_name == 'master' || startsWith(github.ref_name, 'release/')) &&
+      (github.ref_name == 'master' || startsWith(github.ref_name, 'release/') || github.event_name == 'workflow_dispatch') &&
       !contains(github.event.head_commit.message, '[skip pmd]') &&
       !contains(github.event.head_commit.message, '[skip tests]') &&
       !contains(github.event.head_commit.message, '[force]') &&
@@ -184,8 +185,13 @@ jobs:
       inputs.commitMessage != '[force'
       &&
       github.event.repository.fork==false
+    env:
+      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.4.3
@@ -194,15 +200,21 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: 3.x
       - name: "Init"
+        env:
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
         run: bash scripts/ci/init.sh
       - name: "Prepare before Test"
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - name: Build Docker image
+        env:
+          GIT_PASSWORD: ${{ secrets.BOT_GITHUB_TOKEN }}
+          GIT_USERNAME: ${{ vars.BOT_GITHUB_USERNAME }}
         run: |
           export TAG_NAME="latest"
           bash scripts/ci/create_swap.sh "5"
@@ -213,7 +225,7 @@ jobs:
           mkdir -p docker-images
           docker save -o docker-images/alfresco-share.tar $(docker images --format "{{.Repository}}:{{.Tag}}" | grep -E "alfresco.*share|alfresco.*governance" | tr '\n' ' ')
       - name: Upload Docker images as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: docker-images
           path: docker-images/
@@ -230,12 +242,19 @@ jobs:
       inputs.commitMessage != '[force'
       &&
       github.event.repository.fork==false
+    env:
+      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
     strategy:
       fail-fast: false
       matrix:
         testModule: [ share, share-encryption, web-framework-commons ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.4.3
@@ -246,9 +265,12 @@ jobs:
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
+        env:
+          GIT_PASSWORD: ${{ secrets.BOT_GITHUB_TOKEN }}
+          GIT_USERNAME: ${{ vars.BOT_GITHUB_USERNAME }}
         run: bash scripts/ci/build.sh
       - name: Run Unit Tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -270,12 +292,19 @@ jobs:
       inputs.commitMessage != '[force'
       &&
       github.event.repository.fork==false
+    env:
+      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
     strategy:
       fail-fast: false
       matrix:
         testModule: [ alfresco-governance-services-community-share, alfresco-governance-services-enterprise-share ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.4.3
@@ -286,9 +315,12 @@ jobs:
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
+        env:
+          GIT_PASSWORD: ${{ secrets.BOT_GITHUB_TOKEN }}
+          GIT_USERNAME: ${{ vars.BOT_GITHUB_USERNAME }}
         run: bash scripts/ci/build.sh
       - name: Run ${{ matrix.testModule }} Unit Tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -310,12 +342,15 @@ jobs:
       inputs.commitMessage != '[force'
       &&
       github.event.repository.fork==false
+    env:
+      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
     strategy:
       fail-fast: false
       matrix:
         test: [ user, admin-tools, admin-console ,content-actions, content-filters, user-dashboard, userRolesAndPermissions, applying-rules, searching1, searching2, alfresco-content1, alfresco-content2, alfresco-content-and-site-features, task-and-workflows, site, site-dashboard, sitesFeatures-calendar, site-members, sitesFeatures-dataLists, sitesFeatures, searching4, alfresco-content3, alfresco-content4 ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.4.3
@@ -324,16 +359,21 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: 3.x
       - name: "Init"
+        env:
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: bash scripts/ci/init.sh
       - name:  "Prepare before Test"
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - name: Download Docker images
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: docker-images
           path: docker-images/
@@ -348,7 +388,7 @@ jobs:
           bash amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           sudo free -m -t
       - name: Run ${{ matrix.test }} Test
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 1
@@ -363,14 +403,14 @@ jobs:
           echo "Searching for allure-results directories..."
           find alfresco-tas-share-test -type d -name "allure-results"
       - name: Upload Allure Results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: allure-results-test-${{ matrix.test }}
           path: alfresco-tas-share-test/target/allure-results
           if-no-files-found: warn
       - name: "Upload artifacts"
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ${{ matrix.test }}-tests
           path: |
@@ -394,12 +434,15 @@ jobs:
       (contains(github.event.head_commit.message, '[community ags]') ||
       inputs.commitMessage == '[community ags]')
     needs: build_docker_image
+    env:
+      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
     strategy:
       fail-fast: false
       matrix:
         test: [communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
@@ -407,16 +450,21 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: 3.x
       - name: "Init"
+        env:
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: bash scripts/ci/init.sh
       - name: "Prepare before Test"
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - name: Download Docker images
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: docker-images
           path: docker-images/
@@ -445,7 +493,7 @@ jobs:
           bash amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           sudo free -m -t
       - name: Run tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -454,7 +502,7 @@ jobs:
           warning_on_retry: true
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ags/community/${GITHUB_RUN_NUMBER}/${JOB_NAME}
           path:
@@ -484,16 +532,20 @@ jobs:
       ||
       (github.base_ref == 'master' || startsWith(github.base_ref, 'release/'))
     needs: build_docker_image
-    strategy:
-      fail-fast: false
-      matrix:
-        test: [communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration, wormTestSuite]
     env:
       S3_BUCKET_PREFIX: ${{ vars.S3_BUCKET_PREFIX }}
       S3_BUCKET_NAME: ${{ vars.S3_BUCKET_PREFIX }}-${{ github.run_number }}
       S3_BUCKET2_NAME: ${{ vars.S3_BUCKET_PREFIX }}-worm-b2
+      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+      AGS_AWS_ACCESS_KEY_ID: ${{ secrets.AGS_AWS_ACCESS_KEY_ID }}
+      AGS_AWS_SECRET_ACCESS_KEY: ${{ secrets.AGS_AWS_SECRET_ACCESS_KEY }}
+    strategy:
+      fail-fast: false
+      matrix:
+        test: [communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration, wormTestSuite]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.4.3
@@ -502,7 +554,7 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: 3.x
       - name: Install google chrome version
@@ -519,18 +571,23 @@ jobs:
           sudo apt-mark showhold | grep google-chrome-stable
 
       - name: "Init"
+        env:
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: bash scripts/ci/init.sh
       - name: "Prepare before Test"
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - name: "Configure AWS credentials"
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@d979d5b3a71173a29b74b5b88418bfda9437d885 # v6.1.1
         with:
           aws-access-key-id: ${{ secrets.AGS_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AGS_AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.S3_BUCKET_REGION }}
       - name: Download Docker images
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: docker-images
           path: docker-images/
@@ -568,7 +625,7 @@ jobs:
           amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           free -m -t
       - name: Run tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -578,14 +635,14 @@ jobs:
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload Allure Results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: allure-results-enterprise_shared_ui_configuration-${{ matrix.test }}
           path: amps/ags/rm-automation/rm-automation-ui/target/allure-results
           if-no-files-found: warn
       - name: Upload artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ags-${{matrix.test}}-${GITHUB_RUN_NUMBER}-${JOB_NAME}-${{ github.run_id}}-${{ github.run_attempt }}
           path: |
@@ -611,11 +668,11 @@ jobs:
     if: always()
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       # Download all artifacts from test jobs
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           path: ./artifacts
 
@@ -661,7 +718,7 @@ jobs:
         run: |
           allure generate merged-allure-results-share -o merged-allure-report-share --clean
       - name: Upload Share Allure Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: allure-report-share
           path: merged-allure-report-share
@@ -670,7 +727,7 @@ jobs:
         run: |
           allure generate merged-allure-results-enterprise -o merged-allure-report-enterprise --clean
       - name: Upload Enterprise Shared UI Config Allure Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: allure-report-enterprise_shared_ui_configuration
           path: merged-allure-report-enterprise
@@ -694,7 +751,7 @@ jobs:
         run: cat test-summary.md >> $GITHUB_STEP_SUMMARY
 
       - name: Upload HTML Test Summary
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: test-summary-html
           path: test-summary.html
