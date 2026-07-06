@@ -20,6 +20,31 @@
  */
 package org.alfresco.web.site.servlet;
 
+import static java.util.Objects.requireNonNull;
+import static org.alfresco.web.site.servlet.config.IdentityServiceMetadataKey.ACCESS_TOKEN_ISSUER;
+import static org.alfresco.web.site.servlet.config.SecurityUtils.convert;
+import static org.alfresco.web.site.servlet.config.SecurityUtils.isAuthorizationResponse;
+import static org.alfresco.web.site.servlet.config.SecurityUtils.toMultiMap;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.alfresco.error.AlfrescoRuntimeException;
 import org.alfresco.web.site.servlet.config.AIMSConfig;
 import org.alfresco.web.site.servlet.config.CustomAuthorizationRequestResolver;
@@ -42,10 +67,16 @@ import org.springframework.extensions.surf.support.AlfrescoUserFactory;
 import org.springframework.extensions.surf.support.ServletRequestContextFactory;
 import org.springframework.extensions.surf.support.ThreadLocalRequestContext;
 import org.springframework.extensions.webscripts.Status;
-import org.springframework.extensions.webscripts.connector.*;
+import org.springframework.extensions.webscripts.connector.AlfrescoAuthenticator;
+import org.springframework.extensions.webscripts.connector.Connector;
+import org.springframework.extensions.webscripts.connector.ConnectorContext;
+import org.springframework.extensions.webscripts.connector.ConnectorService;
+import org.springframework.extensions.webscripts.connector.CredentialVault;
+import org.springframework.extensions.webscripts.connector.Credentials;
+import org.springframework.extensions.webscripts.connector.HttpMethod;
+import org.springframework.extensions.webscripts.connector.Response;
+import org.springframework.extensions.webscripts.connector.User;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.FormHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -57,12 +88,11 @@ import org.springframework.security.oauth2.client.ClientAuthorizationRequiredExc
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationToken;
-import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
-import org.springframework.security.oauth2.client.endpoint.DefaultRefreshTokenTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2RefreshTokenGrantRequest;
-import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
+import org.springframework.security.oauth2.client.endpoint.RestClientAuthorizationCodeTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.RestClientRefreshTokenTokenResponseClient;
 import org.springframework.security.oauth2.client.oidc.authentication.OidcIdTokenDecoderFactory;
 import org.springframework.security.oauth2.client.oidc.authentication.OidcIdTokenValidator;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
@@ -70,7 +100,6 @@ import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistration.ProviderDetails;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
@@ -116,36 +145,15 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import jakarta.servlet.*;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import java.util.Collection;
-import java.util.Base64;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.Objects;
-
-import static java.util.Objects.requireNonNull;
-
-import static org.alfresco.web.site.servlet.config.IdentityServiceMetadataKey.ACCESS_TOKEN_ISSUER;
-import static org.alfresco.web.site.servlet.config.SecurityUtils.toMultiMap;
-import static org.alfresco.web.site.servlet.config.SecurityUtils.isAuthorizationResponse;
-import static org.alfresco.web.site.servlet.config.SecurityUtils.convert;
 
 public class AIMSFilter implements Filter
 {
@@ -181,8 +189,9 @@ public class AIMSFilter implements Filter
     private AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository;
     private final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
     private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-    private final OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient = new DefaultAuthorizationCodeTokenResponseClient();
-    private final DefaultRefreshTokenTokenResponseClient refreshTokenResponseClient = new DefaultRefreshTokenTokenResponseClient();
+    private final OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient = new RestClientAuthorizationCodeTokenResponseClient();
+    private final OAuth2AccessTokenResponseClient<OAuth2RefreshTokenGrantRequest> refreshTokenResponseClient = new RestClientRefreshTokenTokenResponseClient();
+    private final ConcurrentHashMap<String, Object> userLocks = new ConcurrentHashMap<>();
     private ThrowableAnalyzer throwableAnalyzer;
     private final JwtDecoderFactory<ClientRegistration> jwtDecoderFactory = new OidcIdTokenDecoderFactory();
     private final GrantedAuthoritiesMapper authoritiesMapper = (authorities) -> {
@@ -447,8 +456,6 @@ public class AIMSFilter implements Filter
             .getAttribute(this.principalAttribute);
         String accessToken = authenticationResult.getAccessToken()
             .getTokenValue();
-        synchronized (this)
-        {
             try
             {
                 // Init request context for further use on getting user
@@ -458,9 +465,12 @@ public class AIMSFilter implements Filter
                 String alfTicket = this.getAlfTicket(session, username, accessToken);
                 if (alfTicket != null)
                 {
-                    // Ensure User ID is in session so the web-framework knows we have logged in
-                    session.setAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID, username);
-                    session.setAttribute(UserFactory.SESSION_ATTRIBUTE_EXTERNAL_AUTH_AIMS, true);
+                    synchronized (session)
+                    {
+                        // Ensure User ID is in session so the web-framework knows we have logged in
+                        session.setAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID, username);
+                        session.setAttribute(UserFactory.SESSION_ATTRIBUTE_EXTERNAL_AUTH_AIMS, true);
+                    }
 
                     // Set the alfTicket into connector's session for further use on repo calls (will be set on the RemoteClient)
                     Connector connector = this.connectorService.getConnector(ALFRESCO_ENDPOINT_ID, username, session);
@@ -491,7 +501,6 @@ public class AIMSFilter implements Filter
                 throw new AlfrescoRuntimeException("Failed to complete AIMS authentication process.", e);
             }
         }
-    }
 
     /**
      * Initialise the request context and request attributes for further use by some web scripts
@@ -614,13 +623,17 @@ public class AIMSFilter implements Filter
         }
     }
 
-    private synchronized void processAuthorizationResponse(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+    private void processAuthorizationResponse(HttpServletRequest request, HttpServletResponse response, HttpSession session)
         throws IOException {
         /**
          * Construct Authorization Request & Response
          */
-        OAuth2AuthorizationRequest authorizationRequest = this.authorizationRequestRepository
+        OAuth2AuthorizationRequest authorizationRequest;
+        synchronized (session)
+        {
+            authorizationRequest = this.authorizationRequestRepository
             .removeAuthorizationRequest(request, response);
+        }
         MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
         String redirectUri = UrlUtils.buildFullRequestUrl(request);
         OAuth2AuthorizationResponse authorizationResponse = convert(params, redirectUri);
@@ -886,10 +899,16 @@ public class AIMSFilter implements Filter
         this.redirectStrategy.sendRedirect(request, response, redirectUri.toUriString());
     }
 
-    private synchronized void refreshToken(SecurityContext attribute, HttpSession session)
+    private void refreshToken(SecurityContext attribute, HttpSession session)
     {
         OAuth2LoginAuthenticationToken oAuth2LoginAuthenticationToken =
             (OAuth2LoginAuthenticationToken) attribute.getAuthentication();
+
+        String username = oAuth2LoginAuthenticationToken.getName();
+        Object userLock = userLocks.computeIfAbsent(username, k -> new Object());
+
+        synchronized (userLock)
+        {
         /**
          * do something to get new access token
          */
@@ -936,6 +955,7 @@ public class AIMSFilter implements Filter
          */
         attribute.setAuthentication(authenticationResult);
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, attribute);
+    }
     }
 
     private OAuth2TokenValidator<Jwt> createCustomValidator(ProviderDetails providerDetails)
