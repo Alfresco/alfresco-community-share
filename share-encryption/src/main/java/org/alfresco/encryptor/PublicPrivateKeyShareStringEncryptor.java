@@ -21,30 +21,37 @@
 package org.alfresco.encryptor;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.ObjectInputFilter;
 import java.io.ObjectInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFileAttributes;
+import java.nio.file.attribute.PosixFilePermission;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.security.Security;
 import java.util.Arrays;
 import java.util.Locale;
-
+import java.util.Objects;
+import java.util.Set;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Path;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -53,7 +60,6 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-
 import org.jasypt.contrib.org.apache.commons.codec_1_3.binary.Base64;
 import org.jasypt.encryption.StringEncryptor;
 
@@ -126,7 +132,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
 
     /**
      * Notify an information message
-     * 
+     *
      * @param msg
      *            the message
      */
@@ -290,7 +296,8 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
                 cipher = Cipher.getInstance(encryptionAlgorithm);
                 cipher.init(Cipher.DECRYPT_MODE, symmetricKey ? secretKey : privateKey, ivParams);
             }
-            catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException e)
+            catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException |
+                   InvalidAlgorithmParameterException e)
             {
                 throw new RuntimeException("Could not decrypt value", e);
             }
@@ -370,12 +377,20 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
             webExtensionDir = new File(alfrescoSharedDir);
         }
 
+        /*
+          Check permissions on the key folder and the public keys as they are in the same
+          location. It will ensure that the user is aware of any potential risk
+          with the permissions on the folder.
+         */
+        checkKeyFolderPermissions(webExtensionDir);
+
         File publicKeyFile = new File(webExtensionDir, PUBKEYNAME);
 
         if (publicKeyFile.canRead())
         {
             try (ObjectInputStream is = new ObjectInputStream(new FileInputStream(publicKeyFile));)
             {
+                is.setObjectInputFilter(new CryptographicKeyFilter());
                 publicKey = (PublicKey) is.readObject();
             }
             catch (ClassNotFoundException e)
@@ -401,11 +416,18 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
     public void initPrivate(String alfrescoSharedDir)
     {
         File webExtension = getWebExtensionDir(alfrescoSharedDir);
-        
+
         if (!webExtension.exists())
         {
             webExtension = new File(alfrescoSharedDir);
         }
+
+         /*
+          Check permissions on the key folder and the private keys as they are in the same
+          location. It will ensure that the user is aware of any potential risk
+          with the permissions on the folder.
+         */
+        checkKeyFolderPermissions(webExtension);
 
         File privateKeyFile = new File(webExtension, PRIKEYNAME);
         if (privateKeyFile.canRead())
@@ -414,6 +436,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
             try
             {
                 is = new ObjectInputStream(new FileInputStream(privateKeyFile));
+                is.setObjectInputFilter(new CryptographicKeyFilter());
                 privateKey = (PrivateKey) is.readObject();
             }
             catch (ClassNotFoundException e)
@@ -480,16 +503,18 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
     }
 
     /**
-     * createKeyFiles
+     * Creates key files in the default location (alfresco/shared/alfresco/web-extension)
+     * or in the provided location if the default one is not available
      *
-     * @param alfrescoSharedDir
-     *            String
      */
     public void createKeyFiles()
     {
         createKeyFiles(keyLocation);
     }
 
+    /**
+     * @param alfrescoSharedDir
+     */
     public void createKeyFiles(String alfrescoSharedDir)
     {
         File sharedDir = new File(alfrescoSharedDir);
@@ -506,6 +531,12 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
             webExtensionDir = new File(alfrescoSharedDir);
             info("Keys will be created in folder " + alfrescoSharedDir);
         }
+
+        /*
+          Check permissions on the key folder. It will ensure that the user is aware of any potential risk
+          with the permissions on the folder.
+         */
+        checkKeyFolderPermissions(webExtensionDir);
 
         File publicKeyFile = new File(webExtensionDir, PUBKEYNAME);
         File privateKeyFile = new File(webExtensionDir, PRIKEYNAME);
@@ -689,6 +720,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
             try
             {
                 is = new ObjectInputStream(new FileInputStream(privateKeyFile));
+                is.setObjectInputFilter(new CryptographicKeyFilter());
                 privateKey = (PrivateKey) is.readObject();
             }
             catch (ClassNotFoundException e)
@@ -724,7 +756,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
 
     /**
      * Sets IV and cipher
-     * 
+     *
      * @param mode
      * @return
      */
@@ -754,7 +786,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
     /**
      * Creates a pair separated by the PAIR_SEPARATOR character. First element contains the encryption algorithm. Second
      * element contains cipher
-     * 
+     *
      * @param cipherText
      * @return
      */
@@ -787,7 +819,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
 
     /**
      * Extracts the Cipher from the full message that also contains the encryption algorithm.
-     * 
+     *
      * @param encryptedMessageByteArray
      * @return
      */
@@ -818,7 +850,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
      * Validate the extracted configuration: - The full message needs to be able to be split in 3; - The first element
      * needs to be a valid encryption algorithm - The second element is the key size and needs to be a number greater
      * than 128
-     * 
+     *
      * @param config
      * @param messageComponents
      * @return
@@ -851,7 +883,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
 
     /**
      * Extracts and sets the configuration from the message and returns only the iv+cipher
-     * 
+     *
      * @param encryptedMessageByteArray
      * @return
      */
@@ -878,7 +910,7 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
 
     /**
      * Only applicable to RSA. Depending on the algorithm and keySize the padding is different.
-     * 
+     *
      * @return
      */
     private int getChunkSize()
@@ -916,6 +948,234 @@ public class PublicPrivateKeyShareStringEncryptor implements StringEncryptor
         }
 
         return (keySize / 8) - padding;
+    }
+
+    /**
+     * Checks the permissions of the key folder and logs warnings for world-readable or world-writable access.
+     * World-executable access is logged separately as informational because it may be required for directory traversal.
+     *
+     * @param keyFolder The folder containing the keys to check.
+     */
+    private void checkKeyFolderPermissions(File keyFolder)
+    {
+        try
+        {
+            Path folderPath = keyFolder.toPath();
+
+            // PosixFileAttributes is only available on Unix/Linux/macOS
+            if (!folderPath.getFileSystem().supportedFileAttributeViews().contains("posix"))
+            {
+                return; // Skip silently on Windows; POSIX permissions not applicable
+            }
+
+            PosixFileAttributes attrs = Files.readAttributes(folderPath, PosixFileAttributes.class);
+            Set<PosixFilePermission> perms = attrs.permissions();
+
+            boolean worldReadable = perms.contains(PosixFilePermission.OTHERS_READ);
+            boolean worldWritable = perms.contains(PosixFilePermission.OTHERS_WRITE);
+            boolean worldExecutable = perms.contains(PosixFilePermission.OTHERS_EXECUTE);
+
+            if (worldReadable || worldWritable)
+            {
+                StringBuilder permDesc = new StringBuilder();
+                if (worldReadable)
+                {
+                    permDesc.append("readable ");
+                }
+                if (worldWritable)
+                {
+                    permDesc.append("writable ");
+                }
+
+                info("[SECURITY WARNING] The key folder '" + keyFolder.getAbsolutePath()
+                    + "' has world-" + permDesc.toString().trim()
+                    + " permissions. Remediation: secure this folder by removing world read/write permissions.");
+            }
+
+            if (worldExecutable)
+            {
+                info("[SECURITY INFO] The key folder '" + keyFolder.getAbsolutePath()
+                    + "' is world-executable. This may be required for directory traversal; if not required, remove execute permission as part of hardening.");
+            }
+        }
+        catch (Exception e)
+        {
+            info("[SECURITY WARNING] Could not check permissions on key folder '"
+                + keyFolder.getAbsolutePath() + "': " + e.getMessage()
+                + ". Continuing. Remediation: ensure this folder is not world-readable or world-writable.");
+        }
+
+    }
+
+    /**
+     * A serialization filter that enforces a layered trust policy to permit only legitimate cryptographic key classes during deserialization, protecting against arbitrary code execution, memory exhaustion, stack overflow, and type confusion attacks.
+     *
+     * <p>
+     * Rather than a strict explicit allow-list, this filter uses a <em>layered</em> trust model.
+     * A class is admitted through one of three paths, evaluated in order:
+     * <ol>
+     * <li><b>Enum types</b> — unconditionally allowed, as they are required by certain key serialization formats (e.g. {@code KeyRep.Type}).</li>
+     * <li><b>Key-interface implementors from trusted packages</b> — classes that implement {@link java.security.PublicKey}, {@link java.security.PrivateKey}, or {@link java.security.Key} <em>and</em> whose package either matches a known JDK/JCE prefix (see {@link #ALLOWED_PACKAGE_PREFIXES}) or belongs to a currently registered {@link java.security.Security} provider. This path accommodates custom JCA/JCE providers without requiring their class names to be listed explicitly.</li>
+     * <li><b>Explicit name allow-list</b> — classes whose binary name appears in {@link #ALLOWED_CLASS_NAMES}. This is the fallback for types that are required by the key serialization format but do not satisfy the interface or package checks above (e.g. {@code java.math.BigInteger}, {@code java.lang.String}, byte arrays).</li>
+     * </ol>
+     * All classes that do not satisfy any of the above conditions are rejected with {@link ObjectInputFilter.Status#REJECTED}.
+     *
+     * <p>
+     * Resource limits are also enforced to prevent denial-of-service attacks:
+     * <ul>
+     * <li>Object graph depth is limited to {@value #MAX_DEPTH} to prevent stack-overflow attacks.</li>
+     * <li>Array sizes are limited to {@value #MAX_ARRAY_LENGTH} elements to prevent memory exhaustion.</li>
+     * <li>Total reference count is limited to {@value #MAX_REFERENCES} to prevent DoS via reference graphs.</li>
+     * <li>Total stream bytes are limited to {@value #MAX_STREAM_BYTES} to cap overall payload size.</li>
+     * </ul>
+     */
+    protected static final class CryptographicKeyFilter implements ObjectInputFilter
+    {
+        /**
+         * Maximum allowed object-graph depth.
+         */
+        private static final long MAX_DEPTH = 5L;
+
+        /**
+         * Maximum allowed array length (elements).
+         */
+        private static final long MAX_ARRAY_LENGTH = 8192L;
+
+        /**
+         * Maximum allowed total number of internal references.
+         */
+        private static final long MAX_REFERENCES = 64L;
+
+        /**
+         * Maximum allowed total stream bytes consumed.
+         */
+        private static final long MAX_STREAM_BYTES = 32768L; // 32 KB — generous upper bound for any key type
+
+        /**
+         * Fallback set of class names permitted during deserialization when a class does not qualify through the interface or package/provider checks in {@link #checkInput}. Covers standard JDK key representations (e.g. {@code KeyRep}) and supporting types (byte arrays {@code "[B"} and {@code String}) used internally by the key serialization format that do not implement a key interface themselves.
+         *
+         * <p>
+         * This is one of three admission paths — see the class-level Javadoc for the full policy.
+         */
+        private static final Set<String> ALLOWED_CLASS_NAMES = Set.of(
+            "java.security.KeyRep",
+            "java.security.KeyRep$Type",
+            "java.lang.Enum",
+            "sun.security.rsa.RSAPrivateCrtKeyImpl",
+            "sun.security.rsa.RSAPublicKeyImpl",
+            "sun.security.provider.DSAPublicKeyImpl",
+            "sun.security.provider.DSAPrivateKey",
+            "java.math.BigInteger",
+            "[B",
+            "java.lang.String");
+
+        /**
+         * Standard JDK/JCE package prefixes whose key classes are unconditionally trusted.
+         */
+        private static final Set<String> ALLOWED_PACKAGE_PREFIXES = Set.of(
+            "java.security",
+            "javax.crypto",
+            "sun.security",
+            "com.sun.crypto.provider");
+
+        @Override
+        public ObjectInputFilter.Status checkInput(ObjectInputFilter.FilterInfo filterInfo)
+        {
+            // Reject if any resource limit is exceeded (depth, array length, references, stream bytes)
+            if (filterInfo.depth() > MAX_DEPTH
+                || filterInfo.arrayLength() > MAX_ARRAY_LENGTH
+                || filterInfo.references() > MAX_REFERENCES
+                || filterInfo.streamBytes() > MAX_STREAM_BYTES)
+            {
+                return ObjectInputFilter.Status.REJECTED;
+            }
+
+            // No class resolution required at this filter call (e.g. primitive check)
+            Class<?> clazz = filterInfo.serialClass();
+            if (clazz == null)
+            {
+                return ObjectInputFilter.Status.UNDECIDED;
+            }
+            // Allow enum types (needed for key implementations that contain enum fields)
+            if (clazz.isEnum())
+            {
+                return Status.ALLOWED;
+            }
+            // Along with ALLOWED_CLASS_NAMES, it accepts any Key implementor whose
+            // package belongs to a trusted JDK/JCE prefix or a registered security provider.
+            if (isCustomKeyProviderAllowed(clazz))
+            {
+                return ObjectInputFilter.Status.ALLOWED;
+            }
+            // Allow explicitly allow-listed class names
+            if (ALLOWED_CLASS_NAMES.contains(clazz.getName()))
+            {
+                return ObjectInputFilter.Status.ALLOWED;
+            }
+
+            // Reject everything else
+            return ObjectInputFilter.Status.REJECTED;
+        }
+
+        /**
+         * Checks whether a key-related class should be accepted based on its implemented key interfaces and package/provider origin.
+         *
+         * @param clazz
+         *            class being evaluated during deserialization
+         * @return {@code true} when the class belongs to an allowed JCA/JCE provider package
+         */
+        private boolean isCustomKeyProviderAllowed(Class<?> clazz)
+        {
+            // Only allow classes that implement the Key interface (covers PublicKey, PrivateKey etc,
+            // all of which extend java.security.Key).
+            if (!Key.class.isAssignableFrom(clazz))
+            {
+                return false;
+            }
+
+            Package keyPackage = clazz.getPackage();
+            if (keyPackage == null)
+            {
+                return false;
+            }
+
+            String packageName = keyPackage.getName();
+            // The first check is on Package-based and the second one is on runtime-provider-based.
+            // Accepted types may vary with installed security providers.
+            return isInAllowedPackage(packageName) || isInProviderPackage(packageName);
+        }
+
+        /**
+         * Returns {@code true} if {@code packageName} matches or is a sub-package of any entry in {@link #ALLOWED_PACKAGE_PREFIXES}.
+         *
+         * @param packageName
+         *            the package name of the class being evaluated
+         * @return {@code true} if the package is a known JDK/JCE package
+         */
+        private boolean isInAllowedPackage(String packageName)
+        {
+            return ALLOWED_PACKAGE_PREFIXES.stream()
+                .anyMatch(prefix -> packageName.equals(prefix) || packageName.startsWith(prefix + "."));
+        }
+
+        /**
+         * Returns {@code true} if {@code packageName} matches or is a sub-package of the package of any currently registered {@link java.security.Security} provider.
+         *
+         * <p>
+         * <b>Environment-dependent:</b> the trusted package set is determined at runtime from {@link java.security.Security#getProviders()}, so installing additional JCA/JCE providers automatically widens the deserialization trust boundary.
+         *
+         * @param packageName
+         *            the package name of the class being evaluated
+         * @return {@code true} if the package belongs to a registered security provider
+         */
+        private boolean isInProviderPackage(String packageName)
+        {
+            return Arrays.stream(Security.getProviders())
+                .map(p -> p.getClass().getPackage())
+                .filter(Objects::nonNull)
+                .map(Package::getName)
+                .anyMatch(providerPkg -> packageName.equals(providerPkg) || packageName.startsWith(providerPkg + "."));
+        }
     }
 
 }
