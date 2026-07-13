@@ -310,6 +310,17 @@
       workerSrc : "",
 
       /**
+       * Store the base URL where the pdf.js WASM resources (openjpeg.wasm,
+       * openjpeg_nowasm_fallback.js, qcms_bg.wasm) are served from. Required by
+       * pdf.js >= 5.0.375 to decode JPEG 2000 images and CMYK/ICC colour spaces.
+       *
+       * @property wasmUrl
+       * @type string
+       * @default empty string
+       */
+      wasmUrl : "",
+
+      /**
        * Current scale selection from the drop-down scale menu
        *
        * @property currentScaleSelection
@@ -420,6 +431,8 @@
       onComponentsLoaded: function PdfJs_onComponentsLoaded()
       {
          this.workerSrc = Alfresco.constants.URL_CONTEXT + 'res/components/preview/pdfjs/pdf.worker.js';
+         // Base URL for the pdf.js WASM assets (JPEG 2000 / ICC colour decoding)
+         this.wasmUrl = Alfresco.constants.URL_CONTEXT + 'res/components/preview/pdfjs/wasm/';
          // Find the name of pdf.js resource file (4.2 specific)
          var scriptElements = document.getElementsByTagName('script');
          for (var i = 0, il = scriptElements.length; i < il; i++)
@@ -845,6 +858,14 @@
 
          params.cMapUrl = Alfresco.constants.URL_CONTEXT + 'res/components/preview/pdfjs/cmaps/';
          params.cMapPacked = true;
+
+         // Provide the WASM assets location so pdf.js (>= 5.0.375) can decode
+         // JPEG 2000 images and CMYK/ICC colour spaces. Without this the
+         // preview renders as a blank page for affected PDFs.
+         if (this.wasmUrl)
+         {
+            params.wasmUrl = this.wasmUrl;
+         }
 
          // pdfjsLib range request for progessive loading
          // We also test if it may already be set to true by compatibility.js tests, some browsers do not support it.
