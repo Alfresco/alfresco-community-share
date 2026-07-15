@@ -348,6 +348,7 @@
         <shareContext>${aims.shareContext.value}</shareContext>
         <extraEndpointsToRedirect>${aims.extraEndpointsToRedirect}</extraEndpointsToRedirect>
         <scopeValidationDisabled>${aims.scopeValidationDisabled}</scopeValidationDisabled>
+        <allowIdpBypass>${aims.allowIdpBypass}</allowIdpBypass>
     </config>
 
     <!-- Cookie Headers-->
