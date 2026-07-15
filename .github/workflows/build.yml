@@ -57,11 +57,11 @@ jobs:
     if: (!contains(github.event.head_commit.message, '[no lint]') && inputs.commitMessage != '[no lint]')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
+      - uses: actions/checkout@v7
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v18.19.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v18.19.0
 
   build:
     runs-on: ubuntu-latest
@@ -75,15 +75,15 @@ jobs:
       matrix:
         stage: [ source_clear ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v18.19.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v18.19.0
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: 3.x
       - name: "Prepare before Test"
@@ -107,11 +107,11 @@ jobs:
       github.actor != 'dependabot[bot]' &&
       !contains(github.event.head_commit.message, '[skip tests]')
     steps:
-      - uses: actions/checkout@v4
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
+      - uses: actions/checkout@v7
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v18.19.0
       - name: "Init"
         run: bash scripts/ci/init.sh
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v18.19.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: "Build"
@@ -126,14 +126,14 @@ jobs:
           sudo rm -r WEB-INF/lib
           sudo rm -rf share.war
           sudo jar -cvf share.war *
-      - uses: Alfresco/alfresco-build-tools/.github/actions/github-download-file@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/github-download-file@v18.19.0
         with:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           repository: "Alfresco/veracode-baseline-archive"
           file-path: "alfresco-enterprise-share/enterprise-share-baseline.json"
           target: "baseline.json"
       - name: "Run SAST Scan"
-        uses: veracode/Veracode-pipeline-scan-action@v1.0.20
+        uses: veracode/Veracode-pipeline-scan-action@v1.0.23
         with:
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY }}'
@@ -152,7 +152,7 @@ jobs:
         run: zip readable_output.zip results.json
       - name: Upload Artifact
         if: success() || failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Veracode Pipeline-Scan Results - Share (Human Readable)
           path: readable_output.zip
@@ -168,8 +168,8 @@ jobs:
       !contains(github.event.head_commit.message, '[skip tests]') &&
       !contains(github.event.head_commit.message, '[force]')
     steps:
-      - uses: actions/checkout@v4
-      - uses: Alfresco/ya-pmd-scan@v4.0.0
+      - uses: actions/checkout@v7
+      - uses: Alfresco/ya-pmd-scan@v4.4.1
         with:
           fail-on-new-issues: "false"
           create-github-annotations: "false"
@@ -191,20 +191,20 @@ jobs:
       matrix:
         testModule: [ share, share-encryption, web-framework-commons ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.4.3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v18.19.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v18.19.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v18.19.0
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
         run: bash scripts/ci/build.sh
       - name: Run Unit Tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -230,20 +230,20 @@ jobs:
       matrix:
         testModule: [ alfresco-governance-services-community-share, alfresco-governance-services-enterprise-share ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.4.3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v18.19.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v18.19.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v18.19.0
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
         run: bash scripts/ci/build.sh
       - name: Run ${{ matrix.testModule }} Unit Tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -269,16 +269,16 @@ jobs:
       matrix:
         test: [ user, user-and-site-dashboard, admin-tools, admin-console ,content-actions, content-filters, user-dashboard, userRolesAndPermissions, applying-rules, searching1, searching2, alfresco-content1, alfresco-content2, alfresco-content-and-site-features, task-and-workflows, site, site-dashboard, sitesFeatures-calendar, site-members, sitesFeatures-dataLists, sitesFeatures ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.4.3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v18.19.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v18.19.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v18.19.0
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: 3.x
       - name: "Init"
@@ -298,7 +298,7 @@ jobs:
           bash amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           sudo free -m -t
       - name: Run ${{ matrix.test }} Test
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -307,7 +307,7 @@ jobs:
           command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml" -Dgroups=SharePriority1 -DexcludedGroups=bug,tobefixed
       - name: "Upload artifacts"
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.test }}-tests
           path: |
@@ -336,15 +336,15 @@ jobs:
       matrix:
         test: [ communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v18.19.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v18.19.0
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: 3.x
       - name: "Init"
@@ -378,7 +378,7 @@ jobs:
           bash amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           sudo free -m -t
       - name: Run tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -386,7 +386,7 @@ jobs:
           retry_on: error
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ags/community/${GITHUB_RUN_NUMBER}/${JOB_NAME}
           path:
@@ -425,14 +425,14 @@ jobs:
       S3_BUCKET_NAME: ${{ vars.S3_BUCKET_PREFIX }}-${{ github.run_number }}
       S3_BUCKET2_NAME: ${{ vars.S3_BUCKET_PREFIX }}-worm-b2
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.0.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v18.19.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v18.19.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v18.19.0
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: 3.x
       - name: "Init"
@@ -453,7 +453,7 @@ jobs:
           export PATH=/opt/firefox/firefox:$PATH
           firefox --version
       - name: "Configure AWS credentials"
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           aws-access-key-id: ${{ secrets.AGS_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AGS_AWS_SECRET_ACCESS_KEY }}
@@ -488,7 +488,7 @@ jobs:
           bash amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           sudo free -m -t
       - name: Run tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -496,7 +496,7 @@ jobs:
           retry_on: error
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dgroups=sanity -DexcludedGroups=needsAttention,bug -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ags/${GITHUB_RUN_NUMBER}/${JOB_NAME}
           path:
