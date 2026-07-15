@@ -175,6 +175,7 @@ public class AIMSFilter implements Filter
     public static final String SHARE_AIMS_LOGIN_PAGE = "/page/aims-login";
     public static final String SHARE_AIMS_DOLOGIN = "/page/aims-dologin";
     public static final String SHARE_PROXY_SLINGSHOT_NODE_CONTENT = "/proxy/alfresco/slingshot/node/content";
+    public static final String USE_IDP = "useIdp";
     public static final String[] BASE_ENDPOINTS_TO_REDIRECT = {
         SHARE_PAGE,
         SHARE_AIMS_LOGOUT,
@@ -202,6 +203,10 @@ public class AIMSFilter implements Filter
     private String audience;
     private String shareContext;
     private List<String> endpointsToRedirect = new ArrayList<>();
+    private boolean allowIdpBypass;
+
+    private static final String BYPASS_AIMS_SESSION_KEY = "aims.bypass";
+
 
     public AIMSFilter()
     {
@@ -251,6 +256,7 @@ public class AIMSFilter implements Filter
             {
                 Collections.addAll(this.endpointsToRedirect, extraEndpointsToRedirect);
             }
+            this.allowIdpBypass = config.isAllowIdpBypass();
         }
         this.connectorService = (ConnectorService) context.getBean("connector.service");
         this.loginController = (SlingshotLoginController) context.getBean("loginController");
@@ -318,7 +324,7 @@ public class AIMSFilter implements Filter
             }
         }
 
-        if (!isAuthenticated && this.enabled && isEndpointToRedirect(request))
+        if (!isAuthenticated && this.enabled && isEndpointToRedirect(request) && !isBypassRequest(request))
         {
             /**
              // Match the request that came from Idp (redirect uri)
@@ -420,6 +426,16 @@ public class AIMSFilter implements Filter
                 return;
             }
 
+            // Clear the bypass flag on AIMS logout as a safety net for reused sessions.
+            if (request.getRequestURI().contains(this.shareContext + SHARE_AIMS_LOGOUT))
+            {
+                HttpSession logoutSession = request.getSession(false);
+                if (logoutSession != null)
+                {
+                    logoutSession.removeAttribute(BYPASS_AIMS_SESSION_KEY);
+                }
+            }
+
             chain.doFilter(sreq, sres);
         }
     }
@@ -436,6 +452,81 @@ public class AIMSFilter implements Filter
         }
         return false;
     }
+
+    /**
+     * Returns true if this request should bypass AIMS/SSO and use the built-in Share login form.
+     * Requires {@code aims.allowIdpBypass=true} (master switch, disabled by default) and a
+     * {@code /page} URI. Activated by {@code ?useIdp=false}; flag is stored in session so the
+     * subsequent form POST to {@code /page/dologin} also bypasses without the parameter.
+     *
+     * @param request HTTP Servlet Request
+     * @return true if the request should bypass AIMS/SSO login
+     */
+    private boolean isBypassRequest(HttpServletRequest request)
+    {
+        if (!this.allowIdpBypass)
+        {
+            return false;
+        }
+
+        // Restrict bypass to /page/* URIs only; proxy/content endpoints must not skip SSO.
+        String uri = request.getRequestURI();
+        if (!uri.contains(this.shareContext + SHARE_PAGE))
+        {
+            return false;
+        }
+
+        String useIdpParam = request.getParameter(USE_IDP);
+
+        if ("true".equalsIgnoreCase(useIdpParam))
+        {
+            return cancelBypass(request, uri);
+        }
+
+        if ("false".equalsIgnoreCase(useIdpParam))
+        {
+            return activateBypass(request, uri);
+        }
+
+        return isBypassActiveInSession(request, uri);
+    }
+
+    private boolean cancelBypass(HttpServletRequest request, String uri)
+    {
+        HttpSession session = request.getSession(false);
+        if (session != null)
+        {
+            session.removeAttribute(BYPASS_AIMS_SESSION_KEY);
+        }
+        LOGGER.info("AIMS SSO bypass cancelled via useIdp=true. IP: " + request.getRemoteAddr() + " URI: " + uri);
+        return false;
+    }
+
+    private boolean activateBypass(HttpServletRequest request, String uri)
+    {
+        // Use getSession(true) so the flag is not lost on a brand-new session.
+        HttpSession session = request.getSession(true);
+        session.setAttribute(BYPASS_AIMS_SESSION_KEY, Boolean.TRUE);
+        LOGGER.info("AIMS SSO bypass activated via useIdp=false. IP: " + request.getRemoteAddr() + " URI: " + uri);
+        return true;
+    }
+
+    private boolean isBypassActiveInSession(HttpServletRequest request, String uri)
+    {
+        // No parameter — honour the flag already set in this session (covers POST to /page/dologin).
+        HttpSession existingSession = request.getSession(false);
+        if (existingSession != null && Boolean.TRUE.equals(existingSession.getAttribute(BYPASS_AIMS_SESSION_KEY)))
+        {
+            if (LOGGER.isDebugEnabled())
+            {
+                LOGGER.debug("AIMS SSO bypass continuing from session. IP: " + request.getRemoteAddr() + " URI: " + uri);
+            }
+            return true;
+        }
+
+        return false;
+    }
+
 
     /**
      * @param request              HTTP Servlet Request

@@ -22,10 +22,17 @@ package org.alfresco.web.site.servlet;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import org.alfresco.web.site.servlet.AIMSFilter.JwtAudienceValidator;
 import org.junit.Test;
@@ -144,6 +151,141 @@ public class AIMSFilterTest
             .audience(audience)
             .header("JUST", "FOR TESTING")
             .build();
+    }
+
+    /**
+     * When allowIdpBypass is false (default), isBypassRequest must always return false
+     * regardless of the useIdp parameter — the master switch is off.
+     */
+    @Test
+    public void isBypassRequest_shouldReturnFalse_whenAllowIdpBypassDisabled() throws Exception
+    {
+        AIMSFilter filter = new AIMSFilter();
+        setField(filter, "allowIdpBypass", false);
+        setField(filter, "shareContext", "/share");
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getRequestURI()).thenReturn("/share/page");
+        when(request.getParameter("useIdp")).thenReturn("false");
+
+        Method isBypassRequest = AIMSFilter.class.getDeclaredMethod("isBypassRequest", HttpServletRequest.class);
+        isBypassRequest.setAccessible(true);
+
+        boolean result = (boolean) isBypassRequest.invoke(filter, request);
+        assertFalse("Bypass must be disabled when allowIdpBypass=false", result);
+    }
+
+    /**
+     * When allowIdpBypass is true and useIdp=false is passed on a /page URI,
+     * isBypassRequest must return true and store the flag in the session.
+     */
+    @Test
+    public void isBypassRequest_shouldReturnTrue_whenUseIdpFalseOnPageUri() throws Exception
+    {
+        AIMSFilter filter = new AIMSFilter();
+        setField(filter, "allowIdpBypass", true);
+        setField(filter, "shareContext", "/share");
+
+        HttpSession session = mock(HttpSession.class);
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getRequestURI()).thenReturn("/share/page");
+        when(request.getParameter("useIdp")).thenReturn("false");
+        when(request.getSession(true)).thenReturn(session);
+        when(request.getRemoteAddr()).thenReturn("127.0.0.1");
+
+        Method isBypassRequest = AIMSFilter.class.getDeclaredMethod("isBypassRequest", HttpServletRequest.class);
+        isBypassRequest.setAccessible(true);
+
+        boolean result = (boolean) isBypassRequest.invoke(filter, request);
+        assertTrue("Bypass must be active when allowIdpBypass=true and useIdp=false on /page URI", result);
+        // Verify the session flag was actually stored — required for the sticky /page/dologin POST
+        org.mockito.Mockito.verify(session).setAttribute("aims.bypass", Boolean.TRUE);
+    }
+
+    /**
+     * When allowIdpBypass is true but the URI is a proxy endpoint (not /page),
+     * isBypassRequest must return false — proxy calls must never bypass SSO.
+     */
+    @Test
+    public void isBypassRequest_shouldReturnFalse_whenUriIsProxyEndpoint() throws Exception
+    {
+        AIMSFilter filter = new AIMSFilter();
+        setField(filter, "allowIdpBypass", true);
+        setField(filter, "shareContext", "/share");
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getRequestURI()).thenReturn("/share/proxy/alfresco/slingshot/node/content");
+        when(request.getParameter("useIdp")).thenReturn("false");
+
+        Method isBypassRequest = AIMSFilter.class.getDeclaredMethod("isBypassRequest", HttpServletRequest.class);
+        isBypassRequest.setAccessible(true);
+
+        boolean result = (boolean) isBypassRequest.invoke(filter, request);
+        assertFalse("Bypass must NOT activate on proxy/content endpoints", result);
+    }
+
+    /**
+     * Session-sticky branch: when bypass was activated in a previous request (flag in session)
+     * and no useIdp param is present, isBypassRequest must return true to cover the form POST
+     * to /page/dologin which does not carry the useIdp parameter.
+     */
+    @Test
+    public void isBypassRequest_shouldReturnTrue_whenSessionFlagSetAndNoParam() throws Exception
+    {
+        AIMSFilter filter = new AIMSFilter();
+        setField(filter, "allowIdpBypass", true);
+        setField(filter, "shareContext", "/share");
+
+        HttpSession session = mock(HttpSession.class);
+        when(session.getAttribute("aims.bypass")).thenReturn(Boolean.TRUE);
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getRequestURI()).thenReturn("/share/page/dologin");
+        when(request.getParameter("useIdp")).thenReturn(null);
+        when(request.getSession(false)).thenReturn(session);
+        when(request.getRemoteAddr()).thenReturn("127.0.0.1");
+
+        Method isBypassRequest = AIMSFilter.class.getDeclaredMethod("isBypassRequest", HttpServletRequest.class);
+        isBypassRequest.setAccessible(true);
+
+        boolean result = (boolean) isBypassRequest.invoke(filter, request);
+        assertTrue("Bypass must continue from session flag when no useIdp param is present", result);
+    }
+
+    /**
+     * Cancellation branch: when useIdp=true is passed, isBypassRequest must clear the session flag
+     * and return false, re-enabling Keycloak SSO.
+     */
+    @Test
+    public void isBypassRequest_shouldReturnFalse_andClearFlag_whenUseIdpTrue() throws Exception
+    {
+        AIMSFilter filter = new AIMSFilter();
+        setField(filter, "allowIdpBypass", true);
+        setField(filter, "shareContext", "/share");
+
+        HttpSession session = mock(HttpSession.class);
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getRequestURI()).thenReturn("/share/page");
+        when(request.getParameter("useIdp")).thenReturn("true");
+        when(request.getSession(false)).thenReturn(session);
+        when(request.getRemoteAddr()).thenReturn("127.0.0.1");
+
+        Method isBypassRequest = AIMSFilter.class.getDeclaredMethod("isBypassRequest", HttpServletRequest.class);
+        isBypassRequest.setAccessible(true);
+
+        boolean result = (boolean) isBypassRequest.invoke(filter, request);
+        assertFalse("Bypass must be cancelled when useIdp=true is passed", result);
+
+        // Verify the session flag was removed
+        org.mockito.Mockito.verify(session).removeAttribute("aims.bypass");
+    }
+
+    private void setField(Object target, String fieldName, Object value) throws Exception
+    {
+        Field field = target.getClass().getDeclaredField(fieldName);
+        field.setAccessible(true);
+        field.set(target, value);
     }
 
 }
