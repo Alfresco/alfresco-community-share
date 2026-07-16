@@ -522,6 +522,7 @@
                         <exclude>js/lib/dojo*/**</exclude>
                         <exclude>**/log4javascript*.js</exclude>
                         <exclude>**/pdfjs/pdf*.js</exclude>
+                        <exclude>**/pdfjs/wasm/**</exclude>
                     </excludes>
                     <sourceDirectory>${project.build.directory}/${project.build.finalName}</sourceDirectory>
                     <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
