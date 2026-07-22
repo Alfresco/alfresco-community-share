@@ -880,6 +880,9 @@
             params.disableRange = true;
          }
 
+         // Allow pdf.js to use ImageDecoder in the worker for image conversion/rendering performance.
+         params.isImageDecoderSupported = true;
+
          if (Alfresco.logger.isDebugEnabled())
          {
             Alfresco.logger.debug("Using params.disableRange=" + params.disableRange + " params.disableAutoFetch:" + params.disableAutoFetch);
