@@ -66,12 +66,14 @@ else
   buildUpstreamTag "${ENT_UPSTREAM_REPO}" "${ENT_DEPENDENCY_VERSION}" "-Pbuild-docker-images -Pags -Pall-tas-tests -Dlicense.failOnNotUptodateHeader=false"
 fi
 
-
 # Build the current project
-mvn -B -ntp -V install -DskipTests -Dmaven.javadoc.skip=true -Pags "-Dimage.tag=${TAG_NAME}" ${REPO_IMAGE} \
-  $([ "${JOB_NAME,,}" = "build" ] && echo "-Ppush-docker-images" || echo "-Pbuild-docker-images") \
+if [[ -n "$TAG_NAME" ]]; then
+  SHARE_IMAGE_TAG="-Dimage.tag=${TAG_NAME}"
+fi
+
+mvn -B -ntp -V install -DskipTests -Dmaven.javadoc.skip=true -Pags ${SHARE_IMAGE_TAG} ${REPO_IMAGE} \
+  $([ "${JOB_NAME,,}" = "build" ] && echo "-Ppush-docker-images" || echo "-Pbuild-docker-images")
 
 popd
 set +vex
 echo "=========================== Finishing Build Script =========================="
-
