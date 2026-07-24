@@ -84,7 +84,7 @@ jobs:
           python-version: 3.x
       - name: "Prepare before Test"
         run: |
-          export TAG_NAME="$(echo "${BRANCH_NAME}" | tr / - )"
+          echo "TAG_NAME=$(echo "${BRANCH_NAME}" | tr / -)" >> $GITHUB_ENV
           export NAMESPACE="travis-share-$GITHUB_RUN_NUMBER"
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - name: "Build"
@@ -380,7 +380,11 @@ jobs:
           QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
           DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: bash scripts/ci/init.sh
+          GIT_PASSWORD: ${{ secrets.BOT_GITHUB_TOKEN }}
+          GIT_USERNAME: ${{ vars.BOT_GITHUB_USERNAME }}
+        run: |
+          bash scripts/ci/init.sh
+          bash scripts/ci/build.sh
       - name: "Prepare before Test"
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0

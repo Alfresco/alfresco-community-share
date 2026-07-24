@@ -29,7 +29,6 @@
         <version.minor>3</version.minor>
         <version.revision>0</version.revision>
         <amp.min.version>${version.major}.0.0</amp.min.version>
-
         <dependency.alfresco-community-repo.version>26.3.0.2</dependency.alfresco-community-repo.version>
         <dependency.alfresco-enterprise-repo.version>26.3.0.1</dependency.alfresco-enterprise-repo.version>
 
@@ -71,6 +70,8 @@
 
         <dependency.cxf.version>4.1.1</dependency.cxf.version>
         <dependency.angus.version>2.0.4</dependency.angus.version>
+        <dependency.jakarta-mail.version>2.0.2</dependency.jakarta-mail.version>
+        <dependency.opentelemetry.version>1.62.0</dependency.opentelemetry.version>
         <dependency.beanutils.version>1.11.0</dependency.beanutils.version>
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
         <dependency.jackson.version>2.22.1</dependency.jackson.version>
@@ -122,7 +123,13 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Override dependencies with the locally defined versions -->
+            <dependency>
+                <groupId>io.opentelemetry</groupId>
+                <artifactId>opentelemetry-bom</artifactId>
+                <version>${dependency.opentelemetry.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-jlan-embed</artifactId>
@@ -237,6 +244,11 @@
             <groupId>org.eclipse.angus</groupId>
             <artifactId>angus-mail</artifactId>
             <version>${dependency.angus.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>${dependency.jakarta-mail.version}</version>
           </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
@@ -661,12 +673,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.5.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.1.2</version>
+                    <version>3.7.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>

@@ -8,8 +8,22 @@ pushd "$(dirname "${BASH_SOURCE[0]}")/../../"
 find "${HOME}/.m2/repository/" -type d -name "*-SNAPSHOT*" | xargs -r -l rm -rf
 
 # Docker Logins
-echo "${DOCKERHUB_PASSWORD}" | docker login -u="${DOCKERHUB_USERNAME}" --password-stdin
-echo "${QUAY_PASSWORD}" | docker login -u="${QUAY_USERNAME}" --password-stdin quay.io
+# Only attempt a registry login when credentials are actually provided. Logging in with
+# empty credentials writes a malformed/empty entry to ~/.docker/config.json, which then makes
+# every subsequent pull (even of public base images) fail with:
+#   "malformed HTTP Authorization header" (Internal Server Error: 500)
+# This mirrors the guard used in the Alfresco/alfresco-build-tools "maven-build" action
+# (docker/login-action steps gated with `if: inputs.docker-username != ''`).
+if [ -n "${DOCKERHUB_USERNAME}" ] && [ -n "${DOCKERHUB_PASSWORD}" ]; then
+  echo "${DOCKERHUB_PASSWORD}" | docker login -u="${DOCKERHUB_USERNAME}" --password-stdin
+else
+  echo "DockerHub credentials not provided - skipping DockerHub login (anonymous pulls)."
+fi
+if [ -n "${QUAY_USERNAME}" ] && [ -n "${QUAY_PASSWORD}" ]; then
+  echo "${QUAY_PASSWORD}" | docker login -u="${QUAY_USERNAME}" --password-stdin quay.io
+else
+  echo "Quay.io credentials not provided - skipping quay.io login."
+fi
 
 # Define docker image tag
 if [ "${PULL_REQUEST}" != "false" ]; then
