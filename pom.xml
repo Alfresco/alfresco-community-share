@@ -68,7 +68,7 @@
         <dependency.slf4j.version>2.0.3</dependency.slf4j.version>
         <dependency.jcl-over-slf4j.version>1.7.30</dependency.jcl-over-slf4j.version>
 
-        <dependency.cxf.version>4.1.1</dependency.cxf.version>
+        <dependency.cxf.version>4.1.7</dependency.cxf.version>
         <dependency.angus.version>2.0.4</dependency.angus.version>
         <dependency.jakarta-mail.version>2.0.2</dependency.jakarta-mail.version>
         <dependency.opentelemetry.version>1.62.0</dependency.opentelemetry.version>
