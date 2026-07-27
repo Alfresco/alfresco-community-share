@@ -217,7 +217,7 @@ public class UserDashboardPage extends SharePage2<UserDashboardPage> implements 
     {
         log.info("Assert Alfresco Documentation page is opened from welcome panel");
         clickElement(welcomePanelInfoGetStarted);
-        waitUrlContains("https://support.hyland.com/p/alfresco", WAIT_10.getValue());
+        waitUrlContains("https://docs.hyland.com/p/alfresco", WAIT_10.getValue());
         assertTrue(getTitle().contains(language.translate("alfrescoDocumentation.pageTitle")) , "Page title");
         navigateBack();
 
