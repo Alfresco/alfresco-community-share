@@ -302,6 +302,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     {
         log.info("Assert created data like wiki page, data list, event, blog is displayed");
         Assert.assertTrue(isResultFoundWithList(query), query+" is not displayed");
+        waitUntilElementDisappears(noSearchResults);
         return this;
     }
     public SearchPage assertIsXmlFileDisplayed(String query)
@@ -380,7 +381,9 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public List<String> getFilterTypeList()
     {
+        waitInSeconds(3);
         List<String> filterList = new ArrayList<>();
+        waitUntilElementIsVisible(filterTypeList);
         for (WebElement aFilterTypeList : findElements(filterTypeList))
         {
             filterList.add(aFilterTypeList.getText());
@@ -391,6 +394,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public boolean isFilterTypePresent(String filter)
     {
         waitInSeconds(4);
+        waitUntilElementClickable(filterTypeList);
         return findFirstElementWithValue(filterTypeList, filter) != null;
     }
     public boolean isFilterPresent(String filter)

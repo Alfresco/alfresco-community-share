@@ -1,33 +1,72 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<!--
+   Searching Test Suite 4
+   Purpose: Tests for Alfresco Share search manager functionality
+   Execution: Runs with single thread to ensure test isolation
+-->
 <suite name="Sanity Test Suite4" parallel="classes" thread-count="1">
-   <listeners>
-      <listener class-name="org.alfresco.share.RetryListener"/>
-   </listeners>
+    <!-- Enable retry mechanism for flaky tests -->
+    <listeners>
+        <listener class-name="org.alfresco.share.RetryListener"/>
+    </listeners>
 
-   <test name="Sanity Tests3">
-      <groups>
-         <run>
-            <include name="sanity"/>
-            <include name="share"/>
-            <include name="regression"/>
-            <exclude name="integration"></exclude>
-            <exclude name="unit"/>
-            <exclude name="SmartFolders"/>
-            <exclude name="ExternalUsers"/>
-            <exclude name="office"/>
-            <exclude name="TransformationServer"/>
-            <exclude name="xsstests"/>
-            <exclude name="admin-tools"></exclude>
-            <include name="sites"/>
-            <exclude name="user-dashboard"/>
-            <exclude name="site-dashboard"/>
-            <exclude name="user"/>
-            <exclude name="auth"/>
-            <exclude name="SearchTests"/>
-         </run>
-      </groups>
-      <packages>
-         <package name="org.alfresco.share.searching"></package>
-      </packages>
-   </test>
+    <!-- Independent test: Runs in complete isolation to avoid side effects from other tests -->
+    <test name="Independent Search Manager Configuration Tests">
+        <classes>
+            <class name="org.alfresco.share.searching.SearchManagerTests">
+                <methods>
+                    <include name="verifyFilterAvailabilityProperty"/>
+                    <include name="verifyMinimumRequiredResultsProperty"/>
+                    <include name="verifyNumberOfFiltersProperty"/>
+                    <include name="verifySitesSection"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <!-- Main test suite for search functionality -->
+    <test name="Sanity Tests4">
+        <!-- Test group filters: Include regression and sanity tests, exclude integration and specialized tests -->
+        <groups>
+            <run>
+                <!-- Include core test groups -->
+                <include name="sanity"/>
+                <include name="share"/>
+                <include name="regression"/>
+                <include name="sites"/>
+
+                <!-- Exclude non-applicable test groups -->
+                <exclude name="integration"/>
+                <exclude name="unit"/>
+                <exclude name="SmartFolders"/>
+                <exclude name="ExternalUsers"/>
+                <exclude name="office"/>
+                <exclude name="TransformationServer"/>
+                <exclude name="xsstests"/>
+                <exclude name="admin-tools"/>
+                <exclude name="user-dashboard"/>
+                <exclude name="site-dashboard"/>
+                <exclude name="user"/>
+                <exclude name="auth"/>
+                <exclude name="SearchTests"/>
+            </run>
+        </groups>
+        <!-- Include all tests from searching package -->
+        <packages>
+            <package name="org.alfresco.share.searching"/>
+        </packages>
+
+        <!-- Exclude configuration methods from main suite to prevent duplicate execution -->
+        <classes>
+            <class name="org.alfresco.share.searching.SearchManagerTests">
+                <methods>
+                    <!-- These methods already executed in Configuration phase -->
+                    <exclude name="verifyFilterAvailabilityProperty"/>
+                    <exclude name="verifyMinimumRequiredResultsProperty"/>
+                    <exclude name="verifyNumberOfFiltersProperty"/>
+                    <exclude name="verifySitesSection"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

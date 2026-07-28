@@ -8,8 +8,6 @@ import org.alfresco.po.share.alfrescoContent.document.UploadContent;
 import org.alfresco.po.share.site.DocumentLibraryPage.CreateMenuOption;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.alfresco.po.share.user.UserDashboardPage;
-import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.CreateUserPage;
-import org.alfresco.po.share.user.admin.adminTools.usersAndGroups.UsersPage;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
 import org.alfresco.utility.data.RandomData;
@@ -35,30 +33,24 @@ public class MyFilesTests extends BaseTest
     private final String C7648content = "C7648 content";
     private final String C7648description = "C7648 description";
     private final String password = "password";
-   // @Autowired
     private MyFilesPage myFilesPage;
-
-    //@Autowired
     private CreateContentPage create;
-    //@Autowired
     private UserDashboardPage userDashboard;
-    //@Autowired
     private Toolbar toolbar;
     private UploadContent uploadContent;
-    private CreateUserPage createUsers;
-    private UsersPage usersPage;
     private final ThreadLocal<UserModel> user = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
+        Assert.assertNotNull(getDataUser(), "DataUser is not initialized");
+        Assert.assertNotNull(getDataUser().usingAdmin(), "Admin data user context is not available");
+
         toolbar = new Toolbar(webDriver);
         userDashboard = new UserDashboardPage(webDriver);
         myFilesPage = new MyFilesPage(webDriver);
         create = new CreateContentPage(webDriver);
-        createUsers = new CreateUserPage(webDriver);
         uploadContent = new UploadContent(webDriver);
-        usersPage = new UsersPage(webDriver);
     }
 
     @AfterMethod(alwaysRun = true)
@@ -66,38 +58,16 @@ public class MyFilesTests extends BaseTest
     {
         deleteUsersIfNotNull(user.get());
     }
+
     @TestRail (id = "C7648")
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void myFilesContentAvailability() {
 
-        log.info("PreCondition: Two users are created, e.g: user1 and user2 ");
-        authenticateUsingLoginPage(getAdminUser());
-        usersPage
-            .navigate()
-            .clickNewUserButton()
-            .setFirstName("TestUser1")
-            .setEmail("user1@test.com")
-            .setUsername(user1)
-            .setPassword(password)
-            .setVerifyPassword(password)
-            .clickCreateUserAndStartAnother();
-
-        createUsers
-            .setFirstName("TestUser2")
-            .setEmail("user2@test.com")
-            .setUsername(user2)
-            .setPassword(password)
-            .setVerifyPassword(password)
-            .clickCreate();
-
-        log.info("PreCondition: Verify two users are created, e.g: user1 and user2 ");
-        usersPage
-            .searchUserWithRetry("TestUser")
-            .assertIsUsersCreated(user1)
-            .assertIsUsersCreated(user2);
+        log.info("PreCondition: Two users are created via API, e.g: user1 and user2");
+        UserModel testuser1 = dataUser.usingAdmin().createUser(user1, password);
+        UserModel testuser2 = dataUser.usingAdmin().createUser(user2, password);
 
         log.info("Step 1: Login with user1 and create Plain Text document in MyFiles");
-        UserModel testuser1 = new UserModel(user1, password);
         authenticateUsingLoginPage(testuser1);
 
         myFilesPage
@@ -115,8 +85,7 @@ public class MyFilesTests extends BaseTest
             .navigate();
         Assert.assertTrue(myFilesPage.isFileNameDisplayed(C7648name), "C7648 name is not displayed in My Files");
 
-        log.info("Step 2: Login with user2 and check that the file create by user1 is not visible in My Files");
-        UserModel testuser2 = new UserModel(user2, password);
+        log.info("Step 2: Login with user2 and check that the file created by user1 is not visible in My Files");
         authenticateUsingLoginPage(testuser2);
 
         myFilesPage
