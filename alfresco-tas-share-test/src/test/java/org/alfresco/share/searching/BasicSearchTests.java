@@ -26,8 +26,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
@@ -108,11 +106,12 @@ public class BasicSearchTests extends BaseTest
         String siteName = siteModel.get().getId();
 
         log.info("Data creation as per pre condition");
-        List<DashboardCustomization.Page> sitePages = new ArrayList<>();
-        sitePages.add(DashboardCustomization.Page.WIKI);
-        sitePages.add(DashboardCustomization.Page.BLOG);
-        sitePages.add(DashboardCustomization.Page.CALENDAR);
-        sitePages.add(DashboardCustomization.Page.LINKS);
+        List<DashboardCustomization.Page> sitePages = List.of(
+            DashboardCustomization.Page.WIKI,
+            DashboardCustomization.Page.BLOG,
+            DashboardCustomization.Page.CALENDAR,
+            DashboardCustomization.Page.LINKS
+        );
         siteService.addPagesToSite(userName1, password, siteName, sitePages);
 
         contentService.createDocument(userName1, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN, docName1, docContent);
@@ -197,31 +196,32 @@ public class BasicSearchTests extends BaseTest
         assertTrue(searchPage.getNumberOfResultsText().contains(" - results found"), "Section with number of results is displayed");
         assertTrue(searchPage.isSearchButtonDisplayed(), "Search button is displayed.");
 
-        log.info("STEP4: Click \"Search In\" dropdown");
+        log.info("STEP4: Hover over a result");
+        searchPage.mouseOverResult(testFile.getName());
+        assertTrue(searchPage.isActionsLinkDisplayed(), "The \"Actions\" menu is displayed.");
+
+        log.info("STEP5: Verify \"Filter by\" section");
+        List<String> filterTypeList = searchPage.getFilterTypeList();
+        List<String> expectedList = List.of("Creator", "File Type", "Modifier", "Created", "Size", "Modified");
+        for (String anExpectedValue : expectedList)
+        {
+            assertTrue(filterTypeList.contains(anExpectedValue), anExpectedValue+ " Filter is not present in 'Filter by' section!");
+        }
+
+        log.info("STEP6: Click \"Search In\" dropdown");
         searchPage.clickSearchInDropdown();
         assertEquals(searchPage.getSearchInDropdownValues(), "All Sites, Repository", "'Search in' dropdown");
         assertEquals(searchPage.getSearchInDropdownSelectedValue(), "Repository", "'Search in' dropdown has default selected value:");
 
-        log.info("STEP5: Verify \"Filter by\" section");
-        ArrayList<String> expectedList = new ArrayList<>(Arrays.asList("Creator", "File Type", "Modifier", "Created", "Size", "Modified"));
-        for (String anExpectedList : expectedList)
-        {
-            assertTrue(searchPage.getFilterTypeList().contains(anExpectedList), "Filter is not present in 'Filter by' section!");
-        }
-
-        log.info("STEP6: Click 'Sort' dropdown");
+        log.info("STEP7: Click 'Sort' dropdown");
         searchPage.clickSortDropdown();
         assertTrue(searchPage.isSortDropdownComplete(),
             "Dropdown for results sorting is displayed with options: \"Relevance\", \"Name\", \"Title\", \"Description\", \"Author\", \"Modifier\", \"Modified date\", \"Creator\", \"Created date\", \"Size\", \"Mime type\" and \"Type\" ");
 
-        log.info("STEP7: Click \"Views\" dropdown");
+        log.info("STEP8: Click \"Views\" dropdown");
         searchPage.clickViewsDropdown();
-        ArrayList<String> expectedViewsDropdown = new ArrayList<>(Arrays.asList("Detailed View", "Gallery View"));
+        List<String> expectedViewsDropdown = List.of("Detailed View", "Gallery View");
         assertEquals(searchPage.getViewsDropdownOptions().toString(), expectedViewsDropdown.toString(), "Views dropdown option=");
-
-        log.info("STEP8: Hover over a result");
-        searchPage.mouseOverResult(testFile.getName());
-        assertTrue(searchPage.isActionsLinkDisplayed(), "The \"Actions\" menu is displayed.");
     }
 
     @TestRail (id = "C7706")
@@ -319,7 +319,7 @@ public class BasicSearchTests extends BaseTest
         assertTrue(searchPage.isSortDropdownComplete(),
             "Dropdown for results sorting is displayed with options: \"Relevance\", \"Name\", \"Title\", \"Description\", \"Author\", \"Modifier\", \"Modified date\", \"Creator\", \"Created date\", \"Size\", \"Mime type\" and \"Type\" ");
         searchPage.clickViewsDropdown();
-        ArrayList<String> expectedViewsDropdown = new ArrayList<>(Arrays.asList("Detailed View", "Gallery View"));
+        List<String> expectedViewsDropdown = List.of("Detailed View", "Gallery View");
         assertEquals(searchPage.getViewsDropdownOptions().toString(), expectedViewsDropdown.toString(), "Views dropdown option=");
 
         searchPage.clickDetailedView();

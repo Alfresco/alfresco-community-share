@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.alfresco.utility.exception.UnrecognizedBrowser;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -36,9 +37,18 @@ public class WebDriverFactory
     {
         webDriver.set(createWebDriverBasedOnBrowserName(properties));
 
-        if (properties.getBrowserName().equalsIgnoreCase(FIREFOX) && !properties.isBrowserHeadless())
+        String browserName = properties.getBrowserName();
+        if (browserName.equalsIgnoreCase(FIREFOX) || browserName.equalsIgnoreCase(CHROME))
         {
-            webDriver.get().manage().window().maximize();
+            if (!properties.isBrowserHeadless())
+            {
+                webDriver.get().manage().window().maximize();
+            }
+            else
+            {
+                // Set explicit dimensions for headless CI runs
+                webDriver.get().manage().window().setSize(new Dimension(1920, 1080));
+            }
         }
         return webDriver.get();
     }
@@ -79,6 +89,7 @@ public class WebDriverFactory
         else
         {
             chromeOptions.addArguments("--headless=new");
+            chromeOptions.addArguments("--window-size=1920,1080");
         }
 
         chromeOptions.setExperimentalOption("excludeSwitches", List.of("enable-automation"));
@@ -120,7 +131,9 @@ public class WebDriverFactory
         boolean isHeadless = properties.isBrowserHeadless();
         if (isHeadless)
         {
-            firefoxOptions.addArguments("--headless=new");
+            firefoxOptions.addArguments("--headless");
+            firefoxOptions.addArguments("--width=1920");
+            firefoxOptions.addArguments("--height=1080");
         }
         return firefoxOptions;
     }

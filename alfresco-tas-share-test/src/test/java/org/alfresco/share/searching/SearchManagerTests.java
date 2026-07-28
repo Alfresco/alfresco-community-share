@@ -282,13 +282,11 @@ public class SearchManagerTests extends BaseTest
             "Only site1 files are displayed on the search results.");
 
         log.info("STEP 8: Click on " + testSite2 + " option.");
-        // getBrowser().navigate().back();
         searchPage.clickFilterOption(testSite2.getTitle(), filterId);
         assertTrue(searchPage.isSearchResultsAsExpected(Arrays.asList(documentName + "3", documentName + "4")),
             "Only site2 files are displayed on the search results.");
 
         log.info("STEP 9: Click on " + testSite3 + " option.");
-        //  getBrowser().navigate().back();
         searchPage.clickFilterOption(testSite3.getTitle(), filterId);
         assertTrue(searchPage.isSearchResultsAsExpected(Arrays.asList(documentName + "5", documentName + "6")),
             "Only site 3 files are displayed on the search results.");
@@ -296,7 +294,7 @@ public class SearchManagerTests extends BaseTest
 
     @TestRail (id = "C6283")
     @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, "SearchTests", ShareGroups.TOBEFIXED}, priority = 4)
-    public void verifyFilterAvailabilityProperty() throws InterruptedException {
+    public void verifyFilterAvailabilityProperty() {
         filterId = String.format("tag-filter%s", RandomData.getRandomAlphanumeric());
         filterName = String.format("tagFilter%s", RandomData.getRandomAlphanumeric());
 
@@ -311,17 +309,22 @@ public class SearchManagerTests extends BaseTest
 
         log.info("STEP 3: Select 'Tag' property for 'Filter Property' field.");
         createNewFilterPopup.selectFromFilterProperty("Tag");
+        createNewFilterPopup.typeNumberOfFilters("7");
+        createNewFilterPopup.typeMinimumFilterLength("3");
+        createNewFilterPopup.typeMinimumRequiredResults("1");
 
         log.info("STEP 4: Go to 'Filter Availability' field and select 'Selected sites' option from the drop-down.");
         createNewFilterPopup.selectInFilterAvailability("Selected sites");
 
         log.info(
             "STEP 5: Click 'Add a new entry' button from 'Sites' section and select 'site1' from the drop-down list with available sites. Click 'Save the current entry' icon for 'site1'.");
-        createNewFilterPopup.addSite(testSite1.getTitle());
+        String testSite1Title = testSite1.getTitle();
+        createNewFilterPopup.addSite(testSite1Title);
 
         log.info(
             "STEP 6: Click 'Add a new entry' button from 'Sites' section and select 'site2' from the drop-down list with available sites. Click 'Save the current entry' icon for 'site2'.");
-        createNewFilterPopup.addSite(testSite2.getTitle());
+        String testSite2Title = testSite2.getTitle();
+        createNewFilterPopup.addSite(testSite2Title);
 
         log.info("STEP 7: Click 'Save' button.");
         createNewFilterPopup.clickSave();
@@ -913,6 +916,10 @@ public class SearchManagerTests extends BaseTest
 
 
         log.info("STEP 2: Go to 'Filter Availability' field and select 'Selected sites' option from the drop-down.");
+        createNewFilterPopup.selectFromFilterProperty("Tag");
+        createNewFilterPopup.typeNumberOfFilters("7");
+        createNewFilterPopup.typeMinimumFilterLength("3");
+        createNewFilterPopup.typeMinimumRequiredResults("3");
         createNewFilterPopup.selectInFilterAvailability("Selected sites");
 
         log.info("STEPS 3-5: Click 'Add a new entry' button from 'Sites' section and select 'site1' from the drop-down list with available sites. Click 'Save the current entry' icon for 'site1'.");

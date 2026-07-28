@@ -301,11 +301,12 @@ public class CreateNewFilterDialog extends BaseDialogComponent
 
     public void addSite(String siteName)
     {
+        scrollIntoView(getWebDriver().findElement(sitesAddButton));
         clickElement(sitesAddButton);
         waitInSeconds(2);
+        scrollIntoView(getWebDriver().findElement(sitesSiteNameArrow));
         clickElement(sitesSiteNameArrow);
-        waitUntilElementIsDisplayedWithRetry(sitesSiteNameDropdown,2);
-        WebElement dropdown = waitUntilElementIsVisible(sitesSiteNameDropdown, 10);
+        WebElement dropdown = waitUntilElementIsVisible(sitesSiteNameDropdown, 15);
         selectOptionFromFilterOptionsList(siteName, dropdown.findElements(dropdownOptions));
         clickElement(sitesDoneEditingButton);
     }

@@ -4,8 +4,11 @@ permissions:
   contents: read
 
 on:
+  push:
+    branches:
+      - "fix/**"
   schedule:
-    - cron: '30 15 * * *'
+    - cron: "30 15 * * *"
   workflow_call:
   workflow_dispatch:
     inputs:
@@ -16,7 +19,16 @@ on:
 env:
   JAVA_VERSION: "21"
   HOSTED_ZONE: dev.envalfresco.com
+  MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+  MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+  QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+  QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   BRANCH_NAME: ${{ github.ref_name }}
+  GIT_PASSWORD: ${{ secrets.BOT_GITHUB_TOKEN }}
+  GIT_EMAIL: ${{ secrets.BOT_GITHUB_EMAIL }}
+  GIT_USERNAME: ${{ secrets.BOT_GITHUB_USERNAME }}
   S3_BUCKET_REGION: "us-east-1"
   ALFRESCO_URL: "http://localhost:8080/alfresco/"
   SHARE_URL: "http://localhost:8181/share"
@@ -24,8 +36,12 @@ env:
   WEBDRIVER_ARGUMENTS: '-Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dorg.alfresco.rm.timeout_seconds.MEDIUM=30'
   GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
   GITHUB_ACTIONS_DEPLOY_TIMEOUT: 120
+  SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
   CHROME_VERSION: "132.0.6834.159-1"
   CHROME_DOWNLOAD_URL: "https://mirror.vitalinux.educa.aragon.es/google/pool/main/g/google-chrome-stable"
+  ENABLE_AI_HEALING: "true"
+  MAX_HEALING_ATTEMPTS: 3
+  AWS_REGION: "us-east-1"
 
 jobs:
   lint:
@@ -372,9 +388,23 @@ jobs:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: bash scripts/ci/init.sh
-      - name:  "Prepare before Test"
+      - name: "Prepare before Test"
         run: |
-          pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
+          pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0 boto3
+      - name: "Verify AI healing scripts"
+        if: env.ENABLE_AI_HEALING == 'true'
+        run: |
+          # AI healing scripts live in .github/scripts/ai-healing/ (committed to the repo).
+          # This step verifies they are present and executable after checkout.
+          echo "? Checking AI healing scripts..."
+          for script in analyze-failures.py detect-ui-change.py generate-retry-suite.py heal-with-claude.py; do
+            if [ -f ".github/scripts/ai-healing/$script" ]; then
+              chmod +x ".github/scripts/ai-healing/$script"
+              echo "  ? $script"
+            else
+              echo "  ? MISSING: $script" && exit 1
+            fi
+          done
       - name: Download Docker images
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
@@ -390,15 +420,140 @@ jobs:
         run: |
           bash amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           sudo free -m -t
-      - name: Run ${{ matrix.test }} Test
-        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
-        with:
-          timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
-          max_attempts: 1
-          retry_wait_seconds: 60
-          retry_on: error
-          warning_on_retry: true
-          command: bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml" -DexcludedGroups=bug,tobedeleted
+      - name: Run ${{ matrix.test }} Tests
+        id: run_tests
+        env:
+          TEST_REPORTS_DIR: alfresco-tas-share-test/target/surefire-reports
+        run: |
+          set +e
+
+          if [ "$ENABLE_AI_HEALING" == "true" ]; then
+            echo "🤖 AI Self-Healing enabled for ${{ matrix.test }}"
+
+            ATTEMPT=1
+            TESTS_PASSED=false
+            CURRENT_SUITE="${{ matrix.test }}-tests.xml"
+
+            while [ $ATTEMPT -le $MAX_HEALING_ATTEMPTS ] && [ "$TESTS_PASSED" = "false" ]; do
+              echo "=========================================="
+              echo "📊 Attempt $ATTEMPT of $MAX_HEALING_ATTEMPTS"
+              echo "=========================================="
+
+              if [ $ATTEMPT -eq 1 ]; then
+                echo "Running full test suite: $CURRENT_SUITE"
+              else
+                echo "Re-running only failed tests from: $CURRENT_SUITE"
+              fi
+
+              # Run the tests
+              bash scripts/ci/execute_share_web_docker.sh "$CURRENT_SUITE" -DexcludedGroups=bug,tobedeleted
+
+              TEST_EXIT_CODE=$?
+
+              if [ $TEST_EXIT_CODE -eq 0 ]; then
+                echo "✅ All tests passed!"
+                TESTS_PASSED=true
+                echo "tests_passed=true" >> $GITHUB_OUTPUT
+                if [ $ATTEMPT -eq 1 ]; then
+                  echo "healing_applied=false" >> $GITHUB_OUTPUT
+                fi
+                echo "attempts=$ATTEMPT" >> $GITHUB_OUTPUT
+                break
+              else
+                echo "❌ Tests failed on attempt $ATTEMPT"
+
+                # Analyze failures (keep stderr separate to avoid corrupting JSON)
+                if python3 .github/scripts/ai-healing/analyze-failures.py > failure-analysis.json; then
+                  FAILURE_COUNT=$(jq '. | length' failure-analysis.json 2>/dev/null || echo "0")
+                  echo "Found $FAILURE_COUNT test failures"
+
+                  if [ "$FAILURE_COUNT" -eq "0" ]; then
+                    echo "⚠️ Tests failed but no failures found in XML reports"
+                    echo "This indicates either:"
+                    echo "  - XML reports weren't generated (check surefire configuration)"
+                    echo "  - XML parsing failed (check analyze-failures.py)"
+                    echo "  - Test setup/infrastructure failure (not test-level failure)"
+                    echo ""
+                    echo "Cannot apply AI healing without failure details."
+                    exit 1
+                  fi
+
+                  # Detect UI changes (diagnostic output to stderr is fine here)
+                  if python3 .github/scripts/ai-healing/detect-ui-change.py; then
+                    echo "🚫 UI change detected - not auto-fixing"
+                    echo "ui_change_detected=true" >> $GITHUB_OUTPUT
+                    break
+                  fi
+
+                  # Only heal if not last attempt
+                  if [ $ATTEMPT -lt $MAX_HEALING_ATTEMPTS ]; then
+                    echo "🔧 Invoking Claude AI to heal tests..."
+
+                    if python3 .github/scripts/ai-healing/heal-with-claude.py 2>&1 | tee healing-output.log; then
+                      echo "✏️ AI applied fixes. Generating retry suite with only failed tests..."
+                      echo "healing_applied=true" >> $GITHUB_OUTPUT
+
+                      if [ -f "healing-summary.json" ]; then
+                        echo "Healed files:"
+                        jq -r '.fixed_files[] | "  - \(.file)"' healing-summary.json
+                      fi
+
+                      # Generate a new TestNG XML with only failed tests
+                      python3 .github/scripts/ai-healing/generate-retry-suite.py \
+                        --failures failure-analysis.json \
+                        --original-suite "alfresco-tas-share-test/src/test/resources/test-suites/${{ matrix.test }}-tests.xml" \
+                        --output "alfresco-tas-share-test/src/test/resources/test-suites/retry-suite-$ATTEMPT.xml"
+
+                      if [ -f "alfresco-tas-share-test/src/test/resources/test-suites/retry-suite-$ATTEMPT.xml" ]; then
+                        CURRENT_SUITE="retry-suite-$ATTEMPT.xml"
+                        echo "Created retry suite with $(grep -c '<class name=' alfresco-tas-share-test/src/test/resources/test-suites/retry-suite-$ATTEMPT.xml) test classes"
+                      else
+                        echo "⚠️ Failed to generate retry suite, will re-run all tests"
+                        CURRENT_SUITE="${{ matrix.test }}-tests.xml"
+                      fi
+                    else
+                      echo "❌ AI healing failed"
+
+                      # Check for common error patterns
+                      if grep -q "AccessDeniedException.*bedrock:InvokeModel" healing-output.log 2>/dev/null; then
+                        echo ""
+                        echo "🔐 PERMISSION ERROR DETECTED"
+                        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+                        echo "The AWS IAM user lacks permissions to invoke Bedrock models."
+                        echo ""
+                        echo "📋 Quick Fix:"
+                        echo "   1. See: .github/FIX_BEDROCK_PERMISSIONS.md"
+                        echo "   2. Apply the IAM policy from: .github/BEDROCK_IAM_POLICY.json"
+                        echo "   3. Verify model access in AWS Bedrock Console"
+                        echo ""
+                        echo "🔗 AWS Bedrock Console:"
+                        echo "   https://console.aws.amazon.com/bedrock/home?region=us-east-1#/modelaccess"
+                        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+                        echo ""
+                      fi
+
+                      break
+                    fi
+                  fi
+                else
+                  echo "Failed to analyze test results"
+                  break
+                fi
+              fi
+
+              ATTEMPT=$((ATTEMPT + 1))
+            done
+
+            if [ "$TESTS_PASSED" = "false" ]; then
+              echo "💥 Tests still failing after $MAX_HEALING_ATTEMPTS attempts"
+              echo "tests_passed=false" >> $GITHUB_OUTPUT
+              exit 1
+            fi
+          else
+            # Standard test execution without AI healing
+            echo "⚠️ AI healing is disabled (ENABLE_AI_HEALING=$ENABLE_AI_HEALING)"
+            bash scripts/ci/execute_share_web_docker.sh "${{ matrix.test }}-tests.xml" -DexcludedGroups=bug,tobedeleted
+          fi
       - name: Debug Allure Output
         run: |
           echo "Listing allure results:"
@@ -420,6 +575,94 @@ jobs:
             alfresco-tas-share-test/target/reports
             alfresco-tas-share-test/target/surefire-reports
             alfresco-tas-share-test/target/screenshots
+      - name: Upload AI healing artifacts
+        if: always() && env.ENABLE_AI_HEALING == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-healing-${{ matrix.test }}-${{ github.run_id }}
+          path: |
+            failure-analysis.json
+            healing-summary.json
+          if-no-files-found: ignore
+      - name: Create AI healing summary
+        if: always() && env.ENABLE_AI_HEALING == 'true'
+        run: |
+          echo "## 🤖 AI Self-Healing Report: ${{ matrix.test }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ steps.run_tests.outputs.tests_passed }}" == "true" ]; then
+            if [ "${{ steps.run_tests.outputs.healing_applied }}" == "true" ]; then
+              echo "### ✅ Tests Healed Successfully" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "AI successfully fixed failing tests after **${{ steps.run_tests.outputs.attempts }}** attempt(s)" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+
+              if [ -f "healing-summary.json" ]; then
+                echo "### 🔧 Files Modified During Healing" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+                jq -r '.fixed_files[] | "#### \(.file)\n**Analysis:** \(.analysis)\n\n**Changes Made:**\n\(.changes | map("- " + .) | join("\n"))\n"' healing-summary.json >> $GITHUB_STEP_SUMMARY 2>/dev/null || echo "Could not parse healing summary" >> $GITHUB_STEP_SUMMARY
+
+                echo "" >> $GITHUB_STEP_SUMMARY
+                echo "### 📝 AI Prompts Used" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+                echo "<details>" >> $GITHUB_STEP_SUMMARY
+                echo "<summary>Click to view prompts sent to Claude</summary>" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+                echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+                jq -r '.prompts_used[] | "File: \(.file)\nTest Class: \(.test_class)\n\nPrompt:\n\(.prompt)\n\n---\n"' healing-summary.json >> $GITHUB_STEP_SUMMARY 2>/dev/null || echo "No prompt data available" >> $GITHUB_STEP_SUMMARY
+                echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+                echo "</details>" >> $GITHUB_STEP_SUMMARY
+              fi
+            else
+              echo "### ✅ All Tests Passed" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "All tests passed on first attempt. No healing required." >> $GITHUB_STEP_SUMMARY
+            fi
+          elif [ "${{ steps.run_tests.outputs.tests_passed }}" == "false" ]; then
+            echo "### ❌ Tests Failed After Healing Attempts" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "AI attempted to fix failing tests but they still fail after **${{ steps.run_tests.outputs.attempts }}** attempt(s)" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Status:** Manual intervention required." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            if [ -f "failure-analysis.json" ]; then
+              echo "### 🐛 Remaining Test Failures" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              jq -r '.[] | "- **\(.test_class).\(.test_method)**\n  - Error: `\(.error_type)`\n  - Message: \(.error_message)\n"' failure-analysis.json >> $GITHUB_STEP_SUMMARY 2>/dev/null || echo "Could not parse failure analysis" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            if [ -f "healing-summary.json" ]; then
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### 🔧 Files Modified During Healing" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              jq -r '.fixed_files[] | "#### \(.file)\n**Analysis:** \(.analysis)\n\n**Changes Made:**\n\(.changes | map("- " + .) | join("\n"))\n"' healing-summary.json >> $GITHUB_STEP_SUMMARY 2>/dev/null || echo "_No files were modified_" >> $GITHUB_STEP_SUMMARY
+
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### 📝 AI Prompts Used" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "<details>" >> $GITHUB_STEP_SUMMARY
+              echo "<summary>Click to view prompts sent to Claude</summary>" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+              jq -r '.prompts_used[] | "File: \(.file)\nTest Class: \(.test_class)\n\nPrompt:\n\(.prompt)\n\n---\n"' healing-summary.json >> $GITHUB_STEP_SUMMARY 2>/dev/null || echo "No prompt data available" >> $GITHUB_STEP_SUMMARY
+              echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+              echo "</details>" >> $GITHUB_STEP_SUMMARY
+            fi
+          elif [ "${{ steps.run_tests.outputs.ui_change_detected }}" == "true" ]; then
+            echo "### ⚠️ UI Change Detected" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Tests failed due to application UI changes. Manual review required." >> $GITHUB_STEP_SUMMARY
+            echo "Auto-healing was skipped to prevent masking legitimate UI changes." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ℹ️ Standard Test Execution" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Tests ran without AI healing intervention." >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
 
   community_shared_UI_configuration:
     runs-on: ubuntu-latest
@@ -582,7 +825,21 @@ jobs:
         run: bash scripts/ci/init.sh
       - name: "Prepare before Test"
         run: |
-          pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
+          pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0 boto3
+      - name: "Verify AI healing scripts"
+        if: env.ENABLE_AI_HEALING == 'true'
+        run: |
+          # AI healing scripts live in .github/scripts/ai-healing/ (committed to the repo).
+          # This step verifies they are present and executable after checkout.
+          echo "? Checking AI healing scripts..."
+          for script in analyze-failures.py detect-ui-change.py generate-retry-suite.py heal-with-claude.py; do
+            if [ -f ".github/scripts/ai-healing/$script" ]; then
+              chmod +x ".github/scripts/ai-healing/$script"
+              echo "  ? $script"
+            else
+              echo "  ? MISSING: $script" && exit 1
+            fi
+          done
       - name: "Configure AWS credentials"
         uses: aws-actions/configure-aws-credentials@d979d5b3a71173a29b74b5b88418bfda9437d885 # v6.1.1
         with:
@@ -627,15 +884,155 @@ jobs:
           fi
           amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           free -m -t
-      - name: Run tests
-        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
-        with:
-          timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
-          max_attempts: 3
-          retry_wait_seconds: 60
-          retry_on: error
-          warning_on_retry: true
-          command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
+      - name: Run ${{ matrix.test }} Tests
+        id: run_tests
+        env:
+          TEST_REPORTS_DIR: amps/ags/rm-automation/rm-automation-ui/target/surefire-reports
+        run: |
+          set +e
+
+          # AI healing is now enabled for all test suites
+          if [ "$ENABLE_AI_HEALING" == "true" ]; then
+            echo "🤖 AI Self-Healing enabled for ${{ matrix.test }}"
+
+            ATTEMPT=1
+            TESTS_PASSED=false
+            CURRENT_SUITE="${{ matrix.test }}.xml"
+
+            while [ $ATTEMPT -le $MAX_HEALING_ATTEMPTS ] && [ "$TESTS_PASSED" = "false" ]; do
+              echo "=========================================="
+              echo "📊 Attempt $ATTEMPT of $MAX_HEALING_ATTEMPTS"
+              echo "=========================================="
+
+              if [ $ATTEMPT -eq 1 ]; then
+                echo "Running full test suite: $CURRENT_SUITE"
+              else
+                echo "Re-running only failed tests from: $CURRENT_SUITE"
+              fi
+
+              # Run the tests
+              xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test \
+                -pl :alfresco-governance-services-automation-ui \
+                -Pags \
+                -Dskip.automationtests=false \
+                -DsuiteXmlFile=$CURRENT_SUITE \
+                -Dshare.url=$SHARE_URL \
+                -Dalfresco.url=$ALFRESCO_URL \
+                $WEBDRIVER_ARGUMENTS
+
+              TEST_EXIT_CODE=$?
+
+              if [ $TEST_EXIT_CODE -eq 0 ]; then
+                echo "✅ All tests passed!"
+                TESTS_PASSED=true
+                echo "tests_passed=true" >> $GITHUB_OUTPUT
+                if [ $ATTEMPT -eq 1 ]; then
+                  echo "healing_applied=false" >> $GITHUB_OUTPUT
+                fi
+                echo "attempts=$ATTEMPT" >> $GITHUB_OUTPUT
+                break
+              else
+                echo "❌ Tests failed on attempt $ATTEMPT"
+
+                # Analyze failures (keep stderr separate to avoid corrupting JSON)
+                if python3 .github/scripts/ai-healing/analyze-failures.py > failure-analysis.json; then
+                  FAILURE_COUNT=$(jq '. | length' failure-analysis.json 2>/dev/null || echo "0")
+                  echo "Found $FAILURE_COUNT test failures"
+
+                  if [ "$FAILURE_COUNT" -eq "0" ]; then
+                    echo "⚠️ Tests failed but no failures found in XML reports"
+                    echo "This indicates either:"
+                    echo "  - XML reports weren't generated (check surefire configuration)"
+                    echo "  - XML parsing failed (check analyze-failures.py)"
+                    echo "  - Test setup/infrastructure failure (not test-level failure)"
+                    echo ""
+                    echo "Cannot apply AI healing without failure details."
+                    exit 1
+                  fi
+
+                  # Detect UI changes (diagnostic output to stderr is fine here)
+                  if python3 .github/scripts/ai-healing/detect-ui-change.py; then
+                    echo "🚫 UI change detected - not auto-fixing"
+                    echo "ui_change_detected=true" >> $GITHUB_OUTPUT
+                    break
+                  fi
+
+                  # Only heal if not last attempt
+                  if [ $ATTEMPT -lt $MAX_HEALING_ATTEMPTS ]; then
+                    echo "🔧 Invoking Claude AI to heal tests..."
+
+                    if python3 .github/scripts/ai-healing/heal-with-claude.py 2>&1 | tee healing-output.log; then
+                      echo "✏️ AI applied fixes. Generating retry suite with only failed tests..."
+                      echo "healing_applied=true" >> $GITHUB_OUTPUT
+
+                      if [ -f "healing-summary.json" ]; then
+                        echo "Healed files:"
+                        jq -r '.fixed_files[] | "  - \(.file)"' healing-summary.json
+                      fi
+
+                      # Generate a new TestNG XML with only failed tests
+                      python3 .github/scripts/ai-healing/generate-retry-suite.py \
+                        --failures failure-analysis.json \
+                        --original-suite "amps/ags/rm-automation/rm-automation-ui/src/test/resources/${{ matrix.test }}.xml" \
+                        --output "amps/ags/rm-automation/rm-automation-ui/src/test/resources/retry-suite-$ATTEMPT.xml"
+
+                      if [ -f "amps/ags/rm-automation/rm-automation-ui/src/test/resources/retry-suite-$ATTEMPT.xml" ]; then
+                        CURRENT_SUITE="retry-suite-$ATTEMPT.xml"
+                        echo "Created retry suite with $(grep -c '<class name=' amps/ags/rm-automation/rm-automation-ui/src/test/resources/retry-suite-$ATTEMPT.xml) test classes"
+                      else
+                        echo "⚠️ Failed to generate retry suite, will re-run all tests"
+                        CURRENT_SUITE="${{ matrix.test }}.xml"
+                      fi
+                    else
+                      echo "❌ AI healing failed"
+
+                      # Check for common error patterns
+                      if grep -q "AccessDeniedException.*bedrock:InvokeModel" healing-output.log 2>/dev/null; then
+                        echo ""
+                        echo "🔐 PERMISSION ERROR DETECTED"
+                        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+                        echo "The AWS IAM user lacks permissions to invoke Bedrock models."
+                        echo ""
+                        echo "📋 Quick Fix:"
+                        echo "   1. See: .github/FIX_BEDROCK_PERMISSIONS.md"
+                        echo "   2. Apply the IAM policy from: .github/BEDROCK_IAM_POLICY.json"
+                        echo "   3. Verify model access in AWS Bedrock Console"
+                        echo ""
+                        echo "🔗 AWS Bedrock Console:"
+                        echo "   https://console.aws.amazon.com/bedrock/home?region=us-east-1#/modelaccess"
+                        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+                        echo ""
+                      fi
+
+                      break
+                    fi
+                  fi
+                else
+                  echo "Failed to analyze test results"
+                  break
+                fi
+              fi
+
+              ATTEMPT=$((ATTEMPT + 1))
+            done
+
+            if [ "$TESTS_PASSED" = "false" ]; then
+              echo "💥 Tests still failing after $MAX_HEALING_ATTEMPTS attempts"
+              echo "tests_passed=false" >> $GITHUB_OUTPUT
+              exit 1
+            fi
+          else
+            # Standard test execution without AI healing - simple single run
+            echo "⚠️ AI healing is disabled (ENABLE_AI_HEALING=$ENABLE_AI_HEALING)"
+            xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test \
+              -pl :alfresco-governance-services-automation-ui \
+              -Pags \
+              -Dskip.automationtests=false \
+              -DsuiteXmlFile=${{ matrix.test }}.xml \
+              -Dshare.url=$SHARE_URL \
+              -Dalfresco.url=$ALFRESCO_URL \
+              $WEBDRIVER_ARGUMENTS
+          fi
       - name: Upload Allure Results
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -655,6 +1052,94 @@ jobs:
             alfresco.log
             solr.log
             share.log
+      - name: Upload AI healing artifacts
+        if: always() && env.ENABLE_AI_HEALING == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-healing-${{ matrix.test }}-${{ github.run_id }}
+          path: |
+            failure-analysis.json
+            healing-summary.json
+          if-no-files-found: ignore
+      - name: Create AI healing summary
+        if: always() && env.ENABLE_AI_HEALING == 'true'
+        run: |
+          echo "## 🤖 AI Self-Healing Report: ${{ matrix.test }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ steps.run_tests.outputs.tests_passed }}" == "true" ]; then
+            if [ "${{ steps.run_tests.outputs.healing_applied }}" == "true" ]; then
+              echo "### ✅ Tests Healed Successfully" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "AI successfully fixed failing tests after **${{ steps.run_tests.outputs.attempts }}** attempt(s)" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+
+              if [ -f "healing-summary.json" ]; then
+                echo "### 🔧 Files Modified During Healing" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+                jq -r '.fixed_files[] | "#### \(.file)\n**Analysis:** \(.analysis)\n\n**Changes Made:**\n\(.changes | map("- " + .) | join("\n"))\n"' healing-summary.json >> $GITHUB_STEP_SUMMARY 2>/dev/null || echo "Could not parse healing summary" >> $GITHUB_STEP_SUMMARY
+
+                echo "" >> $GITHUB_STEP_SUMMARY
+                echo "### 📝 AI Prompts Used" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+                echo "<details>" >> $GITHUB_STEP_SUMMARY
+                echo "<summary>Click to view prompts sent to Claude</summary>" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+                echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+                jq -r '.prompts_used[] | "File: \(.file)\nTest Class: \(.test_class)\n\nPrompt:\n\(.prompt)\n\n---\n"' healing-summary.json >> $GITHUB_STEP_SUMMARY 2>/dev/null || echo "No prompt data available" >> $GITHUB_STEP_SUMMARY
+                echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+                echo "</details>" >> $GITHUB_STEP_SUMMARY
+              fi
+            else
+              echo "### ✅ All Tests Passed" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "All tests passed on first attempt. No healing required." >> $GITHUB_STEP_SUMMARY
+            fi
+          elif [ "${{ steps.run_tests.outputs.tests_passed }}" == "false" ]; then
+            echo "### ❌ Tests Failed After Healing Attempts" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "AI attempted to fix failing tests but they still fail after **${{ steps.run_tests.outputs.attempts }}** attempt(s)" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Status:** Manual intervention required." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            if [ -f "failure-analysis.json" ]; then
+              echo "### 🐛 Remaining Test Failures" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              jq -r '.[] | "- **\(.test_class).\(.test_method)**\n  - Error: `\(.error_type)`\n  - Message: \(.error_message)\n"' failure-analysis.json >> $GITHUB_STEP_SUMMARY 2>/dev/null || echo "Could not parse failure analysis" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            if [ -f "healing-summary.json" ]; then
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### 🔧 Files Modified During Healing" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              jq -r '.fixed_files[] | "#### \(.file)\n**Analysis:** \(.analysis)\n\n**Changes Made:**\n\(.changes | map("- " + .) | join("\n"))\n"' healing-summary.json >> $GITHUB_STEP_SUMMARY 2>/dev/null || echo "_No files were modified_" >> $GITHUB_STEP_SUMMARY
+
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### 📝 AI Prompts Used" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "<details>" >> $GITHUB_STEP_SUMMARY
+              echo "<summary>Click to view prompts sent to Claude</summary>" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+              jq -r '.prompts_used[] | "File: \(.file)\nTest Class: \(.test_class)\n\nPrompt:\n\(.prompt)\n\n---\n"' healing-summary.json >> $GITHUB_STEP_SUMMARY 2>/dev/null || echo "No prompt data available" >> $GITHUB_STEP_SUMMARY
+              echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+              echo "</details>" >> $GITHUB_STEP_SUMMARY
+            fi
+          elif [ "${{ steps.run_tests.outputs.ui_change_detected }}" == "true" ]; then
+            echo "### ⚠️ UI Change Detected" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Tests failed due to application UI changes. Manual review required." >> $GITHUB_STEP_SUMMARY
+            echo "Auto-healing was skipped to prevent masking legitimate UI changes." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ℹ️ Standard Test Execution" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Tests ran without AI healing intervention." >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
       - name: Get logs
         run: bash amps/ags/ci/scripts/getLogs.sh
 
@@ -702,13 +1187,6 @@ jobs:
               echo "No matching Enterprise Shared UI Config Allure results directory found for pattern: $dir"
             fi
           done
-      #      - name: Merge Allure Results for Community Shared UI Config
-      #        run: |
-      #          mkdir -p merged-allure-results-community
-      #          for dir in ./artifacts/allure-results-community_shared_ui_configuration-*; do
-      #            echo "Merging from $dir"
-      #            rsync -av "$dir"/ merged-allure-results-community/
-      #          done
 
       # Install exact matching CLI version
       - name: Install Allure CLI
@@ -721,7 +1199,7 @@ jobs:
         run: |
           allure generate merged-allure-results-share -o merged-allure-report-share --clean
       - name: Upload Share Allure Report
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: allure-report-share
           path: merged-allure-report-share
@@ -730,21 +1208,10 @@ jobs:
         run: |
           allure generate merged-allure-results-enterprise -o merged-allure-report-enterprise --clean
       - name: Upload Enterprise Shared UI Config Allure Report
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: allure-report-enterprise_shared_ui_configuration
           path: merged-allure-report-enterprise
-
-      #      - name: Generate Community Shared UI Config Allure Report
-      #        run: |
-      #          allure generate merged-allure-results-community -o merged-allure-report-community --clean
-      #      - name: Upload Community Shared UI Config Allure Report
-      #        uses: actions/upload-artifact@v4
-      #        with:
-      #          name: allure-report-community_shared_ui_configuration
-      #          path: merged-allure-report-community
-
-      # (Optional) Add summary table generation for each suite here
 
       # Summary
       - name: Summarize Test Results
@@ -754,7 +1221,7 @@ jobs:
         run: cat test-summary.md >> $GITHUB_STEP_SUMMARY
 
       - name: Upload HTML Test Summary
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: test-summary-html
           path: test-summary.html

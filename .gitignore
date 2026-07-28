@@ -1,4 +1,5 @@
 *.class
+*.json
 
 # Eclipse
 .classpath
@@ -42,3 +43,4 @@ amps/ags/rm-automation/src/test/resources/webdriver.properties
 
 # Maven shade plugin auto-generated file
 dependency-reduced-pom.xml
+BRANCH_COMPARISON.md

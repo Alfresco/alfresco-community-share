@@ -70,7 +70,7 @@ public abstract class WebElementInteraction
             log.warn("Unable to perform mouse over element {}", element);
             ((JavascriptExecutor) webDriver.get())
                 .executeScript("arguments[0].scrollIntoView(true);", element);
-            new Actions(getWebDriver()).moveToElement(element).perform();
+            new Actions(getWebDriver()).moveToElement(element).build().perform();
         }
     }
 
