@@ -23,6 +23,7 @@ package org.alfresco.web.site.servlet;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Field;
@@ -286,6 +287,39 @@ public class AIMSFilterTest
         Field field = target.getClass().getDeclaredField(fieldName);
         field.setAccessible(true);
         field.set(target, value);
+    }
+
+    @Test
+    public void refreshSessionId_shouldChangeSessionId() throws Exception
+    {
+        AIMSFilter filter = new AIMSFilter();
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.changeSessionId()).thenReturn("new-session-id");
+
+        Method refreshSessionId = AIMSFilter.class.getDeclaredMethod("refreshSessionId",HttpServletRequest.class);
+        refreshSessionId.setAccessible(true);
+
+        refreshSessionId.invoke(filter, request);
+
+        verify(request).changeSessionId();
+    }
+
+    @Test
+    public void refreshSessionId_shouldSwallowIllegalStateException() throws Exception
+    {
+        AIMSFilter filter = new AIMSFilter();
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.changeSessionId()).thenThrow(new IllegalStateException("no session"));
+
+        Method refreshSessionId = AIMSFilter.class.getDeclaredMethod("refreshSessionId", HttpServletRequest.class);
+        refreshSessionId.setAccessible(true);
+
+        // Should not throw despite changeSessionId() failing.
+        refreshSessionId.invoke(filter, request);
+
+        verify(request).changeSessionId();
     }
 
 }
