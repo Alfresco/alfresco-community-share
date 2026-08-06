@@ -67,16 +67,60 @@ public class Authenticator
         userDashboardPage.waitForSharePageToLoad();
     }
 
+    private static final int LOGIN_MAX_ATTEMPTS = 3;
+    private static final long LOGIN_RETRY_DELAY_MILLIS = 500L;
+
     private void authenticateUsingBrowserCookies(UserModel user, String url)
     {
         navigateToAppUrl(url);
-        HttpState state = getUserService().login(user.getUsername(), user.getPassword());
+        HttpState state = loginWithRetry(user);
         deleteAllCookiesIfNotNull();
 
         Arrays.stream(state.getCookies()).forEach(cookie -> {
             cookie.setPath("/share");
             webDriver.get().manage().addCookie(new Cookie(cookie.getName(), cookie.getValue(), cookie.getPath()));
         });
+    }
+
+    /**
+     * Performs login and retrieves the {@link HttpState} used to seed browser cookies.
+     * The underlying dataprep {@code login()} call can transiently return {@code null}
+     * (e.g. target server not fully up yet in CI), so a few retries are attempted before
+     * failing fast with a descriptive exception instead of letting an NPE surface downstream.
+     */
+    private HttpState loginWithRetry(UserModel user)
+    {
+        HttpState state = null;
+        for (int attempt = 1; attempt <= LOGIN_MAX_ATTEMPTS && state == null; attempt++)
+        {
+            state = getUserService().login(user.getUsername(), user.getPassword());
+            if (state == null && attempt < LOGIN_MAX_ATTEMPTS)
+            {
+                log.warn("Cookie auth login attempt {}/{} for user {} returned no HTTP state, retrying...",
+                    attempt, LOGIN_MAX_ATTEMPTS, user.getUsername());
+                sleepQuietly(LOGIN_RETRY_DELAY_MILLIS);
+            }
+        }
+
+        if (state == null)
+        {
+            throw new AuthenticationFailedException(
+                "Unable to authenticate user '" + user.getUsername() + "' using cookies: login() returned no HTTP "
+                    + "state after " + LOGIN_MAX_ATTEMPTS + " attempts. The target server may not be reachable/ready.");
+        }
+        return state;
+    }
+
+    private void sleepQuietly(long millis)
+    {
+        try
+        {
+            Thread.sleep(millis);
+        }
+        catch (InterruptedException e)
+        {
+            Thread.currentThread().interrupt();
+        }
     }
 
     private void navigateToAppUrl(String url)

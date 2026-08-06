@@ -29,6 +29,7 @@ public class EditBlogPostPage extends CreateBlogPostPage
         switchTo().frame(findElement(iframe));
 
         WebElement element = findElement(tinyMce);
+        clickElement(element);
         clearAndType(element, blogPostContentText);
 
         switchTo().defaultContent();
