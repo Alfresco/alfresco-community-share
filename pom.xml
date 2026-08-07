@@ -51,7 +51,7 @@
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
         <!-- common dependencies-->
-        <dependency.spring.version>7.0.7</dependency.spring.version>
+        <dependency.spring.version>7.0.8</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
 
         <dependency.aikau.version>1.1.5</dependency.aikau.version>
