@@ -26,7 +26,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/maven-dependency-scan@v15.9.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/maven-dependency-scan@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
         with:
           java-version: '21'
           maven-version: '3.9.9'
