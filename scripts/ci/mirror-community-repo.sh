@@ -50,7 +50,8 @@ else:
         and not b"alfresco-enterprise" in change.filename
         and not b"travis" in change.filename
         and not b"Licenses" in change.filename
-        and not b".lic" in change.filename]
+        and not b".lic" in change.filename
+        and not change.filename.startswith(b".github/")]
 '
 
 
