@@ -389,6 +389,61 @@ jobs:
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
 
+  documentation_links_check:
+    name: "Documentation links check"
+    runs-on: ubuntu-latest
+    needs: build
+    if: >
+      !contains(github.event.head_commit.message, '[skip tests]') &&
+      inputs.commitMessage != '[skip tests]' &&
+      !contains(github.event.head_commit.message, '[force') &&
+      inputs.commitMessage != '[force'
+      &&
+      github.event.repository.fork==false
+    env:
+      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    steps:
+      - name: "Generate GitHub App token"
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.GH_APP_ENGINEERING_CONTRIB_CLIENT_ID }}
+          private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
+          owner: Alfresco
+          repositories: alfresco-enterprise-share,alfresco-enterprise-repo
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - name: "Init"
+        run: bash scripts/ci/init.sh
+      - name: "Build"
+        env:
+          APP_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: bash scripts/ci/build.sh
+      # Hits real docs.hyland.com URLs, so a transient docs-site blip shouldn't fail the whole nightly run.
+      - name: Check documentation links resolve
+        continue-on-error: true
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          retry_wait_seconds: 60
+          retry_on: error
+          warning_on_retry: true
+          command: mvn -B test -Pintegration-tests -pl share -DfailIfNoTests=false
+      - name: "Clean Maven cache"
+        run: bash ./scripts/ci/cleanup_cache.sh
+
 
   test:
     runs-on: ubuntu-latest
