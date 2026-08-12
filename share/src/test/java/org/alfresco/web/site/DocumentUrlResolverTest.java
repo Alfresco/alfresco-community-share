@@ -4,12 +4,16 @@ import freemarker.template.SimpleScalar;
 import freemarker.template.TemplateModelException;
 import org.junit.Test;
 import org.mockito.MockedStatic;
+import org.springframework.extensions.surf.RequestContext;
+import org.springframework.extensions.surf.support.ThreadLocalRequestContext;
 import org.springframework.extensions.surf.util.I18NUtil;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.when;
 
 
 public class DocumentUrlResolverTest {
@@ -78,6 +82,82 @@ public class DocumentUrlResolverTest {
             String result = (String) resolver.get("This is a ${key} in a sentence.");
             assertEquals("This is a value in a sentence.", result);
         }
+    }
+
+    @Test
+    public void testResolvePlaceHolders_ComponentLink_EnterpriseEdition() throws Exception {
+        try (MockedStatic<I18NUtil> mockedI18n = mockStatic(I18NUtil.class);
+             MockedStatic<ThreadLocalRequestContext> mockedCtx = mockStatic(ThreadLocalRequestContext.class)) {
+            RequestContext rc = requestContextForEdition(EditionInfo.ENTERPRISE_EDITION);
+            mockedI18n.when(() -> I18NUtil.getMessage("enterprise_link")).thenReturn("&component=Alfresco%20Content%20Services");
+            mockedCtx.when(ThreadLocalRequestContext::getRequestContext).thenReturn(rc);
+            DocumentUrlResolver resolver = new DocumentUrlResolver();
+            String result = (String) resolver.exec(List.of(new SimpleScalar("${acs_component_link}")));
+            assertEquals("&component=Alfresco%20Content%20Services", result);
+        }
+    }
+
+    @Test
+    public void testResolvePlaceHolders_ComponentLink_CommunityEdition() throws Exception {
+        try (MockedStatic<I18NUtil> mockedI18n = mockStatic(I18NUtil.class);
+             MockedStatic<ThreadLocalRequestContext> mockedCtx = mockStatic(ThreadLocalRequestContext.class)) {
+            RequestContext rc = requestContextForEdition(EditionInfo.UNKNOWN_EDITION);
+            mockedI18n.when(() -> I18NUtil.getMessage("community_link")).thenReturn("&component=Alfresco%20Content%20Services%20Community%20Edition");
+            mockedCtx.when(ThreadLocalRequestContext::getRequestContext).thenReturn(rc);
+            DocumentUrlResolver resolver = new DocumentUrlResolver();
+            String result = (String) resolver.exec(List.of(new SimpleScalar("${acs_component_link}")));
+            assertEquals("&component=Alfresco%20Content%20Services%20Community%20Edition", result);
+        }
+    }
+
+    @Test
+    public void testResolvePlaceHolders_GovernanceComponentLink_EnterpriseEdition() throws Exception {
+        try (MockedStatic<I18NUtil> mockedI18n = mockStatic(I18NUtil.class);
+             MockedStatic<ThreadLocalRequestContext> mockedCtx = mockStatic(ThreadLocalRequestContext.class)) {
+            RequestContext rc = requestContextForEdition(EditionInfo.ENTERPRISE_EDITION);
+            mockedI18n.when(() -> I18NUtil.getMessage("enterprise_governance_link")).thenReturn("&component=Alfresco%20Governance%20Services");
+            mockedCtx.when(ThreadLocalRequestContext::getRequestContext).thenReturn(rc);
+            DocumentUrlResolver resolver = new DocumentUrlResolver();
+            String result = (String) resolver.exec(List.of(new SimpleScalar("${ags_component_link}")));
+            assertEquals("&component=Alfresco%20Governance%20Services", result);
+        }
+    }
+
+    @Test
+    public void testResolvePlaceHolders_GovernanceComponentLink_CommunityEdition() throws Exception {
+        try (MockedStatic<I18NUtil> mockedI18n = mockStatic(I18NUtil.class);
+             MockedStatic<ThreadLocalRequestContext> mockedCtx = mockStatic(ThreadLocalRequestContext.class)) {
+            RequestContext rc = requestContextForEdition(EditionInfo.UNKNOWN_EDITION);
+            mockedI18n.when(() -> I18NUtil.getMessage("community_governance_link")).thenReturn("&component=Alfresco%20Governance%20Services%20Community%20Edition");
+            mockedCtx.when(ThreadLocalRequestContext::getRequestContext).thenReturn(rc);
+            DocumentUrlResolver resolver = new DocumentUrlResolver();
+            String result = (String) resolver.exec(List.of(new SimpleScalar("${ags_component_link}")));
+            assertEquals("&component=Alfresco%20Governance%20Services%20Community%20Edition", result);
+        }
+    }
+
+    @Test
+    public void testResolvePlaceHolders_ComponentLink_NoRequestContextFallsBackToEnterprise() throws TemplateModelException {
+        try (MockedStatic<I18NUtil> mockedI18n = mockStatic(I18NUtil.class);
+             MockedStatic<ThreadLocalRequestContext> mockedCtx = mockStatic(ThreadLocalRequestContext.class)) {
+            mockedI18n.when(() -> I18NUtil.getMessage("enterprise_link")).thenReturn("&component=Alfresco%20Content%20Services");
+            mockedCtx.when(ThreadLocalRequestContext::getRequestContext).thenReturn(null);
+            DocumentUrlResolver resolver = new DocumentUrlResolver();
+            String result = (String) resolver.exec(List.of(new SimpleScalar("${acs_component_link}")));
+            assertEquals("&component=Alfresco%20Content%20Services", result);
+        }
+    }
+
+    /**
+     * Builds a mocked RequestContext carrying an EditionInfo for the given licence edition,
+     * the same way EditionInterceptor stashes it on a real request.
+     */
+    private RequestContext requestContextForEdition(String edition) throws org.json.JSONException {
+        String json = "{\"licenseMode\":\"" + edition + "\",\"licenseHolder\":\"UNKNOWN\",\"users\":-1,\"documents\":-1}";
+        EditionInfo editionInfo = new EditionInfo(json);
+        RequestContext rc = mock(RequestContext.class);
+        when(rc.getValue(EditionInterceptor.EDITION_INFO)).thenReturn(editionInfo);
+        return rc;
     }
 
 }

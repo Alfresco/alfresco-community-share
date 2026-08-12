@@ -29,6 +29,8 @@ import freemarker.template.SimpleScalar;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.extensions.surf.RequestContext;
+import org.springframework.extensions.surf.support.ThreadLocalRequestContext;
 import org.springframework.extensions.surf.util.I18NUtil;
 import org.springframework.extensions.webscripts.processor.BaseProcessorExtension;
 import org.springframework.util.CollectionUtils;
@@ -40,6 +42,12 @@ import java.util.regex.Pattern;
 
 public class DocumentUrlResolver extends BaseProcessorExtension implements TemplateMethodModelEx
 {
+    /**
+     * Markers which are dynamically replaced based on license (community vs. enterprise)
+     * in order to point user to correct documentation page.
+     */
+    private static final String ACS_COMPONENT_LINK = "acs_component_link";
+    private static final String AGS_COMPONENT_LINK = "ags_component_link";
 
     private final Pattern PLACEHOLDER_PATTERN = Pattern.compile("\\$\\{([^}]+)}");
 
@@ -95,7 +103,7 @@ public class DocumentUrlResolver extends BaseProcessorExtension implements Templ
         while (matcher.find()) {
             String key = matcher.group(1);
             String replacement;
-            String value = I18NUtil.getMessage(key);
+            String value = I18NUtil.getMessage(resolveMessageKey(key));
             if (StringUtils.isNotEmpty(value)) {
                 replacement = resolvePlaceHolders(value);
                 replaced = true;
@@ -106,5 +114,40 @@ public class DocumentUrlResolver extends BaseProcessorExtension implements Templ
         }
         matcher.appendTail(result);
         return replaced ? resolvePlaceHolders(result.toString()) : result.toString();
+    }
+
+    /**
+     * Maps the generic component placeholder keys to the enterprise/community property key that
+     * matches the connected repository's actual licence edition. Any other key passes through unchanged.
+     */
+    private String resolveMessageKey(String key)
+    {
+        if (ACS_COMPONENT_LINK.equals(key))
+        {
+            return isCommunityEdition() ? "community_link" : "enterprise_link";
+        }
+        if (AGS_COMPONENT_LINK.equals(key))
+        {
+            return isCommunityEdition() ? "community_governance_link" : "enterprise_governance_link";
+        }
+        return key;
+    }
+
+    /**
+     * Mirrors MessagesWebScript.isCommunity() - asks the connected repository's licence edition,
+     * cached on the current request context by EditionInterceptor.
+     */
+    private boolean isCommunityEdition()
+    {
+        final RequestContext rc = ThreadLocalRequestContext.getRequestContext();
+        if (rc != null)
+        {
+            EditionInfo editionInfo = (EditionInfo) rc.getValue(EditionInterceptor.EDITION_INFO);
+            if (editionInfo != null && editionInfo.getValidResponse())
+            {
+                return EditionInterceptor.UNKNOWN_EDITION.equals(editionInfo.getEdition());
+            }
+        }
+        return false;
     }
 }
