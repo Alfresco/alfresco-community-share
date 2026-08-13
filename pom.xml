@@ -101,6 +101,7 @@
         <repo.image.tag>${dependency.alfresco-enterprise-repo.version}</repo.image.tag>
         <docker.quay-expires.value>1w</docker.quay-expires.value>
         <dependency.log4j.version>2.25.4</dependency.log4j.version>
+        <dependency.bouncycastle.version>1.85</dependency.bouncycastle.version>
     </properties>
 
     <scm>
@@ -388,6 +389,27 @@
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
             <version>${dependency.jakarta-annotation-api.version}</version>
+          </dependency>
+
+          <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>${dependency.bouncycastle.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk18on</artifactId>
+            <version>${dependency.bouncycastle.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcutil-jdk18on</artifactId>
+            <version>${dependency.bouncycastle.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcjmail-jdk18on</artifactId>
+            <version>${dependency.bouncycastle.version}</version>
           </dependency>
         </dependencies>
     </dependencyManagement>
