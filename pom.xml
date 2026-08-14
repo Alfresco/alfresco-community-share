@@ -102,6 +102,7 @@
         <repo.image.tag>${dependency.alfresco-enterprise-repo.version}</repo.image.tag>
         <docker.quay-expires.value>1w</docker.quay-expires.value>
         <dependency.log4j.version>2.25.3</dependency.log4j.version>
+        <dependency.netty.version>4.1.137.Final</dependency.netty.version>
         <dependency.bouncycastle.version>1.85</dependency.bouncycastle.version>
     </properties>
 
@@ -121,6 +122,14 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- MNT-25854 - align all transitive netty artifacts on a patched version -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-bom</artifactId>
+                <version>${dependency.netty.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- Override dependencies with the locally defined versions -->
             <dependency>
                 <groupId>org.alfresco</groupId>
