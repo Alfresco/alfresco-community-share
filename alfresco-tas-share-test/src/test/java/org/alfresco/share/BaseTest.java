@@ -113,30 +113,41 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
 
     private void quitWebDriver()
     {
+        WebDriver driver = webDriver.get();
+        if (driver == null)
+        {
+            return;
+        }
+
         try
         {
-            if (webDriver.get() != null)
-            {
-                log.info("Quit webdriver..");
-                webDriver.get().quit();
-            }
+            log.info("Quit webdriver..");
+            driver.quit();
         }
         catch (NoSuchSessionException noSuchSessionException)
         {
-            log.warn("Webdriver is not quit: {}", noSuchSessionException.getMessage());
+            log.warn("Webdriver already closed: {}", noSuchSessionException.getMessage());
         }
         finally
         {
-            log.info("Finally quit webdriver..");
-            webDriver.get().quit();
+            webDriver.remove();
         }
     }
 
     protected synchronized void authenticateUsingCookies(UserModel userModel)
     {
         Authenticator authenticator = new Authenticator(dataAIS, userService, webDriver);
-        authenticator
-            .authenticateUsingCookies(userModel, userDashboardPage, defaultProperties.getShareUrl().toString());
+        try
+        {
+            authenticator
+                .authenticateUsingCookies(userModel, userDashboardPage, defaultProperties.getShareUrl().toString());
+        }
+        catch (AuthenticationFailedException ex)
+        {
+            log.warn("Cookie authentication failed for user {}, falling back to login page auth: {}",
+                userModel.getUsername(), ex.getMessage());
+            authenticateUsingLoginPage(userModel);
+        }
     }
 
     protected synchronized void authenticateUsingLoginPage(UserModel userModel)

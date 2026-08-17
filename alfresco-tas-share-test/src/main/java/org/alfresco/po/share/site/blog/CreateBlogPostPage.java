@@ -61,6 +61,7 @@ public class CreateBlogPostPage extends SiteCommon<CreateBlogPostPage>
     {
         switchTo().frame(findElement(By.xpath("//div[@class = 'mce-edit-area mce-container mce-panel mce-stack-layout-item']//iframe")));
         WebElement element = findElement(By.id("tinymce"));
+        clickElement(element);
         element.sendKeys(blogPostContentText);
         switchTo().defaultContent();
         return this;
