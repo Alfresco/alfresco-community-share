@@ -50,6 +50,7 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
     {
         switchTo().frame(findElement(wikiPageContent));
         WebElement editable = switchTo().activeElement();
+        clickElement(editable);
         editable.sendKeys(content);
         switchTo().defaultContent();
     }
