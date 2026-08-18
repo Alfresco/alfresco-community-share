@@ -538,6 +538,34 @@
          form.appendChild(input);
          input.name = "nodeRefs";
          input.value = Alfresco.rm.dataTableSelectedItems(this.widgets.dataTable);
+
+         // Additionally embed the on-screen results table as a CSV inside the ACP.
+         // The webscript accepts an optional "items" JSON string form field
+         // containing the displayed headers/rows (metadata only, no content).
+         // If the table cannot be built, we omit "items" and fall back to a
+         // plain ACP export (unchanged behaviour).
+         try
+         {
+            var headers = this._getDisplayedColumnLabels();
+            if (headers && headers.length > 0)
+            {
+               var rows = this._getDisplayedRowValues();
+               var itemsInput = document.createElement("input");
+               itemsInput.type = "hidden";
+               itemsInput.name = "items";
+               itemsInput.value = YAHOO.lang.JSON.stringify({ headers: headers, rows: rows });
+               form.appendChild(itemsInput);
+            }
+         }
+         catch (ex)
+         {
+            // Fall back to plain ACP export (no CSV) if the table can't be built
+            if (Alfresco.logger && Alfresco.logger.warn)
+            {
+               Alfresco.logger.warn("RecordsSearch.onExport: could not build CSV items, exporting plain ACP.", ex);
+            }
+         }
+
          form.submit();
       },
 
