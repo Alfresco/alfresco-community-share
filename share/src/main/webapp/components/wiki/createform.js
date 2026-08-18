@@ -105,29 +105,6 @@
             siteId: this.options.siteId
          });
 
-         // TinyMCE
-         this.widgets.editor = Alfresco.util.createImageEditor(this.id + '-content',
-         {
-            height: 300,
-            toolbar: "styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview fullscreen | alfresco-imagelibrary alfresco-linklibrary",
-            extended_valid_elements : "style[type]",
-            valid_children : "+body[style]",
-            siteId: this.options.siteId,
-            language: this.options.locale
-         });
-         
-         // This callback method is passed through for handling onbeforeunload events to stop the dialog being
-         // shown when a page save is requested. This is because the dialog is only required if the user is 
-         // navigating away from the page *without* saving it. They shouldn't be warned when attempting to save.
-         var _this = this;
-         var unloadCallback = function() 
-         {
-            return _this._showUnloadDialog; // This value gets toggled when saving the page.
-         }
-         
-         this.widgets.editor.addPageUnloadBehaviour(this.msg("message.unsavedChanges.wiki"), unloadCallback);
-         this.widgets.editor.render();
-
          this.widgets.saveButton = new YAHOO.widget.Button(this.id + "-save-button",
          {
             type: "submit"
@@ -139,7 +116,8 @@
             type: "link"
          });
 
-         // Create the form that does the validation/submit
+         // Register the form before the editor so AJAX submit (with CSRF token) is always
+         // active even if TinyMCE fails to initialize.
          this.widgets.form = new Alfresco.forms.Form(this.id + "-form");
          var form = this.widgets.form;
          form.addValidation(this.id + "-title", Alfresco.forms.validation.mandatory, null, "blur");
@@ -174,7 +152,10 @@
                // Disable save button to prevent double-submission
                this.widgets.saveButton.set("disabled", true);
                // Put the HTML back into the text area
-               this.widgets.editor.save();
+               if (this.widgets.editor)
+               {
+                  this.widgets.editor.save();
+               }
                // Update the tags set in the form
                this.tagLibrary.updateForm(this.id + "-form", "tags");
 
@@ -203,6 +184,38 @@
 
          this.tagLibrary.initialize(form);
          form.init();
+
+         // TinyMCE
+         try
+         {
+            this.widgets.editor = Alfresco.util.createImageEditor(this.id + '-content',
+            {
+               height: 300,
+               toolbar: "blocks | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image emoticons codesample | preview print fullscreen | alfresco-imagelibrary alfresco-linklibrary",
+               extended_valid_elements : "style[type]",
+               valid_children : "+body[style]",
+               siteId: this.options.siteId,
+               language: this.options.locale
+            });
+
+            // This callback method is passed through for handling onbeforeunload events to stop the dialog being
+            // shown when a page save is requested. This is because the dialog is only required if the user is
+            // navigating away from the page *without* saving it. They shouldn't be warned when attempting to save.
+            var _this = this;
+            var unloadCallback = function()
+            {
+               return _this._showUnloadDialog; // This value gets toggled when saving the page.
+            };
+
+            this.widgets.editor.addPageUnloadBehaviour(this.msg("message.unsavedChanges.wiki"), unloadCallback);
+            this.widgets.editor.render();
+         }
+         catch (e)
+         {
+            Alfresco.logger.error("Failed to initialize wiki editor", e);
+            this.widgets.editor = null;
+         }
+
          Dom.get(this.id + "-title").focus();
       },
 

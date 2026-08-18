@@ -1,6 +1,7 @@
 package org.alfresco.po.share.site.blog;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.TinyMce.TinyMceEditor;
@@ -15,7 +16,7 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
     private final By addCommentButton = By.xpath("//button[contains(@id, '_default-add-submit-button')]");
     private final By saveButtonEditCommentWindow = By.xpath("//button[text()='Save']");
     private final By cancelButtonEditCommentWindow = By.xpath("(//button[text()='Cancel'])[2]");
-    private final By editorIframe = By.xpath("//div[@class = 'comment-form']//form[contains(@id, '_default-add-form')]//div[@class = 'mce-tinymce mce-container mce-panel']//iframe");
+    private final By editorIframe = By.className("tox-edit-area__iframe");
     private final By editor = By.id("tinymce");
 
     private final String commentBoxLabel = "//div[@class = 'comment-form']//h2[text()='%s']";
@@ -36,6 +37,7 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
         log.info("Write post comment {}", postComment);
         switchTo().frame(findElement(editorIframe));
         WebElement addCommentEditor = findElement(editor);
+        clickElement(addCommentEditor);
         clearAndType(addCommentEditor, postComment);
         switchTo().defaultContent();
         return this;
@@ -53,6 +55,7 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
     {
         log.info("Add post comment");
         clickElement(addCommentButton);
+        waitUntilElementDisappears(editorIframe);
         waitUntilNotificationMessageDisappears();
         return this;
     }
@@ -69,6 +72,16 @@ public class BlogPromptWindow extends SiteCommon<BlogPromptWindow>
         log.info("Save edited comment");
         clickElement(cancelButtonEditCommentWindow);
         waitUntilNotificationMessageDisappears();
+    }
+
+    public BlogPromptWindow assertCommentExists(String comment)
+    {
+        log.info("Assert comment exists {}", comment);
+        String escapedComment = org.openqa.selenium.support.ui.Quotes.escape(comment);
+        By commentLocator = By.xpath(String.format("//div[contains(@class, 'comment-content')][.//p[normalize-space(text())=%s]]", escapedComment));
+        WebElement commentElement = waitUntilElementIsVisible(commentLocator);
+        assertTrue(commentElement.isDisplayed(), String.format("Comment is not displayed: %s", comment));
+        return this;
     }
 
     public BlogPromptWindow editComment(String comment)

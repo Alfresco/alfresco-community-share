@@ -36,7 +36,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     private final By commentsList              = By.cssSelector(".comment-content");
     private final By commentDetailsList        = By.cssSelector(".comment-details");
     private final By cancelSubmitCommentButton = By.cssSelector("[id*=default-add-cancel-button]");
-    private final By commentContentIframe      = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
+    private final By commentContentIframe      = By.className("tox-edit-area__iframe");
     private final By noComment                 = By.cssSelector(".yui-dt-empty .yui-dt-liner");
     private final By saveButton                =
         By.cssSelector("#template_x002e_comments_x002e_links-view_x0023_default-yui-rec5-submit-button");
@@ -273,6 +273,7 @@ public class LinkDetailsViewPage extends SiteCommon<LinkDetailsViewPage>
     {
         switchTo().frame(findElement(commentContentIEditframe));
         WebElement editable = switchTo().activeElement();
+        clickElement(editable);
         editable.sendKeys(comment);
         switchTo().defaultContent();
         clickElement(saveButton);

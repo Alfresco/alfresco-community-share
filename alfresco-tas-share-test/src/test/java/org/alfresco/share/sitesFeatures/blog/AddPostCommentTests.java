@@ -3,8 +3,6 @@ package org.alfresco.share.sitesFeatures.blog;
 import static org.alfresco.po.enums.BlogPostFilters.ALL_POSTS;
 import static org.alfresco.po.enums.BlogPostFilters.LATEST_POSTS;
 import static org.alfresco.po.enums.BlogPostFilters.MY_DRAFTS_POSTS;
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
-
 import org.alfresco.constants.ShareGroups;
 import org.alfresco.dataprep.DashboardCustomization.Page;
 import org.alfresco.dataprep.SitePagesService;
@@ -15,6 +13,7 @@ import org.alfresco.po.share.site.blog.BlogPromptWindow;
 import org.alfresco.share.BaseTest;
 import org.alfresco.test.AlfrescoTest;
 import org.alfresco.testrail.TestRail;
+import org.alfresco.utility.data.RandomData;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
@@ -28,9 +27,11 @@ public class AddPostCommentTests extends BaseTest
     private final String ADD_YOUR_COMMENT_LABEL = "Add Your Comment...";
     private final String EXPECTED_NUMBER_OF_REPLIES = "1";
 
-    private final String postTitle = "Post Title ".concat(randomAlphanumeric(5));
-    private final String postContent = "Post Content ".concat(randomAlphanumeric(5));
-    private final String postComment = "Post Comment ".concat(randomAlphanumeric(5));
+    private String randomString = RandomData.getRandomAlphanumeric();
+
+    private final String postTitle = "Post Title ".concat(randomString);
+    private final String postContent = "Post Content ".concat(randomString);
+    private final String postComment = "Post Comment ".concat(randomString);
 
     @Autowired
     private SiteService siteService;
@@ -81,7 +82,7 @@ public class AddPostCommentTests extends BaseTest
             .assertCommentBoxLabelEqualsTo(ADD_YOUR_COMMENT_LABEL)
             .writePostComment(postComment)
             .addPostComment();
-
+        blogPromptWindow.assertCommentExists(postComment);
         blogPostViewPage
             .navigateBackToBlogList()
             .assertPostNumberOfRepliesEqualTo(postTitle, EXPECTED_NUMBER_OF_REPLIES);

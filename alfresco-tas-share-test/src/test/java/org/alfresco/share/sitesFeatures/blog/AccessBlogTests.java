@@ -134,7 +134,6 @@ public class AccessBlogTests extends BaseTest
         tags.add(tag);
         sitePagesService.createBlogPost(userModel.get().getUsername(), userModel.get().getPassword(),
             siteModel.get().getId(), blogTitle, blogContent, false, tags);
-
         authorValue = userModel.get().getFirstName().concat(EMPTY_SPACE).concat(userModel.get().getLastName());
         blogPostListPage.navigate(siteModel.get());
 

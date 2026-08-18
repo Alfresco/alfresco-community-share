@@ -1,94 +1,98 @@
+/**
+ * TinyMCE version 8.7.0 (2026-07-01)
+ */
+
 (function () {
-var code = (function () {
     'use strict';
 
     var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
-    var global$1 = tinymce.util.Tools.resolve('tinymce.dom.DOMUtils');
-
-    var getMinWidth = function (editor) {
-      return editor.getParam('code_dialog_width', 600);
+    const setContent = (editor, html) => {
+        // We get a lovely "Wrong document" error in IE 11 if we
+        // don't move the focus to the editor before creating an undo
+        // transaction since it tries to make a bookmark for the current selection
+        editor.focus();
+        editor.undoManager.transact(() => {
+            editor.setContent(html);
+        });
+        editor.selection.setCursorLocation();
+        editor.nodeChanged();
     };
-    var getMinHeight = function (editor) {
-      return editor.getParam('code_dialog_height', Math.min(global$1.DOM.getViewPort().h - 200, 500));
-    };
-    var Settings = {
-      getMinWidth: getMinWidth,
-      getMinHeight: getMinHeight
-    };
-
-    var setContent = function (editor, html) {
-      editor.focus();
-      editor.undoManager.transact(function () {
-        editor.setContent(html);
-      });
-      editor.selection.setCursorLocation();
-      editor.nodeChanged();
-    };
-    var getContent = function (editor) {
-      return editor.getContent({ source_view: true });
-    };
-    var Content = {
-      setContent: setContent,
-      getContent: getContent
+    const getContent = (editor) => {
+        return editor.getContent({ source_view: true });
     };
 
-    var open = function (editor) {
-      var minWidth = Settings.getMinWidth(editor);
-      var minHeight = Settings.getMinHeight(editor);
-      var win = editor.windowManager.open({
-        title: 'Source code',
-        body: {
-          type: 'textbox',
-          name: 'code',
-          multiline: true,
-          minWidth: minWidth,
-          minHeight: minHeight,
-          spellcheck: false,
-          style: 'direction: ltr; text-align: left'
-        },
-        onSubmit: function (e) {
-          Content.setContent(editor, e.data.code);
-        }
-      });
-      win.find('#code').value(Content.getContent(editor));
+    const open = (editor) => {
+        const editorContent = getContent(editor);
+        editor.windowManager.open({
+            title: 'Source Code',
+            size: 'large',
+            body: {
+                type: 'panel',
+                items: [
+                    {
+                        type: 'textarea',
+                        name: 'code',
+                        spellcheck: false,
+                    }
+                ]
+            },
+            buttons: [
+                {
+                    type: 'cancel',
+                    name: 'cancel',
+                    text: 'Cancel'
+                },
+                {
+                    type: 'submit',
+                    name: 'save',
+                    text: 'Save',
+                    primary: true
+                }
+            ],
+            initialData: {
+                code: editorContent
+            },
+            onSubmit: (api) => {
+                setContent(editor, api.getData().code);
+                api.close();
+            }
+        });
     };
-    var Dialog = { open: open };
 
-    var register = function (editor) {
-      editor.addCommand('mceCodeEditor', function () {
-        Dialog.open(editor);
-      });
+    const register$1 = (editor) => {
+        editor.addCommand('mceCodeEditor', () => {
+            open(editor);
+        });
     };
-    var Commands = { register: register };
 
-    var register$1 = function (editor) {
-      editor.addButton('code', {
-        icon: 'code',
-        tooltip: 'Source code',
-        onclick: function () {
-          Dialog.open(editor);
-        }
-      });
-      editor.addMenuItem('code', {
-        icon: 'code',
-        text: 'Source code',
-        onclick: function () {
-          Dialog.open(editor);
-        }
-      });
+    const register = (editor) => {
+        const onAction = () => editor.execCommand('mceCodeEditor');
+        editor.ui.registry.addButton('code', {
+            icon: 'sourcecode',
+            tooltip: 'Source code',
+            onAction
+        });
+        editor.ui.registry.addMenuItem('code', {
+            icon: 'sourcecode',
+            text: 'Source code',
+            onAction
+        });
     };
-    var Buttons = { register: register$1 };
 
-    global.add('code', function (editor) {
-      Commands.register(editor);
-      Buttons.register(editor);
-      return {};
-    });
-    function Plugin () {
-    }
+    var Plugin = () => {
+        global.add('code', (editor) => {
+            register$1(editor);
+            register(editor);
+            return {};
+        });
+    };
 
-    return Plugin;
+    Plugin();
+    /** *****
+     * DO NOT EXPORT ANYTHING
+     *
+     * IF YOU DO ROLLUP WILL LEAVE A GLOBAL ON THE PAGE
+     *******/
 
-}());
 })();

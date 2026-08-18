@@ -1,659 +1,827 @@
+/**
+ * TinyMCE version 8.7.0 (2026-07-01)
+ */
+
 (function () {
-var help = (function () {
     'use strict';
 
-    var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
-
-    var noop = function () {
-    };
-    var constant = function (value) {
-      return function () {
-        return value;
-      };
-    };
-    function curry(fn) {
-      var initialArgs = [];
-      for (var _i = 1; _i < arguments.length; _i++) {
-        initialArgs[_i - 1] = arguments[_i];
-      }
-      return function () {
-        var restArgs = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-          restArgs[_i] = arguments[_i];
+    /* eslint-disable @typescript-eslint/no-wrapper-object-types */
+    const hasProto = (v, constructor, predicate) => {
+        if (predicate(v, constructor.prototype)) {
+            return true;
         }
-        var all = initialArgs.concat(restArgs);
-        return fn.apply(null, all);
-      };
-    }
-    var not = function (f) {
-      return function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-          args[_i] = arguments[_i];
+        else {
+            // String-based fallback time
+            return v.constructor?.name === constructor.name;
         }
-        return !f.apply(null, args);
-      };
     };
-    var never = constant(false);
-    var always = constant(true);
-
-    var none = function () {
-      return NONE;
-    };
-    var NONE = function () {
-      var eq = function (o) {
-        return o.isNone();
-      };
-      var call = function (thunk) {
-        return thunk();
-      };
-      var id = function (n) {
-        return n;
-      };
-      var me = {
-        fold: function (n, s) {
-          return n();
-        },
-        is: never,
-        isSome: never,
-        isNone: always,
-        getOr: id,
-        getOrThunk: call,
-        getOrDie: function (msg) {
-          throw new Error(msg || 'error: getOrDie called on none.');
-        },
-        getOrNull: constant(null),
-        getOrUndefined: constant(undefined),
-        or: id,
-        orThunk: call,
-        map: none,
-        each: noop,
-        bind: none,
-        exists: never,
-        forall: always,
-        filter: none,
-        equals: eq,
-        equals_: eq,
-        toArray: function () {
-          return [];
-        },
-        toString: constant('none()')
-      };
-      if (Object.freeze) {
-        Object.freeze(me);
-      }
-      return me;
-    }();
-    var some = function (a) {
-      var constant_a = constant(a);
-      var self = function () {
-        return me;
-      };
-      var bind = function (f) {
-        return f(a);
-      };
-      var me = {
-        fold: function (n, s) {
-          return s(a);
-        },
-        is: function (v) {
-          return a === v;
-        },
-        isSome: always,
-        isNone: never,
-        getOr: constant_a,
-        getOrThunk: constant_a,
-        getOrDie: constant_a,
-        getOrNull: constant_a,
-        getOrUndefined: constant_a,
-        or: self,
-        orThunk: self,
-        map: function (f) {
-          return some(f(a));
-        },
-        each: function (f) {
-          f(a);
-        },
-        bind: bind,
-        exists: bind,
-        forall: bind,
-        filter: function (f) {
-          return f(a) ? me : NONE;
-        },
-        toArray: function () {
-          return [a];
-        },
-        toString: function () {
-          return 'some(' + a + ')';
-        },
-        equals: function (o) {
-          return o.is(a);
-        },
-        equals_: function (o, elementEq) {
-          return o.fold(never, function (b) {
-            return elementEq(a, b);
-          });
+    const typeOf = (x) => {
+        const t = typeof x;
+        if (x === null) {
+            return 'null';
         }
-      };
-      return me;
-    };
-    var from = function (value) {
-      return value === null || value === undefined ? NONE : some(value);
-    };
-    var Option = {
-      some: some,
-      none: none,
-      from: from
-    };
-
-    var typeOf = function (x) {
-      if (x === null) {
-        return 'null';
-      }
-      var t = typeof x;
-      if (t === 'object' && (Array.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'Array')) {
-        return 'array';
-      }
-      if (t === 'object' && (String.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'String')) {
-        return 'string';
-      }
-      return t;
-    };
-    var isType = function (type) {
-      return function (value) {
-        return typeOf(value) === type;
-      };
-    };
-    var isFunction = isType('function');
-
-    var nativeSlice = Array.prototype.slice;
-    var nativeIndexOf = Array.prototype.indexOf;
-    var rawIndexOf = function (ts, t) {
-      return nativeIndexOf.call(ts, t);
-    };
-    var contains = function (xs, x) {
-      return rawIndexOf(xs, x) > -1;
-    };
-    var map = function (xs, f) {
-      var len = xs.length;
-      var r = new Array(len);
-      for (var i = 0; i < len; i++) {
-        var x = xs[i];
-        r[i] = f(x, i);
-      }
-      return r;
-    };
-    var filter = function (xs, pred) {
-      var r = [];
-      for (var i = 0, len = xs.length; i < len; i++) {
-        var x = xs[i];
-        if (pred(x, i)) {
-          r.push(x);
+        else if (t === 'object' && Array.isArray(x)) {
+            return 'array';
         }
-      }
-      return r;
-    };
-    var find = function (xs, pred) {
-      for (var i = 0, len = xs.length; i < len; i++) {
-        var x = xs[i];
-        if (pred(x, i)) {
-          return Option.some(x);
+        else if (t === 'object' && hasProto(x, String, (o, proto) => proto.isPrototypeOf(o))) {
+            return 'string';
         }
-      }
-      return Option.none();
-    };
-    var from$1 = isFunction(Array.from) ? Array.from : function (x) {
-      return nativeSlice.call(x);
-    };
-
-    var global$1 = tinymce.util.Tools.resolve('tinymce.util.I18n');
-
-    var global$2 = tinymce.util.Tools.resolve('tinymce.Env');
-
-    var meta = global$2.mac ? '\u2318' : 'Ctrl';
-    var access = global$2.mac ? 'Ctrl + Alt' : 'Shift + Alt';
-    var shortcuts = [
-      {
-        shortcut: meta + ' + B',
-        action: 'Bold'
-      },
-      {
-        shortcut: meta + ' + I',
-        action: 'Italic'
-      },
-      {
-        shortcut: meta + ' + U',
-        action: 'Underline'
-      },
-      {
-        shortcut: meta + ' + A',
-        action: 'Select all'
-      },
-      {
-        shortcut: meta + ' + Y or ' + meta + ' + Shift + Z',
-        action: 'Redo'
-      },
-      {
-        shortcut: meta + ' + Z',
-        action: 'Undo'
-      },
-      {
-        shortcut: access + ' + 1',
-        action: 'Header 1'
-      },
-      {
-        shortcut: access + ' + 2',
-        action: 'Header 2'
-      },
-      {
-        shortcut: access + ' + 3',
-        action: 'Header 3'
-      },
-      {
-        shortcut: access + ' + 4',
-        action: 'Header 4'
-      },
-      {
-        shortcut: access + ' + 5',
-        action: 'Header 5'
-      },
-      {
-        shortcut: access + ' + 6',
-        action: 'Header 6'
-      },
-      {
-        shortcut: access + ' + 7',
-        action: 'Paragraph'
-      },
-      {
-        shortcut: access + ' + 8',
-        action: 'Div'
-      },
-      {
-        shortcut: access + ' + 9',
-        action: 'Address'
-      },
-      {
-        shortcut: 'Alt + F9',
-        action: 'Focus to menubar'
-      },
-      {
-        shortcut: 'Alt + F10',
-        action: 'Focus to toolbar'
-      },
-      {
-        shortcut: 'Alt + F11',
-        action: 'Focus to element path'
-      },
-      {
-        shortcut: 'Ctrl + F9',
-        action: 'Focus to contextual toolbar'
-      },
-      {
-        shortcut: meta + ' + K',
-        action: 'Insert link (if link plugin activated)'
-      },
-      {
-        shortcut: meta + ' + S',
-        action: 'Save (if save plugin activated)'
-      },
-      {
-        shortcut: meta + ' + F',
-        action: 'Find (if searchreplace plugin activated)'
-      }
-    ];
-    var KeyboardShortcuts = { shortcuts: shortcuts };
-
-    var makeTab = function () {
-      var makeAriaLabel = function (shortcut) {
-        return 'aria-label="Action: ' + shortcut.action + ', Shortcut: ' + shortcut.shortcut.replace(/Ctrl/g, 'Control') + '"';
-      };
-      var shortcutLisString = map(KeyboardShortcuts.shortcuts, function (shortcut) {
-        return '<tr data-mce-tabstop="1" tabindex="-1" ' + makeAriaLabel(shortcut) + '>' + '<td>' + global$1.translate(shortcut.action) + '</td>' + '<td>' + shortcut.shortcut + '</td>' + '</tr>';
-      }).join('');
-      return {
-        title: 'Handy Shortcuts',
-        type: 'container',
-        style: 'overflow-y: auto; overflow-x: hidden; max-height: 250px',
-        items: [{
-            type: 'container',
-            html: '<div>' + '<table class="mce-table-striped">' + '<thead>' + '<th>' + global$1.translate('Action') + '</th>' + '<th>' + global$1.translate('Shortcut') + '</th>' + '</thead>' + shortcutLisString + '</table>' + '</div>'
-          }]
-      };
-    };
-    var KeyboardShortcutsTab = { makeTab: makeTab };
-
-    var keys = Object.keys;
-
-    var supplant = function (str, obj) {
-      var isStringOrNumber = function (a) {
-        var t = typeof a;
-        return t === 'string' || t === 'number';
-      };
-      return str.replace(/\$\{([^{}]*)\}/g, function (fullMatch, key) {
-        var value = obj[key];
-        return isStringOrNumber(value) ? value.toString() : fullMatch;
-      });
-    };
-
-    var urls = [
-      {
-        key: 'advlist',
-        name: 'Advanced List'
-      },
-      {
-        key: 'anchor',
-        name: 'Anchor'
-      },
-      {
-        key: 'autolink',
-        name: 'Autolink'
-      },
-      {
-        key: 'autoresize',
-        name: 'Autoresize'
-      },
-      {
-        key: 'autosave',
-        name: 'Autosave'
-      },
-      {
-        key: 'bbcode',
-        name: 'BBCode'
-      },
-      {
-        key: 'charmap',
-        name: 'Character Map'
-      },
-      {
-        key: 'code',
-        name: 'Code'
-      },
-      {
-        key: 'codesample',
-        name: 'Code Sample'
-      },
-      {
-        key: 'colorpicker',
-        name: 'Color Picker'
-      },
-      {
-        key: 'compat3x',
-        name: '3.x Compatibility'
-      },
-      {
-        key: 'contextmenu',
-        name: 'Context Menu'
-      },
-      {
-        key: 'directionality',
-        name: 'Directionality'
-      },
-      {
-        key: 'emoticons',
-        name: 'Emoticons'
-      },
-      {
-        key: 'fullpage',
-        name: 'Full Page'
-      },
-      {
-        key: 'fullscreen',
-        name: 'Full Screen'
-      },
-      {
-        key: 'help',
-        name: 'Help'
-      },
-      {
-        key: 'hr',
-        name: 'Horizontal Rule'
-      },
-      {
-        key: 'image',
-        name: 'Image'
-      },
-      {
-        key: 'imagetools',
-        name: 'Image Tools'
-      },
-      {
-        key: 'importcss',
-        name: 'Import CSS'
-      },
-      {
-        key: 'insertdatetime',
-        name: 'Insert Date/Time'
-      },
-      {
-        key: 'legacyoutput',
-        name: 'Legacy Output'
-      },
-      {
-        key: 'link',
-        name: 'Link'
-      },
-      {
-        key: 'lists',
-        name: 'Lists'
-      },
-      {
-        key: 'media',
-        name: 'Media'
-      },
-      {
-        key: 'nonbreaking',
-        name: 'Nonbreaking'
-      },
-      {
-        key: 'noneditable',
-        name: 'Noneditable'
-      },
-      {
-        key: 'pagebreak',
-        name: 'Page Break'
-      },
-      {
-        key: 'paste',
-        name: 'Paste'
-      },
-      {
-        key: 'preview',
-        name: 'Preview'
-      },
-      {
-        key: 'print',
-        name: 'Print'
-      },
-      {
-        key: 'save',
-        name: 'Save'
-      },
-      {
-        key: 'searchreplace',
-        name: 'Search and Replace'
-      },
-      {
-        key: 'spellchecker',
-        name: 'Spell Checker'
-      },
-      {
-        key: 'tabfocus',
-        name: 'Tab Focus'
-      },
-      {
-        key: 'table',
-        name: 'Table'
-      },
-      {
-        key: 'template',
-        name: 'Template'
-      },
-      {
-        key: 'textcolor',
-        name: 'Text Color'
-      },
-      {
-        key: 'textpattern',
-        name: 'Text Pattern'
-      },
-      {
-        key: 'toc',
-        name: 'Table of Contents'
-      },
-      {
-        key: 'visualblocks',
-        name: 'Visual Blocks'
-      },
-      {
-        key: 'visualchars',
-        name: 'Visual Characters'
-      },
-      {
-        key: 'wordcount',
-        name: 'Word Count'
-      }
-    ];
-    var PluginUrls = { urls: urls };
-
-    var makeLink = curry(supplant, '<a href="${url}" target="_blank" rel="noopener">${name}</a>');
-    var maybeUrlize = function (editor, key) {
-      return find(PluginUrls.urls, function (x) {
-        return x.key === key;
-      }).fold(function () {
-        var getMetadata = editor.plugins[key].getMetadata;
-        return typeof getMetadata === 'function' ? makeLink(getMetadata()) : key;
-      }, function (x) {
-        return makeLink({
-          name: x.name,
-          url: 'https://www.tinymce.com/docs/plugins/' + x.key
-        });
-      });
-    };
-    var getPluginKeys = function (editor) {
-      var keys$1 = keys(editor.plugins);
-      return editor.settings.forced_plugins === undefined ? keys$1 : filter(keys$1, not(curry(contains, editor.settings.forced_plugins)));
-    };
-    var pluginLister = function (editor) {
-      var pluginKeys = getPluginKeys(editor);
-      var pluginLis = map(pluginKeys, function (key) {
-        return '<li>' + maybeUrlize(editor, key) + '</li>';
-      });
-      var count = pluginLis.length;
-      var pluginsString = pluginLis.join('');
-      return '<p><b>' + global$1.translate([
-        'Plugins installed ({0}):',
-        count
-      ]) + '</b></p>' + '<ul>' + pluginsString + '</ul>';
-    };
-    var installedPlugins = function (editor) {
-      return {
-        type: 'container',
-        html: '<div style="overflow-y: auto; overflow-x: hidden; max-height: 230px; height: 230px;" data-mce-tabstop="1" tabindex="-1">' + pluginLister(editor) + '</div>',
-        flex: 1
-      };
-    };
-    var availablePlugins = function () {
-      return {
-        type: 'container',
-        html: '<div style="padding: 10px; background: #e3e7f4; height: 100%;" data-mce-tabstop="1" tabindex="-1">' + '<p><b>' + global$1.translate('Premium plugins:') + '</b></p>' + '<ul>' + '<li>PowerPaste</li>' + '<li>Spell Checker Pro</li>' + '<li>Accessibility Checker</li>' + '<li>Advanced Code Editor</li>' + '<li>Enhanced Media Embed</li>' + '<li>Link Checker</li>' + '</ul><br />' + '<p style="float: right;"><a href="https://www.tinymce.com/pricing/?utm_campaign=editor_referral&utm_medium=help_dialog&utm_source=tinymce" target="_blank">' + global$1.translate('Learn more...') + '</a></p>' + '</div>',
-        flex: 1
-      };
-    };
-    var makeTab$1 = function (editor) {
-      return {
-        title: 'Plugins',
-        type: 'container',
-        style: 'overflow-y: auto; overflow-x: hidden;',
-        layout: 'flex',
-        padding: 10,
-        spacing: 10,
-        items: [
-          installedPlugins(editor),
-          availablePlugins()
-        ]
-      };
-    };
-    var PluginsTab = { makeTab: makeTab$1 };
-
-    var global$3 = tinymce.util.Tools.resolve('tinymce.EditorManager');
-
-    var getVersion = function (major, minor) {
-      return major.indexOf('@') === 0 ? 'X.X.X' : major + '.' + minor;
-    };
-    var makeRow = function () {
-      var version = getVersion(global$3.majorVersion, global$3.minorVersion);
-      var changeLogLink = '<a href="https://www.tinymce.com/docs/changelog/?utm_campaign=editor_referral&utm_medium=help_dialog&utm_source=tinymce" target="_blank">TinyMCE ' + version + '</a>';
-      return [
-        {
-          type: 'label',
-          html: global$1.translate([
-            'You are using {0}',
-            changeLogLink
-          ])
-        },
-        {
-          type: 'spacer',
-          flex: 1
-        },
-        {
-          text: 'Close',
-          onclick: function () {
-            this.parent().parent().close();
-          }
+        else {
+            return t;
         }
-      ];
     };
-    var ButtonsRow = { makeRow: makeRow };
+    const isType = (type) => (value) => typeOf(value) === type;
+    const isSimpleType = (type) => (value) => typeof value === type;
+    const eq = (t) => (a) => t === a;
+    const isString = isType('string');
+    const isUndefined = eq(undefined);
+    const isNullable = (a) => a === null || a === undefined;
+    const isNonNullable = (a) => !isNullable(a);
+    const isFunction = isSimpleType('function');
 
-    var open = function (editor, pluginUrl) {
-      return function () {
-        editor.windowManager.open({
-          title: 'Help',
-          bodyType: 'tabpanel',
-          layout: 'flex',
-          body: [
-            KeyboardShortcutsTab.makeTab(),
-            PluginsTab.makeTab(editor)
-          ],
-          buttons: ButtonsRow.makeRow(),
-          onPostRender: function () {
-            var title = this.getEl('title');
-            title.innerHTML = '<img src="' + pluginUrl + '/img/logo.png" alt="TinyMCE Logo" style="display: inline-block; width: 200px; height: 50px">';
-          }
-        });
-      };
+    const constant = (value) => {
+        return () => {
+            return value;
+        };
     };
-    var Dialog = { open: open };
+    const never = constant(false);
 
-    var register = function (editor, pluginUrl) {
-      editor.addCommand('mceHelp', Dialog.open(editor, pluginUrl));
-    };
-    var Commands = { register: register };
-
-    var register$1 = function (editor, pluginUrl) {
-      editor.addButton('help', {
-        icon: 'help',
-        onclick: Dialog.open(editor, pluginUrl)
-      });
-      editor.addMenuItem('help', {
-        text: 'Help',
-        icon: 'help',
-        context: 'help',
-        onclick: Dialog.open(editor, pluginUrl)
-      });
-    };
-    var Buttons = { register: register$1 };
-
-    global.add('help', function (editor, pluginUrl) {
-      Buttons.register(editor, pluginUrl);
-      Commands.register(editor, pluginUrl);
-      editor.shortcuts.add('Alt+0', 'Open help dialog', 'mceHelp');
-    });
-    function Plugin () {
+    /**
+     * The `Optional` type represents a value (of any type) that potentially does
+     * not exist. Any `Optional<T>` can either be a `Some<T>` (in which case the
+     * value does exist) or a `None` (in which case the value does not exist). This
+     * module defines a whole lot of FP-inspired utility functions for dealing with
+     * `Optional` objects.
+     *
+     * Comparison with null or undefined:
+     * - We don't get fancy null coalescing operators with `Optional`
+     * - We do get fancy helper functions with `Optional`
+     * - `Optional` support nesting, and allow for the type to still be nullable (or
+     * another `Optional`)
+     * - There is no option to turn off strict-optional-checks like there is for
+     * strict-null-checks
+     */
+    class Optional {
+        tag;
+        value;
+        // Sneaky optimisation: every instance of Optional.none is identical, so just
+        // reuse the same object
+        static singletonNone = new Optional(false);
+        // The internal representation has a `tag` and a `value`, but both are
+        // private: able to be console.logged, but not able to be accessed by code
+        constructor(tag, value) {
+            this.tag = tag;
+            this.value = value;
+        }
+        // --- Identities ---
+        /**
+         * Creates a new `Optional<T>` that **does** contain a value.
+         */
+        static some(value) {
+            return new Optional(true, value);
+        }
+        /**
+         * Create a new `Optional<T>` that **does not** contain a value. `T` can be
+         * any type because we don't actually have a `T`.
+         */
+        static none() {
+            return Optional.singletonNone;
+        }
+        /**
+         * Perform a transform on an `Optional` type. Regardless of whether this
+         * `Optional` contains a value or not, `fold` will return a value of type `U`.
+         * If this `Optional` does not contain a value, the `U` will be created by
+         * calling `onNone`. If this `Optional` does contain a value, the `U` will be
+         * created by calling `onSome`.
+         *
+         * For the FP enthusiasts in the room, this function:
+         * 1. Could be used to implement all of the functions below
+         * 2. Forms a catamorphism
+         */
+        fold(onNone, onSome) {
+            if (this.tag) {
+                return onSome(this.value);
+            }
+            else {
+                return onNone();
+            }
+        }
+        /**
+         * Determine if this `Optional` object contains a value.
+         */
+        isSome() {
+            return this.tag;
+        }
+        /**
+         * Determine if this `Optional` object **does not** contain a value.
+         */
+        isNone() {
+            return !this.tag;
+        }
+        // --- Functor (name stolen from Haskell / maths) ---
+        /**
+         * Perform a transform on an `Optional` object, **if** there is a value. If
+         * you provide a function to turn a T into a U, this is the function you use
+         * to turn an `Optional<T>` into an `Optional<U>`. If this **does** contain
+         * a value then the output will also contain a value (that value being the
+         * output of `mapper(this.value)`), and if this **does not** contain a value
+         * then neither will the output.
+         */
+        map(mapper) {
+            if (this.tag) {
+                return Optional.some(mapper(this.value));
+            }
+            else {
+                return Optional.none();
+            }
+        }
+        // --- Monad (name stolen from Haskell / maths) ---
+        /**
+         * Perform a transform on an `Optional` object, **if** there is a value.
+         * Unlike `map`, here the transform itself also returns an `Optional`.
+         */
+        bind(binder) {
+            if (this.tag) {
+                return binder(this.value);
+            }
+            else {
+                return Optional.none();
+            }
+        }
+        // --- Traversable (name stolen from Haskell / maths) ---
+        /**
+         * For a given predicate, this function finds out if there **exists** a value
+         * inside this `Optional` object that meets the predicate. In practice, this
+         * means that for `Optional`s that do not contain a value it returns false (as
+         * no predicate-meeting value exists).
+         */
+        exists(predicate) {
+            return this.tag && predicate(this.value);
+        }
+        /**
+         * For a given predicate, this function finds out if **all** the values inside
+         * this `Optional` object meet the predicate. In practice, this means that
+         * for `Optional`s that do not contain a value it returns true (as all 0
+         * objects do meet the predicate).
+         */
+        forall(predicate) {
+            return !this.tag || predicate(this.value);
+        }
+        filter(predicate) {
+            if (!this.tag || predicate(this.value)) {
+                return this;
+            }
+            else {
+                return Optional.none();
+            }
+        }
+        // --- Getters ---
+        /**
+         * Get the value out of the inside of the `Optional` object, using a default
+         * `replacement` value if the provided `Optional` object does not contain a
+         * value.
+         */
+        getOr(replacement) {
+            return this.tag ? this.value : replacement;
+        }
+        /**
+         * Get the value out of the inside of the `Optional` object, using a default
+         * `replacement` value if the provided `Optional` object does not contain a
+         * value.  Unlike `getOr`, in this method the `replacement` object is also
+         * `Optional` - meaning that this method will always return an `Optional`.
+         */
+        or(replacement) {
+            return this.tag ? this : replacement;
+        }
+        /**
+         * Get the value out of the inside of the `Optional` object, using a default
+         * `replacement` value if the provided `Optional` object does not contain a
+         * value. Unlike `getOr`, in this method the `replacement` value is
+         * "thunked" - that is to say that you don't pass a value to `getOrThunk`, you
+         * pass a function which (if called) will **return** the `value` you want to
+         * use.
+         */
+        getOrThunk(thunk) {
+            return this.tag ? this.value : thunk();
+        }
+        /**
+         * Get the value out of the inside of the `Optional` object, using a default
+         * `replacement` value if the provided Optional object does not contain a
+         * value.
+         *
+         * Unlike `or`, in this method the `replacement` value is "thunked" - that is
+         * to say that you don't pass a value to `orThunk`, you pass a function which
+         * (if called) will **return** the `value` you want to use.
+         *
+         * Unlike `getOrThunk`, in this method the `replacement` value is also
+         * `Optional`, meaning that this method will always return an `Optional`.
+         */
+        orThunk(thunk) {
+            return this.tag ? this : thunk();
+        }
+        /**
+         * Get the value out of the inside of the `Optional` object, throwing an
+         * exception if the provided `Optional` object does not contain a value.
+         *
+         * WARNING:
+         * You should only be using this function if you know that the `Optional`
+         * object **is not** empty (otherwise you're throwing exceptions in production
+         * code, which is bad).
+         *
+         * In tests this is more acceptable.
+         *
+         * Prefer other methods to this, such as `.each`.
+         */
+        getOrDie(message) {
+            if (!this.tag) {
+                throw new Error(message ?? 'Called getOrDie on None');
+            }
+            else {
+                return this.value;
+            }
+        }
+        // --- Interop with null and undefined ---
+        /**
+         * Creates an `Optional` value from a nullable (or undefined-able) input.
+         * Null, or undefined, is converted to `None`, and anything else is converted
+         * to `Some`.
+         */
+        static from(value) {
+            return isNonNullable(value) ? Optional.some(value) : Optional.none();
+        }
+        /**
+         * Converts an `Optional` to a nullable type, by getting the value if it
+         * exists, or returning `null` if it does not.
+         */
+        getOrNull() {
+            return this.tag ? this.value : null;
+        }
+        /**
+         * Converts an `Optional` to an undefined-able type, by getting the value if
+         * it exists, or returning `undefined` if it does not.
+         */
+        getOrUndefined() {
+            return this.value;
+        }
+        // --- Utilities ---
+        /**
+         * If the `Optional` contains a value, perform an action on that value.
+         * Unlike the rest of the methods on this type, `.each` has side-effects. If
+         * you want to transform an `Optional<T>` **into** something, then this is not
+         * the method for you. If you want to use an `Optional<T>` to **do**
+         * something, then this is the method for you - provided you're okay with not
+         * doing anything in the case where the `Optional` doesn't have a value inside
+         * it. If you're not sure whether your use-case fits into transforming
+         * **into** something or **doing** something, check whether it has a return
+         * value. If it does, you should be performing a transform.
+         */
+        each(worker) {
+            if (this.tag) {
+                worker(this.value);
+            }
+        }
+        /**
+         * Turn the `Optional` object into an array that contains all of the values
+         * stored inside the `Optional`. In practice, this means the output will have
+         * either 0 or 1 elements.
+         */
+        toArray() {
+            return this.tag ? [this.value] : [];
+        }
+        /**
+         * Turn the `Optional` object into a string for debugging or printing. Not
+         * recommended for production code, but good for debugging. Also note that
+         * these days an `Optional` object can be logged to the console directly, and
+         * its inner value (if it exists) will be visible.
+         */
+        toString() {
+            return this.tag ? `some(${this.value})` : 'none()';
+        }
     }
 
-    return Plugin;
+    const nativeSlice = Array.prototype.slice;
+    const nativeIndexOf = Array.prototype.indexOf;
+    const rawIndexOf = (ts, t) => nativeIndexOf.call(ts, t);
+    const contains = (xs, x) => rawIndexOf(xs, x) > -1;
+    const map = (xs, f) => {
+        // pre-allocating array size when it's guaranteed to be known
+        // http://jsperf.com/push-allocated-vs-dynamic/22
+        const len = xs.length;
+        const r = new Array(len);
+        for (let i = 0; i < len; i++) {
+            const x = xs[i];
+            r[i] = f(x, i);
+        }
+        return r;
+    };
+    const filter = (xs, pred) => {
+        const r = [];
+        for (let i = 0, len = xs.length; i < len; i++) {
+            const x = xs[i];
+            if (pred(x, i)) {
+                r.push(x);
+            }
+        }
+        return r;
+    };
+    const findUntil = (xs, pred, until) => {
+        for (let i = 0, len = xs.length; i < len; i++) {
+            const x = xs[i];
+            if (pred(x, i)) {
+                return Optional.some(x);
+            }
+            else if (until(x, i)) {
+                break;
+            }
+        }
+        return Optional.none();
+    };
+    const find = (xs, pred) => {
+        return findUntil(xs, pred, never);
+    };
+    const sort = (xs, comparator) => {
+        const copy = nativeSlice.call(xs, 0);
+        copy.sort(comparator);
+        return copy;
+    };
+    isFunction(Array.from) ? Array.from : (x) => nativeSlice.call(x);
 
-}());
+    // There are many variations of Object iteration that are faster than the 'for-in' style:
+    // http://jsperf.com/object-keys-iteration/107
+    //
+    // Use the native keys if it is available (IE9+), otherwise fall back to manually filtering
+    const keys = Object.keys;
+    const hasOwnProperty = Object.hasOwnProperty;
+    const get$1 = (obj, key) => {
+        return has(obj, key) ? Optional.from(obj[key]) : Optional.none();
+    };
+    const has = (obj, key) => hasOwnProperty.call(obj, key);
+
+    const Cell = (initial) => {
+        let value = initial;
+        const get = () => {
+            return value;
+        };
+        const set = (v) => {
+            value = v;
+        };
+        return {
+            get,
+            set
+        };
+    };
+
+    /**
+     * Adds two numbers, and wrap to a range.
+     * If the result overflows to the right, snap to the left.
+     * If the result overflows to the left, snap to the right.
+     */
+    // the division is meant to get a number between 0 and 1 for more information check this discussion: https://stackoverflow.com/questions/58285941/how-to-replace-math-random-with-crypto-getrandomvalues-and-keep-same-result
+    const random = () => window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967295;
+
+    /**
+     * Generate a unique identifier.
+     *
+     * The unique portion of the identifier only contains an underscore
+     * and digits, so that it may safely be used within HTML attributes.
+     *
+     * The chance of generating a non-unique identifier has been minimized
+     * by combining the current time, a random number and a one-up counter.
+     *
+     * generate :: String -> String
+     */
+    let unique = 0;
+    const generate = (prefix) => {
+        const date = new Date();
+        const time = date.getTime();
+        const random$1 = Math.floor(random() * 1000000000);
+        unique++;
+        return prefix + '_' + random$1 + unique + String(time);
+    };
+
+    const cat = (arr) => {
+        const r = [];
+        const push = (x) => {
+            r.push(x);
+        };
+        for (let i = 0; i < arr.length; i++) {
+            arr[i].each(push);
+        }
+        return r;
+    };
+
+    var global$4 = tinymce.util.Tools.resolve('tinymce.PluginManager');
+
+    const get = (customTabs) => {
+        const addTab = (spec) => {
+            const name = spec.name ?? generate('tab-name');
+            const currentCustomTabs = customTabs.get();
+            currentCustomTabs[name] = spec;
+            customTabs.set(currentCustomTabs);
+        };
+        return {
+            addTab
+        };
+    };
+
+    const register$2 = (editor, dialogOpener) => {
+        editor.addCommand('mceHelp', dialogOpener);
+    };
+
+    const option = (name) => (editor) => editor.options.get(name);
+    const register$1 = (editor) => {
+        const registerOption = editor.options.register;
+        registerOption('help_tabs', {
+            processor: 'array'
+        });
+    };
+    const getHelpTabs = option('help_tabs');
+    const getForcedPlugins = option('forced_plugins');
+
+    const register = (editor, dialogOpener) => {
+        editor.ui.registry.addButton('help', {
+            icon: 'help',
+            tooltip: 'Help',
+            onAction: dialogOpener,
+            context: 'any'
+        });
+        editor.ui.registry.addMenuItem('help', {
+            text: 'Help',
+            icon: 'help',
+            shortcut: 'Alt+0',
+            onAction: dialogOpener,
+            context: 'any'
+        });
+    };
+
+    var global$3 = tinymce.util.Tools.resolve('tinymce.Resource');
+
+    var global$2 = tinymce.util.Tools.resolve('tinymce.util.I18n');
+
+    const pLoadHtmlByLangCode = (baseUrl, langCode) => global$3.load(`tinymce.html-i18n.help-keynav.${langCode}`, `${baseUrl}/js/i18n/keynav/${langCode}.js`);
+    const pLoadI18nHtml = (baseUrl) => 
+    // TINY-9928: Load language file for the current language, or English if the file is not available
+    pLoadHtmlByLangCode(baseUrl, global$2.getCode()).catch(() => pLoadHtmlByLangCode(baseUrl, 'en'));
+    const initI18nLoad = (editor, baseUrl) => {
+        editor.on('init', () => {
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
+            pLoadI18nHtml(baseUrl);
+        });
+    };
+
+    const pTab = async (pluginUrl) => {
+        const body = {
+            type: 'htmlpanel',
+            presets: 'document',
+            html: await pLoadI18nHtml(pluginUrl)
+        };
+        return {
+            name: 'keyboardnav',
+            title: 'Keyboard Navigation',
+            items: [body]
+        };
+    };
+
+    var global$1 = tinymce.util.Tools.resolve('tinymce.Env');
+
+    // Converts shortcut format to Mac/PC variants
+    const convertText = (source) => {
+        const isMac = global$1.os.isMacOS() || global$1.os.isiOS();
+        const mac = {
+            alt: '&#x2325;',
+            ctrl: '&#x2303;',
+            shift: '&#x21E7;',
+            meta: '&#x2318;',
+            access: '&#x2303;&#x2325;'
+        };
+        const other = {
+            meta: 'Ctrl ',
+            access: 'Shift + Alt '
+        };
+        const replace = isMac ? mac : other;
+        const shortcut = source.split('+');
+        const updated = map(shortcut, (segment) => {
+            // search lowercase, but if not found use the original
+            const search = segment.toLowerCase().trim();
+            return has(replace, search) ? replace[search] : segment;
+        });
+        return isMac ? (updated.join('')).replace(/\s/, '') : updated.join('+');
+    };
+
+    const shortcuts = [
+        { shortcuts: ['Meta + B'], action: 'Bold' },
+        { shortcuts: ['Meta + I'], action: 'Italic' },
+        { shortcuts: ['Meta + U'], action: 'Underline' },
+        { shortcuts: ['Meta + A'], action: 'Select all' },
+        { shortcuts: ['Meta + Y', 'Meta + Shift + Z'], action: 'Redo' },
+        { shortcuts: ['Meta + Z'], action: 'Undo' },
+        { shortcuts: ['Access + 1'], action: 'Heading 1' },
+        { shortcuts: ['Access + 2'], action: 'Heading 2' },
+        { shortcuts: ['Access + 3'], action: 'Heading 3' },
+        { shortcuts: ['Access + 4'], action: 'Heading 4' },
+        { shortcuts: ['Access + 5'], action: 'Heading 5' },
+        { shortcuts: ['Access + 6'], action: 'Heading 6' },
+        { shortcuts: ['Access + 7'], action: 'Paragraph' },
+        { shortcuts: ['Access + 8'], action: 'Div' },
+        { shortcuts: ['Access + 9'], action: 'Address' },
+        { shortcuts: ['Alt + 0'], action: 'Open help dialog' },
+        { shortcuts: ['Alt + F9'], action: 'Focus to menubar' },
+        { shortcuts: ['Alt + F10'], action: 'Focus to toolbar' },
+        { shortcuts: ['Alt + F11'], action: 'Focus to element path' },
+        { shortcuts: ['Alt + F12'], action: 'Focus to notification' },
+        { shortcuts: ['Ctrl + F9'], action: 'Focus to contextual toolbar' },
+        { shortcuts: ['Shift + Enter'], action: 'Open popup menu for split buttons' },
+        { shortcuts: ['Meta + K'], action: 'Insert link (if link plugin activated)' },
+        { shortcuts: ['Meta + S'], action: 'Save (if save plugin activated)' },
+        { shortcuts: ['Meta + F'], action: 'Find (if searchreplace plugin activated)' },
+        { shortcuts: ['Meta + Shift + F'], action: 'Switch to or from fullscreen mode' }
+    ];
+
+    const tab$2 = () => {
+        const shortcutList = map(shortcuts, (shortcut) => {
+            const shortcutText = map(shortcut.shortcuts, convertText).join(' or ');
+            return [shortcut.action, shortcutText];
+        });
+        const tablePanel = {
+            type: 'table',
+            // TODO: Fix table styles #TINY-2909
+            header: ['Action', 'Shortcut'],
+            cells: shortcutList
+        };
+        return {
+            name: 'shortcuts',
+            title: 'Handy Shortcuts',
+            items: [
+                tablePanel
+            ]
+        };
+    };
+
+    // These lists are automatically sorted when generating the dialog.
+    const urls = map([
+        { key: 'accordion', name: 'Accordion' },
+        { key: 'anchor', name: 'Anchor' },
+        { key: 'autolink', name: 'Autolink' },
+        { key: 'autoresize', name: 'Autoresize' },
+        { key: 'autosave', name: 'Autosave' },
+        { key: 'charmap', name: 'Character Map' },
+        { key: 'code', name: 'Code' },
+        { key: 'codesample', name: 'Code Sample' },
+        { key: 'colorpicker', name: 'Color Picker' },
+        { key: 'directionality', name: 'Directionality' },
+        { key: 'emoticons', name: 'Emoticons' },
+        { key: 'fullscreen', name: 'Full Screen' },
+        { key: 'help', name: 'Help' },
+        { key: 'image', name: 'Image' },
+        { key: 'importcss', name: 'Import CSS' },
+        { key: 'insertdatetime', name: 'Insert Date/Time' },
+        { key: 'link', name: 'Link' },
+        { key: 'lists', name: 'Lists' },
+        { key: 'advlist', name: 'List Styles' },
+        { key: 'media', name: 'Media' },
+        { key: 'nonbreaking', name: 'Nonbreaking' },
+        { key: 'pagebreak', name: 'Page Break' },
+        { key: 'preview', name: 'Preview' },
+        { key: 'quickbars', name: 'Quick Toolbars' },
+        { key: 'save', name: 'Save' },
+        { key: 'searchreplace', name: 'Search and Replace' },
+        { key: 'table', name: 'Table' },
+        { key: 'textcolor', name: 'Text Color' },
+        { key: 'visualblocks', name: 'Visual Blocks' },
+        { key: 'visualchars', name: 'Visual Characters' },
+        { key: 'wordcount', name: 'Word Count' },
+        // TODO: Add other premium plugins when they are included in the website
+        { key: 'a11ychecker', name: 'Accessibility Checker', type: "premium" /* PluginType.Premium */ },
+        { key: 'typography', name: 'Advanced Typography', type: "premium" /* PluginType.Premium */, slug: 'advanced-typography' },
+        { key: 'ai', name: 'AI Assistant', type: "premium" /* PluginType.Premium */ },
+        { key: 'casechange', name: 'Case Change', type: "premium" /* PluginType.Premium */ },
+        { key: 'checklist', name: 'Checklist', type: "premium" /* PluginType.Premium */ },
+        { key: 'advcode', name: 'Enhanced Code Editor', type: "premium" /* PluginType.Premium */ },
+        { key: 'mediaembed', name: 'Enhanced Media Embed', type: "premium" /* PluginType.Premium */, slug: 'introduction-to-mediaembed' },
+        { key: 'advtable', name: 'Enhanced Tables', type: "premium" /* PluginType.Premium */ },
+        { key: 'exportpdf', name: 'Export to PDF', type: "premium" /* PluginType.Premium */ },
+        { key: 'exportword', name: 'Export to Word', type: "premium" /* PluginType.Premium */ },
+        { key: 'footnotes', name: 'Footnotes', type: "premium" /* PluginType.Premium */ },
+        { key: 'formatpainter', name: 'Format Painter', type: "premium" /* PluginType.Premium */ },
+        { key: 'editimage', name: 'Image Editing', type: "premium" /* PluginType.Premium */ },
+        { key: 'uploadcare', name: 'Image Optimizer Powered by Uploadcare', type: "premium" /* PluginType.Premium */ },
+        { key: 'importword', name: 'Import from Word', type: "premium" /* PluginType.Premium */ },
+        { key: 'inlinecss', name: 'Inline CSS', type: "premium" /* PluginType.Premium */, slug: 'inline-css' },
+        { key: 'linkchecker', name: 'Link Checker', type: "premium" /* PluginType.Premium */ },
+        { key: 'math', name: 'Math', type: "premium" /* PluginType.Premium */ },
+        { key: 'markdown', name: 'Markdown', type: "premium" /* PluginType.Premium */ },
+        { key: 'mentions', name: 'Mentions', type: "premium" /* PluginType.Premium */ },
+        { key: 'mergetags', name: 'Merge Tags', type: "premium" /* PluginType.Premium */ },
+        { key: 'pageembed', name: 'Page Embed', type: "premium" /* PluginType.Premium */ },
+        { key: 'permanentpen', name: 'Permanent Pen', type: "premium" /* PluginType.Premium */ },
+        { key: 'powerpaste', name: 'PowerPaste', type: "premium" /* PluginType.Premium */, slug: 'introduction-to-powerpaste' },
+        { key: 'revisionhistory', name: 'Revision History', type: "premium" /* PluginType.Premium */ },
+        { key: 'tinymcespellchecker', name: 'Spell Checker', type: "premium" /* PluginType.Premium */, slug: 'introduction-to-tiny-spellchecker' },
+        { key: 'suggestededits', name: 'Suggested Edits', type: "premium" /* PluginType.Premium */ },
+        { key: 'tinymceai', name: 'TinyMCE AI', type: "premium" /* PluginType.Premium */ },
+        { key: 'autocorrect', name: 'Spelling Autocorrect', type: "premium" /* PluginType.Premium */ },
+        { key: 'tableofcontents', name: 'Table of Contents', type: "premium" /* PluginType.Premium */ },
+        { key: 'fullpagehtml', name: 'Fullpage HTML', type: "premium" /* PluginType.Premium */ },
+        { key: 'advtemplate', name: 'Templates', type: "premium" /* PluginType.Premium */, slug: 'advanced-templates' },
+        { key: 'tinycomments', name: 'Tiny Comments', type: "premium" /* PluginType.Premium */, slug: 'introduction-to-tiny-comments' },
+        { key: 'tinydrive', name: 'Tiny Drive', type: "premium" /* PluginType.Premium */, slug: 'tinydrive-introduction' },
+    ], (item) => ({
+        ...item,
+        // Set the defaults/fallbacks for the plugin urls
+        type: item.type || "opensource" /* PluginType.OpenSource */,
+        slug: item.slug || item.key
+    }));
+
+    const tab$1 = (editor) => {
+        const availablePlugins = () => {
+            const premiumPlugins = filter(urls, ({ type }) => {
+                return type === "premium" /* PluginUrls.PluginType.Premium */;
+            });
+            const sortedPremiumPlugins = sort(map(premiumPlugins, (p) => p.name), (s1, s2) => s1.localeCompare(s2));
+            const premiumPluginList = map(sortedPremiumPlugins, (pluginName) => `<li>${pluginName}</li>`).join('');
+            return '<div>' +
+                '<p><b>' + global$2.translate('Premium plugins:') + '</b></p>' +
+                '<ul>' +
+                premiumPluginList +
+                '<li class="tox-help__more-link" ">' +
+                '<a href="https://www.tiny.cloud/pricing/?utm_campaign=help_dialog_plugin_tab&utm_source=tiny&utm_medium=referral&utm_term=read_more&utm_content=premium_plugin_heading" rel="noopener" target="_blank"' +
+                ' data-alloy-tabstop="true" tabindex="-1">' + global$2.translate('Learn more...') + '</a></li>' +
+                '</ul>' +
+                '</div>';
+        };
+        const makeLink = (p) => `<a data-alloy-tabstop="true" tabindex="-1" href="${p.url}" target="_blank" rel="noopener">${p.name}</a>`;
+        const identifyUnknownPlugin = (editor, key) => {
+            const getMetadata = editor.plugins[key].getMetadata;
+            if (isFunction(getMetadata)) {
+                const metadata = getMetadata();
+                return { name: metadata.name, html: makeLink(metadata) };
+            }
+            else {
+                return { name: key, html: key };
+            }
+        };
+        const getPluginData = (editor, key) => find(urls, (x) => {
+            return x.key === key;
+        }).fold(() => {
+            return identifyUnknownPlugin(editor, key);
+        }, (x) => {
+            // We know this plugin, so use our stored details.
+            const name = x.type === "premium" /* PluginUrls.PluginType.Premium */ ? `${x.name}*` : x.name;
+            const html = makeLink({ name, url: `https://www.tiny.cloud/docs/tinymce/${tinymce.majorVersion}/${x.slug}/` });
+            return { name, html };
+        });
+        const getPluginKeys = (editor) => {
+            const keys$1 = keys(editor.plugins);
+            const forcedPlugins = getForcedPlugins(editor);
+            const hiddenPlugins = isUndefined(forcedPlugins) ? ['onboarding', 'licensekeymanager'] : forcedPlugins.concat(['onboarding', 'licensekeymanager']);
+            return filter(keys$1, (k) => !contains(hiddenPlugins, k));
+        };
+        const pluginLister = (editor) => {
+            const pluginKeys = getPluginKeys(editor);
+            const sortedPluginData = sort(map(pluginKeys, (k) => getPluginData(editor, k)), (pd1, pd2) => pd1.name.localeCompare(pd2.name));
+            const pluginLis = map(sortedPluginData, (key) => {
+                return '<li>' + key.html + '</li>';
+            });
+            const count = pluginLis.length;
+            const pluginsString = pluginLis.join('');
+            const html = '<p><b>' + global$2.translate(['Plugins installed ({0}):', count]) + '</b></p>' +
+                '<ul>' + pluginsString + '</ul>';
+            return html;
+        };
+        const installedPlugins = (editor) => {
+            if (editor == null) {
+                return '';
+            }
+            return '<div>' +
+                pluginLister(editor) +
+                '</div>';
+        };
+        const htmlPanel = {
+            type: 'htmlpanel',
+            presets: 'document',
+            html: [
+                installedPlugins(editor),
+                availablePlugins()
+            ].join('')
+        };
+        return {
+            name: 'plugins',
+            title: 'Plugins',
+            items: [
+                htmlPanel
+            ]
+        };
+    };
+
+    var global = tinymce.util.Tools.resolve('tinymce.EditorManager');
+
+    const tab = () => {
+        const getVersion = (major, minor) => major.indexOf('@') === 0 ? 'X.X.X' : major + '.' + minor;
+        const version = getVersion(global.majorVersion, global.minorVersion);
+        const changeLogLink = '<a data-alloy-tabstop="true" tabindex="-1" href="https://www.tiny.cloud/docs/tinymce/8/changelog/?utm_campaign=help_dialog_version_tab&utm_source=tiny&utm_medium=referral" rel="noopener" target="_blank">TinyMCE ' + version + '</a>';
+        const htmlPanel = {
+            type: 'htmlpanel',
+            html: '<p>' + global$2.translate(['You are using {0}', changeLogLink]) + '</p>',
+            presets: 'document'
+        };
+        return {
+            name: 'versions',
+            title: 'Version',
+            items: [
+                htmlPanel
+            ]
+        };
+    };
+
+    const parseHelpTabsSetting = (tabsFromSettings, tabs) => {
+        const newTabs = {};
+        const names = map(tabsFromSettings, (t) => {
+            if (isString(t)) {
+                // Code below shouldn't care if a tab name doesn't have a spec.
+                // If we find it does, we'll need to make this smarter.
+                // CustomTabsTest has a case for this.
+                if (has(tabs, t)) {
+                    newTabs[t] = tabs[t];
+                }
+                return t;
+            }
+            else {
+                const name = t.name ?? generate('tab-name');
+                newTabs[name] = t;
+                return name;
+            }
+        });
+        return { tabs: newTabs, names };
+    };
+    const getNamesFromTabs = (tabs) => {
+        const names = keys(tabs);
+        // Move the versions tab to the end if it exists
+        const idx = names.indexOf('versions');
+        if (idx !== -1) {
+            names.splice(idx, 1);
+            names.push('versions');
+        }
+        return { tabs, names };
+    };
+    const pParseCustomTabs = async (editor, customTabs, pluginUrl) => {
+        const shortcuts = tab$2();
+        const nav = await pTab(pluginUrl);
+        const plugins = tab$1(editor);
+        const versions = tab();
+        const tabs = {
+            [shortcuts.name]: shortcuts,
+            [nav.name]: nav,
+            [plugins.name]: plugins,
+            [versions.name]: versions,
+            ...customTabs.get()
+        };
+        return Optional.from(getHelpTabs(editor)).fold(() => getNamesFromTabs(tabs), (tabsFromSettings) => parseHelpTabsSetting(tabsFromSettings, tabs));
+    };
+    const init = (editor, customTabs, pluginUrl) => () => {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        pParseCustomTabs(editor, customTabs, pluginUrl).then(({ tabs, names }) => {
+            const foundTabs = map(names, (name) => get$1(tabs, name));
+            const dialogTabs = cat(foundTabs);
+            const body = {
+                type: 'tabpanel',
+                tabs: dialogTabs
+            };
+            editor.windowManager.open({
+                title: 'Help',
+                size: 'medium',
+                body,
+                buttons: [
+                    {
+                        type: 'cancel',
+                        name: 'close',
+                        text: 'Close',
+                        primary: true
+                    }
+                ],
+                initialData: {}
+            });
+        });
+    };
+
+    var Plugin = () => {
+        global$4.add('help', (editor, pluginUrl) => {
+            const customTabs = Cell({});
+            const api = get(customTabs);
+            register$1(editor);
+            const dialogOpener = init(editor, customTabs, pluginUrl);
+            register(editor, dialogOpener);
+            register$2(editor, dialogOpener);
+            editor.shortcuts.add('Alt+0', 'Open help dialog', 'mceHelp');
+            initI18nLoad(editor, pluginUrl);
+            return api;
+        });
+    };
+
+    Plugin();
+    /** *****
+     * DO NOT EXPORT ANYTHING
+     *
+     * IF YOU DO ROLLUP WILL LEAVE A GLOBAL ON THE PAGE
+     *******/
+
 })();

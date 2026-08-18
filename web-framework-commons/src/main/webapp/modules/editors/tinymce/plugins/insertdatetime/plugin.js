@@ -1,173 +1,187 @@
+/**
+ * TinyMCE version 8.7.0 (2026-07-01)
+ */
+
 (function () {
-var insertdatetime = (function () {
     'use strict';
 
-    var Cell = function (initial) {
-      var value = initial;
-      var get = function () {
+    var global$1 = tinymce.util.Tools.resolve('tinymce.PluginManager');
+
+    const option = (name) => (editor) => editor.options.get(name);
+    const register$2 = (editor) => {
+        const registerOption = editor.options.register;
+        registerOption('insertdatetime_dateformat', {
+            processor: 'string',
+            default: editor.translate('%Y-%m-%d')
+        });
+        registerOption('insertdatetime_timeformat', {
+            processor: 'string',
+            default: editor.translate('%H:%M:%S')
+        });
+        registerOption('insertdatetime_formats', {
+            processor: 'string[]',
+            default: ['%H:%M:%S', '%Y-%m-%d', '%I:%M:%S %p', '%D']
+        });
+        registerOption('insertdatetime_element', {
+            processor: 'boolean',
+            default: false
+        });
+    };
+    const getDateFormat = option('insertdatetime_dateformat');
+    const getTimeFormat = option('insertdatetime_timeformat');
+    const getFormats = option('insertdatetime_formats');
+    const shouldInsertTimeElement = option('insertdatetime_element');
+    const getDefaultDateTime = (editor) => {
+        const formats = getFormats(editor);
+        return formats.length > 0 ? formats[0] : getTimeFormat(editor);
+    };
+
+    const daysShort = 'Sun Mon Tue Wed Thu Fri Sat Sun'.split(' ');
+    const daysLong = 'Sunday Monday Tuesday Wednesday Thursday Friday Saturday Sunday'.split(' ');
+    const monthsShort = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
+    const monthsLong = 'January February March April May June July August September October November December'.split(' ');
+    const addZeros = (value, len) => {
+        value = '' + value;
+        if (value.length < len) {
+            for (let i = 0; i < (len - value.length); i++) {
+                value = '0' + value;
+            }
+        }
         return value;
-      };
-      var set = function (v) {
-        value = v;
-      };
-      var clone = function () {
-        return Cell(get());
-      };
-      return {
-        get: get,
-        set: set,
-        clone: clone
-      };
     };
-
-    var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
-
-    var getDateFormat = function (editor) {
-      return editor.getParam('insertdatetime_dateformat', editor.translate('%Y-%m-%d'));
+    const getDateTime = (editor, fmt, date = new Date()) => {
+        fmt = fmt.replace('%D', '%m/%d/%Y');
+        fmt = fmt.replace('%r', '%I:%M:%S %p');
+        fmt = fmt.replace('%Y', '' + date.getFullYear());
+        fmt = fmt.replace('%y', '' + date.getYear());
+        fmt = fmt.replace('%m', addZeros(date.getMonth() + 1, 2));
+        fmt = fmt.replace('%d', addZeros(date.getDate(), 2));
+        fmt = fmt.replace('%H', '' + addZeros(date.getHours(), 2));
+        fmt = fmt.replace('%M', '' + addZeros(date.getMinutes(), 2));
+        fmt = fmt.replace('%S', '' + addZeros(date.getSeconds(), 2));
+        fmt = fmt.replace('%I', '' + ((date.getHours() + 11) % 12 + 1));
+        fmt = fmt.replace('%p', '' + (date.getHours() < 12 ? 'AM' : 'PM'));
+        fmt = fmt.replace('%B', '' + editor.translate(monthsLong[date.getMonth()]));
+        fmt = fmt.replace('%b', '' + editor.translate(monthsShort[date.getMonth()]));
+        fmt = fmt.replace('%A', '' + editor.translate(daysLong[date.getDay()]));
+        fmt = fmt.replace('%a', '' + editor.translate(daysShort[date.getDay()]));
+        fmt = fmt.replace('%%', '%');
+        return fmt;
     };
-    var getTimeFormat = function (editor) {
-      return editor.getParam('insertdatetime_timeformat', editor.translate('%H:%M:%S'));
+    const updateElement = (editor, timeElm, computerTime, userTime) => {
+        const newTimeElm = editor.dom.create('time', { datetime: computerTime }, userTime);
+        editor.dom.replace(newTimeElm, timeElm);
+        editor.selection.select(newTimeElm, true);
+        editor.selection.collapse(false);
     };
-    var getFormats = function (editor) {
-      return editor.getParam('insertdatetime_formats', [
-        '%H:%M:%S',
-        '%Y-%m-%d',
-        '%I:%M:%S %p',
-        '%D'
-      ]);
-    };
-    var getDefaultDateTime = function (editor) {
-      var formats = getFormats(editor);
-      return formats.length > 0 ? formats[0] : getTimeFormat(editor);
-    };
-    var shouldInsertTimeElement = function (editor) {
-      return editor.getParam('insertdatetime_element', false);
-    };
-    var Settings = {
-      getDateFormat: getDateFormat,
-      getTimeFormat: getTimeFormat,
-      getFormats: getFormats,
-      getDefaultDateTime: getDefaultDateTime,
-      shouldInsertTimeElement: shouldInsertTimeElement
-    };
-
-    var daysShort = 'Sun Mon Tue Wed Thu Fri Sat Sun'.split(' ');
-    var daysLong = 'Sunday Monday Tuesday Wednesday Thursday Friday Saturday Sunday'.split(' ');
-    var monthsShort = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
-    var monthsLong = 'January February March April May June July August September October November December'.split(' ');
-    var addZeros = function (value, len) {
-      value = '' + value;
-      if (value.length < len) {
-        for (var i = 0; i < len - value.length; i++) {
-          value = '0' + value;
+    const insertDateTime = (editor, format) => {
+        if (shouldInsertTimeElement(editor) && editor.selection.isEditable()) {
+            const userTime = getDateTime(editor, format);
+            let computerTime;
+            if (/%[HMSIp]/.test(format)) {
+                computerTime = getDateTime(editor, '%Y-%m-%dT%H:%M');
+            }
+            else {
+                computerTime = getDateTime(editor, '%Y-%m-%d');
+            }
+            const timeElm = editor.dom.getParent(editor.selection.getStart(), 'time');
+            if (timeElm) {
+                updateElement(editor, timeElm, computerTime, userTime);
+            }
+            else {
+                editor.insertContent('<time datetime="' + computerTime + '">' + userTime + '</time>');
+            }
         }
-      }
-      return value;
-    };
-    var getDateTime = function (editor, fmt, date) {
-      date = date || new Date();
-      fmt = fmt.replace('%D', '%m/%d/%Y');
-      fmt = fmt.replace('%r', '%I:%M:%S %p');
-      fmt = fmt.replace('%Y', '' + date.getFullYear());
-      fmt = fmt.replace('%y', '' + date.getYear());
-      fmt = fmt.replace('%m', addZeros(date.getMonth() + 1, 2));
-      fmt = fmt.replace('%d', addZeros(date.getDate(), 2));
-      fmt = fmt.replace('%H', '' + addZeros(date.getHours(), 2));
-      fmt = fmt.replace('%M', '' + addZeros(date.getMinutes(), 2));
-      fmt = fmt.replace('%S', '' + addZeros(date.getSeconds(), 2));
-      fmt = fmt.replace('%I', '' + ((date.getHours() + 11) % 12 + 1));
-      fmt = fmt.replace('%p', '' + (date.getHours() < 12 ? 'AM' : 'PM'));
-      fmt = fmt.replace('%B', '' + editor.translate(monthsLong[date.getMonth()]));
-      fmt = fmt.replace('%b', '' + editor.translate(monthsShort[date.getMonth()]));
-      fmt = fmt.replace('%A', '' + editor.translate(daysLong[date.getDay()]));
-      fmt = fmt.replace('%a', '' + editor.translate(daysShort[date.getDay()]));
-      fmt = fmt.replace('%%', '%');
-      return fmt;
-    };
-    var updateElement = function (editor, timeElm, computerTime, userTime) {
-      var newTimeElm = editor.dom.create('time', { datetime: computerTime }, userTime);
-      timeElm.parentNode.insertBefore(newTimeElm, timeElm);
-      editor.dom.remove(timeElm);
-      editor.selection.select(newTimeElm, true);
-      editor.selection.collapse(false);
-    };
-    var insertDateTime = function (editor, format) {
-      if (Settings.shouldInsertTimeElement(editor)) {
-        var userTime = getDateTime(editor, format);
-        var computerTime = void 0;
-        if (/%[HMSIp]/.test(format)) {
-          computerTime = getDateTime(editor, '%Y-%m-%dT%H:%M');
-        } else {
-          computerTime = getDateTime(editor, '%Y-%m-%d');
+        else {
+            editor.insertContent(getDateTime(editor, format));
         }
-        var timeElm = editor.dom.getParent(editor.selection.getStart(), 'time');
-        if (timeElm) {
-          updateElement(editor, timeElm, computerTime, userTime);
-        } else {
-          editor.insertContent('<time datetime="' + computerTime + '">' + userTime + '</time>');
-        }
-      } else {
-        editor.insertContent(getDateTime(editor, format));
-      }
-    };
-    var Actions = {
-      insertDateTime: insertDateTime,
-      getDateTime: getDateTime
     };
 
-    var register = function (editor) {
-      editor.addCommand('mceInsertDate', function () {
-        Actions.insertDateTime(editor, Settings.getDateFormat(editor));
-      });
-      editor.addCommand('mceInsertTime', function () {
-        Actions.insertDateTime(editor, Settings.getTimeFormat(editor));
-      });
+    const register$1 = (editor) => {
+        editor.addCommand('mceInsertDate', (_ui, value) => {
+            insertDateTime(editor, value ?? getDateFormat(editor));
+        });
+        editor.addCommand('mceInsertTime', (_ui, value) => {
+            insertDateTime(editor, value ?? getTimeFormat(editor));
+        });
     };
-    var Commands = { register: register };
 
-    var global$1 = tinymce.util.Tools.resolve('tinymce.util.Tools');
-
-    var createMenuItems = function (editor, lastFormatState) {
-      var formats = Settings.getFormats(editor);
-      return global$1.map(formats, function (fmt) {
-        return {
-          text: Actions.getDateTime(editor, fmt),
-          onclick: function () {
-            lastFormatState.set(fmt);
-            Actions.insertDateTime(editor, fmt);
-          }
+    const Cell = (initial) => {
+        let value = initial;
+        const get = () => {
+            return value;
         };
-      });
+        const set = (v) => {
+            value = v;
+        };
+        return {
+            get,
+            set
+        };
     };
-    var register$1 = function (editor, lastFormatState) {
-      var menuItems = createMenuItems(editor, lastFormatState);
-      editor.addButton('insertdatetime', {
-        type: 'splitbutton',
-        title: 'Insert date/time',
-        menu: menuItems,
-        onclick: function () {
-          var lastFormat = lastFormatState.get();
-          Actions.insertDateTime(editor, lastFormat ? lastFormat : Settings.getDefaultDateTime(editor));
-        }
-      });
-      editor.addMenuItem('insertdatetime', {
-        icon: 'date',
-        text: 'Date/time',
-        menu: menuItems,
-        context: 'insert'
-      });
+
+    var global = tinymce.util.Tools.resolve('tinymce.util.Tools');
+
+    const onSetupEditable = (editor) => (api) => {
+        const nodeChanged = () => {
+            api.setEnabled(editor.selection.isEditable());
+        };
+        editor.on('NodeChange', nodeChanged);
+        nodeChanged();
+        return () => {
+            editor.off('NodeChange', nodeChanged);
+        };
     };
-    var Buttons = { register: register$1 };
+    const register = (editor) => {
+        const formats = getFormats(editor);
+        const defaultFormat = Cell(getDefaultDateTime(editor));
+        const insertDateTime = (format) => editor.execCommand('mceInsertDate', false, format);
+        editor.ui.registry.addSplitButton('insertdatetime', {
+            icon: 'insert-time',
+            tooltip: 'Insert date/time',
+            chevronTooltip: 'Insert date/time menu',
+            select: (value) => value === defaultFormat.get(),
+            fetch: (done) => {
+                done(global.map(formats, (format) => ({ type: 'choiceitem', text: getDateTime(editor, format), value: format })));
+            },
+            onAction: (_api) => {
+                insertDateTime(defaultFormat.get());
+            },
+            onItemAction: (_api, value) => {
+                defaultFormat.set(value);
+                insertDateTime(value);
+            },
+            onSetup: onSetupEditable(editor)
+        });
+        const makeMenuItemHandler = (format) => () => {
+            defaultFormat.set(format);
+            insertDateTime(format);
+        };
+        editor.ui.registry.addNestedMenuItem('insertdatetime', {
+            icon: 'insert-time',
+            text: 'Date/time',
+            getSubmenuItems: () => global.map(formats, (format) => ({
+                type: 'menuitem',
+                text: getDateTime(editor, format),
+                onAction: makeMenuItemHandler(format)
+            })),
+            onSetup: onSetupEditable(editor)
+        });
+    };
 
-    global.add('insertdatetime', function (editor) {
-      var lastFormatState = Cell(null);
-      Commands.register(editor);
-      Buttons.register(editor, lastFormatState);
-    });
-    function Plugin () {
-    }
+    var Plugin = () => {
+        global$1.add('insertdatetime', (editor) => {
+            register$2(editor);
+            register$1(editor);
+            register(editor);
+        });
+    };
 
-    return Plugin;
+    Plugin();
+    /** *****
+     * DO NOT EXPORT ANYTHING
+     *
+     * IF YOU DO ROLLUP WILL LEAVE A GLOBAL ON THE PAGE
+     *******/
 
-}());
 })();

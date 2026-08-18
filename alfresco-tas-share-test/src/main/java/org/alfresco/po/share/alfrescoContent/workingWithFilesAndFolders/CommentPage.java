@@ -21,7 +21,7 @@ public class CommentPage extends HtmlPage
     @FindBy (css = "div[aria-label='Bold'] button")
     private WebElement boldButton;
 
-    @FindBy (xpath = "//iframe[contains(@title,'Rich Text Area')]")
+    @FindBy (className = "tox-edit-area__iframe")
     private WebElement frame;
 
     @FindBy (xpath = "//div[@aria-label='Bold']//button/..")

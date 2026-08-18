@@ -6,7 +6,7 @@ function main()
       name : "Alfresco.WikiCreateForm",
       options : {
          siteId :(page.url.templateArgs.site != null) ? page.url.templateArgs.site : "",
-         locale : this.locale
+         locale : locale
       }
    };
    model.widgets = [wikiCreateForm];

@@ -211,8 +211,7 @@ public class ReplyingToDiscussionTests extends BaseTest
         topicListPage.clickTopicTitle(topicTitle);
 
         log.info("STEP 1 - Add some content in the reply box and click 'Create'.");
-        topicViewPage.replyToReply(topicReply);
-        topicViewPage.typeReply(reply1);
+        topicViewPage.replyToReply(topicReply,reply1);
         topicViewPage.submitReply();
         topicViewPage.refreshPage();
         assertEquals(topicViewPage.getTopicReplies(), "(2)", "Topic has 2 replies.");

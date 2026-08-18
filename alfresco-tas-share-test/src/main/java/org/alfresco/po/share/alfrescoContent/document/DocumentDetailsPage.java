@@ -101,7 +101,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     private final By folderOpenedLink = By.xpath("//span[@class='folder-link folder-open']");
 
     private final By googleDocsEdit = By.xpath("//span[contains(text(), 'Edit in Google Docs™')]");
-    private final By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
+    private final By commentContentIframe = By.cssSelector("iframe[id$='_default-add-content_ifr']");
     private final By editComment = By.cssSelector("[class*=edit-comment]");
     private final By commContent = By.cssSelector("[class=comment-content]");
     private final By documentActionsOptionsSelector = By.cssSelector(".action-set div a span");
@@ -232,11 +232,11 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
         return getElementText(favoriteUnfavoriteAction);
     }
 
-    public boolean clickOnCommentDocument()
+    public void clickOnCommentDocument()
     {
         waitUntilElementIsVisible(commentDocument);
         clickElement(commentDocument);
-        return isElementDisplayed(commentForm);
+        waitUntilElementIsVisible(commentForm);
     }
 
     public DocumentDetailsPage addComment(String comment)

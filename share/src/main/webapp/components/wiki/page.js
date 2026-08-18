@@ -357,7 +357,7 @@
          this.pageEditor = Alfresco.util.createImageEditor(this.id + '-content',
          {
             height: 300,
-            toolbar: "styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview fullscreen | alfresco-imagelibrary alfresco-linklibrary",
+            toolbar: "blocks | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image emoticons codesample | preview print fullscreen | alfresco-imagelibrary alfresco-linklibrary",
             extended_valid_elements : "style[type]",
             valid_children : "+body[style]",
             siteId: this.options.siteId,
