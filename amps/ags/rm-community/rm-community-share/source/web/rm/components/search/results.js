@@ -752,6 +752,155 @@
             url = Alfresco.constants.URL_PAGECONTEXT + "site/" + this.options.siteId + "/" + oRecord.getData("browseUrl");
          }
          return url;
+      },
+
+      /**
+       * Returns the currently displayed (visible, non-selector) DataTable columns
+       * in display order. Used to build the CSV embedded in the ACP export so that
+       * the exported table matches exactly what the user sees on screen.
+       *
+       * @method _getDisplayedColumns
+       * @return {Array} Array of YUI Column objects in display order
+       * @private
+       */
+      _getDisplayedColumns: function RecordsResults__getDisplayedColumns()
+      {
+         var columns = [],
+            keys = this.widgets.dataTable.getColumnSet().keys;
+         for (var i = 0, j = keys.length; i < j; i++)
+         {
+            var col = keys[i];
+            // Skip the leading checkbox/selection column and any hidden columns
+            if (col.key === "check" || col.hidden)
+            {
+               continue;
+            }
+            columns.push(col);
+         }
+         return columns;
+      },
+
+      /**
+       * Returns the labels of the currently displayed columns, in display order.
+       *
+       * @method _getDisplayedColumnLabels
+       * @return {Array} Array of header label strings
+       * @private
+       */
+      _getDisplayedColumnLabels: function RecordsResults__getDisplayedColumnLabels()
+      {
+         var columns = this._getDisplayedColumns(),
+            labels = [];
+         for (var i = 0, j = columns.length; i < j; i++)
+         {
+            labels.push(this._stripHTML(columns[i].label));
+         }
+         return labels;
+      },
+
+      /**
+       * Returns the rendered cell values for the selected rows, one array of
+       * strings per row, matching the order of _getDisplayedColumnLabels(). Only
+       * selected rows are included (the same set exported as nodeRefs).
+       *
+       * @method _getDisplayedRowValues
+       * @return {Array} Array of row arrays (each an array of cell text strings)
+       * @private
+       */
+      _getDisplayedRowValues: function RecordsResults__getDisplayedRowValues()
+      {
+         var columns = this._getDisplayedColumns(),
+            records = this.widgets.dataTable.getRecordSet().getRecords(),
+            rows = [];
+         for (var i = 0, j = records.length; i < j; i++)
+         {
+            var record = records[i];
+            // Only include selected rows, matching the exported nodeRefs set/order
+            if (!record.getData("check"))
+            {
+               continue;
+            }
+            var row = [];
+            for (var c = 0, cc = columns.length; c < cc; c++)
+            {
+               row.push(this._getDisplayedCellText(record, columns[c]));
+            }
+            rows.push(row);
+         }
+         return rows;
+      },
+
+      /**
+       * Returns the plain-text rendered value of a single cell so the CSV matches
+       * the grid 1:1 (formatted dates, identifier, vital record indicator, etc).
+       * The Type column only renders an icon, so a derived text label is returned.
+       *
+       * @method _getDisplayedCellText
+       * @param record {object} YUI Record for the row
+       * @param column {object} YUI Column for the cell
+       * @return {string} The rendered cell text
+       * @private
+       */
+      _getDisplayedCellText: function RecordsResults__getDisplayedCellText(record, column)
+      {
+         // The Type ("image") column only shows an icon - derive a text label
+         if (column.key === "image")
+         {
+            return this._getTypeLabel(record);
+         }
+
+         // Otherwise read the already-rendered cell text so the CSV equals the screen
+         var text = "",
+            tr = this.widgets.dataTable.getTrEl(record);
+         if (tr)
+         {
+            var td = tr.cells[column.getKeyIndex()];
+            if (td)
+            {
+               text = td.textContent || td.innerText || "";
+            }
+         }
+         return YAHOO.lang.trim(text);
+      },
+
+      /**
+       * Derives a human-readable label for the record Type column.
+       *
+       * @method _getTypeLabel
+       * @param record {object} YUI Record for the row
+       * @return {string} The localised type label
+       * @private
+       */
+      _getTypeLabel: function RecordsResults__getTypeLabel(record)
+      {
+         switch (record.getData("type"))
+         {
+            case "rma:recordCategory":
+               return this._msg("label.typeCategory");
+            case "rma:recordFolder":
+               return this._msg("label.typeFolder");
+            default:
+               return this._msg("label.typeRecord");
+         }
+      },
+
+      /**
+       * Strips any HTML markup from a value and returns the trimmed text.
+       *
+       * @method _stripHTML
+       * @param value {string} The value to strip
+       * @return {string} Plain text
+       * @private
+       */
+      _stripHTML: function RecordsResults__stripHTML(value)
+      {
+         if (!value)
+         {
+            return "";
+         }
+         var div = document.createElement("div");
+         div.innerHTML = value;
+         return YAHOO.lang.trim(div.textContent || div.innerText || "");
       }
    };
 })();
