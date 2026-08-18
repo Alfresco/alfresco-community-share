@@ -17,7 +17,7 @@ public class CreateWikiPage extends SiteCommon<CreateWikiPage>
     private final By saveButton = By.cssSelector("button[id$=default-save-button-button]");
     private final By wikiPageTitle = By.cssSelector("[id$='default-title']");
     private final By pageHeader = By.cssSelector("div.page-form-header h1");
-    private final By wikiPageContent = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
+    private final By wikiPageContent = By.className("tox-edit-area__iframe");
 
     public CreateWikiPage(ThreadLocal<WebDriver> webDriver)
     {
