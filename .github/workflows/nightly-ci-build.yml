@@ -9,6 +9,9 @@ on:
       commitMessage:
         description: Enter the Commit Message
         required: true
+permissions:
+  contents: read
+
 env:
   HOSTED_ZONE: dev.envalfresco.com
   MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
@@ -178,7 +181,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v18.23.0 # v18.23.0
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.24.1
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.24.1
       - name: "Init"
@@ -215,7 +218,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v18.23.0 # v18.23.0
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.24.1
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.24.1
       - name: "Init"
@@ -252,7 +255,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v18.23.0 # v18.23.0
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.24.1
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.24.1
       - name: Setup Python
@@ -332,7 +335,7 @@ jobs:
       - name: Build Docker image
         run: |
           export TAG_NAME="latest"
-          bash scripts/ci/create_swap.sh "5"
+          bash scripts/ci/create_swap.sh "3"
           bash scripts/ci/build.sh
       - name: Tag Docker image
         run: |
@@ -439,7 +442,7 @@ jobs:
         run: |
           firefox --version
           export TAG_NAME="latest"
-          bash scripts/ci/create_swap.sh "5"
+          bash scripts/ci/create_swap.sh "3"
           bash scripts/ci/build.sh
       - name: Tag Docker image
         run: |

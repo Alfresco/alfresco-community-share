@@ -7,6 +7,9 @@ on:
       - master
       - release/**
 
+permissions:
+  contents: read
+
 env:
   HOSTED_ZONE: dev.envalfresco.com
   MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
