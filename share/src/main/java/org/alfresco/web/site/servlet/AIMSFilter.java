@@ -785,6 +785,9 @@ public class AIMSFilter implements Filter
         if (SecurityContextHolder.getContext() != null && !AuthenticationUtil.isAuthenticated(request))
         {
             this.onSuccess(request, response, session, authenticationResult);
+
+            // MNT-23074: Refresh the JSESSIONID on the login transition to prevent session fixation.
+            refreshSessionId(request);
         }
 
         if (savedRequest != null) {
@@ -792,6 +795,23 @@ public class AIMSFilter implements Filter
             this.requestCache.removeRequest(request, response);
         }
         this.redirectStrategy.sendRedirect(request, response, Encode.forJava(redirectUrl));
+    }
+
+    private void refreshSessionId(HttpServletRequest request)
+    {
+        try
+        {
+            request.changeSessionId();
+            if (LOGGER.isDebugEnabled())
+            {
+                LOGGER.debug("Refreshed session id after IdP login");
+            }
+        }
+        catch (IllegalStateException e)
+        {
+            // No session associated with the request, or it has already been invalidated - nothing to rotate.
+            LOGGER.warn("Could not refresh session id after IdP login: " + e.getMessage());
+        }
     }
 
     /**
