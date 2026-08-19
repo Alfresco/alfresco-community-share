@@ -5,8 +5,12 @@ SIZE_IN_GB="${1}"
 
 sudo free -m -t
 sudo swapoff -a
-sudo fallocate -l ${SIZE_IN_GB}G /swapfile
-sudo dd if=/dev/zero of=/swapfile bs=1024 count=$((${SIZE_IN_GB} * 1024 * 1024))
+sudo rm -f /swapfile
+if command -v fallocate >/dev/null 2>&1; then
+  sudo fallocate -l ${SIZE_IN_GB}G /swapfile
+else
+  sudo dd if=/dev/zero of=/swapfile bs=1024 count=$((${SIZE_IN_GB} * 1024 * 1024))
+fi
 sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile
