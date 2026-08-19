@@ -235,6 +235,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
         waitInSeconds(3);
         switchToFrame(waitUntilElementIsVisible(replyTextArea).getAttribute("id"));
         WebElement editable = switchTo().activeElement();
+        clickElement(editable);
         editable.clear();
         editable.sendKeys(content);
         switchToDefaultContent();
@@ -293,8 +294,14 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      */
     public boolean isReplyIndentedFromItsParent(String replyChild, String replyParent)
     {
-        return isElementDisplayed(selectReply(replyParent),
-            By.xpath("following-sibling::*[@class='indented']//*[contains(@class, 'content')]/*[text()='" + replyChild + "']"));
+        WebElement parentReply = findFirstElementWithValue(repliesList, replyParent);
+        WebElement childReply = findFirstElementWithValue(repliesList, replyChild);
+        if (parentReply == null || childReply == null)
+        {
+            return false;
+        }
+        // Verify real visual indentation by comparing the child and parent reply x-positions
+        return childReply.getLocation().getX() > parentReply.getLocation().getX();
     }
 
     /**
