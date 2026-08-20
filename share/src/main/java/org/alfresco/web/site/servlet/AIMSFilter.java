@@ -1024,7 +1024,10 @@ public class AIMSFilter implements Filter
         }
 
         String originalFragment = request.getParameter("fragment");
-        UriComponents redirectUri = UriComponentsBuilder.fromUriString(originalUrl).fragment(originalFragment).build();
+        UriComponents redirectUri = UriComponentsBuilder.fromUriString(originalUrl)
+            .fragment(originalFragment)
+            .build()
+            .encode();
         this.redirectStrategy.sendRedirect(request, response, redirectUri.toUriString());
     }
 

@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import org.alfresco.web.site.servlet.AIMSFilter.JwtAudienceValidator;
@@ -320,6 +321,29 @@ public class AIMSFilterTest
         refreshSessionId.invoke(filter, request);
 
         verify(request).changeSessionId();
+    }
+
+    @Test
+    public void sendRedirectToOriginalTarget_shouldEncodeCurlyBracesInRedirectUrl() throws Exception
+    {
+        AIMSFilter filter = new AIMSFilter();
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+
+        when(request.getParameter("redirectUrl")).thenReturn("https://localhost/share/page?query={value}");
+        when(request.getParameter("fragment")).thenReturn(null);
+        when(request.getServerName()).thenReturn("localhost");
+        when(request.getScheme()).thenReturn("https");
+
+        Method sendRedirectToOriginalTarget =
+                AIMSFilter.class.getDeclaredMethod("sendRedirectToOriginalTarget", HttpServletRequest.class,
+                        HttpServletResponse.class);
+        sendRedirectToOriginalTarget.setAccessible(true);
+
+        sendRedirectToOriginalTarget.invoke(filter, request, response);
+
+        verify(response).sendRedirect("https://localhost/share/page?query=%7Bvalue%7D");
     }
 
 }
