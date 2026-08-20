@@ -1199,7 +1199,7 @@ public class DocumentDetailsPage extends SharePage2<DocumentDetailsPage>
     public DocumentDetailsPage clickCommentContent(String content)
     {
         log.info("click comment content {}", content);
-        By commentContent = By.xpath("//a[text()=\"https://support.hyland.com/home\"]");
+        By commentContent = By.xpath("//a[text()=\"https://docs.hyland.com/home\"]");
         waitUntilElementIsPresent(commentContent);
         findElement(commentContent).click();
         return this;
