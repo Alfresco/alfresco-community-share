@@ -33,6 +33,9 @@
             <mode>manual</mode>
             <enable-auto-deploy-modules>true</enable-auto-deploy-modules>
          </module-deployment>
+          <resources>
+             <js-compression>yui</js-compression>
+          </resources>
       </web-framework>
    </config>
 
