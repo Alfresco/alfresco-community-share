@@ -35,7 +35,7 @@ public class ManagingCommentsTests extends BaseTest
     private final String editedComment = "Test comment edited for C9934" + random;
     private final String nativeCharacters = "désir Bedürfnis è il あなたの名前は何ですか ¿Cuál";
     private final String specialCharacters = "<>?:\"|{}+_)(*&^%$#@!~";
-    private final String linkComment = "https://support.hyland.com/home ";
+    private final String linkComment = "https://docs.hyland.com/home ";
 
     private FileModel fileToCheck;
     private DocumentLibraryPage documentLibraryPage;
