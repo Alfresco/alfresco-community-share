@@ -45,11 +45,11 @@ jobs:
     if: (!contains(github.event.head_commit.message, '[no lint]') && inputs.commitMessage != '[no lint]')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
 
   build:
     runs-on: ubuntu-latest
@@ -74,13 +74,13 @@ jobs:
           owner: Alfresco
           repositories: alfresco-enterprise-share,alfresco-enterprise-repo
 
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
       - name: "Init"
         env:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
@@ -89,7 +89,7 @@ jobs:
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: bash scripts/ci/init.sh
       - name: Setup Python
-        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: 3.x
       - name: "Prepare before Test"
@@ -128,10 +128,10 @@ jobs:
           owner: Alfresco
           repositories: alfresco-enterprise-share,alfresco-enterprise-repo
 
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
       - name: "Init"
         env:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
@@ -139,7 +139,7 @@ jobs:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: bash scripts/ci/init.sh
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: "Build"
@@ -156,14 +156,14 @@ jobs:
           sudo rm -r WEB-INF/lib
           sudo rm -rf share.war
           sudo jar -cvf share.war *
-      - uses: Alfresco/alfresco-build-tools/.github/actions/github-download-file@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/github-download-file@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
         with:
           token: ${{ steps.app-token.outputs.token }}
           repository: "Alfresco/veracode-baseline-archive"
           file-path: "alfresco-enterprise-share/enterprise-share-baseline.json"
           target: "baseline.json"
       - name: "Run SAST Scan"
-        uses: veracode/Veracode-pipeline-scan-action@e7b4fe35b0cc32c530ca6d9c6737f0f7ea0ba4f7 # v1.0.21
+        uses: veracode/Veracode-pipeline-scan-action@3abab7b7c22fed566017eab5b272de18fd6a170a # v1.0.23
         with:
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY }}'
@@ -202,7 +202,7 @@ jobs:
       !contains(github.event.head_commit.message, '[force]') &&
       inputs.commitMessage == '[pmd]'
     steps:
-      - uses: Alfresco/ya-pmd-scan@v4.0.0
+      - uses: Alfresco/ya-pmd-scan@v4.4.1
         with:
           fail-on-new-issues: "false"
           create-github-annotations: "false"
@@ -234,16 +234,16 @@ jobs:
           owner: Alfresco
           repositories: alfresco-enterprise-share,alfresco-enterprise-repo
 
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
       - name: Setup Python
-        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: 3.x
       - name: "Init"
@@ -305,14 +305,14 @@ jobs:
           owner: Alfresco
           repositories: alfresco-enterprise-share,alfresco-enterprise-repo
 
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
@@ -363,14 +363,14 @@ jobs:
           owner: Alfresco
           repositories: alfresco-enterprise-share,alfresco-enterprise-repo
 
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
@@ -416,14 +416,14 @@ jobs:
           private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
           owner: Alfresco
           repositories: alfresco-enterprise-share,alfresco-enterprise-repo
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
@@ -463,16 +463,16 @@ jobs:
       matrix:
         test: [ user, admin-tools, admin-console ,content-actions, content-filters, user-dashboard, userRolesAndPermissions, applying-rules, searching1, searching2, alfresco-content1, alfresco-content2, alfresco-content-and-site-features, task-and-workflows, site, site-dashboard, sitesFeatures-calendar, site-members, sitesFeatures-dataLists, sitesFeatures, searching4, alfresco-content3, alfresco-content4 ]
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
       - name: Setup Python
-        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: 3.x
       - name: "Init"
@@ -671,7 +671,7 @@ jobs:
             alfresco-tas-share-test/target/screenshots
       - name: Upload AI healing artifacts
         if: always() && env.ENABLE_AI_HEALING == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ai-healing-${{ matrix.test }}-${{ github.run_id }}
           path: |
@@ -782,15 +782,15 @@ jobs:
       matrix:
         test: [communitySmokeRMSite, communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests]
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
       - name: Setup Python
-        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: 3.x
       - name: "Init"
@@ -885,16 +885,16 @@ jobs:
       matrix:
         test: [communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration, wormTestSuite]
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@da99ab845e78301fcb0680d16cbc185a40a1938c # v18.24.1
       - name: Setup Python
-        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: 3.x
       - name: Install google chrome version
@@ -935,7 +935,7 @@ jobs:
             fi
           done
       - name: "Configure AWS credentials"
-        uses: aws-actions/configure-aws-credentials@d979d5b3a71173a29b74b5b88418bfda9437d885 # v6.1.1
+        uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
         with:
           aws-access-key-id: ${{ secrets.AGS_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AGS_AWS_SECRET_ACCESS_KEY }}
@@ -1148,7 +1148,7 @@ jobs:
             share.log
       - name: Upload AI healing artifacts
         if: always() && env.ENABLE_AI_HEALING == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ai-healing-${{ matrix.test }}-${{ github.run_id }}
           path: |
@@ -1250,7 +1250,7 @@ jobs:
     if: always()
 
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       # Download all artifacts from test jobs
       - name: Download all artifacts
@@ -1293,7 +1293,7 @@ jobs:
         run: |
           allure generate merged-allure-results-share -o merged-allure-report-share --clean
       - name: Upload Share Allure Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: allure-report-share
           path: merged-allure-report-share
@@ -1302,7 +1302,7 @@ jobs:
         run: |
           allure generate merged-allure-results-enterprise -o merged-allure-report-enterprise --clean
       - name: Upload Enterprise Shared UI Config Allure Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: allure-report-enterprise_shared_ui_configuration
           path: merged-allure-report-enterprise
@@ -1315,7 +1315,7 @@ jobs:
         run: cat test-summary.md >> $GITHUB_STEP_SUMMARY
 
       - name: Upload HTML Test Summary
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-summary-html
           path: test-summary.html
