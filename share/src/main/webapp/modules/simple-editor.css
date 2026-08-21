@@ -8,6 +8,7 @@
    overflow: hidden;
    text-align: left;
    visibility: hidden;
+   z-index: 100000;
 }
 
 #gutter1 .bd
@@ -49,7 +50,8 @@
    position: static;
 }
 
-#image_results p
+#image_results p,
+#image_results .imagelib-message
 {
    padding: 0.5em;
    margin-bottom: 1em;

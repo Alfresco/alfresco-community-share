@@ -24,7 +24,7 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
     private final By replyPostedOn = By.xpath("//*[text()='Posted on: ']/following-sibling::*[1]");
     private final By editReplyLink = By.cssSelector(".onEditReply>a");
     private final By showHideReplies = By.className("showHideChildren");
-    private final By replyTextArea = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
+    private final By replyTextArea = By.className("tox-edit-area__iframe");
     private final By topic_Title = By.className("nodeTitle");
     private final By topic_Element = By.cssSelector("div.node.topic");
     private final By topic_Tags = By.cssSelector(".tagLabel+span");
@@ -206,12 +206,12 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
      * Method to reply to the specified reply
      *
      * @param reply
-     * @return
+     * @param replyContent
      */
-    public TopicViewPage replyToReply(String reply)
+    public void replyToReply(String reply, String replyContent)
     {
         selectReply(reply).findElement(replyLink).click();
-        return new TopicViewPage(webDriver);
+        typeReply(replyContent);
     }
 
     /**
@@ -232,11 +232,12 @@ public class TopicViewPage extends SiteCommon<TopicViewPage>
 
     public void typeReply(String content)
     {
-        waitInSeconds(3);
-        switchToFrame(waitUntilElementIsVisible(replyTextArea).getAttribute("id"));
+        WebElement replyFrame = waitUntilElementIsVisible(replyTextArea);
+        clickElement(replyFrame);
+        switchToFrame(replyFrame.getAttribute("id"));
         WebElement editable = switchTo().activeElement();
-        editable.clear();
-        editable.sendKeys(content);
+        clickElement(editable);
+        clearAndType(editable, content);
         switchToDefaultContent();
     }
 

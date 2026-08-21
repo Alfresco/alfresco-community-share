@@ -226,8 +226,8 @@
                            extended_valid_elements: "a[href|target|name],font[face|size|color|style],span[class|align|style],div[class|align|style]"
                         });
                         this.configDialog.editor.render();
-                        this.configDialog.editor.subscribe("onKeyUp", this._onTextContentChange, this.configDialog, true);
-                        this.configDialog.editor.subscribe("onChange", this._onTextContentChange, this.configDialog, true);
+                        this.configDialog.editor.subscribe("keyup", this._onTextContentChange, this.configDialog, true);
+                        this.configDialog.editor.subscribe("change", this._onTextContentChange, this.configDialog, true);
                      }
                   },
                   scope: this

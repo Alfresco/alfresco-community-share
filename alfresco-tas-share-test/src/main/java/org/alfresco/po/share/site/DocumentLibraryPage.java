@@ -179,7 +179,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     private By perviousCommentPage = By.xpath("(//a[@class='yui-pg-previous'])[1]");
     private By nextCommentPage = By.xpath("//a[@class='yui-pg-next' and @title='Next Page']");
     private By saveComment = By.id("template_x002e_comments_x002e_document-details_x0023_default-add-submit-button");
-    private final By commentContentIframe = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
+    private final By commentContentIframe = By.className("tox-edit-area__iframe");
     private By commentCount = By.xpath("(//span[@class='yui-pg-current'])[1]");
     private By documentActionIcon = By.xpath("//*[@id=\"template_x002e_document-actions_x002e_document-details_x0023_default-heading\"][1]");
 

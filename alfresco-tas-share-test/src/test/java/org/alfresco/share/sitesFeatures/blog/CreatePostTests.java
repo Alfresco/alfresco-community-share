@@ -204,7 +204,7 @@ public class CreatePostTests extends BaseTest
                 getPublishDateFromResponse(formatter), formatter)
             .assertBlogAuthorPostEqualsTo(postTitle, language.translate(AUTHOR_LABEL), expectedAuthorValue)
             .assertBlogPostContentEqualsTo(postContent)
-            .assertBlogPostDontHaveTag(postTitle, language.translate(NONE_LABEL));
+            .assertBlogPostHaveTagEqualsTo(postTitle, postTag);
     }
 
     @TestRail(id = "C6120")

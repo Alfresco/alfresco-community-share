@@ -160,10 +160,11 @@
          {
             this.editor.getEditor().on('SaveContent', function(e) {
                e.format = 'text';
-               var content = tinyMCE.activeEditor.getBody().textContent;
+               var body = this.getBody();
+               var content = body.textContent;
                if (content == undefined)
                {
-                   content = tinyMCE.activeEditor.getBody().innerText;
+                   content = body.innerText;
                }
                e.content = content;
             });

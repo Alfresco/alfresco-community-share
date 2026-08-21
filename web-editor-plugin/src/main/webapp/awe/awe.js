@@ -133,10 +133,11 @@
          this.initAttributes(this.config);
          this.initEditor();
 
-         // A Dynamically loaded TinyMCE instance needs this setting:
-         if (tinyMCE)
+         // A dynamically loaded TinyMCE instance needs this setting:
+         var tinyMceApi = window.tinymce || window.tinyMCE;
+         if (tinyMceApi && tinyMceApi.dom && tinyMceApi.dom.Event)
          {
-            tinyMCE.dom.Event.domLoaded = true;
+            tinyMceApi.dom.Event.domLoaded = true;
          }
 
          return this;

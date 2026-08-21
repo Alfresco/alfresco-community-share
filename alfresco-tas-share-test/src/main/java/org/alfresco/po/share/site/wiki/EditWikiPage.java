@@ -32,9 +32,9 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
     private final By cancelButton = By.cssSelector("button[id$='cancel-button-button']");
     @FindAll (@FindBy (css = "[id$=image_results] img"))
     private List<WebElement> imagesList;
-    private final By insertDocumentImage = By.cssSelector("[aria-label='Insert Document Link'] button i");
+    private final By insertDocumentImage = By.cssSelector("[aria-label='Insert Document Link']");
     private final By libraryImagesTitlebar = By.cssSelector("[class*=toolbar-titlebar] h2");
-    private final By wikiPageContent = By.xpath("//iframe[contains(@title,'Rich Text Area')]");
+    private final By wikiPageContent = By.className("tox-edit-area__iframe");
     private final By removeTag = By.cssSelector("span.remove");
     private final By insertLibraryImage = By.cssSelector("[aria-label='Insert Library Image']");
     private final String imageLink = "//img[contains(@title,'";
@@ -154,6 +154,7 @@ public class EditWikiPage extends SiteCommon<EditWikiPage>
 
     public SelectDocumentPopupPage clickInsertDocumentLink()
     {
+        waitUntilElementIsVisible(insertDocumentImage);
         clickElement(insertDocumentImage);
         return new SelectDocumentPopupPage(webDriver);
     }

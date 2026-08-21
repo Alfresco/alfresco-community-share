@@ -47,7 +47,9 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     private final String postRowPath = "//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text() = '%s']/../../../..";
     private final String valuePath = "//div[@class='published']//span[@class='nodeAttrValue' and normalize-space() = '%s']";
     private final String labelPath = "//div[@class='published']//span[@class='nodeAttrLabel' and normalize-space() = '%s']";
-    private final String postFooterPath = "//div[@class = 'nodeFooter' ]//span[text() = '(%s)']";
+    private final String postFooterPath = ".nodeFooter";
+    private final String numberOfReplies = ".nodeFooter .replyTo + .nodeAttrValue";
+    private final String tagInFooter = ".nodeFooter .tagLabel + span";
     private final String tagPath = "//div[@id = 'alf-filters']//div[contains(@id, '_blog-postlist')]//div[@class = 'filter']//span[@class = 'tag']/a[text() = '%s']";
     private final String postViewPagePath = "//tr[contains(@class, 'yui-dt-rec')]//div[@class = 'nodeContent']//span/a[text()='%s']";
 
@@ -184,29 +186,29 @@ public class BlogPostListPage extends SiteCommon<BlogPostListPage>
     public BlogPostListPage assertPostNumberOfRepliesEqualTo(String title, String expectedNumberOfReplies)
     {
         log.info("Assert blog post number of replies equal to {}", expectedNumberOfReplies);
-        waitUntilElementIsVisible(By.xpath(String.format(postFooterPath, expectedNumberOfReplies)));
+        WebElement repliesElement = getBlogPostRow(title).findElement(By.cssSelector(numberOfReplies));
+        waitUntilWebElementIsDisplayedWithRetry(repliesElement);
 
-        String actualNumberOfReplies = getActualNumberOfReplies(title, expectedNumberOfReplies);
-        assertEquals(actualNumberOfReplies, formattedExpectedFooterLabel(expectedNumberOfReplies),
-        String.format("Number of replies not equals %s ", formattedExpectedFooterLabel(expectedNumberOfReplies)));
+        String actualNumberOfReplies = getActualNumberOfReplies(title);
+        assertEquals(actualNumberOfReplies, expectedNumberOfReplies,
+            String.format("Number of replies not equals %s ", expectedNumberOfReplies));
         return this;
     }
 
-    private String getActualNumberOfReplies(String title, String expectedNumberOfReplies)
+    private String getActualNumberOfReplies(String title)
     {
-        return getElementText(getBlogPostRow(title)
-            .findElement(By.xpath(String.format(postFooterPath, expectedNumberOfReplies))));
+        String repliesLabel = getElementText(getBlogPostRow(title).findElement(By.cssSelector(numberOfReplies))).trim();
+        return repliesLabel.replace(OPEN_PARENTHESIS, "").replace(CLOSE_PARENTHESIS, "").trim();
     }
 
     public BlogPostListPage assertBlogPostDontHaveTag(String title, String expectedNoneTag)
     {
         log.info("Assert blog post have tag label equals to {}", expectedNoneTag);
-        waitUntilElementIsVisible(By.xpath(String.format(postFooterPath, expectedNoneTag)));
-
+        waitUntilElementIsVisible(By.cssSelector(postFooterPath));
         String actualTag = getElementText(getBlogPostRow(title)
-            .findElement(By.xpath(String.format(postFooterPath, expectedNoneTag))));
+            .findElement(By.cssSelector(String.format(tagInFooter)))).trim();
 
-        assertEquals(actualTag, formattedExpectedFooterLabel(expectedNoneTag),
+        assertEquals(actualTag, expectedNoneTag,
             String.format("Tag not equals %s ", expectedNoneTag));
         return this;
     }
