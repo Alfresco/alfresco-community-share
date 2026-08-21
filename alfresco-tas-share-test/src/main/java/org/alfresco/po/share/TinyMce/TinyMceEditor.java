@@ -3,6 +3,7 @@ package org.alfresco.po.share.TinyMce;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.enums.FormatType;
 import org.alfresco.po.share.BasePage;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +13,7 @@ import org.openqa.selenium.WebElement;
 public class TinyMceEditor extends BasePage
 {
     private final By CSS_STR_FORE_COLOUR = By.cssSelector("div[aria-label^='Text'] button[class$='mce-open']");
-    private final By iFrame = By.cssSelector("div[class^='mce-tinymce'] iframe");
+    private final By iFrame = By.className("tox-edit-area__iframe");
     private final By CSS_STR_BOLD = By.cssSelector("i[class$='mce-i-bold']");
     private final By CSS_STR_ITALIC = By.cssSelector("i[class$='mce-i-italic']");
     private final By CSS_STR_UNDER_LINED = By.cssSelector("i[class$='mce-i-underline']");
@@ -26,7 +27,7 @@ public class TinyMceEditor extends BasePage
     private final By CSS_STR_BACK_GROUND_COLOUR = By.cssSelector("div[aria-label*='Background'] button[class='mce-open']");
 
     private String TINYMCE_CONTENT = "body[id$='tinymce']";
-    private String TINY_MCE_SELECT_ALL_COMMAND = "tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(),true);";
+    private String TINY_MCE_SELECT_ALL_COMMAND = "(window.tinymce || window.tinyMCE).activeEditor.selection.select((window.tinymce || window.tinyMCE).activeEditor.getBody(),true);";
     private String frameId = null;
     private FormatType formatType;
     private final By boldText = By.xpath("//*[@id=\"tinymce\"]/p/strong");
@@ -98,7 +99,8 @@ public class TinyMceEditor extends BasePage
     {
         try
         {
-            String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", txt);
+            String setCommentJs = String.format("(window.tinymce || window.tinyMCE).activeEditor.setContent('%s');",
+                    StringEscapeUtils.escapeEcmaScript(txt));
             executeJavaScript(setCommentJs);
         } catch (NoSuchElementException noSuchElementExp)
         {
@@ -161,9 +163,11 @@ public class TinyMceEditor extends BasePage
             throw new IllegalArgumentException("Text is required");
         }
 
-        String setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", "");
+        String setCommentJs = String.format("(window.tinymce || window.tinyMCE).activeEditor.setContent('%s');",
+                StringEscapeUtils.escapeEcmaScript(""));
         executeJavaScript(setCommentJs);
-        setCommentJs = String.format("tinyMCE.activeEditor.setContent('%s');", text);
+        setCommentJs = String.format("(window.tinymce || window.tinyMCE).activeEditor.setContent('%s');",
+                StringEscapeUtils.escapeEcmaScript(text));
         executeJavaScript(setCommentJs);
     }
     public boolean verifyBoldText ()
