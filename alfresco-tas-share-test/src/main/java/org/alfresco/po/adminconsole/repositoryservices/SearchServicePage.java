@@ -8,8 +8,8 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.yandex.qatools.htmlelements.element.Select;
 
 
 @PageObject
@@ -23,7 +23,7 @@ public class SearchServicePage extends AdminConsolePage<AuthenticationChain>
     @FindBy (xpath = "//input[@value='Cancel'][@type='button']")
     public WebElement cancelButton;
     @FindBy (id = "searchService")
-    public Select searchServiceDropDown;
+    public WebElement searchServiceDropDown;
     @Autowired
     protected EnvProperties properties;
     String jmxSolrPath = ",id2=solr6";
@@ -84,7 +84,7 @@ public class SearchServicePage extends AdminConsolePage<AuthenticationChain>
     //Select the item from the drop-down
     public SearchServicePage selectType(Type type)
     {
-        searchServiceDropDown.selectByValue(type.getValue());
+        new Select(searchServiceDropDown).selectByValue(type.getValue());
         return this;
     }
 

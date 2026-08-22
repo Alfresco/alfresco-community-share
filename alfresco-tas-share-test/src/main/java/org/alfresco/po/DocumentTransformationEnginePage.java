@@ -1,5 +1,7 @@
 package org.alfresco.po;
 
+import java.time.Duration;
+
 import org.alfresco.po.share.alfrescoContent.applyingRulesToFolders.PerformActionRulePage;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
@@ -48,7 +50,7 @@ public class DocumentTransformationEnginePage extends HtmlPage {
 
         for (int i = 0; i < numberOfRowsPerPage; i++) {
 
-            WebDriverWait wait = new WebDriverWait(driver, 30);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(String.format(fileNameColumn, i))));
 
             if (driver.findElement(By.cssSelector(String.format(fileNameColumn, i))).getText().equals(uploadedFile)

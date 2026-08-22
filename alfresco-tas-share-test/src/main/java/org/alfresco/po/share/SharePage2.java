@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.time.Duration;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Alert;
@@ -126,7 +127,7 @@ public abstract class SharePage2<T> extends BasePage
 
     public T assertBrowserPageTitleIs(String expectedTitle)
     {
-        assertTrue(new WebDriverWait(webDriver.get(), defaultProperties.getExplicitWait())
+        assertTrue(new WebDriverWait(webDriver.get(), Duration.ofSeconds(defaultProperties.getExplicitWait()))
             .until(ExpectedConditions.titleIs(expectedTitle)), "Page title is correct");
         return (T) this;
     }

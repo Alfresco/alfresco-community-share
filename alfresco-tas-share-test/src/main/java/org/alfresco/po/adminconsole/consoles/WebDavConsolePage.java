@@ -1,12 +1,12 @@
 package org.alfresco.po.adminconsole.consoles;
 
+import org.alfresco.common.HtmlTable;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.Table;
 
 /**
  * Created by Mirela Tifui on 11/1/2017.
@@ -20,7 +20,7 @@ public class WebDavConsolePage extends Console<WebDavConsolePage>
 
     @RenderWebElement
     @FindBy (css = "table.listingTable")
-    private Table listingTable;
+    private WebElement listingTable;
 
     @FindBy (css = "a[href='/alfresco/webdav/Shared']")
     private WebElement sharedLink;
@@ -55,7 +55,7 @@ public class WebDavConsolePage extends Console<WebDavConsolePage>
     private boolean isDirectoryPresent(String directoryName)
     {
         getBrowser().waitUntilElementIsDisplayedWithRetry(By.cssSelector("table.listingTable"));
-        String getNameColumn = listingTable.getColumnsAsString().subList(0, 1).toString();
+        String getNameColumn = new HtmlTable(listingTable).getColumnsAsString().subList(0, 1).toString();
         return getNameColumn.contains(directoryName);
     }
 

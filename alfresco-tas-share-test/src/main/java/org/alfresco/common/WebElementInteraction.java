@@ -12,7 +12,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.ElementNotInteractableException;
-import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -381,7 +380,7 @@ public abstract class WebElementInteraction
                 return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOf(element));
             }
-            catch (ElementNotVisibleException elementNotVisibleException)
+            catch (ElementNotInteractableException elementNotVisibleException)
             {
                 throw new TimeoutException(String
                     .format("Element %s was not visible in the given seconds  %d ", element,
@@ -405,7 +404,7 @@ public abstract class WebElementInteraction
                 return setWaitingTime(getDefaultProperties().getExplicitWait(), pollingTimeInMillis)
                         .until(ExpectedConditions.visibilityOf(element));
             }
-            catch (ElementNotVisibleException elementNotVisibleException)
+            catch (ElementNotInteractableException elementNotVisibleException)
             {
                 throw new TimeoutException(String
                     .format("Element %s was not visible in the given seconds %d ", element,
@@ -429,7 +428,7 @@ public abstract class WebElementInteraction
                 return setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                         .until(ExpectedConditions.visibilityOfElementLocated(locator));
             }
-            catch (ElementNotVisibleException elementNotVisibleException) {
+            catch (ElementNotInteractableException elementNotVisibleException) {
                 throw new TimeoutException(String
                     .format("Element %s was not visible in the given seconds  %d ", locator,
                         getDefaultProperties().getExplicitWait()), exception.getCause());
@@ -452,7 +451,7 @@ public abstract class WebElementInteraction
                 return setWaitingTime(secondsToWait, getDefaultProperties().getPollingTimeInMillis())
                     .until(ExpectedConditions.presenceOfNestedElementLocatedBy(parentLocator, childLocator));
             }
-            catch (ElementNotVisibleException elementNotVisibleException)
+            catch (ElementNotInteractableException elementNotVisibleException)
             {
                 throw new TimeoutException(String
                     .format("Element parent %s with child %s was not present in the given seconds  %d ",
@@ -621,7 +620,7 @@ public abstract class WebElementInteraction
                 setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                     .until(ExpectedConditions.textToBePresentInElement(element, text));
             }
-            catch (ElementNotVisibleException elementNotVisibleException) {
+            catch (ElementNotInteractableException elementNotVisibleException) {
                 throw new TimeoutException(String
                     .format("Unable to get element %s text %s in the given seconds %d ", element,
                             text, getDefaultProperties().getExplicitWait()), elementNotVisibleException.getCause());
@@ -644,7 +643,7 @@ public abstract class WebElementInteraction
                 setWaitingTime(getDefaultProperties().getExplicitWait(), getDefaultProperties().getPollingTimeInMillis())
                     .until(ExpectedConditions.textToBePresentInElementLocated(locator, text));
             }
-            catch (ElementNotVisibleException elementNotVisibleException)
+            catch (ElementNotInteractableException elementNotVisibleException)
             {
                 throw new TimeoutException(String
                     .format("Unable to get element %s text %s in the given seconds %d ", locator,
@@ -736,7 +735,7 @@ public abstract class WebElementInteraction
 
     protected void waitUrlContains(String url, long timeOutInSeconds)
     {
-        WebDriverWait wait = new WebDriverWait(getWebDriver(), timeOutInSeconds);
+        WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(timeOutInSeconds));
         wait.until(ExpectedConditions.urlContains(url));
     }
 
@@ -1236,7 +1235,7 @@ public abstract class WebElementInteraction
 
     protected void waitUntilDomReadyStateIsComplete()
     {
-        new WebDriverWait(webDriver.get(), getDefaultProperties().getExplicitWait())
+        new WebDriverWait(webDriver.get(), Duration.ofSeconds(getDefaultProperties().getExplicitWait()))
                 .until(driver -> ((JavascriptExecutor) webDriver.get())
                         .executeScript("return document.readyState").equals("complete"));
     }
@@ -1254,13 +1253,13 @@ public abstract class WebElementInteraction
 
     private FluentWait<WebDriver> setWaitingTime(long timeOutInSeconds, long pollingTimeInMillis)
     {
-        return new WebDriverWait(getWebDriver(), timeOutInSeconds)
+        return new WebDriverWait(getWebDriver(), Duration.ofSeconds(timeOutInSeconds))
             .pollingEvery(Duration.ofMillis(pollingTimeInMillis))
             .ignoring(ElementClickInterceptedException.class)
             .ignoring(ElementNotInteractableException.class)
             .ignoring(NoSuchElementException.class)
             .ignoring(TimeoutException.class)
-            .ignoring(ElementNotVisibleException.class)
+            .ignoring(ElementNotInteractableException.class)
             .ignoring(StaleElementReferenceException.class);
     }
 }
