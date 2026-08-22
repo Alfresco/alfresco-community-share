@@ -11,23 +11,23 @@ import org.alfresco.po.adminconsole.supporttools.Node.NodeProperty;
 import org.alfresco.utility.exception.TestConfigurationException;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.common.HtmlTable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
-import ru.yandex.qatools.htmlelements.element.Select;
-import ru.yandex.qatools.htmlelements.element.Table;
 
 @PageObject
 public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
 {
     @RenderWebElement
     @FindBy (name = "nodebrowser-store")
-    Select selectNode;
+    WebElement selectNode;
     @RenderWebElement
     @FindBy (name = "nodebrowser-search")
-    Select selectQuery;
+    WebElement selectQuery;
     @RenderWebElement
     @FindBy (id = "query")
     WebElement query;
@@ -39,13 +39,13 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
     @FindBy (css = "a[class='action toggler']")
     WebElement searchAdvancedSettings;
     @FindBy (id = "properties-table")
-    Table propertiesTable;
+    WebElement propertiesTable;
     @FindBy (id = "child-table")
-    Table childrenTable;
+    WebElement childrenTable;
     @FindBy (id = "aspects-table")
-    Table aspectsTable;
+    WebElement aspectsTable;
     @FindBy (id = "info-table")
-    Table nodeInformationTable;
+    WebElement nodeInformationTable;
     @FindBy (name = "nodebrowser-query-maxresults")
     WebElement maxResultsFiled;
     @FindBy (name = "nodebrowser-query-skipcount")
@@ -71,7 +71,7 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
 
     public NodeBrowserQueryPage usingStore(Store store)
     {
-        selectNode.selectByValue(store.getValue());
+        new Select(selectNode).selectByValue(store.getValue());
         clickRootList();
         return this;
     }
@@ -86,7 +86,7 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
 
     public NodeBrowserQueryPage usingQuery(Query query)
     {
-        selectQuery.selectByValue(query.getValue());
+        new Select(selectQuery).selectByValue(query.getValue());
         return this;
     }
 
@@ -129,7 +129,7 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
     public List<NodeProperty> getProperties()
     {
         ArrayList<NodeProperty> properties = new ArrayList<NodeProperty>();
-        List<List<WebElement>> rows = propertiesTable.getRows();
+        List<List<WebElement>> rows = new HtmlTable(propertiesTable).getRows();
         for (List<WebElement> rowInfo : rows)
         {
             NodeProperty np = new NodeProperty(rowInfo, getBrowser());
@@ -166,7 +166,7 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
     public List<NodeChild> getChildren()
     {
         ArrayList<NodeChild> child = new ArrayList<NodeChild>();
-        List<List<WebElement>> rows = childrenTable.getRows();
+        List<List<WebElement>> rows = new HtmlTable(childrenTable).getRows();
         for (List<WebElement> childRow : rows)
         {
             NodeChild nc = new NodeChild(childRow, getBrowser());
@@ -202,7 +202,7 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
     public List<String> getAspects()
     {
         ArrayList<String> aspects = new ArrayList<String>();
-        List<List<WebElement>> rows = aspectsTable.getRows();
+        List<List<WebElement>> rows = new HtmlTable(aspectsTable).getRows();
         for (List<WebElement> aspectRow : rows)
         {
             aspects.add(aspectRow.get(0).getText());
@@ -241,7 +241,7 @@ public class NodeBrowserQueryPage extends AdminConsolePage<NodeBrowserQueryPage>
             Reference	workspace://SpacesStore/8178a5e1-ad63-40f3-b7ac-a68c1195c3cc
            if nodeRowID = 0 it will return Reference so we need the second column i.e. with index 1 (workspace://SpacesStore/8178a5e1-ad63-40f3-b7ac-a68c1195c3cc)
          */
-        String actualNodeInformationValue = nodeInformationTable.getCellAt(nodeRowID, 1).getText();
+        String actualNodeInformationValue = new HtmlTable(nodeInformationTable).getCellAt(nodeRowID, 1).getText();
 
         Assert.assertEquals(actualNodeInformationValue, expectedNodeInformationValue, "Node Information ");
     }

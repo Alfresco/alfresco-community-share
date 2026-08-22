@@ -18,13 +18,12 @@ import org.alfresco.utility.Utility;
 import org.alfresco.utility.web.HtmlPage;
 import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
+import org.alfresco.common.HtmlTable;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.Select;
-import ru.yandex.qatools.htmlelements.element.Table;
 
 @PageObject
 public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChain>
@@ -36,10 +35,10 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
     WebElement nameField;
 
     @FindBy (id = "dm-authtable")
-    Table authenticationTable;
+    WebElement authenticationTable;
 
     @FindBy (className = "sync-status")
-    Table syncStatusTable;
+    WebElement syncStatusTable;
 
     @FindBy (css = "input[value='Synchronization Settings']")
     WebElement synchronizationSettingsButton;
@@ -49,17 +48,17 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
     WebElement runSynchronizeButton;
 
     @FindBy (id = "dm-type")
-    Select availableTypes;
+    WebElement availableTypes;
 
     @FindBy (id = "dm-cifs")
-    Select cifsAuthentication;
+    WebElement cifsAuthentication;
 
     @RenderWebElement
     @FindBy (id = "dm-browser")
-    Select browserBasedAutomaticLogin;
+    WebElement browserBasedAutomaticLogin;
 
     @FindBy (css = "input[value='Add']")
-    Button addButton;
+    WebElement addButton;
 
     @FindBy (css = ".column-full>p>b")
     WebElement syncStatusMessage;
@@ -87,7 +86,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
         STEP("Get authentication details.");
         this.renderedPage();
         ArrayList<AuthenticationChain> row = new ArrayList<>();
-        List<List<WebElement>> rows = authenticationTable.getRows();
+        List<List<WebElement>> rows = new HtmlTable(authenticationTable).getRows();
         for (List<WebElement> details : rows)
         {
             AuthenticationChain authDetail = new AuthenticationChain(details, getBrowser());
@@ -102,7 +101,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
         STEP("Get synchronization status.");
         this.renderedPage();
         ArrayList<SynchronizationStatus> row = new ArrayList<>();
-        List<List<WebElement>> rows = syncStatusTable.getRows();
+        List<List<WebElement>> rows = new HtmlTable(syncStatusTable).getRows();
         for (List<WebElement> details : rows)
         {
             SynchronizationStatus syncStatusDetail = new SynchronizationStatus(details, getBrowser());
@@ -137,7 +136,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public DirectoryManagementPage selectType(Type type)
     {
-        availableTypes.selectByValue(type.getValue());
+        new Select(availableTypes).selectByValue(type.getValue());
         clickAdd();
         return this;
     }
@@ -145,7 +144,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
     public DirectoryManagementPage selectCIFSAuthentication(String option) throws Exception
     {
         if (getCIFSAuthenticationOptions().contains(option))
-            cifsAuthentication.selectByVisibleText(option);
+            new Select(cifsAuthentication).selectByVisibleText(option);
         else
             throw new Exception("Option not available!");
         return this;
@@ -153,7 +152,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public List<String> getCIFSAuthenticationOptions() throws Exception
     {
-        List<WebElement> optionsList = cifsAuthentication.getOptions();
+        List<WebElement> optionsList = new Select(cifsAuthentication).getOptions();
         List<String> optionsValues = new ArrayList<>();
         for (WebElement option : optionsList)
             optionsValues.add(option.getText());
@@ -162,13 +161,13 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public String getCIFSAuthenticationSelectedOption() throws Exception
     {
-        return cifsAuthentication.getFirstSelectedOption().getText();
+        return new Select(cifsAuthentication).getFirstSelectedOption().getText();
     }
 
     public DirectoryManagementPage selectBrowserBasedAutomaticLogin(String option) throws Exception
     {
         if (getBrowserBasedAutomaticLoginOptions().contains(option))
-            browserBasedAutomaticLogin.selectByVisibleText(option);
+            new Select(browserBasedAutomaticLogin).selectByVisibleText(option);
         else
             throw new Exception("Option not available!");
         return this;
@@ -176,7 +175,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public List<String> getBrowserBasedAutomaticLoginOptions() throws Exception
     {
-        List<WebElement> optionsList = browserBasedAutomaticLogin.getOptions();
+        List<WebElement> optionsList = new Select(browserBasedAutomaticLogin).getOptions();
         List<String> optionsValues = new ArrayList<>();
         for (WebElement option : optionsList)
             optionsValues.add(option.getText());
@@ -185,7 +184,7 @@ public class DirectoryManagementPage extends AdminConsolePage<AuthenticationChai
 
     public String getBrowserBasedAutomaticLoginSelectedOption() throws Exception
     {
-        return browserBasedAutomaticLogin.getFirstSelectedOption().getText();
+        return new Select(browserBasedAutomaticLogin).getFirstSelectedOption().getText();
     }
 
     public String getSyncStatusMessage()

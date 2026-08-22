@@ -5,7 +5,7 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.Select;
+import org.openqa.selenium.support.ui.Select;
 
 /**
  * Created by Mirela Tifui on 11/24/2017.
@@ -23,7 +23,7 @@ public class ConfigureRSSFeedDialog extends ShareDialog
     private WebElement okButton;
 
     @FindBy (css = "select[id$='3_default-configDialog-limit']")
-    private Select selectNumberOfItemsToDisplay;
+    private WebElement selectNumberOfItemsToDisplay;
 
     public void typeInURL(String Url)
     {
@@ -39,6 +39,6 @@ public class ConfigureRSSFeedDialog extends ShareDialog
 
     public void selectNumberOfItemsToDisplay(String selectValue)
     {
-        selectNumberOfItemsToDisplay.selectByValue(selectValue);
+        new Select(selectNumberOfItemsToDisplay).selectByValue(selectValue);
     }
 }

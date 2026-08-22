@@ -72,7 +72,9 @@ public class WebDriverFactory
         chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
 
         boolean isHeadless = properties.isBrowserHeadless();
-        chromeOptions.setHeadless(isHeadless);
+        if (isHeadless) {
+            chromeOptions.addArguments("--headless=new");
+        }
 
         if (!isHeadless) {
             chromeOptions.addArguments(properties.getStartMaximizedChrome());
@@ -114,7 +116,9 @@ public class WebDriverFactory
         firefoxOptions.addPreference("browser.download.manager.showAlertOnComplete", false);
         firefoxOptions.addPreference("intl.accept_languages", getBrowserLanguage(properties));
         firefoxOptions.setAcceptInsecureCerts(true);
-        firefoxOptions.setHeadless(properties.isBrowserHeadless());
+        if (properties.isBrowserHeadless()) {
+            firefoxOptions.addArguments("-headless");
+        }
 
         return firefoxOptions;
     }

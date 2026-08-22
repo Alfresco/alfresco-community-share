@@ -5,7 +5,6 @@ import org.alfresco.utility.web.annotation.PageObject;
 import org.alfresco.utility.web.annotation.RenderWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.Button;
 
 /**
  * Created by Claudia Agache on 7/12/2016.
@@ -19,13 +18,13 @@ public class EventInformationDialog extends ShareDialog
 
     @RenderWebElement
     @FindBy (css = "button[id$='_defaultContainer-cancel-button-button']")
-    private Button cancelButton;
+    private WebElement cancelButton;
 
     @FindBy (css = "button[id$='edit-button-button']")
-    private Button editButton;
+    private WebElement editButton;
 
     @FindBy (css = "button[id$='delete-button-button']")
-    private Button deleteButton;
+    private WebElement deleteButton;
 
     @FindBy (css = "div[id$='_defaultContainer-startdate']")
     private WebElement startDateTime;
