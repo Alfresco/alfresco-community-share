@@ -51,15 +51,13 @@ mvn -B versions:set-property versions:commit \
   -Dproperty=dependency.alfresco-enterprise-share.version \
   "-DnewVersion=${SHARE_VERSION}"
 
-# Commit changes
+
+# Stage pom.xml changes
 git status
 git --no-pager diff pom.xml
+sed -i 's/\r$//' pom.xml
 git add pom.xml
 
-DOWNSTREAM_MESSAGE="Update upstream versions
-
-    - alfresco-enterprise-repo:  ${ENT_VERSION}
-    - alfresco-enterprise-share: ${SHARE_VERSION}"
 if [[ "${GITHUB_COMMIT_MESSAGE}" =~ \[force[^\]]*\] ]]; then
   # Check if the force directive contains a version number or not.
   FORCE_TOKEN=$(echo "${GITHUB_COMMIT_MESSAGE}" | tr "\n" "\r" | sed "s|^.*\(\[force[^]]*\]\).*$|\1|g")
@@ -70,7 +68,7 @@ if [[ "${GITHUB_COMMIT_MESSAGE}" =~ \[force[^\]]*\] ]]; then
     NEW_ACS_VERSION=$(nextARelease ${ACS_SNAPSHOT_VERSION})
   fi
   echo "Updating acs-packaging to release ${NEW_ACS_VERSION}"
-  sed -i "s|RELEASE_VERSION:.*|RELEASE_VERSION: ${NEW_ACS_VERSION}|g" .github/workflows/master_release.yml
+  sed -i "s|- RELEASE_VERSION=.*|- RELEASE_VERSION=${NEW_ACS_VERSION}|g" .github/release-versions.yml
   # Determine the next development version by incrementing the last number in the release version.
   FIRST_PART=$(echo ${NEW_ACS_VERSION} | sed "s|^\(.*[^0-9]\)[0-9]*$|\1|g")
   LAST_PART=$(echo ${NEW_ACS_VERSION} | sed "s|^.*[^0-9]\([0-9]*\)$|\1|g")
@@ -81,20 +79,12 @@ if [[ "${GITHUB_COMMIT_MESSAGE}" =~ \[force[^\]]*\] ]]; then
   fi
   NEXT_DEV_VERSION=${NEXT_VERSION}"-SNAPSHOT"
   echo "Updating acs-packaging with next development version ${NEXT_DEV_VERSION}"
-  sed -i "s|DEVELOPMENT_VERSION:.*|DEVELOPMENT_VERSION: ${NEXT_DEV_VERSION}|g" .github/workflows/master_release.yml
-  git add .github/workflows/master_release.yml
-  git commit --allow-empty -m "${FORCE_TOKEN}[release][skip tests] ${DOWNSTREAM_MESSAGE}"
-  git push
-elif git status --untracked-files=no --porcelain | grep -q '^' ; then
-  git commit -m "${DOWNSTREAM_MESSAGE}"
-  git push
-else
-  echo "Dependencies are already up to date."
-  git status
+  sed -i "s|- DEVELOPMENT_VERSION=.*|- DEVELOPMENT_VERSION=${NEXT_DEV_VERSION}|g" .github/release-versions.yml
+  git add .github/release-versions.yml
 fi
 
+echo "version=${SHARE_VERSION}" >> "$GITHUB_OUTPUT"
 
 popd
 set +vex
 echo "=========================== Finishing Update Downstream Script =========================="
-

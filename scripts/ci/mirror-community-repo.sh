@@ -18,7 +18,9 @@ git config --global branch.autosetuprebase always
 
 # Clone source repo
 rm -rf mirror
-git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-enterprise-share.git mirror
+{ set +x; } 2>/dev/null
+git clone https://x-access-token:${APP_TOKEN:?APP_TOKEN is required}@github.com/Alfresco/alfresco-enterprise-share.git mirror
+{ set -x; } 2>/dev/null
 cd mirror
 
 # Checkout all support branches
@@ -48,12 +50,15 @@ else:
         and not b"alfresco-enterprise" in change.filename
         and not b"travis" in change.filename
         and not b"Licenses" in change.filename
-        and not b".lic" in change.filename]
+        and not b".lic" in change.filename
+        and not change.filename.startswith(b".github/")]
 '
 
 
 # Push all local branches and tags to the Mirror
-git remote add origin "https://${GIT_USERNAME}:${GIT_PASSWORD}@${MIRROR_REPO:8}"
+{ set +x; } 2>/dev/null
+git remote add origin "https://x-access-token:${APP_TOKEN:?APP_TOKEN is required}@${MIRROR_REPO:8}"
+{ set -x; } 2>/dev/null
 git push -f -u origin --all
 git push -f -u origin --tags
 
