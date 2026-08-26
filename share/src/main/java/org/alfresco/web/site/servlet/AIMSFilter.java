@@ -111,6 +111,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.UriUtils;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -138,6 +139,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.util.Objects.requireNonNull;
 
@@ -197,6 +200,7 @@ public class AIMSFilter implements Filter
     private boolean allowIdpBypass;
 
     private static final String BYPASS_AIMS_SESSION_KEY = "aims.bypass";
+    private static final Pattern ENCODED_OCTET_PATTERN = Pattern.compile("%[0-9a-fA-F]{2}");
 
 
     public AIMSFilter()
@@ -984,7 +988,7 @@ public class AIMSFilter implements Filter
      * @throws MalformedURLException
      */
     private boolean isRedirectUrlSafe(HttpServletRequest request, String redirectUrl) {
-        if (!StringUtils.hasText(redirectUrl)) {
+        if (!StringUtils.hasLength(redirectUrl)) {
             return false;
         }
 
@@ -1024,8 +1028,109 @@ public class AIMSFilter implements Filter
         }
 
         String originalFragment = request.getParameter("fragment");
-        UriComponents redirectUri = UriComponentsBuilder.fromUriString(originalUrl).fragment(originalFragment).build();
-        this.redirectStrategy.sendRedirect(request, response, redirectUri.toUriString());
+        this.redirectStrategy.sendRedirect(request, response,
+            buildRedirectUrl(originalUrl, originalFragment));
+    }
+
+    private String buildRedirectUrl(String originalUrl, String originalFragment)
+    {
+        UriComponents source = UriComponentsBuilder.fromUriString(originalUrl).build(false);
+        String fragment = originalFragment != null ? originalFragment : source.getFragment();
+
+        UriComponents redirectUri = UriComponentsBuilder.newInstance()
+            .scheme(source.getScheme())
+            .userInfo(source.getUserInfo())
+            .host(source.getHost())
+            .port(source.getPort())
+            .path(encodeComponentPreservingEncodedOctets(source.getPath(), "path"))
+            .query(encodeComponentPreservingEncodedOctets(source.getQuery(), "query"))
+            .fragment(encodeComponentPreservingEncodedOctets(fragment, "fragment"))
+            .build(true);
+
+        return redirectUri.toUriString();
+    }
+
+    private String encodeComponentPreservingEncodedOctets(String value, String component)
+    {
+        if (!StringUtils.hasLength(value))
+        {
+            return value;
+        }
+
+        EncodedOctetsProtection protection = protectEncodedOctets(value);
+
+        String encodedValue;
+        if ("path".equals(component))
+        {
+            encodedValue = UriUtils.encodePath(protection.protectedValue, StandardCharsets.UTF_8);
+        }
+        else if ("query".equals(component))
+        {
+            encodedValue = UriUtils.encodeQuery(protection.protectedValue, StandardCharsets.UTF_8);
+        }
+        else
+        {
+            encodedValue = UriUtils.encodeFragment(protection.protectedValue, StandardCharsets.UTF_8);
+        }
+
+        return restoreEncodedOctets(encodedValue, protection);
+    }
+
+    private EncodedOctetsProtection protectEncodedOctets(String value)
+    {
+        List<String> encodedOctets = new ArrayList<>();
+        String markerPrefix = nextMarkerPrefix(value);
+        Matcher matcher = ENCODED_OCTET_PATTERN.matcher(value);
+        StringBuffer protectedValue = new StringBuffer();
+        while (matcher.find())
+        {
+            int tokenIndex = encodedOctets.size();
+            encodedOctets.add(matcher.group());
+            matcher.appendReplacement(protectedValue,
+                Matcher.quoteReplacement(markerPrefix + tokenIndex + "__"));
+        }
+        matcher.appendTail(protectedValue);
+        Pattern tokenPattern = Pattern.compile(Pattern.quote(markerPrefix) + "(\\d+)__");
+        return new EncodedOctetsProtection(protectedValue.toString(), encodedOctets, tokenPattern);
+    }
+
+    private String restoreEncodedOctets(String value, EncodedOctetsProtection protection)
+    {
+        Matcher matcher = protection.tokenPattern.matcher(value);
+        StringBuffer restoredValue = new StringBuffer();
+        while (matcher.find())
+        {
+            int tokenIndex = Integer.parseInt(matcher.group(1));
+            matcher.appendReplacement(restoredValue,
+                Matcher.quoteReplacement(protection.encodedOctets.get(tokenIndex)));
+        }
+        matcher.appendTail(restoredValue);
+        return restoredValue.toString();
+    }
+
+    private String nextMarkerPrefix(String value)
+    {
+        String prefix;
+        do
+        {
+            prefix = "__AIMS_OCTET_" + UUID.randomUUID().toString().replace("-", "") + "_";
+        }
+        while (value.contains(prefix));
+        return prefix;
+    }
+
+    private static class EncodedOctetsProtection
+    {
+        private final String protectedValue;
+        private final List<String> encodedOctets;
+        private final Pattern tokenPattern;
+
+        private EncodedOctetsProtection(String protectedValue, List<String> encodedOctets, Pattern tokenPattern)
+        {
+            this.protectedValue = protectedValue;
+            this.encodedOctets = encodedOctets;
+            this.tokenPattern = tokenPattern;
+        }
     }
 
     private void refreshToken(SecurityContext attribute, HttpSession session)
