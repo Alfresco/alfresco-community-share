@@ -42,7 +42,7 @@ env:
   GITHUB_ACTIONS_DEPLOY_TIMEOUT: 120
   SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
   CHROME_VERSION: "132.0.6834.159-1"
-  CHROME_DOWNLOAD_URL: "https://mirror.vitalinux.educa.aragon.es/google/pool/main/g/google-chrome-stable"
+  CHROME_DOWNLOAD_URL: "https://mirror.cs.uchicago.edu/google-chrome/pool/main/g/google-chrome-stable"
 
 jobs:
   lint:
