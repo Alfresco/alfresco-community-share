@@ -49,9 +49,9 @@ jobs:
     if: (!contains(github.event.head_commit.message, '[no lint]') && inputs.commitMessage != '[no lint]')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: actions/checkout@v7
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
 
   build:
     runs-on: ubuntu-latest
@@ -73,15 +73,15 @@ jobs:
           private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
           owner: Alfresco
           repositories: alfresco-enterprise-share,alfresco-enterprise-repo
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.14.1
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.1.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v18.26.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v18.26.0
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: 3.x
       - name: "Prepare before Test"
@@ -115,13 +115,13 @@ jobs:
           private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
           owner: Alfresco
           repositories: alfresco-enterprise-share,alfresco-enterprise-repo,veracode-baseline-archive
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
       - name: "Init"
         run: bash scripts/ci/init.sh
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         env:
@@ -136,14 +136,14 @@ jobs:
           sudo rm -r WEB-INF/lib
           sudo rm -rf share.war
           sudo jar -cvf share.war *
-      - uses: Alfresco/alfresco-build-tools/.github/actions/github-download-file@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/github-download-file@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
         with:
           token: ${{ steps.app-token.outputs.token }}
           repository: "Alfresco/veracode-baseline-archive"
           file-path: "alfresco-enterprise-share/enterprise-share-baseline.json"
           target: "baseline.json"
       - name: "Run SAST Scan"
-        uses: veracode/Veracode-pipeline-scan-action@v1.0.16
+        uses: veracode/Veracode-pipeline-scan-action@v1.0.25
         with:
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY }}'
@@ -162,7 +162,7 @@ jobs:
         run: zip readable_output.zip results.json
       - name: Upload Artifact
         if: success() || failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Veracode Pipeline-Scan Results - Share (Human Readable)
           path: readable_output.zip
@@ -178,7 +178,7 @@ jobs:
       !contains(github.event.head_commit.message, '[skip tests]') &&
       !contains(github.event.head_commit.message, '[force]')
     steps:
-      - uses: Alfresco/ya-pmd-scan@v4.0.0
+      - uses: Alfresco/ya-pmd-scan@v4.4.1
         with:
           fail-on-new-issues: "false"
           create-github-annotations: "false"
@@ -208,12 +208,12 @@ jobs:
           private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
           owner: Alfresco
           repositories: alfresco-enterprise-share,alfresco-enterprise-repo
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2 # v18.23.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.21.2 # v18.23.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
@@ -221,7 +221,7 @@ jobs:
           APP_TOKEN: ${{ steps.app-token.outputs.token }}
         run: bash scripts/ci/build.sh
       - name: Run Unit Tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -255,12 +255,12 @@ jobs:
           private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
           owner: Alfresco
           repositories: alfresco-enterprise-share,alfresco-enterprise-repo
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2 # v18.23.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.21.2 # v18.23.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
@@ -268,7 +268,7 @@ jobs:
           APP_TOKEN: ${{ steps.app-token.outputs.token }}
         run: bash scripts/ci/build.sh
       - name: Run ${{ matrix.testModule }} Unit Tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -305,14 +305,14 @@ jobs:
           private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
           owner: Alfresco
           repositories: alfresco-enterprise-share,alfresco-enterprise-repo
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
@@ -357,14 +357,14 @@ jobs:
           private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
           owner: Alfresco
           repositories: alfresco-enterprise-share,alfresco-enterprise-repo
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2 # v18.23.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.21.2 # v18.23.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: 3.x
       - name: "Init"
@@ -386,7 +386,7 @@ jobs:
           bash amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           sudo free -m -t
       - name: Run ${{ matrix.test }} Test
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -396,7 +396,7 @@ jobs:
         continue-on-error: true
       - name: "Upload artifacts"
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.test }}-tests
           path: |
@@ -433,13 +433,13 @@ jobs:
           private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
           owner: Alfresco
           repositories: alfresco-enterprise-share,alfresco-enterprise-repo
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: 3.x
       - name: "Init"
@@ -475,7 +475,7 @@ jobs:
           bash amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           sudo free -m -t
       - name: Run tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -483,7 +483,7 @@ jobs:
           retry_on: error
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL $WEBDRIVER_ARGUMENTS
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ags/community/${GITHUB_RUN_NUMBER}/${JOB_NAME}
           path:
@@ -530,13 +530,13 @@ jobs:
           private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
           owner: Alfresco
           repositories: alfresco-enterprise-share,alfresco-enterprise-repo
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@d2981070adf1a68c3ddcbf0ebba193467261c9b3 # v18.26.0
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: 3.x
       - name: Install google chrome version
@@ -558,7 +558,7 @@ jobs:
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
       - name: "Configure AWS credentials"
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           aws-access-key-id: ${{ secrets.AGS_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AGS_AWS_SECRET_ACCESS_KEY }}
@@ -588,7 +588,7 @@ jobs:
           amps/ags/ci/scripts/waitForAlfrescoToStart.sh
           free -m -t
       - name: Run tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
           max_attempts: 3
@@ -596,7 +596,7 @@ jobs:
           retry_on: error
           command: xvfb-run --server-args="-screen 0 1920x1080x24" mvn -B test -pl :alfresco-governance-services-automation-ui -Pags -Dskip.automationtests=false -DsuiteXmlFile=${{ matrix.test }}.xml -Dshare.url=$SHARE_URL -Dalfresco.url=$ALFRESCO_URL
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ags-${{matrix.test}}-${GITHUB_RUN_NUMBER}-${JOB_NAME}-${{ github.run_id}}-${{ github.run_attempt }}
           path: |
