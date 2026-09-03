@@ -101,6 +101,7 @@
         <docker.quay-expires.value>1w</docker.quay-expires.value>
         <dependency.log4j.version>2.19.0</dependency.log4j.version>
         <dependency.netty.version>4.1.137.Final</dependency.netty.version>
+        <dependency.bouncycastle.version>1.85</dependency.bouncycastle.version>
     </properties>
 
     <scm>
@@ -125,6 +126,31 @@
                 <version>${dependency.netty.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${dependency.bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk18on</artifactId>
+                <version>${dependency.bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcutil-jdk18on</artifactId>
+                <version>${dependency.bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcmail-jdk18on</artifactId>
+                <version>${dependency.bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcjmail-jdk18on</artifactId>
+                <version>${dependency.bouncycastle.version}</version>
             </dependency>
             <!-- Override dependencies with the locally defined versions -->
             <dependency>
