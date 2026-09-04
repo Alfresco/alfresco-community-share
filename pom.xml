@@ -72,7 +72,8 @@
         <dependency.cxf.version>3.4.10</dependency.cxf.version>
         <dependency.beanutils.version>1.9.4</dependency.beanutils.version>
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
-        <dependency.jackson.version>2.14.0-rc1</dependency.jackson.version>
+        <dependency.jackson.version>2.22.1</dependency.jackson.version>
+        <dependency.jackson-annotations.version>2.22</dependency.jackson-annotations.version>
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
         <dependency.org-json.version>20231013</dependency.org-json.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
@@ -294,7 +295,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>${dependency.jackson.version}</version>
+                <version>${dependency.jackson-annotations.version}</version>
             </dependency>
           <dependency>
             <groupId>org.slf4j</groupId>
