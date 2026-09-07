@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static org.alfresco.common.RetryTime.RETRY_TIME_30;
 import static org.alfresco.common.RetryTime.RETRY_TIME_80;
 import static org.alfresco.common.Wait.WAIT_2;
 import static org.alfresco.common.Wait.WAIT_3;
@@ -259,33 +260,22 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     }
     public boolean isResultFoundWithList(String query)
     {
-        for (int i = 0; i < 10; i++) {
-            if (isElementDisplayed(resultsDetailedViewList)) {
-                break;
-            }
-            else
+        int retryCount = 0;
+        while (retryCount <= RETRY_TIME_80.getValue())
+        {
+            if (isElementDisplayed(resultsDetailedViewList))
             {
-                refresh();
-                waitInSeconds(5);
+                WebElement webElement = findFirstElementWithValue(findElements(resultsDetailedViewList), query);
+                if (webElement != null)
+                {
+                    return true;
+                }
             }
-
+            refresh();
+            waitToLoopTime(WAIT_2.getValue());
+            retryCount++;
         }
-        List<WebElement> elementList = waitUntilElementsAreVisible(resultsDetailedViewList);
-        WebElement webElement = findFirstElementWithValue(elementList, query);
-        for (int i = 0; i < 10; i++) {
-            if (webElement == null) {
-                refresh();
-                waitInSeconds(2);
-                elementList = waitUntilElementsAreVisible(resultsDetailedViewList);
-                webElement = findFirstElementWithValue(elementList, query);
-            }
-            else
-            {
-                break;
-            }
-        }
-//        System.out.println("from last : "+webElement);
-        return webElement != null;
+        return false;
     }
     public boolean is_ResultFound()
     {
@@ -389,6 +379,61 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
             filterList.add(aFilterTypeList.getText());
         }
         return filterList;
+    }
+
+    public SearchPage waitForResultsAndFilterBySection()
+    {
+        int retryCount = 0;
+        while (retryCount <= RETRY_TIME_80.getValue())
+        {
+            if (isElementDisplayed(resultsDetailedViewList) && isElementDisplayed(filterTypeList))
+            {
+                return this;
+            }
+            refresh();
+            waitToLoopTime(WAIT_2.getValue());
+            retryCount++;
+        }
+        waitUntilElementIsVisible(resultsDetailedViewList);
+        waitUntilElementIsVisible(filterTypeList);
+        return this;
+    }
+
+    public List<String> getFilterTypeListWithRetry(List<String> expectedFilters)
+    {
+        waitForResultsAndFilterBySection();
+
+        waitUntilElementIsVisible(filterTypeList);
+        List<String> availableFilters = new ArrayList<>();
+        int retryCount = 0;
+        int maxRetries = RETRY_TIME_30.getValue();
+
+        while (retryCount <= maxRetries && !availableFilters.containsAll(expectedFilters))
+        {
+            availableFilters.clear();
+            for (WebElement aFilterTypeList : findElements(filterTypeList))
+            {
+                availableFilters.add(aFilterTypeList.getText());
+            }
+
+            if (availableFilters.containsAll(expectedFilters))
+            {
+                log.debug("All expected filters found on attempt {}: {}", retryCount, availableFilters);
+                return availableFilters;
+            }
+
+            if (retryCount < maxRetries)
+            {
+                log.debug("Attempt {}/{}: Available filters: {}. Expected: {}",
+                    retryCount + 1, maxRetries, availableFilters, expectedFilters);
+                waitToLoopTime(WAIT_2.getValue());
+            }
+            retryCount++;
+        }
+
+        log.warn("Could not find all expected filters after {} retries. Available: {}. Expected: {}",
+            maxRetries, availableFilters, expectedFilters);
+        return availableFilters;
     }
 
     public boolean isFilterTypePresent(String filter)
@@ -515,7 +560,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
 
     public boolean isSearchResultsListInDetailedView()
     {
-        waitUntilElementsAreVisible(By.cssSelector(".propertiesCell .nameAndTitleCell a .value"));
+        waitUntilElementsAreVisible(resultsDetailedViewList);
         return !findElements(resultsDetailedViewList).isEmpty();
     }
 
@@ -821,7 +866,7 @@ public class SearchPage extends SharePage2<SearchPage> implements AccessibleByMe
     public boolean isResultsDisplayedInSearch(String query)
     {
         int retryCounter = 0;
-        while (!isElementDisplayed(By.cssSelector(".propertiesCell .nameAndTitleCell a .value")) && retryCounter < 4)
+        while (!isElementDisplayed(resultsDetailedViewList) && retryCounter < 4)
         {
             waitInSeconds(2);
             refresh();

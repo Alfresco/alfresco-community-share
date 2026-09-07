@@ -14,7 +14,7 @@ public class RetryAnalyzer implements IRetryAnalyzer
     public boolean retry(ITestResult result)
     {
       String methodName = result.getMethod().getMethodName();
-      if (retryCount < MAX_RETRIES)
+      if (result.getStatus() == ITestResult.FAILURE && retryCount < MAX_RETRIES)
       {
         log.warn("RERUNNING FAILED TEST {}, {}", methodName, retryCount);
         retryCount++;
