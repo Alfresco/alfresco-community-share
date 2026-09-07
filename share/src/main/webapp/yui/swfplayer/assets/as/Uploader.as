@@ -827,7 +827,11 @@
 
 			for (var itemName:String in vars) {
 
-				request.data[itemName] = vars[itemName];
+				if (/^[a-zA-Z0-9_\-]+$/.test(itemName) && String(vars[itemName]).indexOf("..") == -1) {
+
+					request.data[itemName] = vars[itemName];
+
+				}
 
 			}
 
