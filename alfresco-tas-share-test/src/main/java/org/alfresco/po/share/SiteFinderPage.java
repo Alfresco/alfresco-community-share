@@ -31,7 +31,8 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
     private final By siteNameLink = By.cssSelector("h3.sitename > a");
     private final By requestToJoinButton = By.xpath(".//button[text()='Request to Join']");
 
-    private final String siteNamePath = "//tr[contains(@class, 'yui-dt-even')]//a[text()='%s']/../../../..";
+    private final String siteNamePath =
+        "//div[contains(@id,'default-sites')]//h3[@class='sitename']/a[normalize-space(text())='%s']/ancestor::tr[1]";
     private By notification = By.cssSelector("div.bd span.message");
     public SiteFinderPage(ThreadLocal<WebDriver> webDriver)
     {
@@ -59,7 +60,8 @@ public class SiteFinderPage extends SharePage2<SiteFinderPage> implements Access
 
     public boolean isSiteNameDisplayed(String siteName)
     {
-        return isElementDisplayed(By.xpath(String.format(siteNamePath, siteName)));
+        return findElements(siteNameLink).stream()
+            .anyMatch(el -> el.getText().trim().equals(siteName));
     }
     public WebDriver getWebDriver()
     {

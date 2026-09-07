@@ -91,6 +91,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         setApplicationsContext();
         webDriver.set(webDriverFactory.createWebDriver());
         setTestContext(iTestContext, webDriver.get());
+        waitInSeconds();
 
         userDashboardPage = new UserDashboardPage(webDriver);
     }
@@ -228,6 +229,18 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     {
         iTestContext.setAttribute("driver", driver);
         return iTestContext;
+    }
+
+    private void waitInSeconds()
+    {
+        try
+        {
+            java.util.concurrent.TimeUnit.SECONDS.sleep(1);
+        }
+        catch (InterruptedException e)
+        {
+            Thread.currentThread().interrupt();
+        }
     }
 
     protected RestWrapper setAuthorizationRequestHeader(RestWrapper restWrapper) {
