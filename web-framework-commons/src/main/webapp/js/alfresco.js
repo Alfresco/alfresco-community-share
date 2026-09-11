@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2005-2014 Alfresco Software Limited.
+ * Copyright (C) 2005-2026 Alfresco Software Limited.
  *
  * This file is part of Alfresco
  *
@@ -6151,38 +6151,136 @@ Alfresco.util.profileURL = function(userName)
  */
 Alfresco.util.parseURL = function(url)
 {
-   var a = document.createElement("a"),
-         _sanitizedPathname = function(pathname)
+   var _sanitizedPathname = function(pathname)
+   {
+      // pathname MUST include leading slash.
+      var prepend = (pathname.substring(0,1) === "/")? "" : "/";
+      return prepend + pathname;
+   },
+         /**
+          * Builds a fresh URL component object for parseURL() return values.
+          *
+          * Each call returns a new instance so callers can safely mutate fields
+          * (e.g. append to pathname) without affecting other parseURL() results.
+          *
+          * getDomain() returns protocol + host for absolute URLs, or "" when
+          * protocol/host are unset (treated as a relative URL).
+          *
+          * getUrl() rebuilds the URL from the current object state: pathname,
+          * queryParams and hash. Relative URLs omit the domain prefix.
+          *
+          * @param props {object} Optional property overrides (protocol, host, pathname, etc.)
+          * @return {object} URL object with getUrl() and getDomain() helpers
+          * @private
+          */
+         _createUrlObject = function(props)
          {
-            // pathname MUST include leading slash (IE<9: this code is for you).
-            var prepend = (pathname.substring(0,1) === "/")? "" : "/";
-            return prepend + pathname;
+            var urlObject = {
+               protocol: "",
+               hostname: "",
+               port: "",
+               host: "",
+               pathname: "/",
+               search: "",
+               hash: "",
+               queryParams: {},
+               getDomain: function()
+               {
+                  if (!this.protocol || !this.host)
+                  {
+                     return "";
+                  }
+                  return this.protocol + "//" + this.host;
+               },
+               getUrl: function()
+               {
+                  var path = this.pathname || "/",
+                        qs = Alfresco.util.toQueryString(this.queryParams || {}),
+                        hash = this.hash || "";
+
+                  if (!this.protocol || !this.host)
+                  {
+                     return path + qs + hash;
+                  }
+                  return this.getDomain() + path + qs + hash;
+               }
+            };
+
+            if (props)
+            {
+               for (var key in props)
+               {
+                  if (props.hasOwnProperty(key))
+                  {
+                     urlObject[key] = props[key];
+                  }
+               }
+            }
+
+            return urlObject;
          };
 
-   a.href = url;
+   if (url === null || typeof url == "undefined")
+   {
+      return _createUrlObject();
+   }
 
-   var urlObject = {
-      // protocol includes trailing colon.
-      protocol: a.protocol,
-      hostname: a.hostname,
-      port: a.port,
-      // host = hostname:port
-      host: a.host,
-      pathname: _sanitizedPathname(a.pathname),
-      // search and hash include question mark and hash symbol respectively
-      search: a.search,
-      hash: a.hash,
-      queryParams: Alfresco.util.getQueryStringParameters(url),
-      getUrl: function()
+   // Normalise input and reject script/data URIs that could execute in the browser.
+   var urlInput = String(url).replace(/^\s+/g, "");
+   if (!urlInput || /^(javascript|data|vbscript):/i.test(urlInput))
+   {
+      return _createUrlObject();
+   }
+
+   // Absolute URLs only: allow http/https/ftp; relative paths (e.g. "/share/page") skip this block.
+   // e.g. "https://example.com" -> allowed, "file:///C:/secret.txt" -> rejected
+   var schemeMatch = urlInput.match(/^([a-z][a-z0-9+.-]*):/i);
+   if (schemeMatch)
+   {
+      var scheme = schemeMatch[1].toLowerCase();
+      if (scheme !== "http" && scheme !== "https" && scheme !== "ftp")
       {
-         return this.getDomain() + this.pathname + Alfresco.util.toQueryString(this.queryParams) + this.hash;
-      },
-      getDomain: function()
-      {
-         return this.protocol + "//" + this.host;
+         return _createUrlObject();
       }
    }
-   return urlObject;
+
+   if (typeof URL == "undefined")
+   {
+      return _createUrlObject();
+   }
+
+   try
+   {
+      // Parse the validated URL into components (protocol, host, pathname, etc.).
+      // Uses the URL API instead of a.href = url so untrusted input is not written to a DOM
+      // href sink, which scanners flag as XSS and which could execute javascript: URIs.
+      var parsed = new URL(urlInput, window.location.href);
+
+      // Re-check protocol after parsing: unlike the raw-string check above, this catches values the
+      // URL API normalises (e.g. encoded "java%09script:") that may not match the earlier regex.
+      if (/^(javascript|data|vbscript):$/i.test(parsed.protocol))
+      {
+         return _createUrlObject();
+      }
+
+      return _createUrlObject({
+         // protocol includes trailing colon.
+         protocol: parsed.protocol,
+         hostname: parsed.hostname,
+         port: parsed.port,
+         // host = hostname:port
+         host: parsed.host,
+         pathname: _sanitizedPathname(parsed.pathname),
+         // search and hash include question mark and hash symbol respectively
+         search: parsed.search,
+         hash: parsed.hash,
+         queryParams: Alfresco.util.getQueryStringParameters(urlInput)
+      });
+   }
+   catch (e) // invalid or unsupported URL
+   {
+      return _createUrlObject();
+   }
 };
 
 /**
