@@ -43,9 +43,28 @@ env:
   CHROME_DOWNLOAD_URL: "https://mirror.cs.uchicago.edu/google-chrome/pool/main/g/google-chrome-stable"
 
 jobs:
-  lint:
-    if: (!contains(github.event.head_commit.message, '[no lint]') && inputs.commitMessage != '[no lint]')
+  commit_parser:
+    name: "Parse commit metadata"
     runs-on: ubuntu-latest
+    outputs:
+      title: ${{ steps.get-commit.outputs.COMMIT_MESSAGE }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@v18.20.0
+        id: get-commit
+        with:
+          header-only: "true"
+
+  lint:
+    if: >-
+      !contains(needs.commit_parser.outputs.title, '[no lint]') &&
+      !contains(inputs.commitMessage, '[no lint]') &&
+      needs.commit_parser.outputs.title != '[no lint]' &&
+      inputs.commitMessage != '[no lint]'
+    runs-on: ubuntu-latest
+    needs: [commit_parser]
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
@@ -53,14 +72,41 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
       - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
 
+  test_run_check:
+    name: "Test run check"
+    runs-on: ubuntu-latest
+    needs: [commit_parser]
+    outputs:
+      tests: ${{ steps.check.outputs.tests }}
+    steps:
+      - id: check
+        if: >
+          github.event.repository.fork == false &&
+          !contains(needs.commit_parser.outputs.title, '[skip tests]') &&
+          !contains(inputs.commitMessage, '[skip tests]') &&
+          !contains(needs.commit_parser.outputs.title, '[force') &&
+          !contains(inputs.commitMessage, '[force') &&
+          (
+            github.event_name == 'pull_request' ||
+            github.ref_name == 'master' ||
+            startsWith(github.ref_name, 'release/') ||
+            github.event_name == 'schedule' ||
+            github.event_name == 'workflow_dispatch' ||
+            github.event_name == 'workflow_call' ||
+            contains(needs.commit_parser.outputs.title, '[run tests]') ||
+            contains(inputs.commitMessage, '[run tests]')
+          )
+        run: echo "tests=true" >> "$GITHUB_OUTPUT"
+
   build:
     runs-on: ubuntu-latest
-    if: >
-      !contains(github.event.head_commit.message, '[no build]') &&
-      inputs.commitMessage != '[no build]' &&
-      !contains(github.event.head_commit.message, '[force') &&
-      inputs.commitMessage != '[force'
-    needs: lint
+    needs: [lint, commit_parser]
+    if: >-
+      !failure() && !cancelled() &&
+      !contains(needs.commit_parser.outputs.title, '[no build]') &&
+      !contains(inputs.commitMessage, '[no build]') &&
+      !contains(needs.commit_parser.outputs.title, '[force') &&
+      !contains(inputs.commitMessage, '[force')
     env:
       MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
       MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
@@ -110,10 +156,17 @@ jobs:
   veracode_sast_share:
     name: "Pipeline SAST Scan  - Share"
     runs-on: ubuntu-latest
-    if: >
-      (github.ref_name == 'master' || startsWith(github.ref_name, 'release/') || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') &&
+    needs: [commit_parser]
+    if: >-
       github.actor != 'dependabot[bot]' &&
-      !contains(github.event.head_commit.message, '[skip tests]')
+      !contains(needs.commit_parser.outputs.title, '[skip tests]') &&
+      !contains(inputs.commitMessage, '[skip tests]') &&
+      (
+        github.ref_name == 'master' ||
+        startsWith(github.ref_name, 'release/') ||
+        github.event_name == 'pull_request' ||
+        github.event_name == 'workflow_dispatch'
+      )
     env:
       MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
       MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
@@ -193,11 +246,13 @@ jobs:
   pmd_scan:
     name: "PMD Scan"
     runs-on: ubuntu-latest
-    if: >
+    needs: [commit_parser]
+    if: >-
       (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') &&
-      !contains(github.event.head_commit.message, '[skip pmd]') &&
-      !contains(github.event.head_commit.message, '[skip tests]') &&
-      !contains(github.event.head_commit.message, '[force]')
+      !contains(needs.commit_parser.outputs.title, '[skip pmd]') &&
+      !contains(inputs.commitMessage, '[skip pmd]') &&
+      !contains(needs.commit_parser.outputs.title, '[skip tests]') &&
+      !contains(inputs.commitMessage, '[skip tests]')
     steps:
       - uses: Alfresco/ya-pmd-scan@v4.0.0
         with:
@@ -208,14 +263,8 @@ jobs:
   build_docker_image:
     name: "Build Test Artifact - Docker Image"
     runs-on: ubuntu-latest
-    needs: lint
-    if: >
-      !contains(github.event.head_commit.message, '[skip tests]') &&
-      inputs.commitMessage != '[skip tests]' &&
-      !contains(github.event.head_commit.message, '[force') &&
-      inputs.commitMessage != '[force'
-      &&
-      github.event.repository.fork==false
+    needs: [lint, test_run_check]
+    if: ${{ !failure() && !cancelled() && needs.test_run_check.outputs.tests == 'true' }}
     env:
       MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
       MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
@@ -273,14 +322,8 @@ jobs:
   unit_tests:
     name: "Unit tests"
     runs-on: ubuntu-latest
-    needs: build
-    if: >
-      !contains(github.event.head_commit.message, '[skip tests]') &&
-      inputs.commitMessage != '[skip tests]' &&
-      !contains(github.event.head_commit.message, '[force') &&
-      inputs.commitMessage != '[force'
-      &&
-      github.event.repository.fork==false
+    needs: [build, test_run_check]
+    if: ${{ !failure() && !cancelled() && needs.test_run_check.outputs.tests == 'true' }}
     env:
       MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
       MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
@@ -331,14 +374,8 @@ jobs:
   ags_unit_tests:
     name: "AGS Unit tests"
     runs-on: ubuntu-latest
-    needs: build
-    if: >
-      !contains(github.event.head_commit.message, '[skip tests]') &&
-      inputs.commitMessage != '[skip tests]' &&
-      !contains(github.event.head_commit.message, '[force') &&
-      inputs.commitMessage != '[force'
-      &&
-      github.event.repository.fork==false
+    needs: [build, test_run_check]
+    if: ${{ !failure() && !cancelled() && needs.test_run_check.outputs.tests == 'true' }}
     env:
       MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
       MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
@@ -388,14 +425,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    needs: build_docker_image
-    if: >
-      !contains(github.event.head_commit.message, '[skip tests]') &&
-      inputs.commitMessage != '[skip tests]' &&
-      !contains(github.event.head_commit.message, '[force') &&
-      inputs.commitMessage != '[force'
-      &&
-      github.event.repository.fork==false
+    needs: [build_docker_image]
     env:
       MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
       MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
@@ -485,20 +515,14 @@ jobs:
 
   community_shared_UI_configuration:
     runs-on: ubuntu-latest
-    if: >
-      !contains(github.event.head_commit.message, '[skip tests]') &&
-      inputs.commitMessage != '[skip tests]' &&
-      !contains(github.event.head_commit.message, '[force') &&
-      inputs.commitMessage != '[force'
-      &&
-      github.event.repository.fork == false
-      &&
-      (!contains(github.event.head_commit.message, '[skip ags]') &&
-      inputs.commitMessage != '[skip ags]')
-      &&
-      (contains(github.event.head_commit.message, '[community ags]') ||
-      inputs.commitMessage == '[community ags]')
-    needs: build_docker_image
+    needs: [build_docker_image, commit_parser]
+    if: >-
+      !contains(needs.commit_parser.outputs.title, '[skip ags]') &&
+      !contains(inputs.commitMessage, '[skip ags]') &&
+      (
+        contains(needs.commit_parser.outputs.title, '[community ags]') ||
+        contains(inputs.commitMessage, '[community ags]')
+      )
     env:
       MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
       MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
@@ -589,21 +613,23 @@ jobs:
 
   enterprise_shared_UI_configuration:
     runs-on: ubuntu-latest
-    if: >
-      (!contains(github.event.head_commit.message, '[skip tests]') &&
-      inputs.commitMessage != '[skip tests]') &&
-      (!contains(github.event.head_commit.message, '[force') &&
-      inputs.commitMessage != '[force')
-      &&
-      (github.event.repository.fork==false)
-      &&
-      (((github.ref_name == 'master' || startsWith(github.ref_name, 'release/')) &&
-      (!contains(github.event.head_commit.message, '[skip ags]')
-      && inputs.commitMessage != '[skip ags]')) || (contains(github.event.head_commit.message, '[ags]')
-      || inputs.commitMessage == '[ags]'))
-      ||
-      (github.event_name == 'pull_request' && (github.base_ref == 'master' || startsWith(github.base_ref, 'release/')))
-    needs: build_docker_image
+    needs: [build_docker_image, commit_parser]
+    if: >-
+      !contains(needs.commit_parser.outputs.title, '[skip ags]') &&
+      !contains(inputs.commitMessage, '[skip ags]') &&
+      (
+        github.ref_name == 'master' ||
+        startsWith(github.ref_name, 'release/') ||
+        (
+          github.event_name == 'pull_request' &&
+          (
+            github.base_ref == 'master' ||
+            startsWith(github.base_ref, 'release/')
+          )
+        ) ||
+        contains(needs.commit_parser.outputs.title, '[ags]') ||
+        contains(inputs.commitMessage, '[ags]')
+      )
     strategy:
       fail-fast: false
       matrix:
@@ -718,12 +744,13 @@ jobs:
     name: Publish Test Results
     runs-on: ubuntu-latest
     needs:
+      - test_run_check
       - unit_tests
       - ags_unit_tests
       - test
       #     - community_shared_UI_configuration
       - enterprise_shared_UI_configuration
-    if: always()
+    if: ${{ !cancelled() && needs.test_run_check.outputs.tests == 'true' }}
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -814,9 +841,6 @@ jobs:
           name: test-summary-html
           path: test-summary.html
 
-      - name: Clean S3 buckets
-        if: ${{ always() && matrix.test == 'wormTestSuite'}}
-        run: scripts/ci/cleanup.sh
 
       - name: Add Allure Report Instructions to Summary
         if: always()

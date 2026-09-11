@@ -4,9 +4,6 @@ permissions:
   contents: read
 
 on:
-  push:
-    branches:
-      - "fix/**"
   schedule:
     - cron: "30 15 * * *"
   workflow_call:

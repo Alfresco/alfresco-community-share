@@ -24,6 +24,20 @@ env:
   GITHUB_ACTIONS_DEPLOY_TIMEOUT: 90
 
 jobs:
+  commit_parser:
+    name: "Parse commit metadata"
+    runs-on: ubuntu-latest
+    outputs:
+      title: ${{ steps.get-commit.outputs.COMMIT_MESSAGE }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@v18.20.0
+        id: get-commit
+        with:
+          header-only: "true"
+
   alfresco_enterprise_share:
     uses: ./.github/workflows/build.yml
     with:
@@ -33,9 +47,9 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
-    needs: [alfresco_enterprise_share]
+    needs: [alfresco_enterprise_share, commit_parser]
     if: >
-      (!contains(github.event.head_commit.message, '[no release]')
+      (!contains(needs.commit_parser.outputs.title, '[no release]')
       && inputs.commitMessage != '[no release]')
       &&
       (github.ref_name == 'master' || startsWith(github.ref_name, 'release/'))
@@ -94,9 +108,9 @@ jobs:
 
   update_downstream:
     runs-on: ubuntu-latest
-    needs: release
+    needs: [release,commit_parser]
     if: >
-      (!contains(github.event.head_commit.message, '[no downstream]')
+      (!contains(needs.commit_parser.outputs.title, '[no downstream]')
       && inputs.commitMessage != '[no downstream]')
       &&
       (github.ref_name == 'master' || startsWith(github.ref_name, 'release/'))
@@ -138,7 +152,7 @@ jobs:
         id: commit-meta
         uses: Alfresco/alfresco-community-repo/.github/actions/get-downstream-commit-message@9d02ded141a7f6c9174e507de0761348af1b6448
         with:
-          commit-title: ${{ github.event.head_commit.message }}
+          commit-title: ${{ needs.commit_parser.outputs.title }}
           version: ${{ steps.update-downstream.outputs.version }}
           downstream-repo: "enterprise-share"
           trigger-release-on-force: "true"
@@ -161,9 +175,9 @@ jobs:
 
   mirroring:
     runs-on: ubuntu-latest
-    needs: update_downstream
+    needs: [update_downstream,commit_parser]
     if: >
-      (!contains(github.event.head_commit.message, '[no mirror]')
+      (!contains(needs.commit_parser.outputs.title, '[no mirror]')
       && inputs.commitMessage != '[no mirror]')
       &&
       (github.ref_name == 'master' || startsWith(github.ref_name, 'release/'))
