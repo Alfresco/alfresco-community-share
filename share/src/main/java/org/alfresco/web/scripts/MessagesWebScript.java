@@ -26,6 +26,7 @@ package org.alfresco.web.scripts;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.alfresco.web.site.EditionInfo;
@@ -72,7 +73,8 @@ public class MessagesWebScript extends org.springframework.extensions.webscripts
         try
         {
             out.startObject();
-            Map<String, String> messages = I18NUtil.getAllMessages(I18NUtil.parseLocale(locale));
+            Map<String, String> messages = new HashMap<>(I18NUtil.getAllMessages(I18NUtil.parseLocale(locale)));
+            resolveComponentLinks(messages);
             for (Map.Entry<String, String> entry : messages.entrySet())
             {
                 out.writeValue(entry.getKey(), entry.getValue());
@@ -95,6 +97,46 @@ public class MessagesWebScript extends org.springframework.extensions.webscripts
             writer.write("://www.alfresco.com/assets/images/logos/community-5.2-share.png\" alt=\"*\" style=\"display:none\"/>\'}, 100);\r\n");
         }
         return writer.toString();
+    }
+
+    /**
+     * Resolves the edition-dependent documentation component placeholders in the bulk JS message
+     * bundle. The FreeMarker path resolves {@code ${acs_component_link}} / {@code ${ags_component_link}}
+     * through {@link org.alfresco.web.site.DocumentUrlResolver}, but the JS messages are served straight
+     * from the resource bundle and never pass through that resolver, so the component part of any
+     * documentation URL built client-side would otherwise be left unresolved. Here we set the two
+     * generic keys to the community or enterprise variant based on the connected repository's edition.
+     * <p>
+     * When the edition cannot be determined we fall back to the enterprise variant, mirroring the
+     * behaviour of {@link org.alfresco.web.site.DocumentUrlResolver#resolveMessageKey(String)}, so
+     * that both documentation URL paths stay consistent and the placeholder is never emitted verbatim.
+     * Missing source values are skipped rather than written as {@code null}.
+     *
+     * @param messages the mutable map of messages that will be written to the JS bundle
+     */
+    private void resolveComponentLinks(Map<String, String> messages)
+    {
+        final boolean community = isCommunity();
+        putIfPresent(messages, "acs_component_link", community ? "community_link" : "enterprise_link");
+        putIfPresent(messages, "ags_component_link", community ? "community_governance_link" : "enterprise_governance_link");
+    }
+
+    /**
+     * Copies the value held under {@code sourceKey} into {@code targetKey} only when a non-null value
+     * is available, avoiding the insertion of {@code null} entries into the JS message bundle when a
+     * source link property is not defined for the requested locale.
+     *
+     * @param messages  the mutable map of messages
+     * @param targetKey the placeholder key to resolve
+     * @param sourceKey the key holding the edition-specific link value
+     */
+    private void putIfPresent(Map<String, String> messages, String targetKey, String sourceKey)
+    {
+        final String value = messages.get(sourceKey);
+        if (value != null)
+        {
+            messages.put(targetKey, value);
+        }
     }
 
     @Override
