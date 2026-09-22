@@ -125,7 +125,7 @@
             "label": $html(Alfresco.util.substituteDotNotation(this.msg(p_action.label), p_record)),
             "additionalCssClasses" : p_action.additionalCssClasses ? " " + p_action.additionalCssClasses : ""
          };
-         
+
          if (p_action.lastActionInSubgroup)
          {
             markupParams.additionalCssClasses = " alf-action-group-end";
@@ -327,8 +327,19 @@
                [ p_dialog.id + "-dialogTitle", scope.msg("edit-details.title", fileSpan) ]
             );
 
+            // MNT-25791 Close this dialog before leaving for the full metadata page.
+            var onEditMetadataClick = function dlA_onActionDetails_onEditMetadataClick(e, p_obj)
+            {
+               // Leave the dialog alone when the link is being opened in a new tab or window
+               if (e && (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey || e.button > 0))
+               {
+                  return;
+               }
+               p_dialog.hide();
+            };
+
             // Edit metadata link button
-            this.widgets.editMetadata = Alfresco.util.createYUIButton(p_dialog, "editMetadata", null,
+            this.widgets.editMetadata = Alfresco.util.createYUIButton(p_dialog, "editMetadata", onEditMetadataClick,
             {
                type: "link",
                label: scope.msg("edit-details.label.edit-metadata"),
@@ -502,7 +513,7 @@
             zIndex = 0;
 
          var deleteRemoteFile = "";
-         
+
          var displayPromptText = this.msg("message.confirm.delete", displayName);
 
          if (this.fullscreen !== undefined && ( this.fullscreen.isWindowOnly || Dom.hasClass(this.id, 'alf-fullscreen')))
@@ -537,7 +548,7 @@
             }
          ];
 
-         
+
          Alfresco.util.PopupManager.displayPrompt(
          {
             title: this.msg("actions." + content + ".delete"),
@@ -1094,7 +1105,7 @@
                   }
               }
           };
-          
+
           // Populate the node details before triggering the action, in case the isLocked state changed
           Alfresco.util.Ajax.request(
           {
@@ -1106,7 +1117,7 @@
               }
           });
       },
-      
+
       _onAlreadyLockedConfirmation: function dlA_onAlreadyLockedConfirmation(record, lockOwner)
       {
           var me = this;
@@ -1154,7 +1165,7 @@
               ]
           });
       },
-      
+
       _triggerEditOnlineAos: function dlA_triggerEditOnlineAos(record)
       {
          if (!$isValueSet(record.onlineEditUrlAos))
@@ -1497,7 +1508,7 @@
          // Finally display form as dialog
          Alfresco.util.PopupManager.displayForm(config);
       },
-      
+
       /**
        * Form Dialog Action with disabling submit buttons.
        *
@@ -1515,7 +1526,7 @@
       onActionFormDialogWithSubmitDisable: function dlA_onActionFormDialogWithSubmitDisable(record, owner)
       {
          var config = this.generateConfigForFormDialogAction(record, owner);
-         
+
          config.properties.disableSubmitButton = true;
 
          // Finally display form as dialog
@@ -1760,12 +1771,12 @@
             record: record
          });
       },
-	  
+
      /**
        * Unlock document
        *
        * @method onActionUnlockDocument
-       * @param record {object} 
+       * @param record {object}
        */
       onActionUnlockDocument: function dlA_onActionUnlockDocument(record)
       {
@@ -1829,7 +1840,7 @@
       {
          this._copyMoveTo("move", record);
       },
-      
+
       /**
        * Unzip a single archive.
        *
@@ -1967,7 +1978,7 @@
             files: record
          }).showDialog();
       },
-      
+
       /**
        * Take Ownership.
        *
@@ -1997,7 +2008,7 @@
          {
             parent = container;
          }
-       
+
          var buttons =
          [
             {
@@ -2017,7 +2028,7 @@
                isDefault: true
             }
          ];
-         
+
          Alfresco.util.PopupManager.displayPrompt(
          {
             title: this.msg("message.confirm.take-ownership.title"),
