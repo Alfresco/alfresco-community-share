@@ -38,6 +38,10 @@ public class MessagesWebScriptTest
 {
     private static final Pattern PLACEHOLDER = Pattern.compile("\\$\\{([^}]+)}");
 
+    /** Matches the Alfresco.messages.global["key"] = "value"; assignments emitted by getMessagesSuffix. */
+    private static final Pattern ASSIGNMENT =
+            Pattern.compile("Alfresco\\.messages\\.global\\[\"([^\"]+)\"\\] = \"((?:[^\"\\\\]|\\\\.)*)\";");
+
     /** The real bundle - it is both the mocked message source and where the expected values come from. */
     private static final Properties DOC_URLS = loadDocumentationUrls();
 
@@ -77,6 +81,29 @@ public class MessagesWebScriptTest
         }
     }
 
+    /**
+     * Production serves the bundle through the parent's final generateMessages(String) plus
+     * getMessagesSuffix(), never the generateMessages(req,res,locale) override, so the suffix has to
+     * publish the enterprise component links or the browser sees ${acs_component_link} verbatim.
+     */
+    @Test
+    public void enterpriseEditionSuffixPublishesEnterpriseComponentLinks() throws Exception
+    {
+        Map<String, String> assignments = suffixAssignmentsFor(EditionInfo.ENTERPRISE_EDITION);
+
+        assertEquals(DOC_URLS.getProperty("enterprise_link"), assignments.get("acs_component_link"));
+        assertEquals(DOC_URLS.getProperty("enterprise_governance_link"), assignments.get("ags_component_link"));
+    }
+
+    @Test
+    public void communityEditionSuffixPublishesCommunityComponentLinks() throws Exception
+    {
+        Map<String, String> assignments = suffixAssignmentsFor(EditionInfo.UNKNOWN_EDITION);
+
+        assertEquals(DOC_URLS.getProperty("community_link"), assignments.get("acs_component_link"));
+        assertEquals(DOC_URLS.getProperty("community_governance_link"), assignments.get("ags_component_link"));
+    }
+
     /** Runs the webscript against a repository of the given edition and returns Alfresco.messages.global. */
     private Map<String, String> messagesFor(String edition) throws IOException, JSONException
     {
@@ -100,6 +127,37 @@ public class MessagesWebScriptTest
     private EditionInfo editionInfo(String edition) throws JSONException
     {
         return new EditionInfo("{\"licenseMode\":\"" + edition + "\",\"licenseHolder\":\"UNKNOWN\"}");
+    }
+
+    /** Runs getMessagesSuffix (the production code path) and returns the Alfresco.messages.global[...] assignments. */
+    private Map<String, String> suffixAssignmentsFor(String edition) throws IOException, JSONException
+    {
+        try (MockedStatic<ThreadLocalRequestContext> context = mockStatic(ThreadLocalRequestContext.class);
+             MockedStatic<I18NUtil> i18n = mockStatic(I18NUtil.class))
+        {
+            RequestContext requestContext = mock(RequestContext.class);
+            when(requestContext.getValue(EditionInterceptor.EDITION_INFO)).thenReturn(editionInfo(edition));
+            context.when(ThreadLocalRequestContext::getRequestContext).thenReturn(requestContext);
+            i18n.when(() -> I18NUtil.getAllMessages(any())).thenReturn(asMap(DOC_URLS));
+
+            WebScriptRequest request = mock(WebScriptRequest.class);
+            when(request.getServerPath()).thenReturn("http://localhost:8080");
+
+            String javascript = new MessagesWebScript()
+                    .getMessagesSuffix(request, mock(WebScriptResponse.class), "en");
+            return parseAssignments(javascript);
+        }
+    }
+
+    private Map<String, String> parseAssignments(String javascript)
+    {
+        Map<String, String> assignments = new HashMap<>();
+        Matcher matcher = ASSIGNMENT.matcher(javascript);
+        while (matcher.find())
+        {
+            assignments.put(matcher.group(1), matcher.group(2));
+        }
+        return assignments;
     }
 
     private Map<String, String> parseMessagesGlobal(String javascript)

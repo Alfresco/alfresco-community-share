@@ -74,7 +74,7 @@ public class MessagesWebScript extends org.springframework.extensions.webscripts
         {
             out.startObject();
             Map<String, String> messages = new HashMap<>(I18NUtil.getAllMessages(I18NUtil.parseLocale(locale)));
-            resolveComponentLinks(messages);
+            messages.putAll(resolveComponentLinks(messages));
             for (Map.Entry<String, String> entry : messages.entrySet())
             {
                 out.writeValue(entry.getKey(), entry.getValue());
@@ -112,31 +112,47 @@ public class MessagesWebScript extends org.springframework.extensions.webscripts
      * that both documentation URL paths stay consistent and the placeholder is never emitted verbatim.
      * Missing source values are skipped rather than written as {@code null}.
      *
-     * @param messages the mutable map of messages that will be written to the JS bundle
+     * @param source the message map to read the edition-specific link values from
+     * @return a map holding the resolved {@code acs_component_link} / {@code ags_component_link} entries
      */
-    private void resolveComponentLinks(Map<String, String> messages)
+    private Map<String, String> resolveComponentLinks(Map<String, String> source)
     {
         final boolean community = isCommunity();
-        putIfPresent(messages, "acs_component_link", community ? "community_link" : "enterprise_link");
-        putIfPresent(messages, "ags_component_link", community ? "community_governance_link" : "enterprise_governance_link");
+        final Map<String, String> resolved = new HashMap<>(4);
+        putIfPresent(resolved, source, "acs_component_link", community ? "community_link" : "enterprise_link");
+        putIfPresent(resolved, source, "ags_component_link", community ? "community_governance_link" : "enterprise_governance_link");
+        return resolved;
     }
 
     /**
-     * Copies the value held under {@code sourceKey} into {@code targetKey} only when a non-null value
-     * is available, avoiding the insertion of {@code null} entries into the JS message bundle when a
-     * source link property is not defined for the requested locale.
+     * Copies the value held under {@code sourceKey} in {@code source} into {@code targetKey} in
+     * {@code target} only when a non-null value is available, avoiding the insertion of {@code null}
+     * entries into the JS message bundle when a source link property is not defined for the requested
+     * locale.
      *
-     * @param messages  the mutable map of messages
+     * @param target    the map to write the resolved value into
+     * @param source    the map to read the edition-specific link value from
      * @param targetKey the placeholder key to resolve
      * @param sourceKey the key holding the edition-specific link value
      */
-    private void putIfPresent(Map<String, String> messages, String targetKey, String sourceKey)
+    private void putIfPresent(Map<String, String> target, Map<String, String> source, String targetKey, String sourceKey)
     {
-        final String value = messages.get(sourceKey);
+        final String value = source.get(sourceKey);
         if (value != null)
         {
-            messages.put(targetKey, value);
+            target.put(targetKey, value);
         }
+    }
+
+    /**
+     * Escapes a value for safe inclusion inside a double-quoted JavaScript string literal.
+     *
+     * @param value the raw value
+     * @return the escaped value
+     */
+    private String jsEscape(String value)
+    {
+        return value.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 
     @Override
@@ -150,6 +166,19 @@ public class MessagesWebScript extends org.springframework.extensions.webscripts
     {
         StringBuilder sb = new StringBuilder(512);
         sb.append(";\r\n");
+
+        // The production code path uses checksum dependencies, so the response is assembled by the
+        // parent's final generateMessages(String) method, which bypasses the component-link resolution
+        // performed in the generateMessages(req, res, locale) override. Emit the edition-specific
+        // documentation component links here as explicit assignments so they are always present on
+        // Alfresco.messages.global and the client never renders ${acs_component_link} verbatim.
+        final Map<String, String> componentLinks =
+                resolveComponentLinks(I18NUtil.getAllMessages(I18NUtil.parseLocale(locale)));
+        for (Map.Entry<String, String> entry : componentLinks.entrySet())
+        {
+            sb.append("Alfresco.messages.global[\"").append(entry.getKey()).append("\"] = \"")
+              .append(jsEscape(entry.getValue())).append("\";\r\n");
+        }
 
         if (isCommunity())
         {
