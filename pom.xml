@@ -389,6 +389,12 @@
             <artifactId>jakarta.annotation-api</artifactId>
             <version>${dependency.jakarta-annotation-api.version}</version>
           </dependency>
+          <!-- Override proton-j transitive dependency from camel-amqp -->
+          <dependency>
+            <groupId>org.apache.qpid</groupId>
+            <artifactId>proton-j</artifactId>
+            <version>0.35.0</version>
+          </dependency>
         </dependencies>
     </dependencyManagement>
 
