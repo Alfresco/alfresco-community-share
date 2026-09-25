@@ -33,7 +33,7 @@ public class CustomizeSiteDashboardTests extends BaseTest
         siteDashboardPage = new SiteDashboardPage(webDriver);
         siteContentDashlet = new SiteContentDashlet(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
         authenticateUsingCookies(user.get());

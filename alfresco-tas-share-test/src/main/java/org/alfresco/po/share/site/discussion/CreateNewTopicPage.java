@@ -66,6 +66,7 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
         switchToFrame(findElement(topicContent).getAttribute("id"));
         WebElement editable = switchTo().activeElement();
         editable.clear();
+        clickElement(editable);
         editable.sendKeys(content);
         switchToDefaultContent();
     }
@@ -96,6 +97,7 @@ public class CreateNewTopicPage extends SiteCommon<CreateNewTopicPage>
     public void addTag(String tagName)
     {
         findElement(tag_Input).clear();
+        clickElement(tag_Input);
         findElement(tag_Input).sendKeys(tagName);
         findElement(add_TagButton).click();
     }

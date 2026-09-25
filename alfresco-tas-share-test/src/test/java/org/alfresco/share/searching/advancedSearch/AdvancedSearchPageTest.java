@@ -46,7 +46,7 @@ public class AdvancedSearchPageTest extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest() {
         log.info("PreCondition: Creating a TestUser");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         searchPage = new SearchPage(webDriver);

@@ -33,7 +33,7 @@ public class CategorizingContentTests extends BaseTest
         selectDialog = new SelectDialog(webDriver);
         editPropertiesDialog = new EditPropertiesDialog(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
         authenticateUsingCookies(user.get());

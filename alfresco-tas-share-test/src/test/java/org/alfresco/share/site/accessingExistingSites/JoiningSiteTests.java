@@ -63,10 +63,10 @@ public class JoiningSiteTests extends BaseTest
     public void setupTest()
     {
         log.info("PreCondition: Creating two users");
-        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        user1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        user2.set(getDataUser().usingAdmin().createRandomTestUser());
+        user2.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Creating few Random Sites");

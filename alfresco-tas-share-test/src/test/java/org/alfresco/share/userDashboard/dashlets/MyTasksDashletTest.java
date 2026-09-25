@@ -27,7 +27,7 @@ public class MyTasksDashletTest extends AbstractUserDashboardDashletsTests
         myTasksDashlet = new MyTasksDashlet(webDriver);
         dataWorkflow.set(applicationContext.getBean(DataWorkflow.class));
 
-        user.set(dataUser.usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(dataSite.usingUser(user.get()).createPublicRandomSite());
         authenticateUsingCookies(user.get());
     }
@@ -83,7 +83,7 @@ public class MyTasksDashletTest extends AbstractUserDashboardDashletsTests
     {
         FileModel file = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         GroupModel testGroup = dataGroup.usingAdmin().createRandomGroup();
-        UserModel user2 = getDataUser().usingAdmin().createRandomTestUser();
+        UserModel user2 = createRandomTestUserWithRetry();
 
         dataWorkflow.get().usingUser(user.get())
             .usingSite(site.get()).usingResource(file)

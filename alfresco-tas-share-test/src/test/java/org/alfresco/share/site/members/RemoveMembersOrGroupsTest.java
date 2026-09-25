@@ -39,7 +39,7 @@ public class RemoveMembersOrGroupsTest extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel.set(dataUser.createRandomTestUser());
+        userModel.set(createRandomTestUserWithRetry());
         siteModel.set(dataSite.usingUser(userModel.get()).createPublicRandomSite());
 
         authenticateUsingCookies(userModel.get());
@@ -86,7 +86,7 @@ public class RemoveMembersOrGroupsTest extends BaseTest
     public void shouldRemoveSiteGroup()
     {
         GroupModel consumerGroup = dataGroup.usingAdmin().createRandomGroup();
-        UserModel consumer = dataUser.usingAdmin().createRandomTestUser();
+        UserModel consumer = createRandomTestUserWithRetry();
 
         dataGroup.usingUser(consumer).addUserToGroup(consumerGroup);
         dataGroup.usingUser(userModel.get()).addGroupToSite(consumerGroup, siteModel.get(), SiteConsumer);

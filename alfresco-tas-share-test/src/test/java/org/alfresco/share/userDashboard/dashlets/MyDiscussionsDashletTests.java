@@ -34,7 +34,7 @@ public class MyDiscussionsDashletTests extends AbstractUserDashboardDashletsTest
     {
         myDiscussionsDashlet = new MyDiscussionsDashlet(webDriver);
 
-        user.set(dataUser.usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         addDashlet(user.get(), DashboardCustomization.UserDashlet.MY_DISCUSSIONS, 1, 3);
         authenticateUsingCookies(user.get());
     }

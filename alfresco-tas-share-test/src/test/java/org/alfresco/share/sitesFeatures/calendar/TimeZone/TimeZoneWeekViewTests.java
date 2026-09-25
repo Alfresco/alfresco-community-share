@@ -70,7 +70,7 @@ public class TimeZoneWeekViewTests extends BaseTest
     public void setupTest()
     {
         log.info("Precondition: Any Test user is created");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteNameC2216 is created");

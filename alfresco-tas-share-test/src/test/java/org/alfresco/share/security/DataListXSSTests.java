@@ -66,7 +66,7 @@ public class DataListXSSTests extends BaseTest
         log.info("PreCondition: Creating a TestUser1");
         String identifier = RandomData.getRandomAlphanumeric();
         final String user = "test" + identifier;
-        testUser = dataUser.usingAdmin().createUser(user, password);
+        testUser = createTestUserWithRetry(user, password);
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Creating a Random Site");

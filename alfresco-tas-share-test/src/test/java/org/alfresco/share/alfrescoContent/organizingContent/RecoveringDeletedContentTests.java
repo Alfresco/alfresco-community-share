@@ -28,7 +28,7 @@ public class RecoveringDeletedContentTests extends BaseTest
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
         userTrashcanPage = new UserTrashcanPage(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         trashcanSite.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
         getCmisApi().authenticateUser(user.get());

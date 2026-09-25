@@ -43,16 +43,16 @@ public class SiteDashboardPermissionsTests extends BaseTest
     public void setupTest()
     {
         log.info("Precondition:Create test users");
-        userConsumer.set(getDataUser().usingAdmin().createRandomTestUser());
+        userConsumer.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        userContributor.set(getDataUser().usingAdmin().createRandomTestUser());
+        userContributor.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        userCollaborator.set(getDataUser().usingAdmin().createRandomTestUser());
+        userCollaborator.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        userSiteManager.set(getDataUser().usingAdmin().createRandomTestUser());
+        userSiteManager.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteName is created");

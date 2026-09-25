@@ -51,8 +51,7 @@ public class MyFilesDownloadTests extends BaseTest
     public void setupTest()
     {
         log.info("PreCondition: Creating a TestUser");
-        user.set(getDataUser().usingAdmin()
-                     .createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get())
                      .createPublicRandomSite());
         getCmisApi().authenticateUser(getAdminUser());

@@ -20,5 +20,8 @@
       <packages>
          <package name="org.alfresco.share.site.siteDashboard"></package>
       </packages>
+      <classes>
+         <class name="org.alfresco.share.site.CustomizeSiteDashboardTests"/>
+      </classes>
    </test>
 </suite>

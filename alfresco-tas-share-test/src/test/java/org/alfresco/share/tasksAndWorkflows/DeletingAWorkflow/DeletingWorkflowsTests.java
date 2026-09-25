@@ -45,7 +45,7 @@ public class DeletingWorkflowsTests extends BaseTest
     public void deleteWorkflow()
     {
         log.info("PreCondition: Creating test user");
-        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        user1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         workflowsIveStartedPage = new WorkflowsIveStartedPage(webDriver);
@@ -85,7 +85,7 @@ public class DeletingWorkflowsTests extends BaseTest
     public void deleteWorkflowCancel()
     {
         log.info("PreCondition: Creating test user");
-        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        user1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         workflowsIveStartedPage = new WorkflowsIveStartedPage(webDriver);

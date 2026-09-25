@@ -38,7 +38,7 @@ public class SiteMembersTest extends AbstractSiteDashboardDashletsTests
     {
         siteMembersDashlet = new SiteMembersDashlet(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
         authenticateUsingCookies(user.get());

@@ -43,7 +43,7 @@ public class CustomizeSiteTests extends BaseTest
     public void setup()
     {
         log.info("PreCondition: Creating test user");
-        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        user1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         customizeSite = new CustomizeSitePage(webDriver);

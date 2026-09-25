@@ -42,7 +42,7 @@ public class ActionsDeleteTests extends BaseTest
         headerMenuBar = new HeaderMenuBar(webDriver);
 
         log.info("PreCondition1: Any test user is created");
-        testUser1 = dataUser.usingAdmin().createRandomTestUser();
+        testUser1 = createRandomTestUserWithRetry();
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("Create a Folder and File in Admin Repository-> User Homes ");

@@ -87,7 +87,7 @@ public class SubgroupsTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void addUser()
     {
-        UserModel userToAdd = getDataUser().usingAdmin().createRandomTestUser();
+        UserModel userToAdd = createRandomTestUserWithRetry();
         groupsPage.writeInSearchInput(parentGroup.getDisplayName())
             .clickBrowse()
             .selectGroup(parentGroup)
@@ -109,7 +109,7 @@ public class SubgroupsTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS })
     public void removeUser()
     {
-        UserModel userToRemove = dataUser.usingAdmin().createRandomTestUser();
+        UserModel userToRemove = createRandomTestUserWithRetry();
         dataGroup.usingUser(userToRemove).addUserToGroup(parentGroup);
 
         groupsPage.writeInSearchInput(parentGroup.getDisplayName())

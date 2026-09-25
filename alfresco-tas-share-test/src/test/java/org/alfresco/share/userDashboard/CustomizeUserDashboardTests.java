@@ -32,7 +32,7 @@ public class CustomizeUserDashboardTests extends BaseTest
         myTasksDashlet = new MyTasksDashlet(webDriver);
         myActivitiesDashlet = new MyActivitiesDashlet(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         authenticateUsingCookies(user.get());
     }
 

@@ -46,7 +46,7 @@ public class SiteFileTypeBreakdownDashletTests extends AbstractSiteDashboardDash
     {
         siteFileTypeBreakdownDashlet = new SiteFileTypeBreakdownDashlet(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), DashboardCustomization.SiteDashlet.FILE_TYPE_BREAKDOWN, 1, 2);
 

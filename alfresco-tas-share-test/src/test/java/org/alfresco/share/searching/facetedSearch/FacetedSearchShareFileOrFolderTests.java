@@ -58,7 +58,7 @@ public class FacetedSearchShareFileOrFolderTests extends BaseTest
     public void testSetup()
     {
         log.info("Precondition1: Any test user is created");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         authenticateUsingCookies(user.get());
 
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());

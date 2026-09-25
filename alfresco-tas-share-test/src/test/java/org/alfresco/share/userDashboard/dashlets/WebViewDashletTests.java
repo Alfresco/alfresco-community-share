@@ -24,7 +24,7 @@ public class WebViewDashletTests extends AbstractUserDashboardDashletsTests
     {
         webViewDashlet = new WebViewDashlet(webDriver);
 
-        user.set(dataUser.usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         addDashlet(user.get(), DashboardCustomization.UserDashlet.WEB_VIEW, 1, 3);
 
         authenticateUsingCookies(user.get());

@@ -33,7 +33,7 @@ public class SavedSearchDashletTests extends AbstractUserDashboardDashletsTests
     {
         savedSearchDashlet = new SavedSearchDashlet(webDriver);
 
-        user.set(dataUser.usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         addDashlet(user.get(), DashboardCustomization.UserDashlet.SAVED_SEARCH, 1, 3);
 
         authenticateUsingCookies(user.get());

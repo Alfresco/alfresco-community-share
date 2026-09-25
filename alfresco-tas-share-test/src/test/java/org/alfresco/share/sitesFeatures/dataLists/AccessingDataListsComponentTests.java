@@ -68,7 +68,7 @@ public class AccessingDataListsComponentTests extends BaseTest
         dataListsPage = new DataListsPage(webDriver);
         siteDashboardPage = new SiteDashboardPage(webDriver);
         customizeSitePage = new CustomizeSitePage (webDriver);
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteName is created");
@@ -92,7 +92,7 @@ public class AccessingDataListsComponentTests extends BaseTest
     public void onlySiteManagerIsAbleToRenameDataListsFeatures() throws DataPreparationException
     {
         log.info("Preconditions: Create userCollaborator, userContributor and userConsumer");
-        UserModel testUser = dataUser.createRandomTestUser();
+        UserModel testUser = createRandomTestUserWithRetry();
         SiteModel testSite = dataSite.usingUser(testUser).createPublicRandomSite();
         DataUser.ListUserWithRoles ls = dataUser.addUsersWithRolesToSite(testSite, UserRole.SiteCollaborator, UserRole.SiteConsumer, UserRole.SiteContributor);
         ls.getOneUserWithRole(UserRole.SiteCollaborator);

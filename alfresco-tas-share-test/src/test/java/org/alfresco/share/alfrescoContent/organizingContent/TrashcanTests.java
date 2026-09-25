@@ -25,7 +25,7 @@ public class TrashcanTests extends BaseTest
     {
         userTrashcanPage = new UserTrashcanPage(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
         authenticateUsingCookies(user.get());

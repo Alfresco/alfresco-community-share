@@ -51,7 +51,7 @@ public class DataListTableActionsTests extends BaseTest
         dataListsPage = new DataListsPage(webDriver);
         manageContactListItemPages = new ManageContactListItemPages(webDriver);
         contactListSelectedContentPage = new ContactListSelectedContentPage(webDriver);
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteName is created");

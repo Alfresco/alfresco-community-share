@@ -25,7 +25,7 @@ public class ModuleBrowserTests extends BaseTest
         moduleBrowserPage = new ModuleBrowserPage(webDriver);
         toolbar = new Toolbar(webDriver);
 
-        user.set(dataUser.usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         authenticateUsingLoginPage(getAdminUser());
     }
 

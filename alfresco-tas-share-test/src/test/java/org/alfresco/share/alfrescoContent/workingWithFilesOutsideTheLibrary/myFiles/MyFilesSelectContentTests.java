@@ -53,7 +53,7 @@ public class MyFilesSelectContentTests extends BaseTest
     public void createUser()
     {
         log.info("PreCondition: Creating a TestUser");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
         authenticateUsingCookies(user.get());
 

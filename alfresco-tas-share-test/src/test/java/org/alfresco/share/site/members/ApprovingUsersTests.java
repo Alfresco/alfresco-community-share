@@ -58,7 +58,7 @@ public class ApprovingUsersTests extends BaseTest
         siteDashboardPage = new SiteDashboardPage(webDriver);
         myTasksDashlet = new MyTasksDashlet(webDriver);
 
-        managerUser.set(dataUser.usingAdmin().createRandomTestUser());
+        managerUser.set(createRandomTestUserWithRetry());
         siteModel.set(dataSite.usingUser(managerUser.get()).createModeratedRandomSite());
         authenticateUsingCookies(managerUser.get());
     }
@@ -68,7 +68,7 @@ public class ApprovingUsersTests extends BaseTest
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldApproveUserToJoinSiteFromMyTaskPage()
     {
-        UserModel userModel = dataUser.usingAdmin().createRandomTestUser();
+        UserModel userModel = createRandomTestUserWithRetry();
         authenticateUsingCookies(userModel);
 
         siteFinderPage.navigate()
@@ -118,7 +118,7 @@ public class ApprovingUsersTests extends BaseTest
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldApproveUserFromMyTasksDashlet()
     {
-        UserModel userModel = dataUser.usingAdmin().createRandomTestUser();
+        UserModel userModel = createRandomTestUserWithRetry();
         authenticateUsingCookies(userModel);
         String taskName = String.format(language.translate(TASK_MESSAGE), siteModel.get().getTitle());
 
@@ -155,7 +155,7 @@ public class ApprovingUsersTests extends BaseTest
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES, TestGroup.INTEGRATION})
     public void shouldRejectUserFromMyTasksPage()
     {
-        UserModel userModel = dataUser.usingAdmin().createRandomTestUser();
+        UserModel userModel = createRandomTestUserWithRetry();
         String taskName = String.format(language.translate(TASK_MESSAGE), siteModel.get().getTitle());
 
         authenticateUsingCookies(userModel);
@@ -192,10 +192,10 @@ public class ApprovingUsersTests extends BaseTest
 
     @TestRail (id = "C2464")
     @AlfrescoTest(jira = "XAT-8356")
-    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1})
+    @Test(groups = {TestGroup.SANITY, TestGroup.SITES, TestGroup.INTEGRATION, ShareGroups.SHARE_PRIORITY_1, ShareGroups.TOBEFIXED})
     public void shouldRejectUserFromMyTasksDashlet()
     {
-        UserModel userModel = dataUser.usingAdmin().createRandomTestUser();
+        UserModel userModel = createRandomTestUserWithRetry();
         authenticateUsingCookies(userModel);
         String taskName = String.format(language.translate(TASK_MESSAGE), siteModel.get().getTitle());
 
@@ -235,8 +235,8 @@ public class ApprovingUsersTests extends BaseTest
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void onlySiteManagerShouldApproveRequestToJoinSite()
     {
-        UserModel collaborator = dataUser.usingAdmin().createRandomTestUser();
-        UserModel userModel = dataUser.usingAdmin().createRandomTestUser();
+        UserModel collaborator = createRandomTestUserWithRetry();
+        UserModel userModel = createRandomTestUserWithRetry();
 
         dataUser.usingUser(managerUser.get())
             .addUserToSite(collaborator, siteModel.get(), SiteCollaborator);

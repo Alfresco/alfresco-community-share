@@ -35,11 +35,11 @@ public class ManageFileAndFolderPermissionsTest extends BaseTest
     public void setupTest()
     {
         log.info("Creating a testuser1 and site1 created by user1");
-        testUser1 = dataUser.usingAdmin().createRandomTestUser();
+        testUser1 = createRandomTestUserWithRetry();
         site.set(getDataSite().usingUser(testUser1).createPublicRandomSite());
 
         log.info("Creating another user testuser2");
-        testUser2 = dataUser.usingAdmin().createRandomTestUser();
+        testUser2 = createRandomTestUserWithRetry();
 
         getCmisApi().authenticateUser(testUser1);
 

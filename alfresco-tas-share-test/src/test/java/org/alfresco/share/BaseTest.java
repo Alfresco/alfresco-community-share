@@ -1,7 +1,5 @@
 package org.alfresco.share;
 
-import io.restassured.RestAssured;
-import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.cmis.CmisWrapper;
 import org.alfresco.common.DefaultProperties;
@@ -73,7 +71,9 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     @Autowired
     protected ContentService contentService;
 
-    private static final String authorization_header ="Authorization";
+    private static final String AUTHORIZATION_HEADER ="Authorization";
+    private static final int CREATE_USER_MAX_ATTEMPTS = 3;
+    private static final long CREATE_USER_RETRY_WAIT_MILLIS = 2000L;
 
     private final ThreadLocal<CmisWrapper> cmisApi = new ThreadLocal<>();
     private final ThreadLocal<RestWrapper> restApi = new ThreadLocal<>();
@@ -213,6 +213,142 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
         }
     }
 
+    // Retries user creation on transient "User ... not created" failures seen intermittently in CI under load.
+    protected UserModel createRandomTestUserWithRetry()
+    {
+        return createRandomTestUserWithRetry(CREATE_USER_MAX_ATTEMPTS);
+    }
+
+    private UserModel createRandomTestUserWithRetry(int attemptsLeft)
+    {
+        try
+        {
+            return dataUser.usingAdmin().createRandomTestUser();
+        }
+        catch (DataPreparationException e)
+        {
+            if (attemptsLeft <= 1)
+            {
+                DataPreparationException wrapped = new DataPreparationException(
+                    "Failed to create random test user after " + CREATE_USER_MAX_ATTEMPTS + " attempts: " + e.getMessage());
+                wrapped.initCause(e);
+                throw wrapped;
+            }
+            log.warn("Failed to create random test user, retrying ({} attempts left): {}", attemptsLeft - 1, e.getMessage());
+            try
+            {
+                Thread.sleep(CREATE_USER_RETRY_WAIT_MILLIS);
+            }
+            catch (InterruptedException interruptedException)
+            {
+                Thread.currentThread().interrupt();
+            }
+            return createRandomTestUserWithRetry(attemptsLeft - 1);
+        }
+    }
+
+    // Retries user creation on transient "User ... not created" failures seen intermittently in CI under load.
+    protected UserModel createTestUserWithRetry(String username, String password)
+    {
+        return createTestUserWithRetry(username, password, CREATE_USER_MAX_ATTEMPTS);
+    }
+
+    private UserModel createTestUserWithRetry(String username, String password, int attemptsLeft)
+    {
+        try
+        {
+            return dataUser.usingAdmin().createUser(username, password);
+        }
+        catch (DataPreparationException e)
+        {
+            if (attemptsLeft <= 1)
+            {
+                DataPreparationException wrapped = new DataPreparationException(
+                    "Failed to create test user " + username + " after " + CREATE_USER_MAX_ATTEMPTS + " attempts: " + e.getMessage());
+                wrapped.initCause(e);
+                throw wrapped;
+            }
+            log.warn("Failed to create test user {}, retrying ({} attempts left): {}", username, attemptsLeft - 1, e.getMessage());
+            try
+            {
+                Thread.sleep(CREATE_USER_RETRY_WAIT_MILLIS);
+            }
+            catch (InterruptedException interruptedException)
+            {
+                Thread.currentThread().interrupt();
+            }
+            return createTestUserWithRetry(username, password, attemptsLeft - 1);
+        }
+    }
+
+    // Retries user creation on transient "User ... not created" failures seen intermittently in CI under load.
+    protected UserModel createTestUserWithRetry(String username)
+    {
+        return createTestUserWithRetry(username, CREATE_USER_MAX_ATTEMPTS);
+    }
+
+    private UserModel createTestUserWithRetry(String username, int attemptsLeft)
+    {
+        try
+        {
+            return dataUser.usingAdmin().createUser(username);
+        }
+        catch (DataPreparationException e)
+        {
+            if (attemptsLeft <= 1)
+            {
+                DataPreparationException wrapped = new DataPreparationException(
+                    "Failed to create test user " + username + " after " + CREATE_USER_MAX_ATTEMPTS + " attempts: " + e.getMessage());
+                wrapped.initCause(e);
+                throw wrapped;
+            }
+            log.warn("Failed to create test user {}, retrying ({} attempts left): {}", username, attemptsLeft - 1, e.getMessage());
+            try
+            {
+                Thread.sleep(CREATE_USER_RETRY_WAIT_MILLIS);
+            }
+            catch (InterruptedException interruptedException)
+            {
+                Thread.currentThread().interrupt();
+            }
+            return createTestUserWithRetry(username, attemptsLeft - 1);
+        }
+    }
+
+    // Retries user creation on transient "User ... not created" failures seen intermittently in CI under load.
+    protected UserModel createTestUserWithRetry(UserModel userModel)
+    {
+        return createTestUserWithRetry(userModel, CREATE_USER_MAX_ATTEMPTS);
+    }
+
+    private UserModel createTestUserWithRetry(UserModel userModel, int attemptsLeft)
+    {
+        try
+        {
+            return dataUser.usingAdmin().createUser(userModel);
+        }
+        catch (DataPreparationException e)
+        {
+            if (attemptsLeft <= 1)
+            {
+                DataPreparationException wrapped = new DataPreparationException(
+                    "Failed to create test user " + userModel.getUsername() + " after " + CREATE_USER_MAX_ATTEMPTS + " attempts: " + e.getMessage());
+                wrapped.initCause(e);
+                throw wrapped;
+            }
+            log.warn("Failed to create test user {}, retrying ({} attempts left): {}", userModel.getUsername(), attemptsLeft - 1, e.getMessage());
+            try
+            {
+                Thread.sleep(CREATE_USER_RETRY_WAIT_MILLIS);
+            }
+            catch (InterruptedException interruptedException)
+            {
+                Thread.currentThread().interrupt();
+            }
+            return createTestUserWithRetry(userModel, attemptsLeft - 1);
+        }
+    }
+
     protected void deleteSitesIfNotNull(SiteModel... sites)
     {
         for (SiteModel siteModel : sites)
@@ -231,12 +367,15 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests
     }
 
     protected RestWrapper setAuthorizationRequestHeader(RestWrapper restWrapper) {
+         // Re-derive a fresh baseURI/port from properties to avoid "Base URI cannot be null" if RestWrapper's serverURI went stale.
+        restWrapper.configureAlfrescoEndpoint();
+
         UserModel user = restWrapper.getTestUser();
         if (null != user) {
             if (!this.aisAuthentication.isAisAuthenticationEnabled()) {
                 String usernameColonPassword = user.getUsername() + ":" + user.getPassword();
                 String authorizationHeader = "Basic " + Base64.getEncoder().encodeToString(usernameColonPassword.getBytes());
-                restWrapper.configureRequestSpec().addHeader(authorization_header,authorizationHeader);
+                restWrapper.configureRequestSpec().addHeader(AUTHORIZATION_HEADER,authorizationHeader);
             }
         }
     return restWrapper;

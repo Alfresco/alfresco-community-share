@@ -63,7 +63,7 @@ public class RulesAppliedToSubFolders extends AbstractFolderRuleTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         getCmisApi().authenticateUser(user.get());
 

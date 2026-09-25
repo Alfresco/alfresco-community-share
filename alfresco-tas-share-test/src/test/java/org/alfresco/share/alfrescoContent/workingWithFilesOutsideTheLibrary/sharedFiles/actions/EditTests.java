@@ -87,8 +87,8 @@ public class EditTests extends BaseTest
         repositoryPage = new RepositoryPage(webDriver);
 
         log.info("PreCondition1: Any test user is created");
-        testUser1 = dataUser.usingAdmin().createUser(user, password);
-        testUser2 = dataUser.usingAdmin().createUser(user2, password);
+        testUser1 = createTestUserWithRetry(user, password);
+        testUser2 = createTestUserWithRetry(user2, password);
         getCmisApi().authenticateUser(getAdminUser());
 
         sharedFilesPage = new SharedFilesPage(webDriver);

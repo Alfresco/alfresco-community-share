@@ -54,7 +54,7 @@ public class FilterPostTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel.set(getDataUser().usingAdmin().createRandomTestUser());
+        userModel.set(createRandomTestUserWithRetry());
         siteModel.set(getDataSite().usingUser(userModel.get()).createPublicRandomSite());
         siteService.addPageToSite(userModel.get().getUsername(), userModel.get().getPassword(),
             siteModel.get().getId(), Page.BLOG, null);
@@ -69,7 +69,7 @@ public class FilterPostTests extends BaseTest
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
     public void shouldDisplayBlogPostFilteredByNewPosts()
     {
-        UserModel manager = dataUser.usingAdmin().createRandomTestUser();
+        UserModel manager = createRandomTestUserWithRetry();
         dataUser.usingUser(userModel.get())
             .addUserToSite(manager, siteModel.get(), SiteManager);
 
@@ -88,7 +88,7 @@ public class FilterPostTests extends BaseTest
     @Test (groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES, "singlePipelineFailure"})
     public void shouldDisplayBlogPostFilteredByLatestPosts()
     {
-        UserModel manager = dataUser.usingAdmin().createRandomTestUser();
+        UserModel manager = createRandomTestUserWithRetry();
         dataUser.usingUser(userModel.get())
             .addUserToSite(manager, siteModel.get(), SiteManager);
 
@@ -110,7 +110,7 @@ public class FilterPostTests extends BaseTest
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
     public void shouldDisplayBlogPostFilteredByMyDrafts()
     {
-        UserModel manager = dataUser.usingAdmin().createRandomTestUser();
+        UserModel manager = createRandomTestUserWithRetry();
         dataUser.usingUser(userModel.get())
             .addUserToSite(manager, siteModel.get(), SiteManager);
 
@@ -132,7 +132,7 @@ public class FilterPostTests extends BaseTest
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
     public void shouldDisplayBlogPostFilteredByMyPublishedPosts()
     {
-        UserModel manager = dataUser.usingAdmin().createRandomTestUser();
+        UserModel manager = createRandomTestUserWithRetry();
         dataUser.usingUser(userModel.get())
             .addUserToSite(manager, siteModel.get(), SiteManager);
 
@@ -155,7 +155,7 @@ public class FilterPostTests extends BaseTest
     @Test (groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
     public void shouldDisplayBlogPostFilteredByTags()
     {
-        UserModel manager = dataUser.usingAdmin().createRandomTestUser();
+        UserModel manager = createRandomTestUserWithRetry();
         dataUser.usingUser(userModel.get())
             .addUserToSite(manager, siteModel.get(), SiteManager);
 
@@ -175,7 +175,7 @@ public class FilterPostTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
     public void shouldDisplayBlogPostFilteredByArchive()
     {
-        UserModel manager = dataUser.usingAdmin().createRandomTestUser();
+        UserModel manager = createRandomTestUserWithRetry();
         dataUser.usingUser(userModel.get())
             .addUserToSite(manager, siteModel.get(), SiteManager);
 

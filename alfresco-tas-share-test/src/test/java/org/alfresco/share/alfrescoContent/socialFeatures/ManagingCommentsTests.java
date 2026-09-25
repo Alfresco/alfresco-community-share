@@ -52,22 +52,22 @@ public class ManagingCommentsTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
-        user2.set(getDataUser().usingAdmin().createRandomTestUser());
+        user2.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
         userService.createSiteMember(getAdminUser().getUsername(), getAdminUser().getPassword(), user2.get().getUsername(), site.get().getId(), "SiteManager");
 
-        user3.set(getDataUser().usingAdmin().createRandomTestUser());
+        user3.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
         userService.createSiteMember(getAdminUser().getUsername(), getAdminUser().getPassword(), user3.get().getUsername(), site.get().getId(), "SiteConsumer");
 
-        user4.set(getDataUser().usingAdmin().createRandomTestUser());
+        user4.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
         userService.createSiteMember(getAdminUser().getUsername(), getAdminUser().getPassword(), user4.get().getUsername(), site.get().getId(), "SiteCollaborator");
 
-        user5.set(getDataUser().usingAdmin().createRandomTestUser());
+        user5.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
         userService.createSiteMember(getAdminUser().getUsername(), getAdminUser().getPassword(), user5.get().getUsername(), site.get().getId(), "SiteContributor");
 

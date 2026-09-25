@@ -29,7 +29,7 @@ public class SettingHomePageTest extends BaseTest
         sharedFilesPage = new SharedFilesPage(webDriver);
         toolbar = new Toolbar(webDriver);
 
-        testUser.set(getDataUser().usingAdmin().createRandomTestUser());
+        testUser.set(createRandomTestUserWithRetry());
         authenticateUsingCookies(testUser.get());
     }
 

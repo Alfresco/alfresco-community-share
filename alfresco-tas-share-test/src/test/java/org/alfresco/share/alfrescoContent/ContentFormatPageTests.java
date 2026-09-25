@@ -39,7 +39,7 @@ public class ContentFormatPageTests extends BaseTest
     public void testSetup()
     {
         log.info("Precondition1: Test user is created");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         authenticateUsingCookies(user.get());
 
         log.info("Precondition2: Test Site is created");

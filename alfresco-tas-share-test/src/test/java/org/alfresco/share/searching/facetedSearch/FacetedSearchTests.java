@@ -71,7 +71,7 @@ public class FacetedSearchTests extends BaseTest
     public void setupTest()
     {
         log.info("Precondition1: Any test user is created & Sites are Created");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         authenticateUsingCookies(user.get());
 
         site1.set(getDataSite().usingUser(user.get()).createPublicRandomSite());

@@ -72,28 +72,22 @@ import org.testng.annotations.Test;
     public void setupTest()
     {
         log.info("Precondition: Test users are created");
-        testUser.set(getDataUser().usingAdmin()
-                         .createRandomTestUser());
+        testUser.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        userManager1.set(getDataUser().usingAdmin()
-                             .createRandomTestUser());
+        userManager1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        userManager2.set(getDataUser().usingAdmin()
-                             .createRandomTestUser());
+        userManager2.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        userCollaborator.set(getDataUser().usingAdmin()
-                                 .createRandomTestUser());
+        userCollaborator.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        userContributor.set(getDataUser().usingAdmin()
-                                .createRandomTestUser());
+        userContributor.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        userConsumer.set(getDataUser().usingAdmin()
-                             .createRandomTestUser());
+        userConsumer.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         linkPage = new LinkPage(webDriver);

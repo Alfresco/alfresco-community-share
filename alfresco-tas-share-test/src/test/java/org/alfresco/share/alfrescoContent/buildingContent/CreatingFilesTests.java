@@ -26,7 +26,7 @@ public class CreatingFilesTests extends BaseTest
     {
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
 
-        user.set(dataUser.usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(dataSite.usingUser(user.get()).createPublicRandomSite());
 
         authenticateUsingCookies(user.get());

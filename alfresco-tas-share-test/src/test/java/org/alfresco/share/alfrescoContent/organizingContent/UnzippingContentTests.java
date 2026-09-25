@@ -36,7 +36,7 @@ public class UnzippingContentTests extends BaseTest
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
         dataContent.set(applicationContext.getBean(DataContent.class));
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         getCmisApi().authenticateUser(user.get());
         authenticateUsingCookies(user.get());

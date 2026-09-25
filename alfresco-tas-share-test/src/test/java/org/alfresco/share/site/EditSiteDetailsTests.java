@@ -48,7 +48,7 @@ public class EditSiteDetailsTests extends BaseTest
         editSiteDetailsDialog = new EditSiteDetails(webDriver);
         siteProfileDashlet = new SiteProfileDashlet(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
         addDashlet(user.get(), site.get(), DashboardCustomization.SiteDashlet.SITE_PROFILE, 1, 2);

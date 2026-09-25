@@ -94,8 +94,8 @@ public class SiteFinderTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, ShareGroups.SHARE_PRIORITY_1 })
     public void siteFinderPage()
     {
-        testUser1 = dataUser.usingAdmin().createRandomTestUser();
-        testUser2 = dataUser.usingAdmin().createRandomTestUser();
+        testUser1 = createRandomTestUserWithRetry();
+        testUser2 = createRandomTestUserWithRetry();
         log.info("Edit user data & give specific name to " + testUser1);
         UserModel editUser1 = testUser1;
         editUserPage.navigate(editUser1)
@@ -159,7 +159,7 @@ public class SiteFinderTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void fullOrPartialSiteName()
     {
-        testUser1 = dataUser.usingAdmin().createRandomTestUser();
+        testUser1 = createRandomTestUserWithRetry();
         testSite1 = dataSite.usingUser(testUser1).createModeratedRandomSite();
         authenticateUsingCookies(testUser1);
         siteFinderPage.navigate();
@@ -177,7 +177,7 @@ public class SiteFinderTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void moderatedSiteLabel()
     {
-        testUser1 = dataUser.usingAdmin().createRandomTestUser();
+        testUser1 = createRandomTestUserWithRetry();
         testSite1 = dataSite.usingUser(testUser1).createModeratedRandomSite();
         authenticateUsingCookies(testUser1);
         siteFinderPage.navigate();
@@ -192,8 +192,8 @@ public class SiteFinderTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH })
     public void privateSiteLabel()
     {
-        testUser1 = dataUser.usingAdmin().createRandomTestUser();
-        testUser2 = dataUser.usingAdmin().createRandomTestUser();
+        testUser1 = createRandomTestUserWithRetry();
+        testUser2 = createRandomTestUserWithRetry();
         testSite2 = dataSite.usingUser(testUser1).createPrivateRandomSite();
         authenticateUsingCookies(testUser1);
         siteFinderPage.navigate();

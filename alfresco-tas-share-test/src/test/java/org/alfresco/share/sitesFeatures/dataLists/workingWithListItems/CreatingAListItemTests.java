@@ -51,7 +51,7 @@ public class CreatingAListItemTests extends BaseTest
     public void setupTest()
     {
         log.info("Precondition: Any Test user is created");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteName is created");
@@ -196,7 +196,7 @@ public class CreatingAListItemTests extends BaseTest
         log.info("Preconditions: Create a new Issue List, a second user and a 'xlsx' file");
         String issueName = "issue" + System.currentTimeMillis();
         log.info("Precondition: Any Test user is created");
-        userTest.set(getDataUser().usingAdmin().createRandomTestUser());
+        userTest.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
         log.info("PreCondition: Site siteName is created");
         dataListsService.createDataList(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), DataList.ISSUE_LIST, issueName, "issue list description");
@@ -266,7 +266,7 @@ public class CreatingAListItemTests extends BaseTest
         log.info("Preconditions: Create a new Advanced Task List, a second user and a 'test.xlsx' file");
         String advancedTaskName = "advanced" + System.currentTimeMillis();
         log.info("Precondition: Any Test user is created");
-        userTest.set(getDataUser().usingAdmin().createRandomTestUser());
+        userTest.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
         dataListsService.createDataList(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), DataList.TASKS_ADVANCED, advancedTaskName, "advanced task list description");
         dataListsPage.navigate(siteName.get().getId());
@@ -313,7 +313,7 @@ public class CreatingAListItemTests extends BaseTest
         log.info("Preconditions: Create a new To Do List, a second user and a 'test.xlsx' file");
         String toDoName = "toDo" + System.currentTimeMillis();
         log.info("Precondition: Any Test user is created");
-        userTest.set(getDataUser().usingAdmin().createRandomTestUser());
+        userTest.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
         dataListsService.createDataList(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), DataList.TODO_LIST, toDoName, "To Do list description");
         dataListsPage.navigate(siteName.get().getId());
@@ -338,7 +338,7 @@ public class CreatingAListItemTests extends BaseTest
         log.info("Preconditions: Create a new Visitor Feedback List and a 'test.xlsx' file");
         String visitorName = "toDo" + System.currentTimeMillis();
         log.info("Precondition: Any Test user is created");
-        userTest.set(getDataUser().usingAdmin().createRandomTestUser());
+        userTest.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
         dataListsService.createDataList(user.get().getUsername(), user.get().getPassword(), siteName.get().getId(), DataList.TODO_LIST, visitorName, "Visitor Feedback list description");
         dataListsPage.navigate(siteName.get().getId());

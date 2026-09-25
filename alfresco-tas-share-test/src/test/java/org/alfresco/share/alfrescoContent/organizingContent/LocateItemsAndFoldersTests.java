@@ -22,7 +22,7 @@ public class LocateItemsAndFoldersTests extends BaseTest
     {
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(user.get());
      //   getRestApi().authenticateUser(user.get());
         setAuthorizationRequestHeader(getRestApi().authenticateUser(user.get()));

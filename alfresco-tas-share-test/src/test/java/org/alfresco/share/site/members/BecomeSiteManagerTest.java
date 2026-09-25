@@ -36,7 +36,7 @@ public class BecomeSiteManagerTest extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel.set(dataUser.usingAdmin().createRandomTestUser());
+        userModel.set(createRandomTestUserWithRetry());
         siteModel.set(dataSite.usingUser(userModel.get()).createPublicRandomSite());
 
         authenticateUsingCookies(userModel.get());
@@ -51,7 +51,7 @@ public class BecomeSiteManagerTest extends BaseTest
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void becomeSiteManagerActionShouldNotBeDisplayedForCollaboratorUser()
     {
-        UserModel collaborator = dataUser.usingAdmin().createRandomTestUser();
+        UserModel collaborator = createRandomTestUserWithRetry();
         dataUser.usingUser(userModel.get())
             .addUserToSite(collaborator, siteModel.get(), SiteCollaborator);
 

@@ -36,7 +36,7 @@ public class MyDiscussionsDashletTests extends AbstractSiteDashboardDashletsTest
     {
         myDiscussionsDashlet = new MyDiscussionsDashlet(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.MY_DISCUSSIONS, 1, 2);
 

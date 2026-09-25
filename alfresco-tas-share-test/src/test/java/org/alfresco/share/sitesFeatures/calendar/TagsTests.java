@@ -56,7 +56,7 @@ public class TagsTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        user1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteNameC2216 is created");

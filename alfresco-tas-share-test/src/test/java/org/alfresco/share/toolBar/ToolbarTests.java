@@ -27,7 +27,7 @@ public class ToolbarTests extends BaseTest
         userProfilePage = new UserProfilePage(webDriver);
         toolbar = new Toolbar(webDriver);
 
-        normalUser.set(dataUser.usingAdmin().createRandomTestUser());
+        normalUser.set(createRandomTestUserWithRetry());
     }
 
     @TestRail (id = "C2091, C8701")

@@ -49,7 +49,7 @@ public class MyFilesPageTests extends BaseTest
     public void verifyMyFilesMainPage()  {
 
         log.info("Precondition: Login as user");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(user.get());
         authenticateUsingCookies(user.get());
 
@@ -79,7 +79,7 @@ public class MyFilesPageTests extends BaseTest
     public void verifyMyFilesPageTags() {
 
         log.info("Precondition : Login as user and navigate to My Files page.");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(user.get());
         authenticateUsingCookies(user.get());
 

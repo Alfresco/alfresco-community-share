@@ -49,7 +49,7 @@ public class RepositoryTagTests extends BaseTest
         repositoryPage = new RepositoryPage(webDriver);
 
         log.info("PreCondition1: Any test user is created");
-        testUser1 = dataUser.usingAdmin().createUser(user, password);
+        testUser1 = createTestUserWithRetry(user, password);
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("Create Folder and File in Admin Repository-> User Homes ");

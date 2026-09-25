@@ -38,7 +38,7 @@ public class SiteSearchDashletTests extends AbstractSiteDashboardDashletsTests
     {
         siteSearchDashlet = new SiteSearchDashlet(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.SITE_SEARCH, 1, 2);
 

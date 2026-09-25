@@ -1,0 +1,22 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Site Members Tests 1" parallel="classes" thread-count="2">
+   <listeners>
+      <listener class-name="org.alfresco.share.RetryListener"/>
+   </listeners>
+
+   <test name="Site Members Tests 1">
+      <groups>
+         <run>
+            <include name="sites"/>
+         </run>
+      </groups>
+      <classes>
+         <class name="org.alfresco.share.site.members.AddSiteMembersTests"/>
+         <class name="org.alfresco.share.site.members.ApprovingUsersTests"/>
+         <class name="org.alfresco.share.site.members.RemoveMembersOrGroupsTest"/>
+         <class name="org.alfresco.share.site.members.ReviewingSiteMembersTest"/>
+         <class name="org.alfresco.share.site.members.SiteGroupsTest"/>
+      </classes>
+   </test>
+
+</suite>

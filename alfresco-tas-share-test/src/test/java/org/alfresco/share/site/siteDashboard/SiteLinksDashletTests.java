@@ -51,7 +51,7 @@ public class SiteLinksDashletTests extends AbstractSiteDashboardDashletsTests
         linkDetailsViewPage = new LinkDetailsViewPage(webDriver);
         createLinkPage = new CreateLinkPage(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.SITE_LINKS, 1, 2);
 

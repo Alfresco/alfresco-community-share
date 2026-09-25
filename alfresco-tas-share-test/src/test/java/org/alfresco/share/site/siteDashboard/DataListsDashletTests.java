@@ -41,7 +41,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
         siteDataListsDashlet = new SiteDataListsDashlet(webDriver);
         dataListsService.set(applicationContext.getBean(DataListsService.class));
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.SITE_DATA_LIST, 1, 2);
 
@@ -119,7 +119,7 @@ public class DataListsDashletTests extends AbstractSiteDashboardDashletsTests
         dataListsService.get().createDataList(user.get().getUsername(), user.get().getPassword(),
             site.get().getId(), DataList.EVENT_LIST, LIST_ITEM_TITLE, LIST_ITEM_DESCRIPTION);
 
-        UserModel siteConsumer = dataUser.usingAdmin().createRandomTestUser();
+        UserModel siteConsumer = createRandomTestUserWithRetry();
         getDataUser().usingUser(user.get()).addUserToSite(siteConsumer, site.get(), UserRole.SiteConsumer);
         authenticateUsingCookies(siteConsumer);
 

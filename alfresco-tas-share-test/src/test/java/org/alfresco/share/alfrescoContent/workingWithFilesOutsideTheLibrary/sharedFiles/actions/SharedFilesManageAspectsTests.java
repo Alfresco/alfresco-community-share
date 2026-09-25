@@ -56,8 +56,8 @@ public class SharedFilesManageAspectsTests extends BaseTest
 
 
         log.info("PreCondition1: Any test user is created");
-        testUser1 = dataUser.usingAdmin().createUser(user1, password);
-        testUser2 = dataUser.usingAdmin().createUser(user2, password);
+        testUser1 = createTestUserWithRetry(user1, password);
+        testUser2 = createTestUserWithRetry(user2, password);
         getCmisApi().authenticateUser(getAdminUser());
 
         repositoryPage = new RepositoryPage(webDriver);

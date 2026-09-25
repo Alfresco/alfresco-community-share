@@ -33,7 +33,7 @@ public class RssFeedDashletTests extends AbstractSiteDashboardDashletsTests
     {
         rssFeedDashlet = new RssFeedDashlet(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.RSS_FEED, 1, 2);
 

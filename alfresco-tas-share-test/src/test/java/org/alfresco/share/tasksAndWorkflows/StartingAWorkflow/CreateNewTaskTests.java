@@ -96,23 +96,23 @@ public class CreateNewTaskTests extends BaseTest
     public void testSetup()
     {
         log.info("PreCondition: Creating a test user");
-        testUser.set(getDataUser().usingAdmin().createRandomTestUser());
+        testUser.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Creating a test user");
-        testUser2.set(getDataUser().usingAdmin().createRandomTestUser());
+        testUser2.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Creating a test user");
-        C8345username.set(getDataUser().usingAdmin().createRandomTestUser());
+        C8345username.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Creating a test user");
-        C286291usernameA.set(getDataUser().usingAdmin().createRandomTestUser());
+        C286291usernameA.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Creating test user");
-        C286291usernameB.set(getDataUser().usingAdmin().createRandomTestUser());
+        C286291usernameB.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteName is created");

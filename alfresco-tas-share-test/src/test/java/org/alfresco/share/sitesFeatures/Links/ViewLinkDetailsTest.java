@@ -55,8 +55,7 @@ import org.testng.annotations.Test;
     @BeforeMethod(alwaysRun = true)
     public void setupTest() {
         log.info("Precondition: Test users are created");
-        testUser.set(getDataUser().usingAdmin()
-            .createRandomTestUser());
+        testUser.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("Precondition: Test Site is created");

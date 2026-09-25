@@ -58,15 +58,15 @@ public class CreateNewReviewAndApproveTests extends BaseTest
     public void setupTest()
     {
         log.info("PreCondition: Creating test user");
-        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        user1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Creating test user");
-        user2.set(getDataUser().usingAdmin().createRandomTestUser());
+        user2.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Creating test user");
-        user3.set(getDataUser().usingAdmin().createRandomTestUser());
+        user3.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteNameC2216 is created");

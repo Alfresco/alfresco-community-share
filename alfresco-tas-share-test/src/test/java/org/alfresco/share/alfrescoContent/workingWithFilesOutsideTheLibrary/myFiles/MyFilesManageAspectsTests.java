@@ -33,7 +33,7 @@ public class MyFilesManageAspectsTests extends BaseTest
     public void createPrecondition()
     {
         log.info("PreCondition 1: Creating a TestUser");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
         authenticateUsingCookies(user.get());
 

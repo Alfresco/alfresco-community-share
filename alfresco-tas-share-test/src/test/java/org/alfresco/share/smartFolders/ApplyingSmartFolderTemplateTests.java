@@ -72,7 +72,7 @@ public class ApplyingSmartFolderTemplateTests extends BaseTest
     public void setupTest()
     {
         log.info("Precondition: Any Test user is created");
-        userName.set(getDataUser().usingAdmin().createRandomTestUser());
+        userName.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         siteNameC8665.set(getDataSite().usingUser(userName.get()).createPublicRandomSite());

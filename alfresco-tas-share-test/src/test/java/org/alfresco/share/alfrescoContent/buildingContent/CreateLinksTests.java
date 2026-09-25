@@ -46,7 +46,7 @@ public class CreateLinksTests extends BaseTest
         searchPage = new SearchPage(webDriver);
         siteDashboardPage = new SiteDashboardPage(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
         file.set(FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT));

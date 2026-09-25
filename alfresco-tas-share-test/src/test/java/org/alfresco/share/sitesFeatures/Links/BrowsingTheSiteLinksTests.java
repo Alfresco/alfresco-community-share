@@ -51,10 +51,10 @@ public class BrowsingTheSiteLinksTests extends BaseTest
     public void setupTest()
     {
         log.info("Precondition: Test users are created");
-        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        user1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        user2.set(getDataUser().usingAdmin().createRandomTestUser());
+        user2.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         linkPage = new LinkPage(webDriver);

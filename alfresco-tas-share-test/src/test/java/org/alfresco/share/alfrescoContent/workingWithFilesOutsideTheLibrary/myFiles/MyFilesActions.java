@@ -46,7 +46,7 @@ public class MyFilesActions extends BaseTest
         documentLibraryPages = new DocumentLibraryPage(webDriver);
 
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         getCmisApi().authenticateUser(user.get());
         authenticateUsingCookies(user.get());

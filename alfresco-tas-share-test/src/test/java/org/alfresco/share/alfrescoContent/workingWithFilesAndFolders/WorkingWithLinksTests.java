@@ -52,7 +52,7 @@ public class WorkingWithLinksTests extends BaseTest
     public void setupTest()
     {
         log.info("Creating a testuser1 and site1 created by testuser1");
-        testUser = dataUser.usingAdmin().createRandomTestUser();
+        testUser = createRandomTestUserWithRetry();
         site.set(getDataSite().usingUser(testUser).createPublicRandomSite());
         testSite = site.get().getTitle();
 

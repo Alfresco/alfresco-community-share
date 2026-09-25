@@ -24,7 +24,7 @@ public class RssFeedDashletTest extends AbstractUserDashboardDashletsTests
     {
         rssFeedDashlet = new RssFeedDashlet(webDriver);
 
-        user.set(dataUser.usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         addDashlet(user.get(), DashboardCustomization.UserDashlet.RSS_FEED, 1, 3);
 
         authenticateUsingCookies(user.get());

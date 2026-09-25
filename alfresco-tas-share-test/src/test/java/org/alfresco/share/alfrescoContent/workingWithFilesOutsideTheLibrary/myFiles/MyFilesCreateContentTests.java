@@ -112,9 +112,10 @@ public class MyFilesCreateContentTests extends BaseTest
             .assertIsFileNameDisplayedOnPreviewPage("C7650 test name");
     }
 
+    //BUG: HTML is now using textarea instead of rich text editor.
     @TestRail (id = "C7696")
     @AlfrescoTest (jira = "XAT-10412")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1,ShareGroups.BUG })
     public void myFilesCreateHTMLFile()
     {
         log.info("Precondition: Login as user and navigate to My Files page.");

@@ -29,7 +29,7 @@ public class DocumentLibraryTests extends BaseTest
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
         siteDashboardPage = new SiteDashboardPage(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         getCmisApi().authenticateUser(user.get());
 
