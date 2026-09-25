@@ -102,7 +102,7 @@ public class DeleteSiteTests extends BaseTest
     public void testSetup()
     {
         log.info("Precondition: Test user userC2280  is created");
-        userC2280.set(getDataUser().usingAdmin().createRandomTestUser());
+        userC2280.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteNameC2280_1 is created");
@@ -117,7 +117,7 @@ public class DeleteSiteTests extends BaseTest
         contentService.createDocument(userC2280.get().getUsername(), password, siteNameC2280_2.get().getId(), CMISUtil.DocumentType.TEXT_PLAIN, fileNameC2280_1, "fileC2280");
 
         log.info("Precondition: Test user userC2281 is created");
-        userC2281.set(getDataUser().usingAdmin().createRandomTestUser());
+        userC2281.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteNameUserCanNotDelete is created ");
@@ -127,19 +127,19 @@ public class DeleteSiteTests extends BaseTest
         userService.createSiteMember(adminUser, adminPassword, userC2281.get().getUsername(), siteNameUserCanNotDelete.get().getId(), "SiteContributor");
 
         log.info("Precondition: User userC2282 is created");
-        userC2282.set(getDataUser().usingAdmin().createRandomTestUser());
+        userC2282.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         userService.createSiteMember(adminUser, adminPassword, userC2282.get().getUsername(), siteNameUserCanNotDelete.get().getId(), "SiteCollaborator");
 
         log.info("Precondition: User userC2283 is created");
-        userC2283.set(getDataUser().usingAdmin().createRandomTestUser());
+        userC2283.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         userService.createSiteMember(adminUser, adminPassword, userC2283.get().getUsername(), siteNameUserCanNotDelete.get().getId(), "SiteConsumer");
 
         log.info("Precondition: User userC2284 is created");
-        userC2284.set(getDataUser().usingAdmin().createRandomTestUser());
+        userC2284.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteNameC2284 is created");
@@ -147,15 +147,15 @@ public class DeleteSiteTests extends BaseTest
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("Precondition: test user userC2289_1 is created");
-        userC2289_1.set(getDataUser().usingAdmin().createRandomTestUser());
+        userC2289_1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("Precondition: test user userC2289_2 is created");
-        userC2289_2.set(getDataUser().usingAdmin().createRandomTestUser());
+        userC2289_2.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("Precondition: User userC2291 is created");
-        userC2291.set(getDataUser().usingAdmin().createRandomTestUser());
+        userC2291.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteNameC2291 is created");

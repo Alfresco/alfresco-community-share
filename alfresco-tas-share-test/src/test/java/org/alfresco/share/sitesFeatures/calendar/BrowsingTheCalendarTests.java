@@ -61,11 +61,11 @@ public class BrowsingTheCalendarTests extends BaseTest
     public void setupTest()
     {
         log.info("PreCondition: Creating a TestUser1");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Creating a TestUser2");
-        user2.set(getDataUser().usingAdmin().createRandomTestUser());
+        user2.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Creating a Random Site");

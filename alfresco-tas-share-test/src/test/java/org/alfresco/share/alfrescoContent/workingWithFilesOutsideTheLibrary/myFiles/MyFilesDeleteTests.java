@@ -55,7 +55,7 @@ public class MyFilesDeleteTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest() {
         log.info("PreCondition: Creating a TestUser");
-        testUser = dataUser.usingAdmin().createRandomTestUser();
+        testUser = createRandomTestUserWithRetry();
         getCmisApi().authenticateUser(testUser);
         authenticateUsingCookies(testUser);
 

@@ -56,7 +56,7 @@ public class ViewingStartedWorkflowTests extends BaseTest
         workflowDetailsPage = new WorkflowDetailsPage(webDriver);
 
         log.info("Precondition: Create user and a workflow.");
-        testUser.set(getDataUser().usingAdmin().createRandomTestUser());
+        testUser.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         workflowService.startNewTask(testUser.get().getUsername(), testUser.get().getPassword(), workflowName, new Date(), testUser.get().getUsername(), CMISUtil.Priority.Normal, null, false);
@@ -89,10 +89,10 @@ public class ViewingStartedWorkflowTests extends BaseTest
         workflowDetailsPage = new WorkflowDetailsPage(webDriver);
 
         log.info("Precondition: Create 2 users and a workflow assigned by user1 to user2.");
-        testUser.set(getDataUser().usingAdmin().createRandomTestUser());
+        testUser.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        user2.set(getDataUser().usingAdmin().createRandomTestUser());
+        user2.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         workflowService.startNewTask(testUser.get().getUsername(), testUser.get().getPassword(), workflowName, new Date(), user2.get().getUsername(), CMISUtil.Priority.Normal, null, false);
@@ -126,7 +126,7 @@ public class ViewingStartedWorkflowTests extends BaseTest
         workflowsIveStartedPage = new WorkflowsIveStartedPage(webDriver);
 
         log.info("Precondition: Create user and a workflow.");
-        testUser.set(getDataUser().usingAdmin().createRandomTestUser());
+        testUser.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         workflowService.startNewTask(testUser.get().getUsername(), testUser.get().getPassword(), workflowName, new Date(), testUser.get().getUsername(), CMISUtil.Priority.Normal, null, false);
@@ -151,10 +151,10 @@ public class ViewingStartedWorkflowTests extends BaseTest
         myTasksPage = new MyTasksPage(webDriver);
 
         log.info("Precondition: Create 2 users and a workflow assigned by user1 to user2.");
-        testUser.set(getDataUser().usingAdmin().createRandomTestUser());
+        testUser.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        user2.set(getDataUser().usingAdmin().createRandomTestUser());
+        user2.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         workflowService.startNewTask(testUser.get().getUsername(), testUser.get().getPassword(), workflowName, new Date(), user2.get().getUsername(), CMISUtil.Priority.Normal, null, false);
@@ -183,7 +183,7 @@ public class ViewingStartedWorkflowTests extends BaseTest
         workflowsIveStartedPage = new WorkflowsIveStartedPage(webDriver);
 
         log.info("Precondition: Create a user and login.");
-        testUser.set(getDataUser().usingAdmin().createRandomTestUser());
+        testUser.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         authenticateUsingLoginPage(testUser.get());
@@ -215,7 +215,7 @@ public class ViewingStartedWorkflowTests extends BaseTest
         myTasksPage = new MyTasksPage(webDriver);
 
         log.info("Precondition: Create a user and login.");
-        testUser.set(getDataUser().usingAdmin().createRandomTestUser());
+        testUser.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         authenticateUsingLoginPage(testUser.get());
@@ -246,7 +246,7 @@ public class ViewingStartedWorkflowTests extends BaseTest
         myTasksPage = new MyTasksPage(webDriver);
 
         log.info("Precondition: Create user and a workflow.");
-        testUser.set(getDataUser().usingAdmin().createRandomTestUser());
+        testUser.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         workflowService.startNewTask(testUser.get().getUsername(), testUser.get().getPassword(), workflowName, new Date(), testUser.get().getUsername(), CMISUtil.Priority.Normal, null, false);
@@ -275,7 +275,7 @@ public class ViewingStartedWorkflowTests extends BaseTest
         editTaskPage = new EditTaskPage(webDriver);
 
         log.info("Precondition: Create user and a workflow.");
-        testUser.set(getDataUser().usingAdmin().createRandomTestUser());
+        testUser.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
         workflowService.startNewTask(testUser.get().getUsername(), testUser.get().getPassword(), workflowName, new Date(), testUser.get().getUsername(), CMISUtil.Priority.Normal, null, false);
 
@@ -315,10 +315,10 @@ public class ViewingStartedWorkflowTests extends BaseTest
         workflowsIveStartedPage = new WorkflowsIveStartedPage(webDriver);
 
         log.info("Precondition: Create 2 users and a workflow assigned by " + c284893testUser + " to " + c284893user2 + ".");
-        c284893testUser.set(getDataUser().usingAdmin().createRandomTestUser());
+        c284893testUser.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        c284893user2.set(getDataUser().usingAdmin().createRandomTestUser());
+        c284893user2.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         workflowService.startNewTask(c284893testUser.get().getUsername(), c284893testUser.get().getPassword(), workflowName, new Date(), c284893user2.get().getUsername(), CMISUtil.Priority.Normal, null, false);

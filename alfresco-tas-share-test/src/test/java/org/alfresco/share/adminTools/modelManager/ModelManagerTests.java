@@ -49,7 +49,7 @@ public class ModelManagerTests extends BaseTest
     @BeforeClass (alwaysRun = true)
     public void setupTest()
     {
-        user = dataUser.usingAdmin().createRandomTestUser();
+        user = createRandomTestUserWithRetry();
         site = dataSite.usingUser(user).createPublicRandomSite();
     }
 

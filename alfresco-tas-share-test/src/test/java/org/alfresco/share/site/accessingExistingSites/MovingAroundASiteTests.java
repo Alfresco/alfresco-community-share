@@ -49,7 +49,7 @@ public class MovingAroundASiteTests extends BaseTest
     public void setupTest()
     {
         log.info("PreCondition: Creating two users");
-        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        user1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         authenticateUsingLoginPage(user1.get());

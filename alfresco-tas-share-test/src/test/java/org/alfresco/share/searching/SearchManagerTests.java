@@ -104,9 +104,9 @@ public class SearchManagerTests extends BaseTest
         log.info("Step 1: user creation using admin user.");
         getCmisApi().authenticateUser(getAdminUser());
         authenticateUsingLoginPage(getAdminUser());
-        testUser1 = dataUser.usingAdmin().createRandomTestUser();
-        testUser2 = dataUser.usingAdmin().createRandomTestUser();
-        testUser3 = dataUser.usingAdmin().createRandomTestUser();
+        testUser1 = createRandomTestUserWithRetry();
+        testUser2 = createRandomTestUserWithRetry();
+        testUser3 = createRandomTestUserWithRetry();
 
         editUserPage = new EditUserPage(webDriver);
         documentLibraryPage = new DocumentLibraryPage(webDriver);
@@ -381,7 +381,7 @@ public class SearchManagerTests extends BaseTest
 
     @TestRail (id = "C6308")
     @AlfrescoTest(jira = "XAT-9502")
-    @Test (enabled = false, groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE,ShareGroups.SHARE_PRIORITY_1 })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, ShareGroups.SHARE_PRIORITY_1, ShareGroups.TOBEFIXED })
     public void verifyMinimumFilterLengthProperty() {
         //test skipped due to edge case where minimufilterlengthproperty does not work, but no bug was opened
         filterId = "filter_modifier";
@@ -438,7 +438,7 @@ public class SearchManagerTests extends BaseTest
 
     @TestRail (id = "C6288")
     @AlfrescoTest(jira = "XAT-9518")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE,ShareGroups.SHARE_PRIORITY_1 }, priority = 7)
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, TestGroup.NOT_SUPPORTED_ON_SINGLE_PIPELINE, ShareGroups.SHARE_PRIORITY_1 }, priority = 7)
     public void createNewSearchFilterWithoutSaving()
     {
         filterId = String.format("close-filter%s", RandomData.getRandomAlphanumeric());
@@ -457,8 +457,7 @@ public class SearchManagerTests extends BaseTest
         createNewFilterPopup.selectFromFilterProperty("Site");
 
         log.info("STEP 4: Click 'Close' (X) button.");
-        createNewFilterPopup.clickClose();
-        assertFalse(searchManagerPage.isFilterAvailable(filterName), "The new filter is not displayed on 'Search Manager' page.");
+        createNewFilterPopup.clickClose();assertFalse(searchManagerPage.isFilterAvailable(filterName), "The new filter is not displayed on 'Search Manager' page.");
     }
 
     @TestRail (id = "C6287")

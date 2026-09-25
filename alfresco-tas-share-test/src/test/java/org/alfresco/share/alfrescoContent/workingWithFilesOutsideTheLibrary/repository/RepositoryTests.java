@@ -40,7 +40,7 @@ public class RepositoryTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest() throws Exception {
         log.info("PreCondition1: Any test user is created");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(user.get());
 
         authenticateUsingCookies(user.get());

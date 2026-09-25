@@ -41,7 +41,7 @@ public class EditFilesPropertiesTest extends BaseTest
         uniqueIdentifier = uniqueIdentifier.toLowerCase();
 
         log.info("Creating a random user and a random public site");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
         getCmisApi().authenticateUser(user.get());

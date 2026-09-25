@@ -57,7 +57,7 @@ public class ContributorFilesCreatedByOthersTests extends BaseTest
     public void setupTest()
     {
         log.info("Precondition: Any Test user is created");
-        userContributor.set(getDataUser().usingAdmin().createRandomTestUser());
+        userContributor.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteName is created");

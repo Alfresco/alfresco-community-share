@@ -46,9 +46,9 @@ public class SearchByProfilePropertiesTest extends BaseTest
         final String user = "test" + identifier;
         final String user1 = "user1" + identifier;
         final String user2 = "user2" + identifier;
-        testUser = dataUser.usingAdmin().createUser(user, password);
-        testUser1 = dataUser.usingAdmin().createUser(user1, password);
-        testUser2 = dataUser.usingAdmin().createUser(user2, password);
+        testUser = createTestUserWithRetry(user, password);
+        testUser1 = createTestUserWithRetry(user1, password);
+        testUser2 = createTestUserWithRetry(user2, password);
         getCmisApi().authenticateUser(getAdminUser());
         authenticateUsingLoginPage(getAdminUser());
 
@@ -134,8 +134,8 @@ public class SearchByProfilePropertiesTest extends BaseTest
         final String user1 = "user1" + identifier;
         final String user2 = "user2" + identifier;
 
-        testUser1 = dataUser.usingAdmin().createUser(user1, password);
-        testUser2 = dataUser.usingAdmin().createUser(user2, password);
+        testUser1 = createTestUserWithRetry(user1, password);
+        testUser2 = createTestUserWithRetry(user2, password);
         getCmisApi().authenticateUser(getAdminUser());
         authenticateUsingLoginPage(getAdminUser());
 
@@ -187,8 +187,8 @@ public class SearchByProfilePropertiesTest extends BaseTest
         final String user1 = "user" + identifier + "1";
         final String user2 = "user" + identifier + "2";
 
-        testUser1 = dataUser.usingAdmin().createUser(user1, password);
-        testUser2 = dataUser.usingAdmin().createUser(user2, password);
+        testUser1 = createTestUserWithRetry(user1, password);
+        testUser2 = createTestUserWithRetry(user2, password);
         getCmisApi().authenticateUser(getAdminUser());
         authenticateUsingLoginPage(getAdminUser());
 
@@ -241,8 +241,8 @@ public class SearchByProfilePropertiesTest extends BaseTest
         final String user1 = "user1" + identifier;
         final String user2 = "user2" + identifier;
 
-        testUser1 = dataUser.usingAdmin().createUser(user1, password);
-        testUser2 = dataUser.usingAdmin().createUser(user2, password);
+        testUser1 = createTestUserWithRetry(user1, password);
+        testUser2 = createTestUserWithRetry(user2, password);
         getCmisApi().authenticateUser(getAdminUser());
         authenticateUsingLoginPage(getAdminUser());
 
@@ -304,8 +304,8 @@ public class SearchByProfilePropertiesTest extends BaseTest
         final String user1 = "user" + identifier + "1";
         final String user2 = "user" + identifier + "2";
 
-        testUser1 = dataUser.usingAdmin().createUser(user1, password);
-        testUser2 = dataUser.usingAdmin().createUser(user2, password);
+        testUser1 = createTestUserWithRetry(user1, password);
+        testUser2 = createTestUserWithRetry(user2, password);
         getCmisApi().authenticateUser(getAdminUser());
         authenticateUsingLoginPage(getAdminUser());
 

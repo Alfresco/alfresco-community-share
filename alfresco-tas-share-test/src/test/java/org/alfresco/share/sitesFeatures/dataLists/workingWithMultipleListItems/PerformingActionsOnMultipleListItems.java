@@ -49,7 +49,7 @@ public class PerformingActionsOnMultipleListItems extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void createUser()
     {
-        userName.set(getDataUser().usingAdmin().createRandomTestUser());
+        userName.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         dataListsPage = new DataListsPage(webDriver);

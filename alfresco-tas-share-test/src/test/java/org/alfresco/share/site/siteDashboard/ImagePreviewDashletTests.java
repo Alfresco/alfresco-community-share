@@ -50,7 +50,7 @@ public class ImagePreviewDashletTests extends AbstractSiteDashboardDashletsTests
         documentDetailsPage = new DocumentDetailsPage(webDriver);
         dataContent.set(applicationContext.getBean(DataContent.class));
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.IMAGE_PREVIEW, 1, 2);
 

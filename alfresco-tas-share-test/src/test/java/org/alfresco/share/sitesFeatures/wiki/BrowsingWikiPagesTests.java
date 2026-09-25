@@ -69,11 +69,11 @@ public class BrowsingWikiPagesTests extends BaseTest
         siteTag = "test_tag" + uniqueIdentifier;
 
         log.info("Precondition: Any Test user is created");
-        userName1.set(getDataUser().usingAdmin().createRandomTestUser());
+        userName1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("Precondition: Test user2 is created");
-        userName2.set(getDataUser().usingAdmin().createRandomTestUser());
+        userName2.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site is created");

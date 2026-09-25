@@ -65,10 +65,10 @@ public class CreateTests extends BaseTest
         deleteDialog = new DeleteDialog(webDriver);
 
         log.info("PreCondition1: Two test users are created");
-        testUser1 = dataUser.usingAdmin().createRandomTestUser();
+        testUser1 = createRandomTestUserWithRetry();
         getCmisApi().authenticateUser(getAdminUser());
 
-        testUser2 = dataUser.usingAdmin().createRandomTestUser();
+        testUser2 = createRandomTestUserWithRetry();
         getCmisApi().authenticateUser(getAdminUser());
     }
 

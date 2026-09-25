@@ -42,7 +42,7 @@ public class RenameWikiPageTests extends BaseTest
     public void setupTest()
     {
         log.info("Precondition: Any Test user is created");
-        testUser.set(getDataUser().usingAdmin().createRandomTestUser());
+        testUser.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteName is created");

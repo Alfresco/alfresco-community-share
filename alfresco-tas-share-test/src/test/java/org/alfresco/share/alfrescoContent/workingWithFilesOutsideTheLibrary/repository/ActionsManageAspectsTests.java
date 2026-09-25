@@ -38,7 +38,7 @@ public class ActionsManageAspectsTests extends BaseTest
         aspectsForm = new AspectsForm(webDriver);
 
         log.info("PreCondition1: Any test user is created");
-        testUser1 = dataUser.usingAdmin().createRandomTestUser();
+        testUser1 = createRandomTestUserWithRetry();
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("Create a Folder in Admin Repository-> User Homes ");

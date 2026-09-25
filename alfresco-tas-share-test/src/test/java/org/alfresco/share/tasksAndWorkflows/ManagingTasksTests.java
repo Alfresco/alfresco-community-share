@@ -96,31 +96,31 @@ public class ManagingTasksTests extends BaseTest
     public void testSetup()
     {
         log.info("Precondition: Create user and a workflow.");
-        testUser.set(getDataUser().usingAdmin().createRandomTestUser());
+        testUser.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        C8521username.set(getDataUser().usingAdmin().createRandomTestUser());
+        C8521username.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        C8551usernameA.set(getDataUser().usingAdmin().createRandomTestUser());
+        C8551usernameA.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        C8551usernameB.set(getDataUser().usingAdmin().createRandomTestUser());
+        C8551usernameB.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        C8551usernameC.set(getDataUser().usingAdmin().createRandomTestUser());
+        C8551usernameC.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        C8596username.set(getDataUser().usingAdmin().createRandomTestUser());
+        C8596username.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        C8596usernameA.set(getDataUser().usingAdmin().createRandomTestUser());
+        C8596usernameA.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        C8596usernameB.set(getDataUser().usingAdmin().createRandomTestUser());
+        C8596usernameB.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        C8596usernameC.set(getDataUser().usingAdmin().createRandomTestUser());
+        C8596usernameC.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteName is created");

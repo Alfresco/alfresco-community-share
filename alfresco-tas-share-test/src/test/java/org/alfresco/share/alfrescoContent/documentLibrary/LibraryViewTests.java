@@ -40,8 +40,7 @@ public class LibraryViewTests extends BaseTest {
         documentDetailsPage = new DocumentDetailsPage(webDriver);
 
         log.info("Precondition: User & Site creation");
-        user.set(getDataUser().usingAdmin()
-            .createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get())
             .createPublicRandomSite());
         getCmisApi().authenticateUser(user.get());

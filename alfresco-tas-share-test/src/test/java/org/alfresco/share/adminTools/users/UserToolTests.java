@@ -43,8 +43,8 @@ public class UserToolTests extends BaseTest
         String identifier = RandomData.getRandomAlphanumeric();
         UserModel user1 = new UserModel(identifier + "C9392User1", "password");
         UserModel user2 = new UserModel(identifier + "C9392User2", "password");
-        dataUser.usingAdmin().createUser(user1);
-        dataUser.usingAdmin().createUser(user2);
+        createTestUserWithRetry(user1);
+        createTestUserWithRetry(user2);
 
         usersPage.navigate();
 

@@ -135,7 +135,7 @@ public class MyFilesTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void verifyPresenceOfMyFilesInHeaderBar() {
         log.info("PreCondition: Creating a TestUser");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
         authenticateUsingCookies(user.get());
 

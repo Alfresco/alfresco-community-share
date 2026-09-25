@@ -26,7 +26,7 @@ public class MyActivitiesDashletTests extends AbstractUserDashboardDashletsTests
     {
         myActivitiesDashlet = new MyActivitiesDashlet(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         testSite.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         authenticateUsingCookies(user.get());
     }
@@ -102,7 +102,7 @@ public class MyActivitiesDashletTests extends AbstractUserDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.USER_DASHBOARD })
     public void checkUsersFilter()
     {
-        UserModel invitedUser = getDataUser().usingAdmin().createRandomTestUser();
+        UserModel invitedUser = createRandomTestUserWithRetry();
         getDataUser().usingUser(user.get()).addUserToSite(invitedUser, testSite.get(), UserRole.SiteCollaborator);
 
         FileModel managerFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);

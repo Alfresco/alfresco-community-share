@@ -68,7 +68,7 @@ public class ViewWikiPageTests extends BaseTest
     {
 
         log.info("Precondition: Any Test user is created");
-        testUser.set(getDataUser().usingAdmin().createRandomTestUser());
+        testUser.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         wikiMainPage = new WikiMainPage(webDriver);

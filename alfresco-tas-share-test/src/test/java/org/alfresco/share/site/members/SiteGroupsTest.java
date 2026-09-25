@@ -31,7 +31,7 @@ public class SiteGroupsTest extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel.set(dataUser.createRandomTestUser());
+        userModel.set(createRandomTestUserWithRetry());
         siteModel.set(dataSite.usingUser(userModel.get()).createPublicRandomSite());
         groupModel.set(dataGroup.usingAdmin().createRandomGroup());
 

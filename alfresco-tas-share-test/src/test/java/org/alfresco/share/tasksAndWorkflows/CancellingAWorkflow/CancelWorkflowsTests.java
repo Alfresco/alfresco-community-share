@@ -49,7 +49,7 @@ public class CancelWorkflowsTests extends BaseTest
     public void cancelWorkflow()
     {
         log.info("PreCondition: Creating test user");
-        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        user1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         workflowsIveStartedPage = new WorkflowsIveStartedPage(webDriver);
@@ -79,7 +79,7 @@ public class CancelWorkflowsTests extends BaseTest
     public void cancelWorkflowFromDetailsPage()
     {
         log.info("PreCondition: Creating test user");
-        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        user1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         workflowsIveStartedPage = new WorkflowsIveStartedPage(webDriver);
@@ -109,7 +109,7 @@ public class CancelWorkflowsTests extends BaseTest
     public void cancelWorkflowCancel()
     {
         log.info("PreCondition: Creating test user");
-        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        user1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         workflowsIveStartedPage = new WorkflowsIveStartedPage(webDriver);

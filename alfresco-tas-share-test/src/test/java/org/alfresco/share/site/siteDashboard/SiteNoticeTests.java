@@ -33,7 +33,7 @@ public class SiteNoticeTests extends AbstractSiteDashboardDashletsTests
     {
         siteNoticeDashlet = new SiteNoticeDashlet(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.SITE_NOTICE, 1, 2);
 

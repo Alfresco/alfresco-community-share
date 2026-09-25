@@ -35,7 +35,7 @@ public class LoginAIMSTests extends BaseTest
     @BeforeClass(alwaysRun = true)
     public void dataPrep()
     {
-        validUser = dataUser.usingAdmin().createRandomTestUser();
+        validUser = createRandomTestUserWithRetry();
         dataUser.createUser(specialPassUser);
         Arrays.stream(specialUsers).map(specialUser ->
             dataUser.createUser(specialUser, password)).forEach(user -> specialUserList.add(user));

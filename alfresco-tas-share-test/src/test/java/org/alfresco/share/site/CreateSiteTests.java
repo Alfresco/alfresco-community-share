@@ -34,7 +34,7 @@ public class CreateSiteTests extends BaseTest
         createSiteDialog = new CreateSiteDialog(webDriver);
         mySitesDashlet = new MySitesDashlet(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
 
         authenticateUsingCookies(user.get());
     }

@@ -22,7 +22,7 @@ public class UserProfileSitesTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        user.set(dataUser.usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         userSitesPage = new UserSitesListPage(webDriver);
     }
 
@@ -31,7 +31,7 @@ public class UserProfileSitesTests extends BaseTest
     @Test(groups = {TestGroup.SANITY, TestGroup.USER, ShareGroups.SHARE_PRIORITY_1})
     public void viewSitesWhereUserHasMembershipTest()
     {
-        UserModel invitedUser = dataUser.usingAdmin().createRandomTestUser();
+        UserModel invitedUser = createRandomTestUserWithRetry();
         SiteModel inviteSite = dataSite.usingUser(user.get()).createPrivateRandomSite();
         SiteModel notInvitedSite = dataSite.usingUser(user.get()).createPublicRandomSite();
         SiteModel publicSite = dataSite.usingUser(invitedUser).createPublicRandomSite();

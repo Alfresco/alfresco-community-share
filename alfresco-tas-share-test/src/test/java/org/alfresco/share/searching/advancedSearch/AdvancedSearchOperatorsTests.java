@@ -48,7 +48,7 @@ public class AdvancedSearchOperatorsTests extends BaseTest
     public void setupTest()
     {
         log.info("Precondition1: Any test user is created");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         authenticateUsingCookies(user.get());
 
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());

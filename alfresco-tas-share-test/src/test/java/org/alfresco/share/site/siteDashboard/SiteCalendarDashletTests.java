@@ -54,7 +54,7 @@ public class SiteCalendarDashletTests extends AbstractSiteDashboardDashletsTests
     {
         siteCalendarDashlet = new SiteCalendarDashlet(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.SITE_CALENDAR, 1, 2);
 

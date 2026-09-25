@@ -101,7 +101,7 @@ public class AnalyzingASiteTests extends BaseTest
     {
         //C2233
         log.info("Precondition1: Any test user is created");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Creating a Random Site");
@@ -122,16 +122,16 @@ public class AnalyzingASiteTests extends BaseTest
         contentService.uploadFileInSite(user.get().getUsername(), password, siteName.get().getId(), testDataFolder + picture + ".jpg");
 
         //C2234
-        user1C2234.set(getDataUser().usingAdmin().createRandomTestUser());
+        user1C2234.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        user2C2234.set(getDataUser().usingAdmin().createRandomTestUser());
+        user2C2234.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        user3C2234.set(getDataUser().usingAdmin().createRandomTestUser());
+        user3C2234.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        user4C2234.set(getDataUser().usingAdmin().createRandomTestUser());
+        user4C2234.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Creating a Random Site");

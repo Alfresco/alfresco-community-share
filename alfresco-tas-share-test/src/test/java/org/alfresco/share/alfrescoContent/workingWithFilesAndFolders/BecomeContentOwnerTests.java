@@ -63,13 +63,13 @@ public class BecomeContentOwnerTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void becomeFileOwner()
     {
-        UserModel contributer = dataUser.usingAdmin().createRandomTestUser();
+        UserModel contributer = createRandomTestUserWithRetry();
         dataUser.addUserToSite(contributer, site.get(), SiteContributor);
 
         fileToCheck = FileModel.getRandomFileModel(FileType.MSWORD2007);
         getCmisApi().usingSite(site.get()).createFile(fileToCheck).assertThat().existsInRepo();
 
-        UserModel manager = dataUser.usingAdmin().createRandomTestUser();
+        UserModel manager = createRandomTestUserWithRetry();
         dataUser.addUserToSite(manager, site.get(), SiteManager);
 
         authenticateUsingCookies(manager);
@@ -116,13 +116,13 @@ public class BecomeContentOwnerTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
     public void becomeFolderOwner()
     {
-        UserModel contributer = dataUser.usingAdmin().createRandomTestUser();
+        UserModel contributer = createRandomTestUserWithRetry();
         dataUser.addUserToSite(contributer, site.get(), SiteContributor);
 
         folderToCheck = FolderModel.getRandomFolderModel();
         getCmisApi().usingSite(site.get()).createFolder(folderToCheck).assertThat().existsInRepo();
 
-        UserModel manager = dataUser.usingAdmin().createRandomTestUser();
+        UserModel manager = createRandomTestUserWithRetry();
         dataUser.addUserToSite(manager, site.get(), SiteManager);
 
         authenticateUsingCookies(manager);
@@ -174,13 +174,13 @@ public class BecomeContentOwnerTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
     public void cancelBecomeOwner()
     {
-        UserModel collaborator = dataUser.usingAdmin().createRandomTestUser();
+        UserModel collaborator = createRandomTestUserWithRetry();
         dataUser.addUserToSite(collaborator, site.get(), SiteCollaborator);
 
         fileToCheck = FileModel.getRandomFileModel(FileType.MSWORD2007);
         getCmisApi().usingSite(site.get()).createFile(fileToCheck).assertThat().existsInRepo();
 
-        UserModel manager = dataUser.usingAdmin().createRandomTestUser();
+        UserModel manager = createRandomTestUserWithRetry();
         dataUser.addUserToSite(manager, site.get(), SiteManager);
 
         authenticateUsingCookies(manager);

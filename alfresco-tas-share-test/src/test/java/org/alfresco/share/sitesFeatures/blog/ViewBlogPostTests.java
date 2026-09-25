@@ -44,7 +44,7 @@ public class ViewBlogPostTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel.set(getDataUser().usingAdmin().createRandomTestUser());
+        userModel.set(createRandomTestUserWithRetry());
         siteModel.set(getDataSite().usingUser(userModel.get()).createPublicRandomSite());
         siteService.addPageToSite(userModel.get().getUsername(), userModel.get().getPassword(),
             siteModel.get().getId(), Page.BLOG, null);
@@ -60,7 +60,7 @@ public class ViewBlogPostTests extends BaseTest
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES_FEATURES})
     public void shouldDisplayPartiallyPostContentWhenLargeContent()
     {
-        UserModel manager = dataUser.usingAdmin().createRandomTestUser();
+        UserModel manager = createRandomTestUserWithRetry();
         dataUser.usingUser(userModel.get())
             .addUserToSite(manager, siteModel.get(), SiteManager);
 
@@ -98,7 +98,7 @@ public class ViewBlogPostTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES }, priority=1)
     public void postShouldBeVisibleToManagerUser()
     {
-        UserModel manager = dataUser.usingAdmin().createRandomTestUser();
+        UserModel manager = createRandomTestUserWithRetry();
         dataUser.usingUser(userModel.get())
             .addUserToSite(manager, siteModel.get(), SiteManager);
 

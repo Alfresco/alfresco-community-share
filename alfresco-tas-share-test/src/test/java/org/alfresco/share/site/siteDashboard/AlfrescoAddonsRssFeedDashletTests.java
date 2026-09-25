@@ -30,7 +30,7 @@ public class AlfrescoAddonsRssFeedDashletTests extends AbstractSiteDashboardDash
     {
         rssFeedDashlet = new RssFeedDashlet(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.ADDONS_RSS_FEED, 1, 2);
 

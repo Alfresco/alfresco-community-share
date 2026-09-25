@@ -10,6 +10,7 @@ import org.alfresco.po.share.SharePage2;
 import org.alfresco.po.share.navigation.AccessibleByMenuBar;
 import org.alfresco.po.share.toolbar.Toolbar;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -58,7 +59,15 @@ public class MyTasksPage extends SharePage2<MyTasksPage> implements AccessibleBy
     public MyTasksPage assertRejectedTaskIsNotDisplayedInActiveTasks(String taskName)
     {
         log.info("Assert rejected task is not displayed {}", taskName);
-        boolean isTaskNameDisplayed = isElementDisplayed(By.xpath(String.format(completeTaskName, taskName)));
+        boolean isTaskNameDisplayed;
+        try
+        {
+            isTaskNameDisplayed = getTaskName(taskName) != null;
+        }
+        catch (TimeoutException e)
+        {
+            isTaskNameDisplayed = false;
+        }
         assertFalse(isTaskNameDisplayed, String.format("Task name %s is displayed", taskName));
         return this;
     }

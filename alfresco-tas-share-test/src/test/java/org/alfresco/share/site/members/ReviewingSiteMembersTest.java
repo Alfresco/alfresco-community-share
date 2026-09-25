@@ -32,7 +32,7 @@ public class ReviewingSiteMembersTest extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel.set(dataUser.createRandomTestUser());
+        userModel.set(createRandomTestUserWithRetry());
         siteModel.set(dataSite.usingUser(userModel.get()).createPublicRandomSite());
 
         authenticateUsingCookies(userModel.get());

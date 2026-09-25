@@ -35,7 +35,7 @@ public class SiteContributorBreakdownDashletTests extends AbstractSiteDashboardD
     {
         siteContributorBreakdownDashlet = new SiteContributorBreakdownDashlet(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.SITE_CONTRIB_BREAKDOWN, 1, 2);
 

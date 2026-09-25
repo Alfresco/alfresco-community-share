@@ -28,7 +28,7 @@ public class MyCalendarDashletTests extends AbstractUserDashboardDashletsTests
     {
         myCalendarDashlet = new MyCalendarDashlet(webDriver);
 
-        user.set(dataUser.usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         addDashlet(user.get(), DashboardCustomization.UserDashlet.MY_CALENDAR, 1, 3);
         authenticateUsingCookies(user.get());
     }

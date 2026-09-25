@@ -59,10 +59,10 @@ public class LeavingSiteTests extends BaseTest
     public void setupTest()
     {
         log.info("PreCondition: Creating two users");
-        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        user1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        user2.set(getDataUser().usingAdmin().createRandomTestUser());
+        user2.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         siteDashboard = new SiteDashboardPage(webDriver);

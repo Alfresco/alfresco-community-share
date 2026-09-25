@@ -26,7 +26,7 @@ public class MySitesDashletTests extends AbstractUserDashboardDashletsTests
     {
         mySitesDashlet = new MySitesDashlet(webDriver);
 
-        user.set(dataUser.usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         authenticateUsingCookies(user.get());
     }
 

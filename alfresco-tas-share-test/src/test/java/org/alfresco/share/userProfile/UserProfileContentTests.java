@@ -18,7 +18,7 @@ public class UserProfileContentTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userNoContent = dataUser.usingAdmin().createRandomTestUser();
+        userNoContent = createRandomTestUserWithRetry();
 
         userContentPage = new UserContentPage(webDriver);
     }

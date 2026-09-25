@@ -22,7 +22,7 @@ public class ContentImEditingDashletTests extends AbstractUserDashboardDashletsT
         contentImEditingDashlet = new ContentImEditingDashlet(webDriver);
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
 
-        user.set(dataUser.usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         addDashlet(user.get(), UserDashlet.CONTENT_EDITING, 1, 3);
         authenticateUsingCookies(user.get());
     }

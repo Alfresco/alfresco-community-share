@@ -25,7 +25,7 @@ public class UserProfileTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
 
         usersPage = new UsersPage(webDriver);
         userProfileAdminToolsPage = new UserProfileAdminToolsPage(webDriver);
@@ -77,7 +77,7 @@ public class UserProfileTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void editingUser()
     {
-        UserModel editUser = dataUser.createRandomTestUser();
+        UserModel editUser = createRandomTestUserWithRetry();
         String firstName = "c9417editedFN";
         String lastName = "c9417editedLN";
         String email = "c9417edited@editedEmail.com";
@@ -116,7 +116,7 @@ public class UserProfileTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void deleteNeverAuthorizedUser()
     {
-        UserModel newUser = dataUser.usingAdmin().createRandomTestUser();
+        UserModel newUser = createRandomTestUserWithRetry();
 
         userProfileAdminToolsPage.navigate(newUser)
             .clickDelete()

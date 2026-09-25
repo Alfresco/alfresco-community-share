@@ -57,7 +57,7 @@ public class SelectTests extends BaseTest
     public void setupTest() throws Exception {
 
         log.info("PreCondition1: Any test user is created");
-        testUser1 = dataUser.usingAdmin().createUser(user, password);
+        testUser1 = createTestUserWithRetry(user, password);
         getCmisApi().authenticateUser(getAdminUser());
         site.set(getDataSite().usingUser(testUser1).createPublicRandomSite());
 

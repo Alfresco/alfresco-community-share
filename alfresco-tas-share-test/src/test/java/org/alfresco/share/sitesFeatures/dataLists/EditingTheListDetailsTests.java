@@ -48,13 +48,13 @@ public class EditingTheListDetailsTests extends BaseTest
     public void preConditions()
     {
         log.info("Precondition: Any Test user is created");
-        userName.set(getDataUser().usingAdmin().createRandomTestUser());
+        userName.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        contributor.set(getDataUser().usingAdmin().createRandomTestUser());
+        contributor.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        consumer.set(getDataUser().usingAdmin().createRandomTestUser());
+        consumer.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteName is created");

@@ -73,7 +73,7 @@ public class EditEventAgendaItemTest extends BaseTest
     public void setupTest()
     {
         log.info("Precondition: Any Test user is created");
-        userName.set(getDataUser().usingAdmin().createRandomTestUser());
+        userName.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteName is created");

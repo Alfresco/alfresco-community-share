@@ -97,7 +97,7 @@ public class FacetedSearchShareTests extends BaseTest
     @BeforeMethod (alwaysRun = true)
     public void testSetup()  {
         log.info("Precondition2: Test user is created");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         authenticateUsingCookies(user.get());
         log.info("Precondition3: Test Site is created");
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());

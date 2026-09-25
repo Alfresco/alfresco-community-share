@@ -26,7 +26,7 @@ public class DocumentsFilterTests extends BaseTest
     {
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
         authenticateUsingCookies(user.get());
@@ -70,7 +70,7 @@ public class DocumentsFilterTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void shouldDisplayFileWhenOthersAreEditingFilterIsSelected()
     {
-        UserModel invitedUser = getDataUser().usingAdmin().createRandomTestUser();
+        UserModel invitedUser = createRandomTestUserWithRetry();
         getDataUser().usingUser(user.get()).addUserToSite(invitedUser, site.get(), SiteManager);
 
         FileModel testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
@@ -93,7 +93,8 @@ public class DocumentsFilterTests extends BaseTest
         FileModel testFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);
         getCmisApi().authenticateUser(user.get())
             .usingSite(site.get()).createFile(testFile).assertThat().existsInRepo();
-        getRestApi().withCoreAPI().usingAuthUser().addFileToFavorites(testFile);
+        setAuthorizationRequestHeader(getRestApi().authenticateUser(user.get()))
+            .withCoreAPI().usingAuthUser().addFileToFavorites(testFile);
 
         documentLibraryPage.navigate(site.get())
             .usingContentFilters()

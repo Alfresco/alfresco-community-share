@@ -79,7 +79,7 @@ public class SearchHighlightTests extends BaseTest
     {
 
         log.info("Precondition1: Any test user is created & Sites are Created");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         String userName = user.get().getUsername();
         authenticateUsingCookies(user.get());
 

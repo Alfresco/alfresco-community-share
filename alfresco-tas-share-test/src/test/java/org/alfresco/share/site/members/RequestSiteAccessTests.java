@@ -36,8 +36,8 @@ public class RequestSiteAccessTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel.set(dataUser.createRandomTestUser());
-        requester.set(dataUser.createRandomTestUser());
+        userModel.set(createRandomTestUserWithRetry());
+        requester.set(createRandomTestUserWithRetry());
         moderatedSite.set(dataSite.usingUser(userModel.get()).createModeratedRandomSite());
 
         authenticateUsingCookies(userModel.get());
@@ -74,7 +74,7 @@ public class RequestSiteAccessTests extends BaseTest
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldNotDisplayUserRequestInPending()
     {
-        UserModel userGroupManager = dataUser.usingAdmin().createRandomTestUser();
+        UserModel userGroupManager = createRandomTestUserWithRetry();
         GroupModel group = dataGroup.usingAdmin().createRandomGroup();
 
         dataGroup.usingUser(userGroupManager).addUserToGroup(group);
@@ -111,7 +111,7 @@ public class RequestSiteAccessTests extends BaseTest
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldReleaseTaskPendingRequestAsGroupManager()
     {
-        UserModel userGroupManager = dataUser.usingAdmin().createRandomTestUser();
+        UserModel userGroupManager = createRandomTestUserWithRetry();
         GroupModel group = dataGroup.usingAdmin().createRandomGroup();
 
         dataGroup.usingUser(userGroupManager).addUserToGroup(group);

@@ -20,8 +20,9 @@ else
    echo "Waited $COUNTER seconds"
    echo "Alfresco Could not start in time."
    echo "All started containers:"
-   docker ps -a
-   ALFCONTAINER=$(docker ps -a | grep '\-alfresco-1' | awk '{ print $1 }')
+   CONTAINERS=$(docker ps -a)
+   echo "$CONTAINERS"
+   ALFCONTAINER=$(echo "$CONTAINERS" | grep '\-alfresco-1' | awk '{ print $1 }')
    echo "Last 200 lines from alfresco.log on container $ALFCONTAINER:"
    docker logs --tail=200 ${ALFCONTAINER}
    exit 1

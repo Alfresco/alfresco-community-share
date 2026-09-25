@@ -32,7 +32,7 @@ public class SiteXSSTests extends BaseTest
     private void beforeClass()
     {
         log.info("Precondition 1: Create a new user");
-        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        user1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         createSiteDialog = new CreateSiteDialog(webDriver);

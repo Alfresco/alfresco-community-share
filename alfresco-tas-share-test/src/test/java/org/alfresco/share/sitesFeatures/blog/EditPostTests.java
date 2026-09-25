@@ -66,7 +66,7 @@ public class EditPostTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel.set(getDataUser().usingAdmin().createRandomTestUser());
+        userModel.set(createRandomTestUserWithRetry());
         siteModel.set(getDataSite().usingUser(userModel.get()).createPublicRandomSite());
         siteService.addPageToSite(userModel.get().getUsername(), userModel.get().getPassword(),
             siteModel.get().getId(), Page.BLOG, null);

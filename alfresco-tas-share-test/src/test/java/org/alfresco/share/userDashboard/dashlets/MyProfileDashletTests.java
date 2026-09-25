@@ -29,7 +29,7 @@ public class MyProfileDashletTests extends AbstractUserDashboardDashletsTests
         myProfileDashlet = new MyProfileDashlet(webDriver);
         editUserProfilePage = new EditUserProfilePage(webDriver);
 
-        user.set(dataUser.usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         addDashlet(user.get(), DashboardCustomization.UserDashlet.MY_PROFILE, 1, 3);
         authenticateUsingCookies(user.get());
     }

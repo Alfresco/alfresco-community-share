@@ -45,7 +45,7 @@ public class AddSiteGroupsTest extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel.set(getDataUser().usingAdmin().createRandomTestUser());
+        userModel.set(createRandomTestUserWithRetry());
         siteModel.set(getDataSite().usingUser(userModel.get()).createPublicRandomSite());
         groupModel.set(dataGroup.usingAdmin().createRandomGroup());
 
@@ -220,9 +220,9 @@ public class AddSiteGroupsTest extends BaseTest
         GroupModel contributorGroup = dataGroup.usingAdmin().createRandomGroup();
         GroupModel consumerGroup = dataGroup.usingAdmin().createRandomGroup();
 
-        UserModel collaborator = dataUser.usingAdmin().createRandomTestUser();
-        UserModel contributor = dataUser.usingAdmin().createRandomTestUser();
-        UserModel consumer = dataUser.usingAdmin().createRandomTestUser();
+        UserModel collaborator = createRandomTestUserWithRetry();
+        UserModel contributor = createRandomTestUserWithRetry();
+        UserModel consumer = createRandomTestUserWithRetry();
 
         dataGroup.usingUser(collaborator).addUserToGroup(collaboratorGroup);
         dataGroup.usingUser(contributor).addUserToGroup(contributorGroup);
@@ -255,7 +255,7 @@ public class AddSiteGroupsTest extends BaseTest
     @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldGroupMembersBeAddedToUsersList()
     {
-        UserModel userToAddInGroup = getDataUser().usingAdmin().createRandomTestUser();
+        UserModel userToAddInGroup = createRandomTestUserWithRetry();
         dataGroup.usingUser(userToAddInGroup).addUserToGroup(groupModel.get());
 
         addSiteGroupsPage

@@ -41,7 +41,7 @@ public class WikiDashletTests extends AbstractSiteDashboardDashletsTests
         wikiMainPage = new WikiMainPage(webDriver);
         dataWiki.set(applicationContext.getBean(DataWiki.class));
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.WIKI, 1, 2);
 

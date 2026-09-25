@@ -36,8 +36,8 @@ public class PeopleFinderPageTest extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void testSetup()  {
         log.info("Precondition1: Test user is created");
-        testUser1 = dataUser.usingAdmin().createUser(userName1, password);
-        testUser2 = dataUser.usingAdmin().createUser(userName2, password);
+        testUser1 = createTestUserWithRetry(userName1, password);
+        testUser2 = createTestUserWithRetry(userName2, password);
         getCmisApi().authenticateUser(getAdminUser());
         authenticateUsingLoginPage(getAdminUser());
         searchPage = new SearchPage(webDriver);

@@ -24,7 +24,7 @@ public class UpdateAndViewProfileTests extends BaseTest
         userProfilePage = new UserProfilePage(webDriver);
         editUserPage = new EditUserProfilePage(webDriver);
 
-        user.set(dataUser.usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         authenticateUsingCookies(user.get());
     }
 

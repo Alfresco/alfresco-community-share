@@ -37,7 +37,7 @@ public class ChangeSiteRoleTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel.set(dataUser.createRandomTestUser());
+        userModel.set(createRandomTestUserWithRetry());
         authenticateUsingCookies(userModel.get());
 
         siteUsersPage = new SiteUsersPage(webDriver);
@@ -52,7 +52,7 @@ public class ChangeSiteRoleTests extends BaseTest
     public void siteManagerShouldBeAbleToChangeRoleFromCollaboratorToContributor()
     {
         SiteModel siteModel = dataSite.usingUser(userModel.get()).createPublicRandomSite();
-        UserModel collaborator = dataUser.usingAdmin().createRandomTestUser();
+        UserModel collaborator = createRandomTestUserWithRetry();
         dataUser.addUserToSite(collaborator, siteModel, SiteCollaborator);
 
         siteUsersPage
@@ -78,8 +78,8 @@ public class ChangeSiteRoleTests extends BaseTest
     public void siteManagerShouldChangeRoleForGroup()
     {
         GroupModel groupModel = dataGroup.usingAdmin().createRandomGroup();
-        UserModel manager = dataUser.usingAdmin().createRandomTestUser();
-        UserModel consumer = dataUser.usingAdmin().createRandomTestUser();
+        UserModel manager = createRandomTestUserWithRetry();
+        UserModel consumer = createRandomTestUserWithRetry();
         SiteModel siteModel = dataSite.usingUser(manager).createPublicRandomSite();
 
         dataGroup.usingUser(consumer).addUserToGroup(groupModel);
@@ -114,8 +114,8 @@ public class ChangeSiteRoleTests extends BaseTest
     @Test(groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void siteManagerShouldChangeRoleToConsumer()
     {
-        UserModel manager = dataUser.usingAdmin().createRandomTestUser();
-        UserModel consumer = dataUser.usingAdmin().createRandomTestUser();
+        UserModel manager = createRandomTestUserWithRetry();
+        UserModel consumer = createRandomTestUserWithRetry();
         SiteModel siteModel = dataSite.usingUser(manager).createPublicRandomSite();
 
         authenticateUsingCookies(manager);

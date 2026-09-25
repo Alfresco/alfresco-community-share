@@ -41,7 +41,7 @@ public class DownloadTests extends BaseTest
         deleteDialog = new DeleteDialog(webDriver);
 
         log.info("PreCondition1: Any test user is created");
-        testUser1 = dataUser.usingAdmin().createRandomTestUser();
+        testUser1 = createRandomTestUserWithRetry();
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("Create a Folder and File in Admin Repository-> User Homes ");

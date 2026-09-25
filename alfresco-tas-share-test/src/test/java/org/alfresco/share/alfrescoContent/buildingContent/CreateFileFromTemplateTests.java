@@ -27,7 +27,7 @@ public class CreateFileFromTemplateTests extends BaseTest
     {
         documentLibraryPage = new DocumentLibraryPage2(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         getCmisApi().authenticateUser(getAdminUser());
 

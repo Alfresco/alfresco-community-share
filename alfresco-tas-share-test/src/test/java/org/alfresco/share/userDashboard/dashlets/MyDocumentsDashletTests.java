@@ -22,7 +22,7 @@ public class MyDocumentsDashletTests extends AbstractUserDashboardDashletsTests
     {
         myDocumentsDashlet = new MyDocumentsDashlet(webDriver);
 
-        user.set(dataUser.usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(dataSite.usingUser(user.get()).createPublicRandomSite());
         authenticateUsingCookies(user.get());
     }

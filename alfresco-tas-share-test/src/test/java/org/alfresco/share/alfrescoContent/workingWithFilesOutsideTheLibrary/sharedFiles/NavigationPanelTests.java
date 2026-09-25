@@ -47,7 +47,7 @@ public class NavigationPanelTests extends BaseTest
         deleteDialog = new DeleteDialog(webDriver);
 
         log.info("Precondition: Test user is created & Navigate to SharedFiles page");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         authenticateUsingCookies(user.get());
 
         sharedFilesPage

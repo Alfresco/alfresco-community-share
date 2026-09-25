@@ -39,7 +39,7 @@ public class SharedFilesTests extends BaseTest
         deleteDialog = new DeleteDialog(webDriver);
 
         log.info("Precondition1: Test user is created & Navigate to SharedFiles page");
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         authenticateUsingCookies(user.get());
 
         log.info("Precondition2 : user is logged into the Share & content items are created");

@@ -72,10 +72,10 @@ public class EditToDoListTest extends BaseTest
     public void setupTest()
     {
         log.info("Precondition: Any Test users are created");
-        userName.set(getDataUser().usingAdmin().createRandomTestUser());
+        userName.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
-        asigneeName.set(getDataUser().usingAdmin().createRandomTestUser());
+        asigneeName.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Site siteName is created");

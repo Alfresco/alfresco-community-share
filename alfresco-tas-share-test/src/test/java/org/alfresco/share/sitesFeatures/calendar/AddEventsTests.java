@@ -68,11 +68,11 @@ public class AddEventsTests extends BaseTest
     public void setupTest()
     {
         log.info("PreCondition: Creating a TestUser1");
-        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        user1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Creating a TestUser2");
-        user2.set(getDataUser().usingAdmin().createRandomTestUser());
+        user2.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         log.info("PreCondition: Creating a Random Site");

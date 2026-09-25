@@ -15,7 +15,7 @@ public class WelcomePanelTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        testUser.set(dataUser.usingAdmin().createRandomTestUser());
+        testUser.set(createRandomTestUserWithRetry());
         authenticateUsingCookies(testUser.get());
         userDashboardPage.navigate(testUser.get());
     }

@@ -19,7 +19,7 @@ public class ChangePasswordTest extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        user.set(dataUser.usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         changePasswordPage = new ChangePasswordPage(webDriver);
     }
 

@@ -25,7 +25,7 @@ public class SiteActivitiesTests extends AbstractSiteDashboardDashletsTests
     {
         siteActivitiesDashlet = new SiteActivitiesDashlet(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
 
         authenticateUsingCookies(user.get());
@@ -133,7 +133,7 @@ public class SiteActivitiesTests extends AbstractSiteDashboardDashletsTests
     @Test (groups = { TestGroup.SANITY, TestGroup.SITE_DASHBOARD })
     public void verifyUserFilter()
     {
-        UserModel invitedUser = dataUser.usingAdmin().createRandomTestUser();
+        UserModel invitedUser = createRandomTestUserWithRetry();
         dataUser.usingUser(user.get()).addUserToSite(invitedUser, site.get(), UserRole.SiteCollaborator);
 
         FileModel managerFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, FILE_CONTENT);

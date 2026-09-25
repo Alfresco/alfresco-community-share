@@ -68,7 +68,7 @@ public class LiveSearchTests extends BaseTest
         searchPage = new SearchPage(webDriver);
         getCmisApi().authenticateUser(getAdminUser());
         authenticateUsingLoginPage(getAdminUser());
-        testUser = dataUser.usingAdmin().createRandomTestUser();
+        testUser = createRandomTestUserWithRetry();
         log.info("Edit user data & give specific name to " + testUser);
         UserModel editUser = testUser;
         String firstName = "faceted";

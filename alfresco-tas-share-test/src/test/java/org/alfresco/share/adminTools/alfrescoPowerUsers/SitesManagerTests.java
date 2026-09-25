@@ -28,7 +28,7 @@ public class SitesManagerTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        siteAdmin.set(getDataUser().createRandomTestUser());
+        siteAdmin.set(createRandomTestUserWithRetry());
         getDataGroup().usingUser(siteAdmin.get()).addUserToGroup(ALFRESCO_SITE_ADMINISTRATORS);
 
         siteDashboardPage = new SiteDashboardPage(webDriver);
@@ -110,7 +110,7 @@ public class SitesManagerTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.ADMIN_TOOLS, TestGroup.INTEGRATION })
     public void verifyUserAddedAndRemovedFromSiteAdminGroup()
     {
-        UserModel user = dataUser.usingAdmin().createRandomTestUser();
+        UserModel user = createRandomTestUserWithRetry();
         dataGroup.usingUser(user).addUserToGroup(ALFRESCO_SITE_ADMINISTRATORS);
 
         authenticateUsingLoginPage(user);

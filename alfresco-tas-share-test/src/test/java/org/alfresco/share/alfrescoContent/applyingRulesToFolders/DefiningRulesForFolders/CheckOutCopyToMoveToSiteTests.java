@@ -58,7 +58,7 @@ public class CheckOutCopyToMoveToSiteTests extends AbstractFolderRuleTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         site1Title = site.get().getTitle();
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());

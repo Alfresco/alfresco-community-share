@@ -65,7 +65,7 @@ public class EditingWorkflowsTests extends BaseTest
         String comment = "C8463";
 
         log.info("PreCondition: Creating test user");
-        user1.set(getDataUser().usingAdmin().createRandomTestUser());
+        user1.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
 
         workflowsIveStartedPage = new WorkflowsIveStartedPage(webDriver);
@@ -115,7 +115,7 @@ public class EditingWorkflowsTests extends BaseTest
         String comment = "C8464";
 
         log.info("PreCondition: Creating test user");
-        userC8464.set(getDataUser().usingAdmin().createRandomTestUser());
+        userC8464.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
         myTasksPage = new MyTasksPage(webDriver);
         editTaskPage = new EditTaskPage(webDriver);
@@ -147,7 +147,7 @@ public class EditingWorkflowsTests extends BaseTest
         log.info("Precondition: Create user and a workflow.");
         String testUser = String.format("testUser%s", RandomData.getRandomAlphanumeric());
         log.info("PreCondition: Creating test user");
-        userC8465.set(getDataUser().usingAdmin().createRandomTestUser());
+        userC8465.set(createRandomTestUserWithRetry());
         getCmisApi().authenticateUser(getAdminUser());
         myTasksPage = new MyTasksPage(webDriver);
         editTaskPage = new EditTaskPage(webDriver);

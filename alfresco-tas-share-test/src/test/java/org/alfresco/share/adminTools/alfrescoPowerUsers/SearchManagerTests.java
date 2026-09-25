@@ -24,7 +24,7 @@ public class SearchManagerTests extends BaseTest
         searchManagerPage = new SearchManagerPage(webDriver);
         toolbar = new Toolbar(webDriver);
 
-        userAdmin.set(getDataUser().usingAdmin().createRandomTestUser());
+        userAdmin.set(createRandomTestUserWithRetry());
     }
 
     @TestRail (id = "C8703")

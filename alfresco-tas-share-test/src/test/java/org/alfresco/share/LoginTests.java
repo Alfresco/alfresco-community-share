@@ -37,7 +37,7 @@ public class LoginTests extends BaseTest
     @BeforeClass(alwaysRun = true)
     public void setupTest()
     {
-        validUser = dataUser.usingAdmin().createRandomTestUser();
+        validUser = createRandomTestUserWithRetry();
         dataUser.createUser(testUserC2084);
         dataUser.createUser(specialPassUser);
         Arrays.stream(specialUsers).map(specialUser ->

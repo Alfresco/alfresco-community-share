@@ -39,7 +39,7 @@ public class AddSiteMembersTests extends BaseTest
     @BeforeMethod(alwaysRun = true)
     public void setupTest()
     {
-        userModel.set(dataUser.usingAdmin().createRandomTestUser());
+        userModel.set(createRandomTestUserWithRetry());
         siteModel.set(dataSite.usingUser(userModel.get()).createPublicRandomSite());
 
         authenticateUsingCookies(userModel.get());
@@ -82,7 +82,7 @@ public class AddSiteMembersTests extends BaseTest
     @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldAddManagerMemberToSite()
     {
-        UserModel user = dataUser.usingAdmin().createRandomTestUser();
+        UserModel user = createRandomTestUserWithRetry();
 
         addSiteUsersPage
             .navigate(siteModel.get())
@@ -113,7 +113,7 @@ public class AddSiteMembersTests extends BaseTest
     @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldAddCollaboratorMemberToSite()
     {
-        UserModel user = dataUser.usingAdmin().createRandomTestUser();
+        UserModel user = createRandomTestUserWithRetry();
 
         addSiteUsersPage
             .navigate(siteModel.get())
@@ -144,7 +144,7 @@ public class AddSiteMembersTests extends BaseTest
     @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldAddConsumerMemberToSite()
     {
-        UserModel user = dataUser.usingAdmin().createRandomTestUser();
+        UserModel user = createRandomTestUserWithRetry();
 
         addSiteUsersPage
             .navigate(siteModel.get())
@@ -175,7 +175,7 @@ public class AddSiteMembersTests extends BaseTest
     @Test (groups = {TestGroup.SANITY, TestGroup.SITES, ShareGroups.SHARE_PRIORITY_1})
     public void shouldAddContributorMemberToSite()
     {
-        UserModel user = dataUser.usingAdmin().createRandomTestUser();
+        UserModel user = createRandomTestUserWithRetry();
 
         addSiteUsersPage
             .navigate(siteModel.get())
@@ -205,10 +205,10 @@ public class AddSiteMembersTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void shouldAddUsersWithContributorRoleToSite()
     {
-        UserModel firstUser = dataUser.usingAdmin().createRandomTestUser();
+        UserModel firstUser = createRandomTestUserWithRetry();
         String formattedFirstUser = firstUser.getFirstName().concat(EMPTY_SPACE).concat(firstUser.getLastName());
 
-        UserModel secondUser = dataUser.usingAdmin().createRandomTestUser();
+        UserModel secondUser = createRandomTestUserWithRetry();
         String formattedSecondUser = secondUser.getFirstName().concat(EMPTY_SPACE).concat(secondUser.getLastName());
 
         addSiteUsersPage
@@ -250,10 +250,10 @@ public class AddSiteMembersTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void shouldAddUsersWithContributorAndConsumerRolesToSite()
     {
-        UserModel firstUser = dataUser.usingAdmin().createRandomTestUser();
+        UserModel firstUser = createRandomTestUserWithRetry();
         String formattedFirstUser = firstUser.getFirstName().concat(EMPTY_SPACE).concat(firstUser.getLastName());
 
-        UserModel secondUser = dataUser.usingAdmin().createRandomTestUser();
+        UserModel secondUser = createRandomTestUserWithRetry();
         String formattedSecondUser = secondUser.getFirstName().concat(EMPTY_SPACE).concat(secondUser.getLastName());
 
         addSiteUsersPage.navigate(siteModel.get());
@@ -295,7 +295,7 @@ public class AddSiteMembersTests extends BaseTest
     @Test (groups = { TestGroup.SANITY, TestGroup.SITES })
     public void shouldRemoveUserFromSelectRolesPanel()
     {
-        UserModel userToRemove = dataUser.usingAdmin().createRandomTestUser();
+        UserModel userToRemove = createRandomTestUserWithRetry();
 
         addSiteUsersPage
             .navigate(siteModel.get())

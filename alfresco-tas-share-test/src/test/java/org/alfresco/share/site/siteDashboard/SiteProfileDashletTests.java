@@ -31,7 +31,7 @@ public class SiteProfileDashletTests extends AbstractSiteDashboardDashletsTests
     {
         siteProfileDashlet = new SiteProfileDashlet(webDriver);
 
-        user.set(getDataUser().usingAdmin().createRandomTestUser());
+        user.set(createRandomTestUserWithRetry());
         site.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
         addDashlet(user.get(), site.get(), SiteDashlet.SITE_PROFILE, 1, 2);
 
