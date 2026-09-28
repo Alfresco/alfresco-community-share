@@ -68,7 +68,7 @@
         <dependency.slf4j.version>2.0.3</dependency.slf4j.version>
         <dependency.jcl-over-slf4j.version>1.7.30</dependency.jcl-over-slf4j.version>
 
-        <dependency.cxf.version>4.1.7</dependency.cxf.version>
+        <dependency.cxf.version>4.1.8</dependency.cxf.version>
         <dependency.angus.version>2.0.4</dependency.angus.version>
         <dependency.jakarta-mail.version>2.0.2</dependency.jakarta-mail.version>
         <dependency.opentelemetry.version>1.62.0</dependency.opentelemetry.version>
@@ -287,12 +287,6 @@
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
             <version>10.0.2</version>
-          </dependency>
-          <!-- Override neethi transitive dependency from cxf-rt-ws-policy -->
-          <dependency>
-            <groupId>org.apache.neethi</groupId>
-            <artifactId>neethi</artifactId>
-            <version>3.2.2</version>
           </dependency>
             <!-- SHA-2400 -->
             <dependency>
