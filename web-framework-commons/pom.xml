@@ -54,7 +54,17 @@
                   <groupId>org.springframework</groupId>
                   <artifactId>spring-web</artifactId>
                 </exclusion>
+                <exclusion>
+                  <groupId>org.springframework</groupId>
+                  <artifactId>spring-expression</artifactId>
+                </exclusion>
             </exclusions>
+        </dependency>
+        <!-- PRODSEC-15192: Replace vulnerable transitive version from alfresco-core. -->
+        <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-expression</artifactId>
+          <version>${dependency.spring.version}</version>
         </dependency>
         <dependency>
           <groupId>org.springframework</groupId>
