@@ -56,11 +56,20 @@
                   <groupId>org.springframework</groupId>
                   <artifactId>spring-web</artifactId>
                 </exclusion>
+                <exclusion>
+                  <groupId>org.springframework</groupId>
+                  <artifactId>spring-expression</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-web</artifactId>
+          <version>${dependency.spring.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-expression</artifactId>
           <version>${dependency.spring.version}</version>
         </dependency>
         <dependency>
