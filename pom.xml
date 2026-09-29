@@ -265,6 +265,13 @@
                 <artifactId>commons-beanutils</artifactId>
                 <version>${dependency.beanutils.version}</version>
             </dependency>
+            <!-- MNT-25897: override proton-j transitive dependency from camel-amqp/qpid-jms-client -->
+            <dependency>
+                <groupId>org.apache.qpid</groupId>
+                <artifactId>proton-j</artifactId>
+                <version>0.35.0</version>
+                <scope>test</scope>
+            </dependency>
           <!-- APPS-1856 -->
             <dependency>
               <groupId>org.springframework.security</groupId>
