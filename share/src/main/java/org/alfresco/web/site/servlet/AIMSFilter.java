@@ -156,6 +156,7 @@ public class AIMSFilter implements Filter
     private ApplicationContext context;
     private ConnectorService connectorService;
     private SlingshotLoginController loginController;
+    private AIMSLogoutHandler logoutHandler;
 
     private boolean enabled = false;
 
@@ -170,6 +171,14 @@ public class AIMSFilter implements Filter
     public static final String SHARE_AIMS_DOLOGIN = "/page/aims-dologin";
     public static final String SHARE_PROXY_SLINGSHOT_NODE_CONTENT = "/proxy/alfresco/slingshot/node/content";
     public static final String USE_IDP = "useIdp";
+
+    /**
+     * Reason reported when the IdP authenticated the user but the repository refused to authorize him (401/403) -
+     * most likely a deauthorized (or disabled) user.
+     */
+    public static final String AIMS_ERROR_NOT_AUTHORIZED = "notAuthorized";
+    /** The login could not be completed for any other reason (no ticket returned by the repository). */
+    public static final String AIMS_ERROR_LOGIN_FAILED = "loginFailed";
     public static final String[] BASE_ENDPOINTS_TO_REDIRECT = {
         SHARE_PAGE,
         SHARE_AIMS_LOGOUT,
@@ -252,6 +261,17 @@ public class AIMSFilter implements Filter
                 Collections.addAll(this.endpointsToRedirect, extraEndpointsToRedirect);
             }
             this.allowIdpBypass = config.isAllowIdpBypass();
+
+            // Used to terminate the IdP session when the repository refuses to authorize an IdP authenticated user.
+            try
+            {
+                this.logoutHandler = this.context.getBean(AIMSLogoutHandler.class);
+            }
+            catch (Exception e)
+            {
+                LOGGER.warn("AIMSLogoutHandler is not available. A login rejected by the repository will not be able"
+                                + " to terminate the IdP session: " + e.getMessage());
+            }
         }
         this.connectorService = (ConnectorService) context.getBean("connector.service");
         this.loginController = (SlingshotLoginController) context.getBean("loginController");
@@ -334,7 +354,7 @@ public class AIMSFilter implements Filter
                 {
 
                     // Bypass the AIMS login page where we handle the redirect url to include query and fragments
-                    if (request.getRequestURI().contains(SHARE_AIMS_LOGIN_PAGE))
+                    if (isSsoExemptPage(request))
                     {
                         chain.doFilter(request, response);
                         return;
@@ -449,6 +469,21 @@ public class AIMSFilter implements Filter
     }
 
     /**
+     * Pages that must never trigger an SSO redirect, even though they live under {@code /page}.
+     * <ul>
+     *     <li>{@link #SHARE_AIMS_LOGIN_PAGE} - pre-login page building the redirect URL (query + fragment).</li>
+     * </ul>
+     *
+     * @param request HTTP Servlet Request
+     * @return true if the request targets a page that must be served without SSO redirection
+     */
+    private boolean isSsoExemptPage(HttpServletRequest request)
+    {
+        String uri = request.getRequestURI();
+        return uri.contains(SHARE_AIMS_LOGIN_PAGE);
+    }
+
+    /**
      * Returns true if this request should bypass AIMS/SSO and use the built-in Share login form.
      * Requires {@code aims.allowIdpBypass=true} (master switch, disabled by default) and a
      * {@code /page} URI. Activated by {@code ?useIdp=false}; flag is stored in session so the
@@ -524,13 +559,25 @@ public class AIMSFilter implements Filter
 
 
     /**
+     * Completes the Share side of the AIMS login: gets an alfTicket from the repository for the user authenticated
+     * by the Identity Provider and, only if the repository accepted him, populates the session with the Share
+     * user identity, the connector ticket and the credentials.
+     *
+     * <p>Note that being authenticated by the IdP does not mean the user is allowed to use the repository: a
+     * deauthorized (or disabled) user is authenticated by Keycloak but the repository answers 403 when asking for a
+     * ticket. In that case nothing must be stored in the session, otherwise the session would look "authenticated"
+     * to the filter while having no Share user, which makes Share fall back to the internal login form (MNT - login
+     * page displayed for a deauthorized user even with enforced SSO).</p>
+     *
      * @param request              HTTP Servlet Request
      * @param response             HTTP Servlet Response
      * @param session              HTTP Session
      * @param authenticationResult OAuth2LoginAuthenticationToken
+     * @return {@code null} when the login completed successfully, otherwise the failure reason
+     *         ({@link #AIMS_ERROR_NOT_AUTHORIZED} or {@link #AIMS_ERROR_LOGIN_FAILED})
      */
-    private void onSuccess(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                           OAuth2LoginAuthenticationToken authenticationResult)
+    private String onSuccess(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+                             OAuth2LoginAuthenticationToken authenticationResult)
     {
         // Info
         if (LOGGER.isInfoEnabled())
@@ -542,49 +589,211 @@ public class AIMSFilter implements Filter
             .getAttribute(this.principalAttribute);
         String accessToken = authenticationResult.getAccessToken()
             .getTokenValue();
+
+        String alfTicket;
         try
         {
             // Init request context for further use on getting user
             this.initRequestContext(request, response);
 
             // Get the alfTicket from repo, using the JWT token from Idp
-            String alfTicket = this.getAlfTicket(session, username, accessToken);
-            if (alfTicket != null)
-            {
-                synchronized (session)
-                {
-                    // Ensure User ID is in session so the web-framework knows we have logged in
-                    session.setAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID, username);
-                    session.setAttribute(UserFactory.SESSION_ATTRIBUTE_EXTERNAL_AUTH_AIMS, true);
-                }
-
-                // Set the alfTicket into connector's session for further use on repo calls (will be set on the RemoteClient)
-                Connector connector = this.connectorService.getConnector(ALFRESCO_ENDPOINT_ID, username, session);
-                connector.getConnectorSession()
-                    .setParameter(AlfrescoAuthenticator.CS_PARAM_ALF_TICKET, alfTicket);
-
-                // Set credential username for further use on repo
-                // if there is no pass, as in our case, there will be a "X-Alfresco-Remote-User" header set using this value
-                CredentialVault vault = FrameworkUtil.getCredentialVault(session, username);
-                Credentials credentials = vault.newCredentials(AlfrescoUserFactory.ALFRESCO_ENDPOINT_ID);
-                credentials.setProperty(Credentials.CREDENTIAL_USERNAME, username);
-                vault.store(credentials);
-
-                // Inform the Slingshot login controller of a successful login attempt as further processing may be required ?
-                this.loginController.beforeSuccess(request, response);
-
-                // Initialise the user metadata object used by some web scripts
-                this.initUser(request);
-
-            }
-            else
-            {
-                LOGGER.error("Could not get an alfTicket from Repository.");
-            }
+            alfTicket = this.getAlfTicket(session, username, accessToken);
+        }
+        catch (RepositoryAuthorizationException e)
+        {
+            LOGGER.error("The repository refused to authorize the user '" + e.getUsername() + "' (HTTP " + e.getStatusCode()
+                             + "). The user is most likely deauthorized or disabled - aborting the AIMS login.");
+            return AIMS_ERROR_NOT_AUTHORIZED;
         }
         catch (Exception e)
         {
             throw new AlfrescoRuntimeException("Failed to complete AIMS authentication process.", e);
+        }
+
+        if (alfTicket == null)
+        {
+            LOGGER.error("Could not get an alfTicket from Repository.");
+            return AIMS_ERROR_LOGIN_FAILED;
+        }
+
+        try
+        {
+            synchronized (session)
+            {
+                // Ensure User ID is in session so the web-framework knows we have logged in
+                session.setAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID, username);
+                session.setAttribute(UserFactory.SESSION_ATTRIBUTE_EXTERNAL_AUTH_AIMS, true);
+            }
+
+            // Set the alfTicket into connector's session for further use on repo calls (will be set on the RemoteClient)
+            Connector connector = this.connectorService.getConnector(ALFRESCO_ENDPOINT_ID, username, session);
+            connector.getConnectorSession()
+                .setParameter(AlfrescoAuthenticator.CS_PARAM_ALF_TICKET, alfTicket);
+
+            // Set credential username for further use on repo
+            // if there is no pass, as in our case, there will be a "X-Alfresco-Remote-User" header set using this value
+            CredentialVault vault = FrameworkUtil.getCredentialVault(session, username);
+            Credentials credentials = vault.newCredentials(AlfrescoUserFactory.ALFRESCO_ENDPOINT_ID);
+            credentials.setProperty(Credentials.CREDENTIAL_USERNAME, username);
+            vault.store(credentials);
+
+            // Inform the Slingshot login controller of a successful login attempt as further processing may be required ?
+            this.loginController.beforeSuccess(request, response);
+
+            // Initialise the user metadata object used by some web scripts
+            this.initUser(request);
+        }
+        catch (Exception e)
+        {
+            throw new AlfrescoRuntimeException("Failed to complete AIMS authentication process.", e);
+        }
+
+        return null;
+    }
+
+    /**
+     * Aborts a login that the Identity Provider accepted but the repository rejected.
+     * <p>
+     * Every trace of the authentication is removed from Share (authorized client, Spring Security context,
+     * Share user attributes and the session itself) and the IdP session is terminated as well. Terminating the
+     * IdP session is mandatory: if it were left alive, the next request on {@code /page/*} would be silently
+     * re-authenticated by the IdP and the user would end up in an infinite login loop. The IdP is then asked to
+     * send the user back to the Share entry point: the SSO flow is re-entered with no IdP session, so the user
+     * stops on the IdP (Keycloak) login screen, which is the expected behaviour for a refused login.
+     * <p>
+     * Aborting is deliberately stateless: no "rejected" or "deauthorized" marker is stored anywhere in Share.
+     * The authorization verdict is re-derived on every login attempt from a live repository ticket call (which is
+     * itself issued with a {@code noCache} parameter), so if the user is re-authorized in the repository after an
+     * abort, the very next login succeeds with no further clean-up, cache eviction or administrative action. The
+     * only residual effect is that the user has to authenticate against the IdP again, since the IdP session was
+     * terminated here.
+     *
+     * @param request              HTTP Servlet Request
+     * @param response             HTTP Servlet Response
+     * @param session              HTTP Session
+     * @param authenticationResult the IdP authentication that has been rejected by the repository
+     * @param reason               the failure reason, reported in the logs
+     * @throws IOException if the response cannot be written
+     */
+    private void abortLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+                            OAuth2LoginAuthenticationToken authenticationResult, String reason)
+        throws IOException
+    {
+        LOGGER.warn("Aborting the AIMS login (reason: " + reason + "). The Share and the IdP sessions are terminated.");
+
+        // 1 - do not keep any token for a user the repository does not accept.
+        //     The client is keyed by the authentication name (see OAuth2AuthorizedClientService#saveAuthorizedClient),
+        //     which is not the same as the principal toString().
+        try
+        {
+            this.oauth2ClientService.removeAuthorizedClient(authenticationResult.getClientRegistration()
+                                                                .getRegistrationId(), authenticationResult.getName());
+        }
+        catch (Exception e)
+        {
+            LOGGER.warn("Could not remove the authorized client for the rejected login: " + e.getMessage());
+        }
+
+        // 2 - clear every trace of the authentication from Share
+        clearAuthenticatedSession(request, response, session);
+
+        // 3 - where the IdP has to send the user back once its session is terminated: the Share entry point.
+        //     Re-entering the SSO flow without an IdP session leaves the user on the IdP login screen.
+        String ssoReentryUrl = buildSsoReentryUrl(request);
+
+        // 4 - terminate the IdP session, otherwise the next /page request would silently re-authenticate (loop)
+        if (!logoutFromIdp(request, response, authenticationResult, ssoReentryUrl))
+        {
+            // The IdP session could not be terminated: sending the user back into the SSO flow would
+            // re-authenticate him straight away and loop, so the request is refused here instead.
+            LOGGER.warn("The AIMS login for user '" + authenticationResult.getName() + "' was aborted (reason: "
+                + reason + ") but the IdP session could not be terminated (no end session endpoint "
+                + "available, or the response was already committed). Returning 403 instead of "
+                + "re-entering the SSO flow, to avoid an immediate re-authentication loop.");
+            if (!response.isCommitted())
+            {
+                response.sendError(HttpServletResponse.SC_FORBIDDEN,"The repository refused to authorize this user.");
+            }
+        }
+    }
+
+    /**
+     * Removes the Spring Security context, the Share user attributes and the saved request, then invalidates
+     * the session so that nothing "half authenticated" survives the aborted login.
+     */
+    private void clearAuthenticatedSession(HttpServletRequest request, HttpServletResponse response,
+                                           HttpSession session)
+    {
+        SecurityContextHolder.clearContext();
+
+        try
+        {
+            this.requestCache.removeRequest(request, response);
+        }
+        catch (Exception e)
+        {
+            LOGGER.debug("Could not remove the cached request of an aborted login: " + e.getMessage());
+        }
+
+        try
+        {
+            synchronized (session)
+            {
+                session.removeAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+                session.removeAttribute(UserFactory.SESSION_ATTRIBUTE_KEY_USER_ID);
+                session.removeAttribute(UserFactory.SESSION_ATTRIBUTE_EXTERNAL_AUTH_AIMS);
+                session.removeAttribute(BYPASS_AIMS_SESSION_KEY);
+            }
+            session.invalidate();
+        }
+        catch (IllegalStateException e)
+        {
+            // Session already invalidated - nothing else to clean up.
+            LOGGER.debug("Session already invalidated while aborting a login: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Builds the absolute URL of the Share entry point, sent to the IdP as the post logout redirect URI.
+     * <p>
+     * Because the IdP session has just been terminated, landing there re-enters the SSO flow and the user
+     * stops on the IdP (Keycloak) login screen: the login is refused and the IdP login screen stays visible,
+     * which is the behaviour expected for a user the repository does not authorize.
+     */
+    private String buildSsoReentryUrl(HttpServletRequest request)
+    {
+        return UriComponentsBuilder.fromUriString(UrlUtils.buildFullRequestUrl(request))
+            .replacePath(request.getContextPath() + SHARE_PAGE + "/")
+            .replaceQuery(null)
+            .fragment(null)
+            .build()
+            .encode()
+            .toUriString();
+    }
+
+    /**
+     * Redirects to the IdP end session endpoint, asking it to send the user back to the given URL.
+     *
+     * @return true if the redirect to the IdP has been issued, false if the IdP session could not be terminated
+     *         (in that case the caller must not send the user back into the SSO flow)
+     */
+    private boolean logoutFromIdp(HttpServletRequest request, HttpServletResponse response,
+                                  OAuth2LoginAuthenticationToken authenticationResult, String postLogoutRedirectUri)
+    {
+        if (this.logoutHandler == null)
+        {
+            LOGGER.warn("No AIMS logout handler available - the IdP session is left untouched.");
+            return false;
+        }
+
+        try
+        {
+            return this.logoutHandler.handle(request, response, authenticationResult, postLogoutRedirectUri);
+        }
+        catch (Exception e)
+        {
+            LOGGER.error("Could not terminate the IdP session of a rejected user: " + e.getMessage(), e);
+            return false;
         }
     }
 
@@ -639,10 +848,13 @@ public class AIMSFilter implements Filter
      * @param session HTTP Session
      * @param username username
      * @param accessToken access token
-     * @return The alfTicket
+     * @return The alfTicket, or null if the repository did not return one
      * @throws ConnectorServiceException
+     * @throws RepositoryAuthorizationException if the repository refused to authorize the user (401 / 403), which
+     *         is what happens for a deauthorized or disabled user
      */
-    private String getAlfTicket(HttpSession session, String username, String accessToken) throws ConnectorServiceException
+    private String getAlfTicket(HttpSession session, String username, String accessToken)
+        throws ConnectorServiceException, RepositoryAuthorizationException
     {
         // Info
         if (LOGGER.isInfoEnabled())
@@ -656,7 +868,14 @@ public class AIMSFilter implements Filter
         c.setContentType("application/json");
         Response r = connector.call("/-default-/public/authentication/versions/1/tickets/-me-?noCache=" + UUID.randomUUID().toString(), c);
 
-        if (Status.STATUS_OK != r.getStatus().getCode())
+        int statusCode = r.getStatus().getCode();
+        if (Status.STATUS_UNAUTHORIZED == statusCode || Status.STATUS_FORBIDDEN == statusCode)
+        {
+            // The IdP authenticated the user but the repository does not authorize him (e.g. deauthorized user).
+            throw new RepositoryAuthorizationException(username, statusCode);
+        }
+
+        if (Status.STATUS_OK != statusCode)
         {
             if (LOGGER.isErrorEnabled())
             {
@@ -682,6 +901,35 @@ public class AIMSFilter implements Filter
         }
 
         return alfTicket;
+    }
+
+    /**
+     * Raised when the repository refuses to authorize a user that has been successfully authenticated by the
+     * Identity Provider - typically a deauthorized or disabled user.
+     */
+    static class RepositoryAuthorizationException extends RuntimeException
+    {
+        private static final long serialVersionUID = 1L;
+
+        private final transient String username;
+        private final int statusCode;
+
+        RepositoryAuthorizationException(String username, int statusCode)
+        {
+            super("The repository refused to authorize the user '" + username + "'. Status: " + statusCode);
+            this.username = username;
+            this.statusCode = statusCode;
+        }
+
+        String getUsername()
+        {
+            return this.username;
+        }
+
+        int getStatusCode()
+        {
+            return this.statusCode;
+        }
     }
 
     private boolean matchesAuthorizationResponse(HttpServletRequest request) {
@@ -779,7 +1027,15 @@ public class AIMSFilter implements Filter
 
         if (SecurityContextHolder.getContext() != null && !AuthenticationUtil.isAuthenticated(request))
         {
-            this.onSuccess(request, response, session, authenticationResult);
+            String failureReason = this.onSuccess(request, response, session, authenticationResult);
+            if (failureReason != null)
+            {
+                // The IdP authenticated the user but the repository rejected him (e.g. deauthorized user).
+                // Never let the request fall through: a session that is "authenticated" for Spring Security but
+                // has no Share user makes Share render its own login form, bypassing the enforced SSO.
+                this.abortLogin(request, response, session, authenticationResult, failureReason);
+                return;
+            }
 
             // MNT-23074: Refresh the JSESSIONID on the login transition to prevent session fixation.
             refreshSessionId(request);
@@ -1290,3 +1546,4 @@ public class AIMSFilter implements Filter
             .compareTo(authTokenExpiration) >= 0;
     }
 }
+

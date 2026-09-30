@@ -9,6 +9,7 @@ import java.util.HashMap;
 import org.alfresco.web.site.servlet.config.AIMSConfig;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -41,6 +42,23 @@ public class AIMSLogoutHandler
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication)
     {
+        return this.determineTargetUrl(request, response, authentication, null);
+    }
+
+    /**
+     * Builds the IdP front-channel logout URL.
+     *
+     * @param request                       HTTP Servlet Request
+     * @param response                      HTTP Servlet Response
+     * @param authentication                the authentication to log out
+     * @param postLogoutRedirectUriOverride when not empty, the URL the IdP must send the user back to, taking
+     *                                      precedence over the configured post logout URL. Used when a login has
+     *                                      to be aborted and the user must land on a specific Share page.
+     * @return the IdP end session URL, or null if no end session endpoint is available
+     */
+    protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response,
+                                        Authentication authentication, String postLogoutRedirectUriOverride)
+    {
         String targetUrl = null;
         HashMap<String, String> logoutMap = new HashMap<>();
         ClientRegistration clientRegistration =
@@ -56,17 +74,32 @@ public class AIMSLogoutHandler
             {
                 logoutMap.put(aimsConfig.getLogoutClientIDLabel(), aimsConfig.getLogoutClientIDValue());
             }
-            URI postLogoutRedirectUri = this.postLogoutRedirectUri(request, clientRegistration);
-            if (postLogoutRedirectUri != null)
+
+            String postLogoutRedirectUriLabel = aimsConfig.getPostLogoutRedirectUrlLabel() != null
+                                                ? aimsConfig.getPostLogoutRedirectUrlLabel()
+                                                : "post_logout_redirect_uri";
+
+            if (StringUtils.isNotEmpty(postLogoutRedirectUriOverride))
             {
-                if (aimsConfig.getPostLogoutRedirectUrlLabel() != null)
+                // Forced target (e.g. the Share entry point when a login is aborted) - must win over the
+                // configured post logout URL.
+                logoutMap.put(postLogoutRedirectUriLabel, postLogoutRedirectUriOverride);
+            }
+            else
+            {
+                URI postLogoutRedirectUri = this.postLogoutRedirectUri(request, clientRegistration);
+                if (postLogoutRedirectUri != null)
                 {
-                    logoutMap.put(aimsConfig.getPostLogoutRedirectUrlLabel(), aimsConfig.getPostLogoutRedirectUrlValue()
-                                                                                  != null ? aimsConfig.getPostLogoutRedirectUrlValue() : postLogoutRedirectUri.toString());
-                }
-                else
-                {
-                    logoutMap.put("post_logout_redirect_uri", postLogoutRedirectUri.toString());
+                    if (aimsConfig.getPostLogoutRedirectUrlLabel() != null)
+                    {
+                        logoutMap.put(aimsConfig.getPostLogoutRedirectUrlLabel(),
+                                      aimsConfig.getPostLogoutRedirectUrlValue()
+                                      != null ? aimsConfig.getPostLogoutRedirectUrlValue() : postLogoutRedirectUri.toString());
+                    }
+                    else
+                    {
+                        logoutMap.put("post_logout_redirect_uri", postLogoutRedirectUri.toString());
+                    }
                 }
             }
 
@@ -174,5 +207,35 @@ public class AIMSLogoutHandler
         {
             this.redirectStrategy.sendRedirect(request, response, targetUrl);
         }
+    }
+
+    /**
+     * Terminates the IdP session and asks the IdP to send the user back to the given URL.
+     *
+     * @param request                       HTTP Servlet Request
+     * @param response                      HTTP Servlet Response
+     * @param authentication                the authentication to log out
+     * @param postLogoutRedirectUriOverride the URL the IdP must redirect to once the session is terminated
+     * @return true if the redirect to the IdP end session endpoint has been issued, false otherwise (no end session
+     *         endpoint available or the response was already committed) - the caller then has to redirect the user
+     * @throws IOException
+     */
+    public boolean handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication,
+                          String postLogoutRedirectUriOverride) throws IOException
+    {
+        String targetUrl = this.determineTargetUrl(request, response, authentication, postLogoutRedirectUriOverride);
+        logger.debug("Value of targetUrl is: " + targetUrl);
+        if (StringUtils.isEmpty(targetUrl))
+        {
+            logger.warn("No IdP end session endpoint is available, the IdP session can not be terminated.");
+            return false;
+        }
+        if (response.isCommitted())
+        {
+            logger.error("Can't perform the redirect for the targetUrl: " + targetUrl);
+            return false;
+        }
+        this.redirectStrategy.sendRedirect(request, response, targetUrl);
+        return true;
     }
 }
