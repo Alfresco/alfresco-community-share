@@ -124,9 +124,10 @@ public class ActionsCreateTests extends BaseTest
     }
 
 
+    //bug-id: [ACS-12863]
     @TestRail (id = "C8161")
     @AlfrescoTest(jira = "XAT-10824")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1})
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1, ShareGroups.BUG})
     public void createHTMLDocumentInRepository()
     {
         FileModel htmlFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
