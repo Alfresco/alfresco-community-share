@@ -64,6 +64,11 @@
             <artifactId>spring-expression</artifactId>
             <version>${dependency.spring.version}</version>
         </dependency>
+       <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context-support</artifactId>
+        <version>${dependency.spring.version}</version>
+      </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alfresco-jlan-embed</artifactId>
@@ -138,6 +143,10 @@
                     <groupId>commons-collections</groupId>
                     <artifactId>commons-collections</artifactId>
                 </exclusion>
+               <exclusion>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+              </exclusion>
             </exclusions>
         </dependency>
 

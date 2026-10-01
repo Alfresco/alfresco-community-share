@@ -66,6 +66,10 @@
                     <groupId>org.alfresco</groupId>
                     <artifactId>alfresco-core</artifactId>
                 </exclusion>
+               <exclusion>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+              </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -79,6 +83,10 @@
               <exclusion>
                 <groupId>org.mozilla</groupId>
                 <artifactId>rhino</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
               </exclusion>
             </exclusions>
         </dependency>
@@ -105,6 +113,11 @@
         <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-web</artifactId>
+          <version>${dependency.spring.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-context-support</artifactId>
           <version>${dependency.spring.version}</version>
         </dependency>
         <dependency>

@@ -136,6 +136,10 @@
                     <groupId>org.alfresco</groupId>
                     <artifactId>alfresco-core</artifactId>
                 </exclusion>
+               <exclusion>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+              </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -147,8 +151,13 @@
                     <groupId>org.alfresco</groupId>
                     <artifactId>alfresco-core</artifactId>
                 </exclusion>
+               <exclusion>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+              </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
             <groupId>org.tuckey</groupId>
             <artifactId>urlrewritefilter</artifactId>
@@ -181,6 +190,11 @@
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-expression</artifactId>
+        <version>${dependency.spring.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context-support</artifactId>
         <version>${dependency.spring.version}</version>
       </dependency>
         <dependency>
