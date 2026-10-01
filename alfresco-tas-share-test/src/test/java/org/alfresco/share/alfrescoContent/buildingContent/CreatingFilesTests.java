@@ -55,8 +55,9 @@ public class CreatingFilesTests extends BaseTest
                         .assertPropertyValueEquals(language.translate("property.mimetype"), "Plain Text");
     }
 
+    //bug-id: [ACS-12863]
     @TestRail (id = "C6977")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT,ShareGroups.BUG })
     public void createHTMLFile()
     {
         FileModel htmlFile = FileModel.getRandomFileModel(FileType.HTML, FILE_CONTENT);
