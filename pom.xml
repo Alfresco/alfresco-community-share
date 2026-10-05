@@ -61,7 +61,7 @@
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
 
         <dependency.webscripts.version>10.3</dependency.webscripts.version>
-        <dependency.surf.version>10.4</dependency.surf.version>
+        <dependency.surf.version>10.5</dependency.surf.version>
         <dependency.plexus-utils.version>4.0.3</dependency.plexus-utils.version>
         <dependency.alfresco-sdk.version>2.2.0</dependency.alfresco-sdk.version>
         <dependency.dom4j.version>2.1.3</dependency.dom4j.version>
