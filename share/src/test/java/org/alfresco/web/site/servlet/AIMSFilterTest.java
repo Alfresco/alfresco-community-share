@@ -22,6 +22,7 @@ package org.alfresco.web.site.servlet;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import org.alfresco.web.site.servlet.AIMSFilter.JwtAudienceValidator;
@@ -321,5 +323,176 @@ public class AIMSFilterTest
 
         verify(request).changeSessionId();
     }
+
+    @Test
+    public void sendRedirectToOriginalTarget_shouldEncodeCurlyBracesInRedirectUrl() throws Exception
+    {
+        AIMSFilter filter = new AIMSFilter();
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+
+        when(request.getParameter("redirectUrl")).thenReturn("https://localhost/share/page?query={value}");
+        when(request.getParameter("fragment")).thenReturn(null);
+        when(request.getServerName()).thenReturn("localhost");
+        when(request.getScheme()).thenReturn("https");
+        when(response.encodeRedirectURL(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Method sendRedirectToOriginalTarget =
+                AIMSFilter.class.getDeclaredMethod("sendRedirectToOriginalTarget", HttpServletRequest.class,
+                        HttpServletResponse.class);
+        sendRedirectToOriginalTarget.setAccessible(true);
+
+        sendRedirectToOriginalTarget.invoke(filter, request, response);
+
+        verify(response).sendRedirect("https://localhost/share/page?query=%7Bvalue%7D");
+    }
+
+    @Test
+    public void sendRedirectToOriginalTarget_shouldNotDoubleEncodeAlreadyEncodedRedirectUrl() throws Exception
+    {
+        AIMSFilter filter = new AIMSFilter();
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+
+        when(request.getParameter("redirectUrl")).thenReturn("https://localhost/share/page?query=%7Bvalue%7D");
+        when(request.getParameter("fragment")).thenReturn(null);
+        when(request.getServerName()).thenReturn("localhost");
+        when(request.getScheme()).thenReturn("https");
+        when(response.encodeRedirectURL(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Method sendRedirectToOriginalTarget =
+            AIMSFilter.class.getDeclaredMethod("sendRedirectToOriginalTarget", HttpServletRequest.class,
+                HttpServletResponse.class);
+        sendRedirectToOriginalTarget.setAccessible(true);
+
+        sendRedirectToOriginalTarget.invoke(filter, request, response);
+
+        verify(response).sendRedirect("https://localhost/share/page?query=%7Bvalue%7D");
+    }
+
+    @Test
+    public void sendRedirectToOriginalTarget_shouldEncodeRawCurlyBracesWhenUrlContainsEncodedOctets() throws Exception
+    {
+        AIMSFilter filter = new AIMSFilter();
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+
+        when(request.getParameter("redirectUrl")).thenReturn(
+            "https://localhost/share/page?searchTerm=TYPE%3A%22cm%3Acontent%22&query={value}");
+        when(request.getParameter("fragment")).thenReturn(null);
+        when(request.getServerName()).thenReturn("localhost");
+        when(request.getScheme()).thenReturn("https");
+        when(response.encodeRedirectURL(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Method sendRedirectToOriginalTarget =
+            AIMSFilter.class.getDeclaredMethod("sendRedirectToOriginalTarget", HttpServletRequest.class,
+                HttpServletResponse.class);
+        sendRedirectToOriginalTarget.setAccessible(true);
+
+        sendRedirectToOriginalTarget.invoke(filter, request, response);
+
+        verify(response).sendRedirect(
+            "https://localhost/share/page?searchTerm=TYPE%3A%22cm%3Acontent%22&query=%7Bvalue%7D");
+    }
+
+    @Test
+    public void sendRedirectToOriginalTarget_shouldPreserveEncodedOctetsAndEncodeRawQueryCharacters() throws Exception
+    {
+        AIMSFilter filter = new AIMSFilter();
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+
+        when(request.getParameter("redirectUrl")).thenReturn("https://localhost/share/page?a=%2F&b=hello world");
+        when(request.getParameter("fragment")).thenReturn(null);
+        when(request.getServerName()).thenReturn("localhost");
+        when(request.getScheme()).thenReturn("https");
+        when(response.encodeRedirectURL(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Method sendRedirectToOriginalTarget =
+            AIMSFilter.class.getDeclaredMethod("sendRedirectToOriginalTarget", HttpServletRequest.class,
+                HttpServletResponse.class);
+        sendRedirectToOriginalTarget.setAccessible(true);
+
+        sendRedirectToOriginalTarget.invoke(filter, request, response);
+
+        verify(response).sendRedirect("https://localhost/share/page?a=%2F&b=hello%20world");
+    }
+
+    @Test
+    public void sendRedirectToOriginalTarget_shouldPreserveEncodedFragmentAndEncodeRawQuery() throws Exception
+    {
+        AIMSFilter filter = new AIMSFilter();
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+
+        when(request.getParameter("redirectUrl")).thenReturn("https://localhost/share/page?query=hello world");
+        when(request.getParameter("fragment")).thenReturn("state%3Aview");
+        when(request.getServerName()).thenReturn("localhost");
+        when(request.getScheme()).thenReturn("https");
+        when(response.encodeRedirectURL(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Method sendRedirectToOriginalTarget =
+            AIMSFilter.class.getDeclaredMethod("sendRedirectToOriginalTarget", HttpServletRequest.class,
+                HttpServletResponse.class);
+        sendRedirectToOriginalTarget.setAccessible(true);
+
+        sendRedirectToOriginalTarget.invoke(filter, request, response);
+
+        verify(response).sendRedirect("https://localhost/share/page?query=hello%20world#state%3Aview");
+    }
+
+    @Test
+    public void sendRedirectToOriginalTarget_shouldPreserveLiteralTokenWhenNoEncodedOctetsPresent() throws Exception
+    {
+        AIMSFilter filter = new AIMSFilter();
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+
+        when(request.getParameter("redirectUrl")).thenReturn("https://localhost/share/page?x=__AIMS_OCTET_0__");
+        when(request.getParameter("fragment")).thenReturn(null);
+        when(request.getServerName()).thenReturn("localhost");
+        when(request.getScheme()).thenReturn("https");
+        when(response.encodeRedirectURL(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Method sendRedirectToOriginalTarget =
+            AIMSFilter.class.getDeclaredMethod("sendRedirectToOriginalTarget", HttpServletRequest.class,
+                HttpServletResponse.class);
+        sendRedirectToOriginalTarget.setAccessible(true);
+
+        sendRedirectToOriginalTarget.invoke(filter, request, response);
+
+        verify(response).sendRedirect("https://localhost/share/page?x=__AIMS_OCTET_0__");
+    }
+
+    @Test
+    public void sendRedirectToOriginalTarget_shouldNotRewriteLiteralTokenWhenEncodedOctetsArePresent() throws Exception
+    {
+        AIMSFilter filter = new AIMSFilter();
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+
+        when(request.getParameter("redirectUrl")).thenReturn("https://localhost/share/page?a=%2F&x=__AIMS_OCTET_0__");
+        when(request.getParameter("fragment")).thenReturn(null);
+        when(request.getServerName()).thenReturn("localhost");
+        when(request.getScheme()).thenReturn("https");
+        when(response.encodeRedirectURL(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Method sendRedirectToOriginalTarget =
+            AIMSFilter.class.getDeclaredMethod("sendRedirectToOriginalTarget", HttpServletRequest.class,
+                HttpServletResponse.class);
+        sendRedirectToOriginalTarget.setAccessible(true);
+
+        sendRedirectToOriginalTarget.invoke(filter, request, response);
+
+        verify(response).sendRedirect("https://localhost/share/page?a=%2F&x=__AIMS_OCTET_0__");
+    }
+
 
 }
