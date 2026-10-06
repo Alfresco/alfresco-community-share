@@ -1,0 +1,36 @@
+name: "Load Dependency Graph"
+
+on:
+  push:
+    branches:
+      - "master"
+      - "release/25.N"
+      - "release/23.N"
+      - "release/7.4.N"
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_call:
+  workflow_dispatch:
+
+# Set the default (global) permissions to read-only.
+# Grant write permissions explicitly on the job level only where needed.
+permissions:
+  contents: read
+
+jobs:
+  scan-dependencies:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Submitting the dependency snapshot to the GitHub dependency graph requires write access.
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/maven-dependency-scan@c176315c6b0b3e3bbf022ea444944fb903c47e0e # v19.2.1
+        with:
+          java-version: '21'
+          maven-version: '3.9.9'
+          maven-args: -Dscopes=compile,runtime -Pags
+          maven-username: ${{ secrets.NEXUS_USERNAME }}
+          maven-password: ${{ secrets.NEXUS_PASSWORD }}
+          maven-settings-path: ".ci.settings.xml"
