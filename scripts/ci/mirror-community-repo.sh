@@ -60,7 +60,33 @@ else:
 git remote add origin "https://x-access-token:${APP_TOKEN:?APP_TOKEN is required}@${MIRROR_REPO:8}"
 { set -x; } 2>/dev/null
 git push -f -u origin --all
-git push -f -u origin --tags
+
+# Push only new or moved tags, in batches: a single push of every tag times out on the server
+TAG_BATCH_SIZE=100
+
+{ set +x; } 2>/dev/null
+declare -A mirror_tags
+while read -r sha ref; do
+  mirror_tags["${ref#refs/tags/}"]="${sha}"
+done < <(git ls-remote --tags --refs origin)
+echo "Tags already on the mirror: ${#mirror_tags[@]}"
+
+tags_to_push=()
+while read -r tag sha; do
+  if [ "${mirror_tags[${tag}]:-}" != "${sha}" ]; then
+    tags_to_push+=("refs/tags/${tag}")
+  fi
+done < <(git for-each-ref --format='%(refname:strip=2) %(objectname)' refs/tags)
+
+total=${#tags_to_push[@]}
+echo "Tags to push: ${total}"
+
+for ((start = 0; start < total; start += TAG_BATCH_SIZE)); do
+  batch=("${tags_to_push[@]:start:TAG_BATCH_SIZE}")
+  echo "Pushing tags $((start + 1))-$((start + ${#batch[@]})) of ${total}"
+  git push -f origin "${batch[@]}"
+done
+{ set -x; } 2>/dev/null
 
 popd
 set +vex
