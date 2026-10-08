@@ -53,6 +53,7 @@
 
         <!-- common dependencies-->
         <dependency.spring.version>6.2.19</dependency.spring.version>
+        <dependency.netty.version>4.1.139.Final</dependency.netty.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
 
         <dependency.aikau.version>1.1.4.1</dependency.aikau.version>
@@ -395,6 +396,14 @@
             <groupId>org.apache.qpid</groupId>
             <artifactId>proton-j</artifactId>
             <version>0.35.0</version>
+          </dependency>
+          <!-- Override netty transitive dependencies from camel-amqp / qpid-jms-client -->
+          <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-bom</artifactId>
+            <version>${dependency.netty.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
           </dependency>
         </dependencies>
     </dependencyManagement>
