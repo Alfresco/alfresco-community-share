@@ -72,7 +72,7 @@ if [[ -n "$TAG_NAME" ]]; then
 fi
 
 mvn -B -ntp -V install -DskipTests -Dmaven.javadoc.skip=true -Pags ${SHARE_IMAGE_TAG} ${REPO_IMAGE} \
-  $([ "${JOB_NAME,,}" = "build" ] && echo "-Ppush-docker-images" || echo "-Pbuild-docker-images")
+  $([ "${JOB_NAME,,}" = "build" ] && [ "${GITHUB_ACTOR}" != "dependabot[bot]" ] && echo "-Ppush-docker-images" || echo "-Pbuild-docker-images")
 
 popd
 set +vex
