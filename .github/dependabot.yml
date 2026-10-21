@@ -36,7 +36,7 @@ updates:
         patterns:
           - "*"
     labels:
-      - "Master"
+      - "base/master"
       - "github_actions"
     commit-message:
       prefix: "[GHA - Master]"
@@ -52,7 +52,7 @@ updates:
         patterns:
           - "*"
     labels:
-      - "25.N"
+      - "base/25.N"
       - "github_actions"
     commit-message:
       prefix: "[GHA - 25.N]"
@@ -68,7 +68,7 @@ updates:
         patterns:
           - "*"
     labels:
-      - "23.N"
+      - "base/23.N"
       - "github_actions"
     commit-message:
       prefix: "[GHA - 23.N]"
