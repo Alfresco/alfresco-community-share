@@ -672,12 +672,8 @@ jobs:
         test: [communityLevel2Tests, communityL2AuditRulesDashboardNodeBrowserTests, enterpriseLevel2Tests, enterpriseLevel2ClassificationTests, enterpriseRecordsClassificationTests, enterpriseFoldersClassificationTests, enterpriseDocumentsClassificationTests, enterpriseSecurityMarksTests, enterpriseConsoleGuidesAndConfiguration]
     env:
       S3_BUCKET_PREFIX: ${{ vars.S3_BUCKET_PREFIX }}
-      S3_BUCKET_NAME: ${{ vars.S3_BUCKET_PREFIX }}-${{ github.run_number }}
-      S3_BUCKET2_NAME: ${{ vars.S3_BUCKET_PREFIX }}-worm-b2
       MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
       MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-      AGS_AWS_ACCESS_KEY_ID: ${{ secrets.AGS_AWS_ACCESS_KEY_ID }}
-      AGS_AWS_SECRET_ACCESS_KEY: ${{ secrets.AGS_AWS_SECRET_ACCESS_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -717,12 +713,6 @@ jobs:
       - name: "Prepare before Test"
         run: |
           pip3 install requests pytest==6.2.4 pytest-testinfra==6.3.0 jmespath==0.10.0
-      - name: "Configure AWS credentials"
-        uses: aws-actions/configure-aws-credentials@d979d5b3a71173a29b74b5b88418bfda9437d885 # v6.1.1
-        with:
-          aws-access-key-id: ${{ secrets.AGS_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AGS_AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.S3_BUCKET_REGION }}
       - name: Download Docker images
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
