@@ -69,11 +69,11 @@
         <dependency.slf4j.version>2.0.3</dependency.slf4j.version>
         <dependency.jcl-over-slf4j.version>1.7.30</dependency.jcl-over-slf4j.version>
 
-        <dependency.cxf.version>4.1.7</dependency.cxf.version>
+        <dependency.cxf.version>4.1.9</dependency.cxf.version>
         <dependency.angus.version>2.0.4</dependency.angus.version>
         <dependency.beanutils.version>1.11.0</dependency.beanutils.version>
         <dependency.apache.taglibs.version>1.2.5</dependency.apache.taglibs.version>
-        <dependency.jackson.version>2.18.9</dependency.jackson.version>
+        <dependency.jackson.version>2.18.12</dependency.jackson.version>
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
         <dependency.org-json.version>20231013</dependency.org-json.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
@@ -277,7 +277,7 @@
           <dependency>
             <groupId>org.apache.neethi</groupId>
             <artifactId>neethi</artifactId>
-            <version>3.2.2</version>
+            <version>3.2.4</version>
           </dependency>
             <!-- SHA-2400 -->
             <dependency>
