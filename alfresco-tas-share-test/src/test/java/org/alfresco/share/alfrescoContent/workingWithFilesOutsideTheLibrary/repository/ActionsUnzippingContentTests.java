@@ -69,7 +69,7 @@ public class ActionsUnzippingContentTests extends BaseTest
 
     @TestRail (id = "C8256")
     @AlfrescoTest(jira = "XAT-10926")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1})
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , ShareGroups.SHARE_PRIORITY_1})
     public void unzipZipFileToRepository()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");

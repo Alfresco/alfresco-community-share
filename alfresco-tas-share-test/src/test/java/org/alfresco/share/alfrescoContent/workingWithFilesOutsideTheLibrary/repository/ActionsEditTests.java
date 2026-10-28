@@ -88,7 +88,7 @@ public class ActionsEditTests extends BaseTest
 
     @TestRail (id = "C7737")
     @AlfrescoTest (jira = "XAT-10851")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT , ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1 })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
     public void repositoryEditFilesProperties()
     {
         log.info("Precondition: Login to share and navigate to Repository->Shared ");

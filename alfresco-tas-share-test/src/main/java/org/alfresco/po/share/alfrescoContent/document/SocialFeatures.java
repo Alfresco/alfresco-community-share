@@ -6,6 +6,7 @@ import static org.testng.Assert.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.po.share.site.DocumentLibraryPage;
+import org.alfresco.utility.web.common.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,6 +15,8 @@ import org.openqa.selenium.support.FindBy;
 @Slf4j
 public class SocialFeatures extends DocumentLibraryPage
 {
+    private static final String CONTENT_ITEM = "Content item";
+
     //@Autowired
     private DocumentDetailsPage documentDetailsPage;
 
@@ -49,8 +52,6 @@ public class SocialFeatures extends DocumentLibraryPage
     private WebElement signInButton;
     @FindBy (css = "a.quickshare-action-unshare")
     private WebElement unshareButton;
-    @FindBy (css = "#alf-id6-input")
-    private WebElement sharedUrl;
     @FindBy (xpath = "//a[text()='Login']")
     private WebElement loginButtonOnSharedFilePage;
     @FindBy (xpath = "//a[text()='Document Details']")
@@ -150,17 +151,22 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public String getShareButtonTooltip(String fileName)
     {
-        return selectDocumentLibraryItemRow(fileName).findElement(shareButton).getAttribute("title");
+        WebElement itemRow = mouseOverContentItem(fileName);
+        Parameter.checkIsMandotary(CONTENT_ITEM, itemRow);
+        return itemRow.findElement(shareButton).getAttribute("title");
     }
 
     public boolean isShareButtonDisplayed(String contentName)
     {
-        return isElementDisplayed(selectDocumentLibraryItemRow(contentName), shareButton);
+        WebElement itemRow = mouseOverContentItem(contentName);
+        return isElementDisplayed(itemRow, shareButton);
     }
 
     public void clickShareButton(String contentName)
     {
-        selectDocumentLibraryItemRow(contentName).findElement(shareButton).click();
+        WebElement itemRow = mouseOverContentItem(contentName);
+        Parameter.checkIsMandotary(CONTENT_ITEM, itemRow);
+        itemRow.findElement(shareButton).click();
     }
 
     public boolean isQuickshareWindowDisplayed()
@@ -176,6 +182,16 @@ public class SocialFeatures extends DocumentLibraryPage
     public void clickShareWithFacebook()
     {
         shareFacebook.click();
+    }
+
+    public String getFacebookShareLink()
+    {
+        return shareFacebook.getAttribute("href");
+    }
+
+    public String getTwitterShareHref()
+    {
+        return shareTwitter.getAttribute("href");
     }
 
     public String getFacebookWindowTitle()
@@ -279,13 +295,14 @@ public class SocialFeatures extends DocumentLibraryPage
 
     public String getContentTextFromSharedFilePage()
     {
-        return contentFromSharedFilePage.getText();
+        waitUntilElementIsVisible(contentFromSharedFilePage);
+        return contentFromSharedFilePage.getText().trim();
     }
 
     public boolean isShareUrlDisplayed()
     {
-        waitUntilElementIsVisible(sharedUrl);
-        return isElementDisplayed(sharedUrl);
+        waitUntilElementIsVisible(publicLink_InputField);
+        return isElementDisplayed(publicLink_InputField);
     }
 
     public SocialFeatures assertLikeButtonMessage(String fileName, String message)

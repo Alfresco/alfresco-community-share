@@ -274,12 +274,6 @@ public class MyFilesTaggingTests extends BaseTest
         myFilesPage.navigate();
 
         log.info("STEP1: Hover over the tag(s) from the content");
-        try {
-            Thread.sleep(Duration.ofSeconds(2));
-        }
-        catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         myFilesPage
             .mouseOverTags(fileToCheck.getName());
         myFilesPage
@@ -365,7 +359,7 @@ public class MyFilesTaggingTests extends BaseTest
 
     @TestRail (id = "C7895")
     @AlfrescoTest (jira = "XAT-10549")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "FlakyTests", ShareGroups.SHARE_PRIORITY_1, ShareGroups.TOBEFIXED  })
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, "FlakyTests", ShareGroups.SHARE_PRIORITY_1  })
     public void myFilesUpdateTag()
     {
         log.info("Create File in document library and move it to MyFiles Page.");
