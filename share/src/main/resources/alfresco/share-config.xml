@@ -338,6 +338,7 @@
         <enableBasicAuth>${aims.enableBasicAuth}</enableBasicAuth>
         <secret>${aims.secret}</secret>
         <audience>${aims.audience}</audience>
+        <authorizationAdditionalParams>${aims.authorization.additional-params}</authorizationAdditionalParams>
         <scopes>${aims.scopes}</scopes>
         <atIssuerAttribute>${aims.atIssuerAttribute}</atIssuerAttribute>
         <postLogoutRedirectUrlLabel>${aims.logout.post_logout_redirect_uri_label}</postLogoutRedirectUrlLabel>
