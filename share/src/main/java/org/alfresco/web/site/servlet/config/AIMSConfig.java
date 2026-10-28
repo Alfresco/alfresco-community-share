@@ -20,6 +20,8 @@
  */
 package org.alfresco.web.site.servlet.config;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -65,6 +67,7 @@ public class AIMSConfig
    private String[] extraEndpointsToRedirect;
    private boolean scopeValidationDisabled;
    private boolean allowIdpBypass;
+    private Map<String, String> authorizationAdditionalParams = Collections.emptyMap();
 
     /**
      *
@@ -80,6 +83,7 @@ public class AIMSConfig
         this.setPublicClient(Boolean.parseBoolean(config.getConfigElement("publicClient").getValue()));
         this.setAudience(config.getConfigElementValue("audience"));
         this.setScopes(config.getConfigElementValue("scopes"));
+        this.setAuthorizationAdditionalParams(config.getConfigElementValue("authorizationAdditionalParams"));
         this.setAtIssuerAttribute(config.getConfigElementValue("atIssuerAttribute"));
         if (publicClient)
         {
@@ -437,6 +441,18 @@ public class AIMSConfig
     public Set<String> getScopes()
     {
         return scopes;
+    }
+
+    public void setAuthorizationAdditionalParams(String additionalParams)
+    {
+        this.authorizationAdditionalParams = StringUtils.isBlank(additionalParams)
+            ? Collections.emptyMap()
+            : Collections.unmodifiableMap(AdditionalAuthorizationParametersParser.parse(additionalParams));
+    }
+
+    public Map<String, String> getAuthorizationAdditionalParams()
+    {
+        return authorizationAdditionalParams;
     }
 
     public String getAtIssuerAttribute()

@@ -31,6 +31,7 @@ import org.springframework.extensions.config.xml.XMLConfigService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class AIMSConfigTest extends BaseTest
@@ -67,6 +68,7 @@ public class AIMSConfigTest extends BaseTest
         System.clearProperty("aims.enableBasicAuth");
         System.clearProperty("aims.secret");
         System.clearProperty("aims.scopes");
+        System.clearProperty("aims.authorization.additional-params");
         System.clearProperty("aims.atIssuerAttribute");
         System.clearProperty("aims.scopeValidationDisabled");
     }
@@ -114,6 +116,77 @@ public class AIMSConfigTest extends BaseTest
         Assert.assertEquals(Set.of("email", "profile", "openid"), aimsConfig.getScopes());
         Assert.assertEquals("issuer", aimsConfig.getAtIssuerAttribute());
         Assert.assertFalse(aimsConfig.isScopeValidationDisabled());
+        Assert.assertTrue(aimsConfig.getAuthorizationAdditionalParams().isEmpty());
+    }
+
+    public void testAuthorizationAdditionalParams()
+    {
+        this.clearSystemProperties();
+        System.setProperty("aims.authorization.additional-params",
+            "resourceServer=Identity Provider unencrypted,foo=bar");
+        try
+        {
+            Assert.assertEquals(Map.of("resourceServer", "Identity Provider unencrypted", "foo", "bar"),
+                this.initAIMSConfig().getAuthorizationAdditionalParams());
+        }
+        finally
+        {
+            System.clearProperty("aims.authorization.additional-params");
+        }
+    }
+
+    public void testMalformedAuthorizationAdditionalParamsAreSkipped()
+    {
+        this.clearSystemProperties();
+        System.setProperty("aims.authorization.additional-params", "missingEquals, =ignored,valid=value,,last=ok");
+        try
+        {
+            Assert.assertEquals(Map.of("valid", "value", "last", "ok"),
+                this.initAIMSConfig().getAuthorizationAdditionalParams());
+        }
+        finally
+        {
+            System.clearProperty("aims.authorization.additional-params");
+        }
+    }
+
+    public void testAuthorizationAdditionalParamsParsing()
+    {
+        AIMSConfig config = new AIMSConfig();
+        config.setAuthorizationAdditionalParams(" foo = first ,foo=last,empty=,expression=a=b");
+        Assert.assertEquals(Map.of("foo", "last", "empty", "", "expression", "a=b"),
+            config.getAuthorizationAdditionalParams());
+
+        for (String empty : new String[] {null, "", "   "})
+        {
+            config.setAuthorizationAdditionalParams(empty);
+            Assert.assertTrue(config.getAuthorizationAdditionalParams().isEmpty());
+        }
+    }
+
+    public void testQuotedAuthorizationAdditionalParams()
+    {
+        AIMSConfig config = new AIMSConfig();
+        config.setAuthorizationAdditionalParams(
+            "claims='{\"userinfo\":{\"given_name\":null,\"email\":null}}',"
+                + "quoted='it''s, quoted, again',plain=it's fine,onlyQuote='''',empty='',"
+                + "spaced='  spaced  ',unicode=\u2003'kept'\u2003");
+
+        Assert.assertEquals(Map.of(
+            "claims", "{\"userinfo\":{\"given_name\":null,\"email\":null}}",
+            "quoted", "it's, quoted, again", "plain", "it's fine", "onlyQuote", "'",
+            "empty", "", "spaced", "  spaced  ", "unicode", "kept"),
+            config.getAuthorizationAdditionalParams());
+    }
+
+    public void testMalformedQuotedAuthorizationAdditionalParams()
+    {
+        AIMSConfig config = new AIMSConfig();
+        config.setAuthorizationAdditionalParams(
+            "valid=one,broken='one' two,missingSeparator,=missingName, ,alsoValid=two,unterminated='one,two");
+
+        Assert.assertEquals(Map.of("valid", "one", "alsoValid", "two"),
+            config.getAuthorizationAdditionalParams());
     }
 
     /**
