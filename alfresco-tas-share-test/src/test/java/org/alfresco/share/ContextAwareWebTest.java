@@ -22,6 +22,7 @@ import org.alfresco.utility.model.GroupModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.web.AbstractWebTest;
+import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.testng.Assert;
@@ -153,7 +154,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     	 cleanupAuthenticatedSession();
     	 UserModel validUser = new UserModel(userName, password);
     	 getLoginPage().navigate().login(validUser);
-    	 userDashboard.waitForSharePageToLoad();
+    	 getUserDashboard().waitForSharePageToLoad();
     }
 
     /**
@@ -167,7 +168,7 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     
     protected void logoutViaBrowser()
     {
-    	toolbar.clickUserMenu().clickLogout();
+    	getToolbar().clickUserMenu().clickLogout();
     	getBrowser().cleanUpAuthenticatedSession();
     }
 
@@ -210,10 +211,37 @@ public abstract class ContextAwareWebTest extends AbstractWebTest
     {
         if (dataAIS.isEnabled())
         {
+            loginAimsPage = new LoginAimsPage(createWebDriverThreadLocal());
             return loginAimsPage;
         }
 
+        loginPage = new LoginPage(createWebDriverThreadLocal());
         return loginPage;
+    }
+
+    private UserDashboardPage getUserDashboard()
+    {
+        userDashboard = new UserDashboardPage(createWebDriverThreadLocal());
+        return userDashboard;
+    }
+
+    private Toolbar getToolbar()
+    {
+        toolbar = new Toolbar(createWebDriverThreadLocal());
+        return toolbar;
+    }
+
+    private ThreadLocal<WebDriver> createWebDriverThreadLocal()
+    {
+        ThreadLocal<WebDriver> webDriverThread = new ThreadLocal<WebDriver>()
+        {
+            @Override
+            public WebDriver get()
+            {
+                return getBrowser().getDriver();
+            }
+        };
+        return webDriverThread;
     }
 
     protected boolean isFileInDirectory(String fileName, String extension)

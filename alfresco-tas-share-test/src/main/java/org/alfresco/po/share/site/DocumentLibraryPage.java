@@ -1001,8 +1001,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     }
 
     public void mouseOverTags(String contentName) {
-        WebElement contentElement = selectDocumentLibraryItemRow(contentName);
-        Parameter.checkIsMandotary("Content selector", contentElement);
+        WebElement contentElement = mouseOverContentItem(contentName);
         WebElement tagElement = contentElement.findElement(contentTagsSelector);
         Parameter.checkIsMandotary("Tag selector", tagElement);
         mouseOver(tagElement);
@@ -1015,10 +1014,7 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * @param contentName
      */
     public void mouseOverNoTags(String contentName) {
-        waitInSeconds(2);
-        WebElement contentElement = selectDocumentLibraryItemRow(contentName);
-        Parameter.checkIsMandotary("Content selector", contentElement);
-        waitInSeconds(4);
+        WebElement contentElement = mouseOverContentItem(contentName);
         WebElement tagElement = contentElement.findElement(noTagsSelector);
         Parameter.checkIsMandotary("Tag selector", tagElement);
         mouseOver(tagElement);
@@ -1058,8 +1054,9 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     }
 
     public DocumentLibraryPage clickEditTagLink(String linkName) {
-        waitInSeconds(1);
-        WebElement link = findFirstElementWithValue(findElements(editTagButtons), linkName);
+        waitUntilElementIsVisible(findElement(editTagInputField_));
+        List<WebElement> buttons = waitUntilElementsAreVisible(editTagButtons);
+        WebElement link = findFirstElementWithValue(buttons, linkName);
         clickElement(link);
         waitInSeconds(2);
         return this;
@@ -1088,8 +1085,8 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
      * @param contentName
      */
     public void clickEditTagIcon(String contentName) {
-        waitInSeconds(3);
-        WebElement editTagIcon = selectDocumentLibraryItemRow(contentName).findElement(editTagSelector);
+        WebElement contentElement = mouseOverContentItem(contentName);
+        WebElement editTagIcon = contentElement.findElement(editTagSelector);
         clickElement(editTagIcon);
     }
 
@@ -1556,11 +1553,13 @@ public class DocumentLibraryPage extends SiteCommon<DocumentLibraryPage> // TODO
     }
 
     public DocumentLibraryPage clickAction(String option) {
-        List<WebElement> clickOption = findElements(editTagButtons);
-        waitInSeconds(3);
+        waitUntilElementIsVisible(findElement(editTagInputField_));
+        List<WebElement> clickOption = waitUntilElementsAreVisible(editTagButtons);
         for (WebElement clickButton : clickOption) {
-            if (clickButton.getText().equals(option))
-                clickButton.click();
+            if (clickButton.getText().equals(option)) {
+                clickElement(clickButton);
+                break;
+            }
         }
         return this;
     }
