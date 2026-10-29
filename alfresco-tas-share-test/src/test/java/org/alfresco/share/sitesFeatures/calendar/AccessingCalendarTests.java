@@ -83,7 +83,7 @@ public class AccessingCalendarTests extends BaseTest
 
     @TestRail (id = "C5437")
     @AlfrescoTest(jira = "XAT-8557")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1})
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.SHARE_PRIORITY_1})
 
     public void accessTheCalendarPage()
     {
@@ -95,7 +95,10 @@ public class AccessingCalendarTests extends BaseTest
 
         log.info("Step 2 - Open 'Customize Site' page for " + siteName + " and rename 'Calendar' page to 'newCalendar'.");
         customizeSitePage.navigate(siteName.get());
-        customizeSitePage.addPageToSite(SitePageType.CALENDER);
+        if (!customizeSitePage.getCurrentPages().contains(SitePageType.CALENDER))
+        {
+            customizeSitePage.addPageToSite(SitePageType.CALENDER);
+        }
         customizeSitePage.renameSitePage(SitePageType.CALENDER, "newCalendar");
         assertEquals(customizeSitePage.getPageDisplayName(SitePageType.CALENDER), "newCalendar", "Calendar display page name is modified.");
 
