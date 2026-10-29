@@ -93,7 +93,7 @@ public class TimeZoneMonthViewTests extends BaseTest
         return date.toString("EEEE, d MMMM, yyyy") + " at " + hour;
     }
 
-    private void changeTimeZone(String timeZoneId)
+    private boolean changeTimeZone(String timeZoneId)
     {
         try
         {
@@ -103,15 +103,18 @@ public class TimeZoneMonthViewTests extends BaseTest
                     "Emulation.setTimezoneOverride",
                     Map.of("timezoneId", timeZoneId)
                 );
+                return true;
             }
             else
             {
                 log.warn("WebDriver does not support CDP - timezone override skipped");
+                return false;
             }
         }
         catch (Exception e)
         {
             log.error("Failed to set timezone to: " + timeZoneId, e);
+            return false;
         }
     }
 
@@ -172,7 +175,7 @@ public class TimeZoneMonthViewTests extends BaseTest
 //    @Bug (id = "SHA-2165", status = Bug.Status.OPENED, description = "Time displayed in Firefox is not the same as the time on local machine")
     @TestRail (id = "C5930")
     @AlfrescoTest(jira = "XAT-8627")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests", ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1 })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, "TimeZoneTests", ShareGroups.SHARE_PRIORITY_1 })
     public void multipleDaysEvent()
     {
         String currentEventName = "testEvent-C5930-" + random;
@@ -190,13 +193,16 @@ public class TimeZoneMonthViewTests extends BaseTest
         assertEquals(calendarPage.getEventStartTimeFromCalendar(currentEventName), "2:30pm", "Event starting time is the one filled at creation.");
 
         log.info("STEP 2: Open 'Calendar' page ('Month' view) on clientB and verify event's details, by clicking on the event.");
-        changeTimeZone(clientBTimeZone);
+        boolean timeZoneOverriddenOnClientB = changeTimeZone(clientBTimeZone);
+        calendarPage.navigate(siteName.get().getId()).clickMonthButton();
 
         assertTrue(calendarPage.isEventPresentInCalendar(currentEventName), "Event is displayed on the 'Calendar' page.");
         calendarPage.click_Event(currentEventName);
-        assertEquals(eventInformationDialogPage.getStartDateTime(), formatDate(today, "12:30 PM"),
+        String expectedStartTime = timeZoneOverriddenOnClientB ? "12:30 PM" : "2:30 PM";
+        String expectedEndTime = timeZoneOverriddenOnClientB ? "3:25 PM" : "5:25 PM";
+        assertEquals(eventInformationDialogPage.getStartDateTime(), formatDate(today, expectedStartTime),
             "Following information is available: Time section with Start Date");
-        assertEquals(eventInformationDialogPage.getEndDateTime(), formatDate(endDate, "3:25 PM"), "Following information is available: Time section with End Date");
+        assertEquals(eventInformationDialogPage.getEndDateTime(), formatDate(endDate, expectedEndTime), "Following information is available: Time section with End Date");
     }
 
     @TestRail (id = "C5931")

@@ -3,25 +3,18 @@ package org.alfresco.share.alfrescoContent.workingWithFilesOutsideTheLibrary.sha
 import lombok.extern.slf4j.Slf4j;
 import org.alfresco.constants.ShareGroups;
 import org.alfresco.po.share.DeleteDialog;
-import org.alfresco.po.share.MyFilesPage;
-import org.alfresco.po.share.alfrescoContent.RepositoryPage;
 import org.alfresco.po.share.alfrescoContent.SharedFilesPage;
 import org.alfresco.po.share.alfrescoContent.aspects.AspectsForm;
-import org.alfresco.po.share.alfrescoContent.buildingContent.NewFolderDialog;
-import org.alfresco.po.share.site.DocumentLibraryPage;
 import org.alfresco.po.share.site.ItemActions;
 import org.alfresco.share.BaseTest;
 import org.alfresco.testrail.TestRail;
-import org.alfresco.utility.data.RandomData;
+import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.alfresco.test.AlfrescoTest;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Slf4j
 public class SharedFilesManageAspectsTests extends BaseTest
@@ -32,27 +25,16 @@ public class SharedFilesManageAspectsTests extends BaseTest
 
     //@Autowired
     private SharedFilesPage sharedFilesPage;
-    private MyFilesPage myFilesPage;
     private DeleteDialog deleteDialog;
-
-    private String userName = String.format("User%s", RandomData.getRandomAlphanumeric());
-    private String folderNameC8038 = String.format("testFolderC8038%s", RandomData.getRandomAlphanumeric());
-    private String folderNameC8034 = String.format("testFolderC8038%s", RandomData.getRandomAlphanumeric());
-    private String folderNameC13761 = String.format("testFolderC13761%s", RandomData.getRandomAlphanumeric());
-
-    private final String sharedFolderName = "Shared";
-    private RepositoryPage repositoryPage;
-    private NewFolderDialog newFolderDialog;
-    private DocumentLibraryPage documentLibraryPage;
     private static final String classifiableAspect = "Classifiable";
 
     private UserModel testUser1;
     private UserModel testUser2;
-    private final String user2 = "User2" + RandomData.getRandomAlphanumeric();
-    private final String user1 = "User1" + RandomData.getRandomAlphanumeric();
-    private final String password = "password";
+    private final String user2 = "User2" + org.alfresco.utility.data.RandomData.getRandomAlphanumeric();
+    private final String user1 = "User1" + org.alfresco.utility.data.RandomData.getRandomAlphanumeric();
     @BeforeMethod(alwaysRun = true)
     public void setupTest() throws Exception {
+        final String password = "password";
 
 
         log.info("PreCondition1: Any test user is created");
@@ -60,12 +42,7 @@ public class SharedFilesManageAspectsTests extends BaseTest
         testUser2 = dataUser.usingAdmin().createUser(user2, password);
         getCmisApi().authenticateUser(getAdminUser());
 
-        repositoryPage = new RepositoryPage(webDriver);
         aspectsForm = new AspectsForm(webDriver);
-        myFilesPage = new MyFilesPage(webDriver);
-        newFolderDialog = new  NewFolderDialog(webDriver);
-        aspectsForm = new AspectsForm(webDriver);
-        documentLibraryPage = new DocumentLibraryPage(webDriver);
         sharedFilesPage = new SharedFilesPage(webDriver);
          deleteDialog = new DeleteDialog(webDriver);
 
@@ -80,33 +57,21 @@ public class SharedFilesManageAspectsTests extends BaseTest
     }
 
     @TestRail (id = "C8038")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED})
-    public void checkManageAspectActions()
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
+    public void checkManageAspectActions() throws Exception
     {
-        log.info("Precondition: create folder in Shared folder from user ");
-        authenticateUsingLoginPage(testUser1);
-        repositoryPage
-            .navigate();
-        repositoryPage
-            .click_FolderName(sharedFolderName);
-        myFilesPage
-            .click_CreateButton()
-            .click_FolderLink();
-        newFolderDialog
-            .typeName(folderNameC8038)
-            .clickSave();
-        myFilesPage
-            .isContentNameDisplayed(folderNameC8038);
+        FolderModel testFolderC8038 = FolderModel.getRandomFolderModel();
+        log.info("Precondition: create folder in Shared Files as user1");
+        getCmisApi().authenticateUser(testUser1).usingUser(testUser1).usingShared().createFolder(testFolderC8038).assertThat().existsInRepo();
 
         authenticateUsingLoginPage(getAdminUser());
-        repositoryPage
-            .navigate();
-        repositoryPage
-            .click_FolderName(sharedFolderName);
+        sharedFilesPage
+            .navigateByMenuBar()
+            .assertIsFolderPresentInList(testFolderC8038.getName());
 
         log.info("Step1: Click 'More'->'Manage Aspects' action for created folder and verify the Manage Aspects form");
-        repositoryPage
-            .select_ItemsAction(folderNameC8038, ItemActions.MANAGE_ASPECTS);
+        sharedFilesPage
+            .selectItemAction(testFolderC8038.getName(), ItemActions.MANAGE_ASPECTS);
 
         aspectsForm
             .assertIsAspectsFormTitleDisplayed()
@@ -120,8 +85,8 @@ public class SharedFilesManageAspectsTests extends BaseTest
         aspectsForm
             .clickCloseButton();
         log.info("Delete folder");
-        repositoryPage
-            .select_ItemsAction(folderNameC8038, ItemActions.DELETE_FOLDER);
+        sharedFilesPage
+            .selectItemAction(testFolderC8038.getName(), ItemActions.DELETE_FOLDER);
         deleteDialog
             .confirmDeletion();
 
@@ -129,33 +94,21 @@ public class SharedFilesManageAspectsTests extends BaseTest
 
     @TestRail (id = "C8034")
     @AlfrescoTest(jira = "AT-10714")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1 })
-    public void manageAspectsApplyChanges()
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
+    public void manageAspectsApplyChanges() throws Exception
     {
-        log.info("Precondition: create folder in Shared folder from user ");
-        authenticateUsingLoginPage(testUser1);
-        repositoryPage
-            .navigate();
-        repositoryPage
-            .click_FolderName(sharedFolderName);
-        myFilesPage
-            .click_CreateButton()
-            .click_FolderLink();
-        newFolderDialog
-            .typeName(folderNameC8034)
-            .clickSave();
-        myFilesPage
-            .isContentNameDisplayed(folderNameC8034);
+        FolderModel testFolderC8034 = FolderModel.getRandomFolderModel();
+        log.info("Precondition: create folder in Shared Files as user1");
+        getCmisApi().authenticateUser(testUser1).usingUser(testUser1).usingShared().createFolder(testFolderC8034).assertThat().existsInRepo();
 
         authenticateUsingLoginPage(getAdminUser());
-        repositoryPage
-            .navigate();
-        repositoryPage
-            .click_FolderName(sharedFolderName);
+        sharedFilesPage
+            .navigateByMenuBar()
+            .assertIsFolderPresentInList(testFolderC8034.getName());
 
         log.info("Step1: Click 'More'->'Manage Aspects' action for the created folder");
-        repositoryPage
-            .selectItemAction(folderNameC8034, ItemActions.MANAGE_ASPECTS);
+        sharedFilesPage
+            .selectItemAction(testFolderC8034.getName(), ItemActions.MANAGE_ASPECTS);
 
         log.info("Step2: From 'Available to Add' list, click 'Add' icon next to an aspect and verify it's displayed in 'Currently Selected' list");
         aspectsForm
@@ -167,16 +120,16 @@ public class SharedFilesManageAspectsTests extends BaseTest
         log.info("Step3: Click 'Apply Changes' and verify the aspect is added");
         aspectsForm
             .clickApplyChangesButton();
-        repositoryPage
-            .selectItemAction(folderNameC8034, ItemActions.MANAGE_ASPECTS);
+        sharedFilesPage
+            .selectItemAction(testFolderC8034.getName(), ItemActions.MANAGE_ASPECTS);
         aspectsForm
             .assertAspactPresentInCurrentlySelectedList(classifiableAspect);
 
         aspectsForm
             .clickCloseButton();
         log.info("Delete folder");
-        repositoryPage
-            .select_ItemsAction(folderNameC8034, ItemActions.DELETE_FOLDER);
+        sharedFilesPage
+            .selectItemAction(testFolderC8034.getName(), ItemActions.DELETE_FOLDER);
         deleteDialog
             .confirmDeletion();
 
@@ -185,48 +138,28 @@ public class SharedFilesManageAspectsTests extends BaseTest
 
     @TestRail (id = "C13761")
     @AlfrescoTest(jira = "XAT-10716")
-    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.TOBEFIXED, ShareGroups.SHARE_PRIORITY_1 })
-    public void manageAspectsActionMissing()
+    @Test (groups = { TestGroup.SANITY, TestGroup.CONTENT, ShareGroups.SHARE_PRIORITY_1 })
+    public void manageAspectsActionMissing() throws Exception
     {
-        log.info("Precondition: create folder in Shared folder from user2 ");
-        authenticateUsingLoginPage(testUser2);
-        repositoryPage
-            .navigate();
-        repositoryPage
-            .click_FolderName(sharedFolderName);
-        myFilesPage
-            .click_CreateButton()
-            .click_FolderLink();
-        newFolderDialog
-            .typeName(folderNameC13761)
-            .clickSave();
-        myFilesPage
-            .isContentNameDisplayed(folderNameC13761);
+        FolderModel testFolderC13761 = FolderModel.getRandomFolderModel();
+        log.info("Precondition: create folder in Shared Files as user2");
+        getCmisApi().authenticateUser(testUser2).usingUser(testUser2).usingShared().createFolder(testFolderC13761).assertThat().existsInRepo();
+
         log.info("login wih user1 and navigate shared folder  ");
         authenticateUsingLoginPage(testUser1);
-        repositoryPage
-            .navigate();
-        repositoryPage
-            .click_FolderName(sharedFolderName);
-        repositoryPage
-            .isContentNameDisplayed(folderNameC13761);
-
-        log.info(" Hover over the folder and validated more option is not available ");
         sharedFilesPage
-            .mouseOverContentItem(folderNameC13761);
-        documentLibraryPage
-            .assertisMoreMenuNotDisplayed(folderNameC13761);
-        List<String> notExpectedActions = Arrays
-            .asList("Manage Aspects");
-        documentLibraryPage.assertActionsNoteAvailableForLibrary(folderNameC13761,notExpectedActions);
+            .navigateByMenuBar()
+            .assertIsFolderPresentInList(testFolderC13761.getName());
+
+        log.info("Verify the Manage Aspects action is not available for another user's folder");
+        sharedFilesPage
+            .assertActionItem_Not_AvailableInTheDocumentLibraryItems(testFolderC13761.getName(), ItemActions.MANAGE_ASPECTS);
+
         log.info("Delete folder");
         authenticateUsingLoginPage(getAdminUser());
-        repositoryPage
-            .navigate();
-        repositoryPage
-            .click_FolderName(sharedFolderName);
-        repositoryPage
-            .select_ItemsAction(folderNameC13761, ItemActions.DELETE_FOLDER);
+        sharedFilesPage
+            .navigateByMenuBar()
+            .selectItemAction(testFolderC13761.getName(), ItemActions.DELETE_FOLDER);
         deleteDialog
             .confirmDeletion();
 
