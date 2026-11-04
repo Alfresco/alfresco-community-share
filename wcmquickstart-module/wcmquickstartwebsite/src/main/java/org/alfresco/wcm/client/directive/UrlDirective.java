@@ -31,7 +31,7 @@ import org.alfresco.wcm.client.util.UrlUtils;
 
 import freemarker.core.Environment;
 import freemarker.ext.beans.StringModel;
-import freemarker.ext.servlet.HttpRequestHashModel;
+import freemarker.ext.jakarta.servlet.HttpRequestHashModel;
 import freemarker.template.SimpleScalar;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
@@ -42,19 +42,19 @@ import freemarker.template.TemplateModelException;
 /**
  * Freemarker directive to output the url of an asset or section. Usage:
  * <@makeurl section=xxx/> or <@makeurl asset=xxx force=long|short rendition=rrr attach=true|false />
- * 
+ *
  * If the variant that specifies an asset rather than a section is used then there are three optional parameters
  * that may be specified:
- *   force: "long" forces the URL to be the full path to the asset, whereas as "short" forces the URL to 
+ *   force: "long" forces the URL to be the full path to the asset, whereas as "short" forces the URL to
  *      be of the form "asset/<id>/name.ext"
- *   rendition: If specified this causes a "rendition" query parameter to be appended to the URL with 
- *      the specified value. By default, when this is detected on a request it causes the named rendition 
+ *   rendition: If specified this causes a "rendition" query parameter to be appended to the URL with
+ *      the specified value. By default, when this is detected on a request it causes the named rendition
  *      of the addressed asset to be delivered.
- *   attach: An optional boolean parameter that causes an "attach" query parameter to be appended to the 
- *      generated URL with the specified value. The default behaviour when such a URL is requested is to 
- *      return the asset as an attachment to the response. This typically causes a browser to prompt the 
- *      user to save the asset rather than opening the asset directly in the browser. 
- * 
+ *   attach: An optional boolean parameter that causes an "attach" query parameter to be appended to the
+ *      generated URL with the specified value. The default behaviour when such a URL is requested is to
+ *      return the asset as an attachment to the response. This typically causes a browser to prompt the
+ *      user to save the asset rather than opening the asset directly in the browser.
+ *
  * @author Brian
  * @author Chris Lack
  */
@@ -119,7 +119,7 @@ public class UrlDirective implements TemplateDirectiveModel
             {
                 url = requestUrl + urlUtils.getUrl(asset);
             }
-            
+
             Map<String, SimpleScalar> queryParams = new TreeMap<String, SimpleScalar>();
             if (renditionParam != null)
             {
