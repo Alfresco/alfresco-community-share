@@ -36,6 +36,30 @@
    var $siteURL = Alfresco.util.siteURL;
 
    /**
+    * Returns true only if the supplied URL targets this page's own origin
+    * (same scheme, host and port). Used to prevent open redirects (CWE-601)
+    * when navigating to attacker-controllable values such as document.referrer.
+    *
+    * @method isSameOrigin
+    * @param url {String} The URL to test
+    * @return {boolean} true if url is absolute and same-origin, false otherwise
+    */
+   var isSameOrigin = function CreateContentMgr_isSameOrigin(url)
+   {
+      if (!url)
+      {
+         return false;
+      }
+      var origin = window.location.protocol + "//" + window.location.host;
+      // Require the origin to be followed by a path/query/fragment boundary (or end of
+      // string) so that look-alike hosts such as "https://origin.attacker.com" are rejected.
+      return url === origin ||
+             url.indexOf(origin + "/") === 0 ||
+             url.indexOf(origin + "?") === 0 ||
+             url.indexOf(origin + "#") === 0;
+   };
+
+   /**
     * CreateContentMgr constructor.
     * 
     * @param {String} htmlId The HTML id of the parent element
@@ -189,9 +213,15 @@
          {
             window.location.href = $siteURL((this.options.isContainer ? "folder" : "document") + "-details?nodeRef=" + nodeRef.toString());
          }
-         else if (document.referrer)
+         else if (document.referrer && isSameOrigin(document.referrer))
          {
-            /* Did we come from the document library? If so, then direct the user back there */
+            /**
+             * Only follow document.referrer when it points back to this same origin.
+             * document.referrer is attacker-controllable (the linking page sets it), so
+             * navigating to it without validation is an open redirect (CWE-601).
+             *
+             * Did we come from the document library? If so, then direct the user back there
+             */
             if (document.referrer.match(/documentlibrary([?]|$)/) || document.referrer.match(/repository([?]|$)/))
             {
                // go back to the referrer page

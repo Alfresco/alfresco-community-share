@@ -36,6 +36,30 @@
    var $siteURL = Alfresco.util.siteURL;
 
    /**
+    * Returns true only if the supplied URL targets this page's own origin
+    * (same scheme, host and port). Used to prevent open redirects (CWE-601)
+    * when navigating to attacker-controllable values such as document.referrer.
+    *
+    * @method isSameOrigin
+    * @param url {String} The URL to test
+    * @return {boolean} true if url is absolute and same-origin, false otherwise
+    */
+   var isSameOrigin = function InlineEditMgr_isSameOrigin(url)
+   {
+      if (!url)
+      {
+         return false;
+      }
+      var origin = window.location.protocol + "//" + window.location.host;
+      // Require the origin to be followed by a path/query/fragment boundary (or end of
+      // string) so that look-alike hosts such as "https://origin.attacker.com" are rejected.
+      return url === origin ||
+             url.indexOf(origin + "/") === 0 ||
+             url.indexOf(origin + "?") === 0 ||
+             url.indexOf(origin + "#") === 0;
+   };
+
+   /**
     * InlineEditMgr constructor.
     * 
     * @param {String} htmlId The HTML id of the parent element
@@ -175,10 +199,15 @@
        */
       _navigateForward: function InlineEditMgr__navigateForward()
       {
-         if (document.referrer)
+         /**
+          * Only follow document.referrer when it points back to this same origin.
+          * document.referrer is attacker-controllable (the linking page sets it), so
+          * navigating to it without validation is an open redirect (CWE-601).
+          */
+         if (document.referrer && isSameOrigin(document.referrer))
          {
             /* Did we come from the document library? If so, then direct the user back there */
-            if (document.referrer.match(/documentlibrary([?]|$)/) || 
+            if (document.referrer.match(/documentlibrary([?]|$)/) ||
                 document.referrer.match(/repository([?]|$)/) ||
                 document.referrer.match(/faceted-search([?]|$)/))
             {
@@ -190,19 +219,12 @@
                document.location.href = document.referrer;
             }
          }
-         else if (history.length > 1)
-         {
-            /**
-             * The document.referrer wasn't available, either because there was no previous page (because the user
-             * navigated directly to the page) or because the referrer header has been blocked.
-             * So instead we'll use the browser history, unfortunately with increased chance of displaying stale data
-             * since the page most likely won't be refreshed.
-             */
-            history.go(-1);
-         }
          else
          {
-            // go forward to the appropriate details page for the node
+            /**
+             * No referrer, or an untrusted cross-origin referrer. Rather than trust it,
+             * go forward to the appropriate details page for the node.
+             */
             window.location.href = $siteURL("document-details?nodeRef=" + new Alfresco.util.NodeRef(this.options.nodeRef).toString());
          }
       }
