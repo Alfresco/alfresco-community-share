@@ -211,7 +211,7 @@
        <dependency>
            <groupId>org.freemarker</groupId>
            <artifactId>freemarker</artifactId>
-           <version>2.3.30-jakarta-1</version>
+           <version>${dependency.freemarker.version}</version>
        </dependency>
        <dependency>
            <groupId>org.apache.commons</groupId>

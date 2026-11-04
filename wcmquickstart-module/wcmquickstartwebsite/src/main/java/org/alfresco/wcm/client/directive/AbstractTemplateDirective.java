@@ -23,7 +23,7 @@ package org.alfresco.wcm.client.directive;
 import jakarta.servlet.http.HttpServletRequest;
 
 import freemarker.core.Environment;
-import freemarker.ext.servlet.HttpRequestHashModel;
+import freemarker.ext.jakarta.servlet.HttpRequestHashModel;
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateModelException;
 
