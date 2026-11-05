@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 /**
  * Change Password component.
- * 
+ *
  * @namespace Alfresco
  * @class Alfresco.ChangePassword
  */
@@ -30,10 +30,10 @@
     */
    var Dom = YAHOO.util.Dom,
       Event = YAHOO.util.Event;
-      
+
    /**
     * ChangePassword constructor.
-    * 
+    *
     * @param {String} htmlId The HTML id of the parent element
     * @return {Alfresco.ChangePassword} The new UserProfile instance
     * @constructor
@@ -43,7 +43,7 @@
       Alfresco.ChangePassword.superclass.constructor.call(this, "Alfresco.ChangePassword", htmlId, ["button"]);
       return this;
    }
-   
+
    YAHOO.extend(Alfresco.ChangePassword, Alfresco.component.Base,
    {
       /**
@@ -56,14 +56,14 @@
       {
          /**
           * Minimum length of a password
-          * 
+          *
           * @property minPasswordLength
           * @type int
           * @default 8
           */
          minPasswordLength: 8
       },
-   
+
       /**
        * Fired by YUI when parent element is available for scripting.
        * Component initialisation, including instantiation of YUI widgets and event listener binding.
@@ -74,7 +74,7 @@
       {
          // Reference to self used by inline functions
          var me = this;
-         
+
          // Buttons
          this.widgets.ok = Alfresco.util.createYUIButton(this, "button-ok", null,
             {
@@ -82,7 +82,7 @@
                additionalClass: "alf-primary-button"
             });
          this.widgets.cancel = Alfresco.util.createYUIButton(this, "button-cancel", this.onCancel);
-         
+
          // Form definition
          var form = new Alfresco.forms.Form(this.id + "-form");
          form.setSubmitElements(this.widgets.ok);
@@ -95,7 +95,7 @@
                scope: this
             }
          });
-         
+
          // Form field validation
          form.addValidation(this.id + "-oldpassword", Alfresco.forms.validation.mandatory, null, "keyup");
          form.addValidation(this.id + "-newpassword1", Alfresco.forms.validation.mandatory, null, "keyup");
@@ -112,10 +112,10 @@
             max: 255,
             crop: true
          }, "change", this.msg("Alfresco.forms.validation.length.message.min"));
-         
+
          // Initialise the form
          form.init();
-         
+
          // Finally show the main component body here to prevent UI artifacts on YUI button decoration
          Dom.setStyle(this.id + "-body", "display", "block");
       },
@@ -124,7 +124,7 @@
        * YUI WIDGET EVENT HANDLERS
        * Handlers for standard events fired from YUI widgets, e.g. "click"
        */
-      
+
       /**
        * Save Changes form submit success handler
        *
@@ -160,7 +160,7 @@
             });
          }
       },
-      
+
       /**
        * Cancel Changes button click handler
        *
@@ -172,16 +172,16 @@
       {
          this.navigateToProfile();
       },
-      
+
       /**
        * Perform URL navigation back to user profile main page
-       * 
+       *
        * @method navigateToProfile
        */
       navigateToProfile: function UP_navigateToProfile()
       {
-         var pageIndex = document.location.href.lastIndexOf('/');
-         document.location.href = document.location.href.substring(0, pageIndex + 1) + "profile";
+         // Build the target from trusted server-provided constants only - never from document.location (CWE-601)
+         window.location.href = Alfresco.constants.URL_PAGECONTEXT + "user/" + encodeURIComponent(Alfresco.constants.USERNAME) + "/profile";
       }
    });
 })();
