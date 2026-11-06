@@ -19,7 +19,7 @@
 
 /**
  * CalendarAgendaView base component.
- * 
+ *
  * @namespace Alfresco
  * @class Alfresco.CalendarAgendaView
  */
@@ -36,13 +36,13 @@
       toISO8601 = Alfresco.util.toISO8601,
       formatDate = Alfresco.util.formatDate,
       DateMath = YAHOO.widget.DateMath;
-   
+
 YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
 
    /**
     * INIT
     */
-   
+
    /**
     * Triggered after events have loaded - bind necessary Agenda specific events.
     */
@@ -56,27 +56,27 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
 
    /**
     *  CELL RENDERERS
-    */          
+    */
 
    /**
     * Called by the DataTable to render the 'start' cell, which contains the event time and icon..
-    * 
+    *
     * @method renderCellStart
     * @param elCell {object}
     * @param oRecord {object}
     * @param oColumn {object}
     * @param oData {object|string}
-    * 
+    *
     */
-   renderCellStart : function CalendarAgendaView_renderCellStart(elCell, oRecord, oColumn, oData) 
+   renderCellStart : function CalendarAgendaView_renderCellStart(elCell, oRecord, oColumn, oData)
    {
       var data = oRecord.getData(),
       html = "",
       start = formatDate(data.startAt.iso8601, this.msg("date-format.shortTime")),
       end = formatDate(data.endAt.iso8601, this.msg("date-format.shortTime"));
-      
+
       // build up cell content
-      if (data.isAllDay) 
+      if (data.isAllDay)
       {
          html = this.msg("label.all-day")
       } else
@@ -102,64 +102,64 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
 
    /**
     * Called by the DataTable to render the 'start' cell, which contains the event name (what) and link to more info/edit box.
-    * 
+    *
     * @method renderCellName
     * @param elCell {object}
     * @param oRecord {object}
     * @param oColumn {object}
     * @param oData {object|string}
-    * 
+    *
     */
-   renderCellName : function CalendarAgendaView_renderCellName(elCell, oRecord, oColumn, oData) 
+   renderCellName : function CalendarAgendaView_renderCellName(elCell, oRecord, oColumn, oData)
    {
       var data = oRecord.getData(),
       rel = this.getRel(data),
       html = "";
-      
+
       // build up cell content
       html = '<a href="' + data.uri + '" rel="'+ rel + '" class="summary">' + data.name + '</a>';
-      
+
       // write to DOM
       elCell.innerHTML = html;
    },
 
    /**
     * Called by the DataTable to render the 'description' cell, which contains the event description (notes).
-    * 
+    *
     * @method renderCellDescription
     * @param elCell {object}
     * @param oRecord {object}
     * @param oColumn {object}
     * @param oData {object|string}
-    * 
+    *
     */
-   renderCellDescription : function CalendarAgendaView_renderCellDescription(elCell, oRecord, oColumn, oData) 
+   renderCellDescription : function CalendarAgendaView_renderCellDescription(elCell, oRecord, oColumn, oData)
    {
       var data = oRecord.getData(),
          html = this.truncate(data); //run truncation
-      
+
       // write to DOM
       elCell.innerHTML = html;
    },
 
    /**
     * Called by the DataTable to render the 'location' cell, which contains the event location (where) and icon.
-    * 
+    *
     * @method renderCellLocation
     * @param elCell {object}
     * @param oRecord {object}
     * @param oColumn {object}
     * @param oData {object|string}
-    * 
+    *
     */
-   renderCellLocation : function CalendarAgendaView_renderCellLocation(elCell, oRecord, oColumn, oData) 
+   renderCellLocation : function CalendarAgendaView_renderCellLocation(elCell, oRecord, oColumn, oData)
    {
       var data = oRecord.getData(),
       html = "";
-      
+
       // build up cell content
-      html = '<span class="agendaLocation">'+ data.where + '</span>' 
-      if (data.where === "") 
+      html = '<span class="agendaLocation">'+ data.where + '</span>'
+      if (data.where === "")
       {
          Dom.addClass(elCell, "empty");
       }
@@ -169,15 +169,15 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
 
    /**
     * Called by the DataTable to render the 'actions' cell, which contains the action links.
-    * 
+    *
     * @method renderCellActions
     * @param elCell {object}
     * @param oRecord {object}
     * @param oColumn {object}
     * @param oData {object|string}
-    * 
+    *
     */
-   renderCellActions : function CalendarAgendaView_renderCellActions(elCell, oRecord, oColumn, oData) 
+   renderCellActions : function CalendarAgendaView_renderCellActions(elCell, oRecord, oColumn, oData)
    {
       var data = oRecord.getData(),
       html = "",
@@ -188,27 +188,27 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
       isEdit = false,
       isDelete = false,
       me = this;
-      
+
       // build up cell content
       write = this.options.permitToCreateEvents;
       isEdit = data.permissions.isEdit;
       isDelete = data.permissions.isDelete;
 
-      // NOTE: DOM order (Delete, Edit, Info) is reverse of display order (Info, Edit, Delete), due to right float.      
+      // NOTE: DOM order (Delete, Edit, Info) is reverse of display order (Info, Edit, Delete), due to right float.
       if (write && !data.isoutlook) {
          // Delete
          if (isDelete) {
-         actions.push(YAHOO.lang.substitute(template, 
+         actions.push(YAHOO.lang.substitute(template,
          {
             type:"deleteAction",
             label: me.msg("agenda.action.delete.label"),
             tooltip: me.msg("agenda.action.delete.tooltip")
          }));
          }
-         
+
          // Edit
          if (isEdit) {
-         actions.push(YAHOO.lang.substitute(template, 
+         actions.push(YAHOO.lang.substitute(template,
          {
             type:"editAction",
             label: me.msg("agenda.action.edit.label"),
@@ -218,25 +218,25 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
       }
 
       // Info
-      actions.push(YAHOO.lang.substitute(template,  
+      actions.push(YAHOO.lang.substitute(template,
          {
             type:"infoAction summary",
             label: me.msg("agenda.action.info.label"),
             tooltip: me.msg("agenda.action.info.tooltip")
          }));
-      
+
       html = actions.join(" ");
-      
+
       // write to DOM
       elCell.innerHTML = html;
    },
-   
+
    /**
     * Render events to DOM
-    *  
-    *  Called by getEvents. Runs every time an event has been modified. 
+    *
+    *  Called by getEvents. Runs every time an event has been modified.
     *  Delegates actual rendering to other functions. (e.g. renderDay & DataTable cell renderers)
-    *  
+    *
     * @method addEvents
     * @param {Object} events - processed array of view relevant events from getEvents()
     */
@@ -247,7 +247,7 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
          grandParentEl = this.getCalendarContainer(), // this contains all the DataTables
          data = {}, // alias
          tag = this.options.tag || null, // which (if any) tag is selected?
-         sortedEvents = {}, //temporary array used for comparing the new events with and existing events 
+         sortedEvents = {}, //temporary array used for comparing the new events with and existing events
          modifiedDates = [], // this array contains updates days which will be used by the renderer.
          linkStart = '<a href="" class="addEvent">', // used in template below to wrap link text
          linkEnd = '</a>', // start/close tags seperated from template for i18n flexibility
@@ -259,18 +259,18 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
                                 '<p class="instructionTitle">{noevents}</p>'+
                                 '<span>{link}</span>'+
                                 '</div>';
-                                
+
       // set up Data
       this.widgets.Data = this.widgets.Data || {}; // check object instantiation
       data = this.widgets.Data; // alias the data
-      
+
       // check events arg was supplied (if it was, update memory), else read from memory
-      if (events) 
+      if (events)
       {
          // if it was passed in, filter it for multiday events
          events = this.filterMultiday(events);
          this.events = events;
-      } else 
+      } else
       {
          events = this.events;
       }
@@ -282,23 +282,23 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
 
       // Set View Title.
       this.updateTitle();
-      
+
       // sort the events from the passed parameter into the data object according to date (in big endian ISO format YYYY-MM-DD)
       for (var i=0;i<numEvents;i++)
       {
          var event = events[i],
             date = event.displayFrom || event.from;
-            
+
          date = date.split('T')[0];
          sortedEvents[date] = sortedEvents[date] || {events: []};
          sortedEvents[date].events.push(event);
       }
 
       // Check for days that are no longer needed.
-      for (date in data) 
+      for (date in data)
       {
          // if the date exists in the current object, but not the new one, remove it
-         if(!sortedEvents[date]) 
+         if(!sortedEvents[date])
          {
             // remove from DOM
             this.removeDay(date);
@@ -307,27 +307,27 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
          }
       }
 
-      if (numEvents > 0) 
+      if (numEvents > 0)
       {
          // Remove the default text/noEvent text if it exists (both live in same div)
          var noEventsEl = Dom.get(noEventsId);
-         if(noEventsEl) 
+         if(noEventsEl)
          {
             noEventsEl.parentNode.removeChild(noEventsEl);
          }
-         
+
          // loop through each of the sorted events and write to Data store & render if new data has been supplied.
-         for (date in sortedEvents) 
+         for (date in sortedEvents)
          {
             var render = false;
-            
+
             // check to see if data exists (and whether it was rendered) and if it does (and has), only update it if it has changed.
-            // Some dates have data but aren't rendered initially (e.g. multiday events that start before the view starts), but may 
+            // Some dates have data but aren't rendered initially (e.g. multiday events that start before the view starts), but may
             // need rendering this time. Rendering necessitates the dataTable object - hence the check.
-            if (data[date] && data[date].dataTable) 
+            if (data[date] && data[date].dataTable)
             {
                // Converting Objects to JSON strings to enable comparison
-               if (YAHOO.lang.JSON.stringify(data[date].events) != YAHOO.lang.JSON.stringify(sortedEvents[date].events)) 
+               if (YAHOO.lang.JSON.stringify(data[date].events) != YAHOO.lang.JSON.stringify(sortedEvents[date].events))
                {
                   render = true; // day exists, but event data modified
                   data[date].events = sortedEvents[date].events;
@@ -338,51 +338,51 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
                render = true;
                data[date] = sortedEvents[date]
             }
-            
+
             // if it is new or has changed, update data and render.
-            if (render) 
+            if (render)
             {
-               this.renderDay(date); // each day has a different data table to make it easier to render the day header & manage additional day/removing empty days.      
+               this.renderDay(date); // each day has a different data table to make it easier to render the day header & manage additional day/removing empty days.
             }
          }
-      } else 
+      } else
       {
          // Display noEvent text
          var noEventsTemplate = (this.options.permitToCreateEvents)? noEventsEditTemplate : noEventsNoEditTemplate; // show different help text if the user can't create an event.
-         
-         grandParentEl.innerHTML = YAHOO.lang.substitute(noEventsTemplate, 
+
+         grandParentEl.innerHTML = YAHOO.lang.substitute(noEventsTemplate,
          {
             link: this.msg("agenda.add-events", linkStart, linkEnd),
             noevents: this.msg("agenda.no-events")
          });
       }
-      
+
       // These two functions need to be called the first time this is run only.
-      if (!this.eventsInitialised) 
+      if (!this.eventsInitialised)
       {
          this.initAgendaEvents();
          this.eventsInitialised = true;
       }
-      
-      // TODO: This should be triggered by the eventDataLoaded event.     
+
+      // TODO: This should be triggered by the eventDataLoaded event.
       // Has a DOM element been informing the user that data is being loaded?
-      if (this.loadingLabelBuffer && this.loadingEl) 
+      if (this.loadingLabelBuffer && this.loadingEl)
       {
          this.loadingEl.innerHTML = this.loadingLabelBuffer;
          this.loadingEl = this.loadingLabelBuffer = null;
-      }       
+      }
    },
-   
+
    /**
     * Renders the DataTable and Title for each day.
-    * 
+    *
     * @method renderDay
     * @param {String} date - the ISO Formatted (yyyy-mm-dd) string for the date to render
     */
-   renderDay: function CalendarAgendaView_renderDay(date) 
+   renderDay: function CalendarAgendaView_renderDay(date)
    {
       var data = this.widgets.Data[date],
-         schema = 
+         schema =
          [
             {key: "start", formatter:this.bind(this.renderCellStart)}, // both the start and end times.
             {key: "name", formatter:this.bind(this.renderCellName)},
@@ -393,9 +393,9 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
       grandParentEl = this.getCalendarContainer();
 
       // Check we have the data to work with, and that the date to be rendered is valid for the view.
-      // The events have already been filtered to ensure that a portion of them is valid for the current view, 
+      // The events have already been filtered to ensure that a portion of them is valid for the current view,
       // but some multiday events may extend (or begin) out side of the view parameters, so this filtering needs to occur again.
-      if (!data || !this.isValidDateForView(fromISO8601(date))) 
+      if (!data || !this.isValidDateForView(fromISO8601(date)))
       {
          return false;
       }
@@ -409,14 +409,14 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
       data.dataSource = new YAHOO.util.LocalDataSource(data.events);
 
       // does day already have a DataTable?
-      if (data.dataTable) 
+      if (data.dataTable)
       {
          // already exists, so remove and recreate
          // TODO - there must be a better way to update an existing data table than this?
-         this.removeDay(date);         
-      } 
-      
-      var parentEl = document.createElement('div'), // the container for each day. 
+         this.removeDay(date);
+      }
+
+      var parentEl = document.createElement('div'), // the container for each day.
          titleEl = document.createElement('h2'), // the day heading.
          kids = Dom.getChildren(grandParentEl), // all the elements containing DataTables
          dateTime = fromISO8601(date).getTime(), // makes date comparisons easier
@@ -427,27 +427,27 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
       Dom.addClass(titleEl, "dayTitle");
       titleEl.innerHTML = Alfresco.util.relativeDate(fromISO8601(date), this.msg("date-format.dayDateMonth"), {limit: true});
       Dom.setAttribute(titleEl, "title", formatDate(fromISO8601(date), this.msg("date-format.fullDate")));
-      
+
       // Add highlighting on today's element.
-      if (date === today) 
+      if (date === today)
       {
          Dom.addClass(parentEl, "theme-bg-color-2")
       }
-      
+
       // Write elements to DOM
       // Magic insert location finding code.
       // returns an HTML element of the first heading after the date we're looking for. If blank, append to grandParent. else insert before match.
-      for (i in kids) 
+      for (i in kids)
       {
          // the iso date is on the end of the element's id, compare this with current date
-         if (fromISO8601(kids[i].id.slice(-10)).getTime() > dateTime) 
+         if (fromISO8601(kids[i].id.slice(-10)).getTime() > dateTime)
          {
             insertBeforeThisEl = kids[i];
             break;
          }
       }
-      
-      if (insertBeforeThisEl) 
+
+      if (insertBeforeThisEl)
       {
          Dom.insertBefore(titleEl, insertBeforeThisEl);
          Dom.insertBefore(parentEl, insertBeforeThisEl);
@@ -457,18 +457,18 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
          grandParentEl.appendChild(titleEl);
          grandParentEl.appendChild(parentEl);
       }
-         
+
       // instantiate the dataTable.
-      data.dataTable = new YAHOO.widget.DataTable(parentEl, schema, data.dataSource, 
+      data.dataTable = new YAHOO.widget.DataTable(parentEl, schema, data.dataSource,
       {
          onEventHighlightRow: function(event, target){Dom.addClass(target, "yui-dt-highlight")}
       });
-      
+
       // Note Event bindings occur automagically, so action links do not need to be bound to anything.
-      
+
       //Add row hover effects.
-      data.dataTable.subscribe("rowMouseoverEvent", data.dataTable.onEventHighlightRow); 
-      data.dataTable.subscribe("rowMouseoutEvent", data.dataTable.onEventUnhighlightRow); 
+      data.dataTable.subscribe("rowMouseoverEvent", data.dataTable.onEventHighlightRow);
+      data.dataTable.subscribe("rowMouseoutEvent", data.dataTable.onEventUnhighlightRow);
    },
 
    /**
@@ -487,14 +487,14 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
    /**
     *  ACTION HANDLERS
     */
-   
+
    /**
     * Triggered when the previous/next links are clicked.
     */
-   onLoadEvents: function CalendarAgendaView_onLoadEvents(e) 
+   onLoadEvents: function CalendarAgendaView_onLoadEvents(e)
    {
       // prevent multiple load events happening simultaneously.
-      if (!this.loadingEl) 
+      if (!this.loadingEl)
       {
          var step = 30, // number of days to add each time
             dayInMS = 24 * 60 * 60 * 1000; // milliseconds in one day
@@ -504,31 +504,31 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
          this.loadingLabelBuffer = target.innerHTML; // store for later so we can revert
          this.loadingEl = target;
          this.loadingEl.innerHTML = this.msg("message.loading");
-         
+
          // Update the start or end date as appropriate
-         if (YAHOO.util.Selector.test(this.loadingEl, 'a.previousEvents')) 
+         if (YAHOO.util.Selector.test(this.loadingEl, 'a.previousEvents'))
          {
             this.options.startDate = new Date(this.options.startDate.getTime() - (step * dayInMS));
          }
-         else if (YAHOO.util.Selector.test(this.loadingEl, 'a.nextEvents')) 
+         else if (YAHOO.util.Selector.test(this.loadingEl, 'a.nextEvents'))
          {
             this.options.endDate = new Date(this.options.endDate.getTime() + (step * dayInMS));
          }
-         
+
          // get a fresh list of events from server, this calls the render functions on success
          this.getEvents();
-      }      
+      }
       Event.preventDefault(e);
    },
-   
-   
+
+
    /**
     * UTIL METHODS
     */
-   
+
    /**
     * Returns the root element for the calendar DataTables & titles.
-    * 
+    *
     * @method getCalendarContainer
     * @return {HTML Element}
     */
@@ -575,7 +575,7 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
             tagTitleEl = Alfresco.CalendarHelper.renderTemplate('taggedTitle',
             {
                taggedWith: this.msg('label.tagged-with'),
-               tag: this.options.tag
+               tag: $html(this.options.tag)
             });
             this.titleEl.appendChild(tagTitleEl);
          }
@@ -583,15 +583,15 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
 
    /**
     * Truncates the text after a set number of characters and adds the show more link
-    * 
-    * Note: Breaks on previous word boundary and will not increase the visible string length 
-    * - if the show more string added to the truncated text is greater than the original 
-    * string, the original is used. 
-    * 
+    *
+    * Note: Breaks on previous word boundary and will not increase the visible string length
+    * - if the show more string added to the truncated text is greater than the original
+    * string, the original is used.
+    *
     * @method truncate
     * @param {string} text - the text to truncate
     * @param {int} length - the number of characters to show before truncating.
-    * 
+    *
     */
    truncate : function CalendarAgendaView_truncate(event, length)
    {
@@ -601,7 +601,7 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
          text = $html(event.description),
          result = text,
          resultReplace = "";
-      
+
       // don't truncate unless we need to.
       // if we do truncate, we want to ensure that the overhead (showMore text and ellipsis) doesn't result in an actual
       // increase in the string's length.
@@ -612,28 +612,28 @@ YAHOO.lang.augmentObject(Alfresco.CalendarView.prototype, {
          resultReplace = result.replace(/\w+$/, '');
          // but ensure we don't remove the whole string if there are no word boundaries.
          result = (resultReplace.length > 0)? resultReplace : result ;
-         
+
          // add in ellipsis and the html wrapped show more string
          result = '<span class="truncatedText">' + result + ellipsis + " " + '<a href="' + event.uri + '" rel="'+ this.getRel(event) +'" class="showMore">' + showMore + '</a>.'
       }
       return result;
    },
-   
-   expandDescription: function CalendarAgendaView_expandDescription(el) 
+
+   expandDescription: function CalendarAgendaView_expandDescription(el)
    {
       var event = this.getEventObj(el),
          containerEl = el.parentNode,
          text = $html(event.description),
          showLess = '<a href="' + event.uri + '" rel="' + el.rel + '" class="showLess">' + this.msg("agenda.truncate.show-less") + '</a>';
-      
+
       containerEl.innerHTML = text + " " + showLess;
    },
-   
+
    collapseDescription: function CalendarAgendaView_collapseDescription(el)
    {
       var event = this.getEventObj(el),
          containerEl = el.parentNode
-      
+
       containerEl.innerHTML = this.truncate(event);
    }
 }, true);
