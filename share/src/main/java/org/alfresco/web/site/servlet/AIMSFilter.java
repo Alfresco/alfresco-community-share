@@ -88,9 +88,9 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationResp
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimNames;
-import org.springframework.security.oauth2.jwt.JwtDecoderFactory;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.security.oauth2.jwt.JwtTimestampValidator;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -196,8 +196,10 @@ public class AIMSFilter implements Filter
     private final OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient = new RestClientAuthorizationCodeTokenResponseClient();
     private final OAuth2AccessTokenResponseClient<OAuth2RefreshTokenGrantRequest> refreshTokenResponseClient = new RestClientRefreshTokenTokenResponseClient();
     private final ConcurrentHashMap<String, Object> userLocks = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, NimbusJwtDecoder> accessTokenJwtDecoderCache = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, NimbusJwtDecoder> idTokenJwtDecoderCache = new ConcurrentHashMap<>();
     private ThrowableAnalyzer throwableAnalyzer;
-    private final JwtDecoderFactory<ClientRegistration> jwtDecoderFactory = new OidcIdTokenDecoderFactory();
+    private Set<SignatureAlgorithm> signatureAlgorithms;
     private final GrantedAuthoritiesMapper authoritiesMapper = (authorities) -> {
         return authorities;
     };
@@ -240,6 +242,7 @@ public class AIMSFilter implements Filter
             this.clientId = config.getResource();
             this.principalAttribute = config.getPrincipalAttribute();
             this.audience = config.getAudience();
+            this.signatureAlgorithms = resolveSignatureAlgorithms(config.getSignatureAlgorithms());
             // OIDC Specific Setup
             clientRegistrationRepository = context.getBean(ClientRegistrationRepository.class);
             oauth2ClientService = context.getBean(OAuth2AuthorizedClientService.class);
@@ -1149,7 +1152,8 @@ public class AIMSFilter implements Filter
                         }
                     }
 
-                    OidcUser oidcUser = new DefaultOidcUser(Collections.emptyList(), idToken, clientRegistration.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName());
+                    OidcUser oidcUser =
+                        this.createOidcUser(clientRegistration, idToken, accessTokenResponse.getAccessToken());
                     Collection<? extends GrantedAuthority> mappedAuthorities =
                         this.authoritiesMapper.mapAuthorities(oidcUser.getAuthorities());
                     OAuth2LoginAuthenticationToken authenticationResult =
@@ -1416,10 +1420,10 @@ public class AIMSFilter implements Filter
              */
             OidcIdToken idToken = createOidcToken(clientRegistration, accessTokenResponse);
             /**
-             * Since I have already implemented a custom OidcUserService, reuse existing
-             * code to get new user.
+             * Build the OIDC user from the refreshed tokens.
              */
-            OidcUser oidcUser = new DefaultOidcUser(Collections.emptyList(), idToken, clientRegistration.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName());
+            OidcUser oidcUser =
+                this.createOidcUser(clientRegistration, idToken, accessTokenResponse.getAccessToken());
 
             /**
              * Create new authentication(OAuth2LoginAuthenticationToken).
@@ -1522,22 +1526,164 @@ public class AIMSFilter implements Filter
         }
     }
 
+    /**
+     * Verify the Access Token signature and validate its timestamp, issuer and, when configured,
+     * its audience.
+     *
+     * @param clientRegistration the OIDC client registration
+     * @param oAuth2AccessToken  the Access Token returned by the Identity Provider
+     * @return the decoded Access Token
+     * @throws JwtException if the token cannot be decoded or fails validation
+     */
     private Jwt validateAccessToken(ClientRegistration clientRegistration, OAuth2AccessToken oAuth2AccessToken)
         throws JwtException
     {
-        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) this.jwtDecoderFactory.createDecoder(clientRegistration);
-        jwtDecoder.setJwtValidator(createCustomValidator(clientRegistration.getProviderDetails()));
-        jwtDecoder.setClaimSetConverter(
-            new ClaimTypeConverter(OidcIdTokenDecoderFactory.createDefaultClaimTypeConverters()));
+        NimbusJwtDecoder jwtDecoder = getAccessTokenJwtDecoder(clientRegistration);
         return jwtDecoder.decode(oAuth2AccessToken.getTokenValue());
     }
 
+    /**
+     * Verify the ID Token signature and validate its timestamp and the OpenID Connect claims
+     * required for the client registration.
+     *
+     * @param clientRegistration the OIDC client registration
+     * @param idToken            the raw ID Token returned by the Identity Provider
+     * @return the decoded ID Token
+     * @throws JwtException if the token cannot be decoded or fails validation
+     */
     private Jwt validateIdToken(ClientRegistration clientRegistration, String idToken) throws JwtException
     {
-        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) this.jwtDecoderFactory.createDecoder(clientRegistration);
-        jwtDecoder.setJwtValidator(new DelegatingOAuth2TokenValidator(
-            new OAuth2TokenValidator[] { new JwtTimestampValidator(), new OidcIdTokenValidator(clientRegistration) }));
+       NimbusJwtDecoder jwtDecoder = getIdTokenJwtDecoder(clientRegistration);
         return jwtDecoder.decode(idToken);
+    }
+
+    /**
+     * Build the OIDC user from the ID Token. Some Identity Providers do not include the principal
+     * claim in the ID Token, so it is read from the UserInfo endpoint instead when it is missing.
+     *
+     * @param clientRegistration the OIDC client registration
+     * @param idToken            the validated ID Token
+     * @param accessToken        the access token used to call the UserInfo endpoint if required
+     * @return the OIDC user holding the principal attribute
+     */
+    private OidcUser createOidcUser(ClientRegistration clientRegistration, OidcIdToken idToken,
+                                    OAuth2AccessToken accessToken)
+    {
+        String userNameAttributeName = clientRegistration.getProviderDetails()
+            .getUserInfoEndpoint()
+            .getUserNameAttributeName();
+
+        if (idToken.getClaim(userNameAttributeName) != null)
+        {
+            return new DefaultOidcUser(Collections.emptyList(), idToken, userNameAttributeName);
+        }
+
+        if (LOGGER.isDebugEnabled())
+        {
+            LOGGER.debug("Claim '" + userNameAttributeName
+                             + "' is not present in the ID Token, retrieving it from the UserInfo endpoint.");
+        }
+        try
+        {
+            return this.userService.loadUser(new OidcUserRequest(clientRegistration, accessToken, idToken));
+        }
+        catch (OAuth2AuthenticationException exception)
+        {
+            LOGGER.error("Failed to load OIDC user from the UserInfo endpoint. Error code: "
+                             + exception.getError().getErrorCode());
+            throw exception;
+        }
+    }
+
+    /**
+     * Return the Access Token decoder for the given client registration, building and caching it on
+     * first use so the JWKS endpoint is not fetched again on every login or token refresh.
+     *
+     * @param clientRegistration the OIDC client registration
+     * @return the cached Access Token decoder
+     */
+    private NimbusJwtDecoder getAccessTokenJwtDecoder(ClientRegistration clientRegistration)
+    {
+        return this.accessTokenJwtDecoderCache.computeIfAbsent(clientRegistration.getRegistrationId(), id -> {
+            NimbusJwtDecoder jwtDecoder = buildJwtDecoder(clientRegistration);
+            jwtDecoder.setJwtValidator(createCustomValidator(clientRegistration.getProviderDetails()));
+            jwtDecoder.setClaimSetConverter(
+                new ClaimTypeConverter(OidcIdTokenDecoderFactory.createDefaultClaimTypeConverters()));
+            return jwtDecoder;
+        });
+    }
+
+    /**
+     * Return the ID Token decoder for the given client registration, building and caching it on
+     * first use. A dedicated decoder is kept for ID Tokens because they are validated with the
+     * OpenID Connect validators rather than the Access Token ones.
+     *
+     * @param clientRegistration the OIDC client registration
+     * @return the cached ID Token decoder
+     */
+    private NimbusJwtDecoder getIdTokenJwtDecoder(ClientRegistration clientRegistration)
+    {
+        return this.idTokenJwtDecoderCache.computeIfAbsent(clientRegistration.getRegistrationId(), id -> {
+            NimbusJwtDecoder jwtDecoder = buildJwtDecoder(clientRegistration);
+            jwtDecoder.setJwtValidator(new DelegatingOAuth2TokenValidator<>(new JwtTimestampValidator(),
+                                                                           new OidcIdTokenValidator(clientRegistration)));
+            jwtDecoder.setClaimSetConverter(
+                new ClaimTypeConverter(OidcIdTokenDecoderFactory.createDefaultClaimTypeConverters()));
+            return jwtDecoder;
+        });
+    }
+
+    /**
+     * Build a {@link NimbusJwtDecoder} that accepts every configured JWS signature algorithm, so a
+     * new algorithm can be supported by changing the {@code aims.signatureAlgorithms} property only.
+     *
+     * @param clientRegistration the OIDC client registration (provides the JWKS URI)
+     * @return a decoder configured with the resolved signature algorithms
+     */
+    private NimbusJwtDecoder buildJwtDecoder(ClientRegistration clientRegistration)
+    {
+        if (LOGGER.isDebugEnabled())
+        {
+            LOGGER.debug("Building JWT decoder with algorithms: " + this.signatureAlgorithms);
+        }
+        return NimbusJwtDecoder
+            .withJwkSetUri(clientRegistration.getProviderDetails().getJwkSetUri())
+            .jwsAlgorithms(algorithms -> algorithms.addAll(this.signatureAlgorithms))
+            .build();
+    }
+
+    /**
+     * Convert the configured algorithm names into {@link SignatureAlgorithm} values. Unknown names
+     * are ignored with a warning, and RS256 is used when no valid algorithm is configured.
+     *
+     * @param configuredAlgorithms algorithm names from configuration (e.g. {@code [RS256, PS256]})
+     * @return the resolved set of signature algorithms
+     */
+    private Set<SignatureAlgorithm> resolveSignatureAlgorithms(Set<String> configuredAlgorithms)
+    {
+        Set<SignatureAlgorithm> resolved = new LinkedHashSet<>();
+        if (configuredAlgorithms != null)
+        {
+            for (String name : configuredAlgorithms)
+            {
+                SignatureAlgorithm algorithm = SignatureAlgorithm.from(name);
+                if (algorithm != null)
+                {
+                    resolved.add(algorithm);
+                }
+                else if (LOGGER.isWarnEnabled())
+                {
+                    LOGGER.warn("Ignoring unknown AIMS JWS signature algorithm: " + name);
+                }
+            }
+        }
+
+        if (resolved.isEmpty())
+        {
+            LOGGER.warn("No valid AIMS JWS signature algorithm configured; defaulting to RS256.");
+            resolved.add(SignatureAlgorithm.RS256);
+        }
+        return resolved;
     }
 
     private static boolean isAuthTokenExpired(Instant authTokenExpiration)
