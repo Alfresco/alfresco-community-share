@@ -61,9 +61,11 @@ public class AIMSConfig
    private String logoutClientIDValue;
    private static final String REALMS = "realms";
     private static final String DEFAULT_SCOPES = "openid,profile,email";
+    private static final String DEFAULT_SIGNATURE_ALGORITHMS = "RS256";
     private String shareContext;
    private String atIssuerAttribute;
    private Set<String> scopes;
+   private Set<String> signatureAlgorithms;
    private String[] extraEndpointsToRedirect;
    private boolean scopeValidationDisabled;
    private boolean allowIdpBypass;
@@ -83,6 +85,7 @@ public class AIMSConfig
         this.setPublicClient(Boolean.parseBoolean(config.getConfigElement("publicClient").getValue()));
         this.setAudience(config.getConfigElementValue("audience"));
         this.setScopes(config.getConfigElementValue("scopes"));
+        this.setSignatureAlgorithms(config.getConfigElementValue("signatureAlgorithms"));
         this.setAuthorizationAdditionalParams(config.getConfigElementValue("authorizationAdditionalParams"));
         this.setAtIssuerAttribute(config.getConfigElementValue("atIssuerAttribute"));
         if (publicClient)
@@ -453,6 +456,21 @@ public class AIMSConfig
     public Map<String, String> getAuthorizationAdditionalParams()
     {
         return authorizationAdditionalParams;
+    }
+
+    public void setSignatureAlgorithms(String signatureAlgorithms)
+    {
+        this.signatureAlgorithms = Stream.of(Optional.ofNullable(signatureAlgorithms)
+                .filter(StringUtils::isNotBlank)
+                .orElse(DEFAULT_SIGNATURE_ALGORITHMS).split(","))
+            .map(String::trim)
+            .filter(StringUtils::isNotBlank)
+            .collect(Collectors.toUnmodifiableSet());
+    }
+
+    public Set<String> getSignatureAlgorithms()
+    {
+        return signatureAlgorithms;
     }
 
     public String getAtIssuerAttribute()

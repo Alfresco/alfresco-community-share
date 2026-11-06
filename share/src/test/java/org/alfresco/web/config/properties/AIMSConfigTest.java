@@ -68,6 +68,7 @@ public class AIMSConfigTest extends BaseTest
         System.clearProperty("aims.enableBasicAuth");
         System.clearProperty("aims.secret");
         System.clearProperty("aims.scopes");
+        System.clearProperty("aims.signatureAlgorithms");
         System.clearProperty("aims.authorization.additional-params");
         System.clearProperty("aims.atIssuerAttribute");
         System.clearProperty("aims.scopeValidationDisabled");
@@ -258,5 +259,62 @@ public class AIMSConfigTest extends BaseTest
         Assert.assertFalse(aimsConfig.isEnabled());
         Assert.assertEquals(Set.of("customScope1", "customScope2"), aimsConfig.getScopes());
         Assert.assertEquals("access_token_issuer", aimsConfig.getAtIssuerAttribute());
+    }
+
+    /** Test that RS256 and PS256 are both accepted out of the box. */
+    public void testSignatureAlgorithmsShippedDefault()
+    {
+        this.clearSystemProperties();
+
+        AIMSConfig aimsConfig = this.initAIMSConfig();
+
+        Assert.assertEquals(Set.of("RS256", "PS256"), aimsConfig.getSignatureAlgorithms());
+    }
+
+    /** Test that the configured property overrides the shipped default. */
+    public void testSignatureAlgorithmsAreReadFromProperty()
+    {
+        this.clearSystemProperties();
+        System.setProperty("aims.signatureAlgorithms", "RS256,ES256,PS512");
+
+        AIMSConfig aimsConfig = this.initAIMSConfig();
+
+        Assert.assertEquals(Set.of("RS256", "ES256", "PS512"), aimsConfig.getSignatureAlgorithms());
+    }
+
+    /**
+     * Test that a deployment restricting the property to a single algorithm, as expected for an
+     * Identity Provider that only signs with RS256, keeps that algorithm on its own.
+     */
+    public void testSignatureAlgorithmsCanBeRestrictedToRS256()
+    {
+        this.clearSystemProperties();
+        System.setProperty("aims.signatureAlgorithms", "RS256");
+
+        AIMSConfig aimsConfig = this.initAIMSConfig();
+
+        Assert.assertEquals(Set.of("RS256"), aimsConfig.getSignatureAlgorithms());
+    }
+
+    /** Test that whitespace is trimmed and blank entries are discarded. */
+    public void testSignatureAlgorithmsAreTrimmedAndBlankEntriesIgnored()
+    {
+        this.clearSystemProperties();
+
+        AIMSConfig aimsConfig = this.initAIMSConfig();
+        aimsConfig.setSignatureAlgorithms(" RS256 , , PS256 ");
+
+        Assert.assertEquals(Set.of("RS256", "PS256"), aimsConfig.getSignatureAlgorithms());
+    }
+
+    /** Test that a blank value falls back to the RS256 default. */
+    public void testSignatureAlgorithmsFallBackToDefaultWhenBlank()
+    {
+        this.clearSystemProperties();
+
+        AIMSConfig aimsConfig = this.initAIMSConfig();
+        aimsConfig.setSignatureAlgorithms("   ");
+
+        Assert.assertEquals(Set.of("RS256"), aimsConfig.getSignatureAlgorithms());
     }
 }
