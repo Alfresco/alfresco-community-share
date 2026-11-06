@@ -145,8 +145,9 @@
        */
       navigateToProfile: function UP_navigateToProfile()
       {
-         var pageIndex = document.location.href.lastIndexOf('/');
-         document.location.href = document.location.href.substring(0, pageIndex + 1) + "profile";
+         // Build the target from trusted values only - never derive it from the current URL (CWE-601)
+         document.location.href = Alfresco.constants.URL_PAGECONTEXT + "user/" +
+               encodeURIComponent(Alfresco.constants.USERNAME) + "/profile";
       }
    });
 })();
