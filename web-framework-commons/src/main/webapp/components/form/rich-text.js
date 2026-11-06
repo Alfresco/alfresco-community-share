@@ -132,24 +132,28 @@
        */
       _renderTinyMCEEditor: function RichTextControl__renderTinyMCEEditor()
       {
+         var _this = this;
+
          // create the editor instance
          this.editor = new Alfresco.util.RichEditor("tinyMCE", this.id, this.options.editorParameters);
-         
-         if (!this.options.currentValue || this.options.currentValue.indexOf("mimetype=text/html") !== -1)
+
+         // TinyMCE 8+ uses editor.options instead of the removed editor.settings API
+         var editorInstance = this.editor.getEditor();
+         if (editorInstance && editorInstance.options && (!this.options.currentValue || this.options.currentValue.indexOf("mimetype=text/html") !== -1))
          {
-            this.editor.getEditor().settings.forced_root_block = "p";
+            editorInstance.options.set("forced_root_block", "p");
          }
+
          // render and register event handler
          this.editor.render();
 
          // Add validation to the rich text editor on change
          this.editor.subscribe('change', function (e)
          {
-            _this._handleContentChange()
+            _this._handleContentChange();
          }, this, true);
-         
-         // Make sure we persist the dom content from the editor in to the hidden textarea when appropriate 
-         var _this = this;
+
+         // Make sure we persist the dom content from the editor in to the hidden textarea when appropriate
          this.editor.getEditor().on('BeforeSetContent', function(e) {
             _this._handleContentChange();
          });
