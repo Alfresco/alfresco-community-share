@@ -31,8 +31,9 @@ env:
   GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
   GITHUB_ACTIONS_DEPLOY_TIMEOUT: 120
   SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
-  CHROME_VERSION: "132.0.6834.159-1"
-  CHROME_DOWNLOAD_URL: "https://mirror.cs.uchicago.edu/google-chrome/pool/main/g/google-chrome-stable"
+  CHROME_VERSION: "133.0.6943.141-1"
+  # SHA-256 of chrome-linux64.zip published by Google for the pinned version
+  CHROME_SHA256: "0e51d229098b5c2330ec91190bae6e48bb5b8a5cff2e2593b03af573221816e1"
   ENABLE_AI_HEALING: "true"
   MAX_HEALING_ATTEMPTS: 3
   AWS_REGION: "us-east-1"
@@ -897,17 +898,7 @@ jobs:
         with:
           python-version: 3.x
       - name: Install google chrome version
-        run: |
-          sudo apt-get purge -y google-chrome-stable || true
-          sudo apt-get autoremove -y
-          rm -rf ~/.config/google-chrome
-          rm -rf ~/.cache/google-chrome
-          wget -q ${{ env.CHROME_DOWNLOAD_URL }}/google-chrome-stable_${{ env.CHROME_VERSION }}_amd64.deb
-          sudo apt-get update
-          sudo apt-get install -y ./google-chrome-stable_${{ env.CHROME_VERSION }}_amd64.deb
-          sudo apt-mark hold google-chrome-stable
-          google-chrome --version
-          sudo apt-mark showhold | grep google-chrome-stable
+        run: bash scripts/ci/install_chrome.sh
 
       - name: "Init"
         env:
