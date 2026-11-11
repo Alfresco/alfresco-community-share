@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Sanity Test Suite9" parallel="classes" thread-count="3">
+<suite name="Sanity Test Suite9" parallel="classes" thread-count="1">
    <listeners>
       <listener class-name="org.alfresco.share.RetryListener"/>
    </listeners>
@@ -17,7 +17,7 @@
             <exclude name="office"/>
             <exclude name="TransformationServer"/>
             <exclude name="xsstests"/>
-            <exclude name="admin-tools"></exclude>
+            <exclude name="admin-tools"/>
             <include name="sites"/>
             <exclude name="user-dashboard"/>
             <exclude name="site-dashboard"/>

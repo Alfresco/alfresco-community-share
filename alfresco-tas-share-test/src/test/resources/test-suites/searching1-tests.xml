@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Sanity Test Suite3" parallel="classes" thread-count="3">
+<suite name="Sanity Test Suite3" parallel="classes" thread-count="1">
    <listeners>
       <listener class-name="org.alfresco.share.RetryListener"/>
    </listeners>

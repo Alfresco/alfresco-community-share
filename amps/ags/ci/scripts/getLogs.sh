@@ -4,14 +4,27 @@ set -x
 # Display running containers
 docker ps
 
-alfrescoContainerId=$(docker ps -a | grep '\-alfresco-' | awk '{print $1}')
-shareContainerId=$(docker ps -a | grep '\-share-' | awk '{print $1}')
-solrContainerId=$(docker ps -a | grep '\-search-' | awk '{print $1}')
+collect_logs() {
+  local containerNamePattern="$1"
+  local outputFile="$2"
+  local containerIds
 
-docker logs $alfrescoContainerId > alfresco.log
-if [ -n "$shareContainerId" ]; then
-  docker logs $shareContainerId > share.log
-fi
-if [ -n "$solrContainerId" ]; then
-  docker logs $solrContainerId > solr.log
-fi
+  containerIds=$(docker ps -aq --filter "name=${containerNamePattern}")
+  if [ -z "$containerIds" ]; then
+    return
+  fi
+
+  : > "$outputFile"
+  while IFS= read -r containerId; do
+    [ -n "$containerId" ] || continue
+    {
+      echo "===== ${containerId} ====="
+      docker logs "$containerId" 2>&1 || true
+      echo
+    } >> "$outputFile"
+  done <<< "$containerIds"
+}
+
+collect_logs "-alfresco-" "alfresco.log"
+collect_logs "-share-" "share.log"
+collect_logs "-search-" "search.log"
