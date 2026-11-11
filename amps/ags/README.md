@@ -3,72 +3,12 @@
 ## Contributing
 Please refer to our [How to contribute](/CONTRIBUTING.md) guide and our [Contributor Covenant Code of Conduct](/CODE_OF_CONDUCT.md).
 
-## Configuring the ~/.m2/settings.xml file for local development
-In order to be able to pull all the necessary project dependencies, the alfresco Nexus
-repositories should be added in your local Maven configuration on your workstation.
+## Configuring Maven for local development
+The project poms already declare the public Alfresco Maven repository
+(`https://artifacts.hyland.dev/public/alfresco-public/maven/`, anonymous access) and Maven Central,
+so no extra `~/.m2/settings.xml` configuration is needed to build the Community modules.
 
-Update your `~/.m2/settings.xml` file with the _repositories_, _pluginRepositories_ and, optionally,
-the _servers_ defined in the following snippet:
-```xml
-<settings>
-   <profiles>
-      <profile>
-         <id>alfresco-internal</id>
-         <activation>
-            <activeByDefault>true</activeByDefault>
-         </activation>
-
-         <repositories>
-            <repository>
-               <id>alfresco-internal</id>
-               <releases>
-                  <enabled>true</enabled>
-               </releases>
-               <name>Alfresco Internal Repository</name>
-               <url>https://artifacts.alfresco.com/nexus/content/groups/internal</url>
-            </repository>
-         </repositories>
-
-         <pluginRepositories>
-            <pluginRepository>
-               <id>alfresco-internal</id>
-               <name>Alfresco Internal Repository</name>
-               <url>https://artifacts.alfresco.com/nexus/content/groups/public</url>
-            </pluginRepository>
-         </pluginRepositories>
-      </profile>
-   </profiles>
-
-   <servers>
-      <server>
-         <id>alfresco-internal</id>
-         <username>${env.MAVEN_USERNAME}</username>
-         <password>${env.MAVEN_PASSWORD}</password>
-      </server>
-   </servers>
-</settings>
-```
-
-The `alfresco-internal` server definition is required by the Alfresco _internal_ repository
-group, and it should use your own Alfresco Nexus credentials. If only the _public_ repository
-group is used (e.g., for the Community build) this server definition can be skipped.
-
-Optionally, you can also re-define the Maven Central repository, to increase the dependency download
-speed (look up dependencies first in Maven Central, then in Alfresco Nexus). Define the
-_Central Repository_ in both the `<repositories/>` and `<pluginRepositories/>` sections before
-the _alfresco-internal_ repository:
-```xml
-<repository>
-   <id>central</id>
-   <name>Central Repository</name>
-   <url>https://repo.maven.apache.org/maven2</url>
-   <layout>default</layout>
-   <snapshots>
-      <enabled>false</enabled>
-   </snapshots>
-</repository>
-```
-
+Browse the public repository at <https://artifacts.hyland.dev/public/alfresco-public/maven/>.
 
 For additional instructions you can check the official Maven documentation:
 * [setting up repositories](https://maven.apache.org/guides/mini/guide-multiple-repositories.html)
@@ -157,8 +97,8 @@ Thereafter start the Share instance and run automation tests as described above.
 
 ## SNAPSHOT dependencies
 If you're building Enterprise RM, the base project (Community) is pulled in via a snapshot dependency configured in maven.
-This dependency will either be loaded from your local .m2 cache, or from Nexus if the version in your .m2 doesn't exist or is old
-('old' in maven terms is anything over 24 hours old). If maven fetches community dependencies from Nexus, then it's unlikely to contain your changes.
+This dependency will either be loaded from your local .m2 cache, or from the Maven repository if the version in your .m2 doesn't exist or is old
+('old' in maven terms is anything over 24 hours old). If maven fetches community dependencies from the Maven repository, then it's unlikely to contain your changes.
 You want to always use the version in your local cache - this means either doing a daily build at the root project level
 that pushes a new copy of the correct version into your cache, or alternatively you could run mvn with the
 `--no-snapshot-dependency` (or `-nsu`) option, which won't try to download a newer version.
@@ -169,7 +109,7 @@ This project follows the usual Alfresco Coding Standards. If you use Eclipse or 
 ## Surf build errors
 If you get:
 ```
-[ERROR] Failed to execute goal on project alfresco-rm-community-share: Could not resolve dependencies for project org.alfresco:alfresco-rm-community-share:amp:2.6-SNAPSHOT: Failed to collect dependencies at org.alfresco.surf:spring-surf-api:jar:6.3 -> org.alfresco.surf:spring-surf:jar:${dependency.surf.version}: Failed to read artifact descriptor for org.alfresco.surf:spring-surf:jar:${dependency.surf.version}: Could not transfer artifact org.alfresco.surf:spring-surf:pom:${dependency.surf.version} from/to alfresco-internal (https://artifacts.alfresco.com/nexus/content/groups/private): Not authorized , ReasonPhrase:Unauthorized. -> [Help 1]
+[ERROR] Failed to execute goal on project alfresco-rm-community-share: Could not resolve dependencies for project org.alfresco:alfresco-rm-community-share:amp:2.6-SNAPSHOT: Failed to collect dependencies at org.alfresco.surf:spring-surf-api:jar:6.3 -> org.alfresco.surf:spring-surf:jar:${dependency.surf.version}: Failed to read artifact descriptor for org.alfresco.surf:spring-surf:jar:${dependency.surf.version}: Could not transfer artifact org.alfresco.surf:spring-surf:pom:${dependency.surf.version} from/to alfresco-internal (repository URL): Not authorized , ReasonPhrase:Unauthorized. -> [Help 1]
 ```
 
 then please re-run with `-Ddependency.surf.version=6.3`

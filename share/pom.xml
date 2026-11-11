@@ -194,7 +194,7 @@
             </exclusions>
         </dependency>
 
-        <!-- Dependency on Alfresco patched version of Rhino available in artifacts.alfresco.com -->
+        <!-- Dependency on Alfresco patched version of Rhino available in the public Maven repository -->
         <dependency>
             <groupId>org.mozilla</groupId>
             <artifactId>rhino</artifactId>
@@ -306,7 +306,7 @@
             </exclusions>
         </dependency>
 
-        <!-- Dependency on YUI ZIP (custom version deployed at artifacts.alfresco.com) -->
+        <!-- Dependency on YUI ZIP (custom version deployed to the public Maven repository) -->
         <dependency>
             <groupId>com.yahoo.platform.yui</groupId>
             <artifactId>yui</artifactId>
