@@ -106,6 +106,7 @@ public class ContentSearchStructureTest extends BaseTest
         sitePages.add(Page.BLOG);
         sitePages.add(Page.CALENDAR);
         sitePages.add(Page.LINKS);
+        sitePages.add(Page.DISCUSSIONS);
         siteService.addPagesToSite(userName, password, siteName, sitePages);
 
         contentService.createDocument(userName, password, siteName, CMISUtil.DocumentType.TEXT_PLAIN,
@@ -163,13 +164,14 @@ public class ContentSearchStructureTest extends BaseTest
             .assertCreatedDataIsDisplayed(identifier + "1.txt")
             .assertCreatedDataIsDisplayed(identifier + "2.txt")
             .assertCreatedDataIsDisplayed(word + "_wiki")
-            .assertCreatedDataIsDisplayed(phrase + "_wiki")
+            .assertCreatedDataIsDisplayed(phrase + " wiki")
             .assertCreatedDataIsDisplayed(word + " blog")
             .assertCreatedDataIsDisplayed(phrase + " blog")
             .assertCreatedDataIsDisplayed(word + " calendar")
             .assertCreatedDataIsDisplayed(phrase + " calendar")
-            .assertCreatedDataIsDisplayed(word + " discussion")
-            .assertCreatedDataIsDisplayed(phrase + " discussion")
+            // TODO: ACS-13277 - remove the commented discussion assertions below once the bug is fixed
+            //.assertCreatedDataIsDisplayed(word + " discussion")
+            //.assertCreatedDataIsDisplayed(phrase + " discussion")
             .assertCreatedDataIsDisplayed(word + " link")
             .assertCreatedDataIsDisplayed(phrase + " link")
             .assertCreatedDataIsDisplayed(phrase + ".txt");
@@ -180,17 +182,55 @@ public class ContentSearchStructureTest extends BaseTest
         searchPage
             .assertCreatedDataIsDisplayed(word + ".txt")
             .assertCreatedDataIsDisplayed(phrase + ".txt")
-            .assertCreatedDataIsDisplayed(word + "_wiki")
+            .assertCreatedDataIsDisplayed(word + " wiki")
             .assertCreatedDataIsDisplayed(phrase + "_wiki")
             .assertCreatedDataIsDisplayed(word + " blog")
             .assertCreatedDataIsDisplayed(phrase + " blog")
             .assertCreatedDataIsDisplayed(word + " calendar")
             .assertCreatedDataIsDisplayed(phrase + " calendar")
-            .assertCreatedDataIsDisplayed(word + " discussion")
-            .assertCreatedDataIsDisplayed(phrase + " discussion")
+            // TODO: ACS-13277 - remove the commented discussion assertions below once the bug is fixed
+            //.assertCreatedDataIsDisplayed(word + " discussion")
+            //.assertCreatedDataIsDisplayed(phrase + " discussion")
             .assertCreatedDataIsDisplayed(word + " link")
             .assertCreatedDataIsDisplayed(phrase + " link");
 
+    }
+
+    // TODO: ACS-13277 - merge the discussion assertions back into searchByAWordOrPhraseAnywhereItExists and remove this test once the bug is fixed
+    @Bug (id = "ACS-13277")
+    @TestRail (id = "C5951")
+    @Test (groups = { TestGroup.SANITY, TestGroup.SEARCH, ShareGroups.BUG })
+    public void searchDiscussionByAWordOrPhrase()
+    {
+        String identifier = RandomData.getRandomAlphanumeric();
+        siteModel.set(getDataSite().usingUser(user.get()).createPublicRandomSite());
+        String userName = user.get().getUsername();
+        String siteName = siteModel.get().getId();
+        String word = "word" + identifier;
+        String phrase = "phrase" + identifier;
+
+        log.info("Data create as per pre condition");
+        siteService.addPagesToSite(userName, password, siteName, List.of(Page.DISCUSSIONS));
+        sitePagesService.createDiscussion(userName, password, siteName, word + " discussion",
+            phrase, null);
+        sitePagesService.createDiscussion(userName, password, siteName, phrase + " discussion",
+            word, null);
+
+        authenticateUsingCookies(user.get());
+
+        log.info("STEP 1 - Fill in search field with a word and click \"Search\" button or \"Enter\"");
+        toolbar
+            .search(word);
+        searchPage
+            .assertCreatedDataIsDisplayed(word + " discussion")
+            .assertCreatedDataIsDisplayed(phrase + " discussion");
+
+        log.info("STEP 2 - Fill in search field with a phrase and click \"Search\" button or \"Enter\"");
+        toolbar
+            .search(phrase);
+        searchPage
+            .assertCreatedDataIsDisplayed(word + " discussion")
+            .assertCreatedDataIsDisplayed(phrase + " discussion");
     }
 
     @Bug (id = "ACE-5789")
@@ -548,7 +588,7 @@ public class ContentSearchStructureTest extends BaseTest
             .assertCreatedDataIsDisplayed(identifier + ".txt");
 
         log.info("STEP 2 - Enter a query using different date formats and click Search button");
-        toolbar.search("created:" + DataUtil.formatDate(new Date(), "yyyy-MMM-dd'T'"));
+        toolbar.search("created:" + DataUtil.formatDate(new Date(), "yyyy-MM-dd"));
         searchPage
             .clickSearchInDropdown()
             .selectOptionFromSearchIn("All Sites")

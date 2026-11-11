@@ -507,6 +507,8 @@ jobs:
         run: |
           docker load -i docker-images/alfresco-share.tar
           docker images
+      - name: Increase vm.max_map_count for Elasticsearch
+        run: sudo sysctl -w vm.max_map_count=262144
       - name: Start Alfresco
         run: bash amps/ags/ci/scripts/startAlfresco.sh packaging/docker/docker-compose
       - name: Wait for Alfresco to start
