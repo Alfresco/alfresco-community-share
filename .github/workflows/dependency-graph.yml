@@ -24,13 +24,15 @@ jobs:
     # Submitting the dependency snapshot to the GitHub dependency graph requires write access.
     permissions:
       contents: write
+      id-token: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: Alfresco/alfresco-build-tools/.github/actions/maven-dependency-scan@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/maven-dependency-scan@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
         with:
           java-version: '21'
           maven-version: '3.9.9'
           maven-args: -Dscopes=compile,runtime -Pags
-          maven-username: ${{ secrets.NEXUS_USERNAME }}
-          maven-password: ${{ secrets.NEXUS_PASSWORD }}
           maven-settings-path: ".ci.settings.xml"

@@ -168,10 +168,6 @@
                     <groupId>org.apache.abdera</groupId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>geronimo-stax-api_1.0_spec</artifactId>
-                    <groupId>org.apache.geronimo.specs</groupId>
-                </exclusion>
-                <exclusion>
                     <artifactId>geronimo-activation_1.0.2_spec</artifactId>
                     <groupId>org.apache.geronimo.specs</groupId>
                 </exclusion>
@@ -184,17 +180,17 @@
                     <groupId>javax.servlet</groupId>
                 </exclusion>
                 <exclusion>
-                    <groupId>org.jvnet.staxex</groupId>
-                    <artifactId>stax-ex</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>org.alfresco</groupId>
                     <artifactId>alfresco-core</artifactId>
                 </exclusion>
+              <exclusion>
+                <groupId>javax.xml.stream</groupId>
+                <artifactId>stax-api</artifactId>
+              </exclusion>
             </exclusions>
         </dependency>
 
-        <!-- Dependency on Alfresco patched version of Rhino available in artifacts.alfresco.com -->
+        <!-- Dependency on Alfresco patched version of Rhino available in the Alfresco Maven repository -->
         <dependency>
             <groupId>org.mozilla</groupId>
             <artifactId>rhino</artifactId>
@@ -240,11 +236,6 @@
             <type>war</type>
             <optional>true</optional>
             <!-- MNT-10118 -->
-        </dependency>
-        <dependency>
-            <artifactId>stax-api</artifactId>
-            <groupId>stax</groupId>
-            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.hazelcast</groupId>
@@ -306,7 +297,7 @@
             </exclusions>
         </dependency>
 
-        <!-- Dependency on YUI ZIP (custom version deployed at artifacts.alfresco.com) -->
+        <!-- Dependency on YUI ZIP (custom version deployed to the Alfresco Maven repository) -->
         <dependency>
             <groupId>com.yahoo.platform.yui</groupId>
             <artifactId>yui</artifactId>

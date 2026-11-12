@@ -5,14 +5,16 @@ It is intended as the baseline before refactoring secrets from workflow-global `
 
 > Notes
 >
-> - Maven/Nexus, Quay and DockerHub credentials are consumed via `.ci.settings.xml` and `scripts/ci/settings.xml`.
+> - Maven repository, Quay and DockerHub credentials are consumed via `.ci.settings.xml`.
+> - Maven dependencies resolve through the `alfresco-internal` mirror with short-lived credentials from the `cloudsmith-auth` step (GitHub OIDC, needs `id-token: write`). No long-lived secret is needed to pull.
 > - `scripts/ci/init.sh` performs Docker logins to DockerHub and Quay; therefore any job that runs `init.sh` requires Docker/Quay creds.
 > - The current GitHub Actions pipelines upload/download test results using **GitHub Actions artifacts** (`actions/upload-artifact`, `actions/download-artifact`), not S3.
 
 ## Secret inventory (by purpose)
 
-### Maven / Nexus (artifact repository)
-- `NEXUS_USERNAME` / `NEXUS_PASSWORD` → exported as `MAVEN_USERNAME` / `MAVEN_PASSWORD`
+### Maven (artifact repository)
+- Pull: `cloudsmith-auth` exports `CLOUDSMITH_USERNAME` / `CLOUDSMITH_API_KEY` (OIDC, no secret)
+- Deploy (release job only, until Phase 2): `NEXUS_USERNAME` / `NEXUS_PASSWORD` → exported as `MAVEN_USERNAME` / `MAVEN_PASSWORD`
 
 ### Container registries
 - `QUAY_USERNAME` / `QUAY_PASSWORD`
@@ -57,7 +59,7 @@ It is intended as the baseline before refactoring secrets from workflow-global `
 
 | Secret (env or step input) | Source secret | Where used (job/step/script) |
 |---|---|---|
-| `MAVEN_USERNAME`, `MAVEN_PASSWORD` | `NEXUS_USERNAME`, `NEXUS_PASSWORD` | Jobs that build/test with Maven and read `.ci.settings.xml`: `build`, `veracode_sast_share`, `build_docker_image`, `unit_tests`, `ags_unit_tests`, `community_shared_UI_configuration`, `enterprise_shared_UI_configuration` (and any job invoking Maven via `build.sh`) |
+| `CLOUDSMITH_USERNAME`, `CLOUDSMITH_API_KEY` | none (OIDC via `cloudsmith-auth`) | Jobs that build/test with Maven and read `.ci.settings.xml`: `build`, `veracode_sast_share`, `build_docker_image`, `unit_tests`, `ags_unit_tests`, `test`, `community_shared_UI_configuration`, `enterprise_shared_UI_configuration` (and any job invoking Maven via `build.sh`) |
 | `QUAY_USERNAME`, `QUAY_PASSWORD` | `QUAY_USERNAME`, `QUAY_PASSWORD` | Any job running `scripts/ci/init.sh` (Docker login): `build`, `veracode_sast_share`, `build_docker_image`, `unit_tests`, `ags_unit_tests`, `test`, `community_shared_UI_configuration`, `enterprise_shared_UI_configuration` |
 | `DOCKERHUB_USERNAME`, `DOCKERHUB_PASSWORD` | `DOCKER_USERNAME`, `DOCKER_PASSWORD` | Any job running `scripts/ci/init.sh` (Docker login): `build`, `veracode_sast_share`, `build_docker_image`, `unit_tests`, `ags_unit_tests`, `test`, `community_shared_UI_configuration`, `enterprise_shared_UI_configuration` |
 | `SRCCLR_API_TOKEN` | `SRCCLR_API_TOKEN` | Job `build` (matrix stage `source_clear`) via `scripts/ci/source_clear.sh` |
@@ -92,7 +94,8 @@ Additional notes:
 
 | Secret (env or step input) | Source secret | Where used (job/step/script) |
 |---|---|---|
-| `MAVEN_USERNAME`, `MAVEN_PASSWORD` | `NEXUS_USERNAME`, `NEXUS_PASSWORD` | Job `release` (Maven install + `scripts/ci/maven_release.sh`) |
+| `MAVEN_USERNAME`, `MAVEN_PASSWORD` | `NEXUS_USERNAME`, `NEXUS_PASSWORD` | Job `release` (deploy, until Phase 2) |
+| `CLOUDSMITH_USERNAME`, `CLOUDSMITH_API_KEY` | none (OIDC via `cloudsmith-auth`) | Jobs `release` and `update_downstream` (Maven dependency resolution) |
 | `QUAY_USERNAME`, `QUAY_PASSWORD` | `QUAY_USERNAME`, `QUAY_PASSWORD` | Jobs `release`, `update_downstream`, `mirroring` because they run `scripts/ci/init.sh` (Docker login) |
 | `DOCKERHUB_USERNAME`, `DOCKERHUB_PASSWORD` | `DOCKERHUB_USERNAME`, `DOCKERHUB_PASSWORD` | Jobs `release`, `update_downstream`, `mirroring` because they run `scripts/ci/init.sh` (Docker login) |
 | `GIT_USERNAME`, `GIT_PASSWORD` | `BOT_GITHUB_USERNAME`, `BOT_GITHUB_TOKEN` | Job `release` via `scripts/ci/maven_release.sh`; job `mirroring` via `scripts/ci/mirror-community-repo.sh` |

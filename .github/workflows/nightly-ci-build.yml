@@ -16,8 +16,6 @@ on:
 env:
   JAVA_VERSION: "21"
   HOSTED_ZONE: dev.envalfresco.com
-  MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-  MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
   QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
   QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
   DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -44,13 +42,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
 
   build:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     if: >
       !contains(github.event.head_commit.message, '[no build]') &&
       inputs.commitMessage != '[no build]' &&
@@ -58,8 +59,6 @@ jobs:
       inputs.commitMessage != '[force'
     needs: lint
     env:
-      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
       DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
     steps:
@@ -75,10 +74,13 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
       - name: "Init"
         env:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
@@ -109,13 +111,13 @@ jobs:
   veracode_sast_share:
     name: "Pipeline SAST Scan  - Share"
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     if: >
       (github.ref_name == 'master' || startsWith(github.ref_name, 'release/') || github.event_name == 'workflow_dispatch') &&
       github.actor != 'dependabot[bot]' &&
       !contains(github.event.head_commit.message, '[skip tests]')
-    env:
-      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
     steps:
       - name: "Generate GitHub App token"
         id: app-token
@@ -129,7 +131,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
       - name: "Init"
         env:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
@@ -137,9 +139,12 @@ jobs:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: bash scripts/ci/init.sh
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         env:
@@ -154,7 +159,7 @@ jobs:
           sudo rm -r WEB-INF/lib
           sudo rm -rf share.war
           sudo jar -cvf share.war *
-      - uses: Alfresco/alfresco-build-tools/.github/actions/github-download-file@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/github-download-file@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
         with:
           token: ${{ steps.app-token.outputs.token }}
           repository: "Alfresco/veracode-baseline-archive"
@@ -209,6 +214,9 @@ jobs:
   build_docker_image:
     name: "Build Test Artifact - Docker Image"
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     needs: lint
     if: >
       !contains(github.event.head_commit.message, '[skip tests]') &&
@@ -218,8 +226,6 @@ jobs:
       &&
       github.event.repository.fork==false
     env:
-      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
       DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
     steps:
@@ -235,11 +241,14 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
       - name: Setup Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
@@ -274,6 +283,9 @@ jobs:
   unit_tests:
     name: "Unit tests"
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     needs: build
     if: >
       !contains(github.event.head_commit.message, '[skip tests]') &&
@@ -283,8 +295,6 @@ jobs:
       &&
       github.event.repository.fork==false
     env:
-      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
       QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
       DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -306,11 +316,14 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
@@ -332,6 +345,9 @@ jobs:
   ags_unit_tests:
     name: "AGS Unit tests"
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     needs: build
     if: >
       !contains(github.event.head_commit.message, '[skip tests]') &&
@@ -341,8 +357,6 @@ jobs:
       &&
       github.event.repository.fork==false
     env:
-      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
       QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
       DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -364,11 +378,14 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
@@ -390,6 +407,9 @@ jobs:
   documentation_links_check:
     name: "Documentation links check"
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     needs: build
     if: >
       !contains(github.event.head_commit.message, '[skip tests]') &&
@@ -399,8 +419,6 @@ jobs:
       &&
       github.event.repository.fork==false
     env:
-      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
       QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
       DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -417,11 +435,14 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ steps.app-token.outputs.token }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
@@ -445,6 +466,9 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     needs: build_docker_image
     if: >
       !contains(github.event.head_commit.message, '[skip tests]') &&
@@ -453,9 +477,6 @@ jobs:
       inputs.commitMessage != '[force'
       &&
       github.event.repository.fork==false
-    env:
-      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
     strategy:
       fail-fast: false
       matrix:
@@ -464,11 +485,14 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
       - name: Setup Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
@@ -760,6 +784,9 @@ jobs:
 
   community_shared_UI_configuration:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     if: >
       !contains(github.event.head_commit.message, '[skip tests]') &&
       inputs.commitMessage != '[skip tests]' &&
@@ -774,9 +801,6 @@ jobs:
       (contains(github.event.head_commit.message, '[community ags]') ||
       inputs.commitMessage == '[community ags]')
     needs: build_docker_image
-    env:
-      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
     strategy:
       fail-fast: false
       matrix:
@@ -785,10 +809,13 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
       - name: Setup Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
@@ -857,6 +884,9 @@ jobs:
 
   enterprise_shared_UI_configuration:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     if: >
       (!contains(github.event.head_commit.message, '[skip tests]') &&
       inputs.commitMessage != '[skip tests]') &&
@@ -876,8 +906,6 @@ jobs:
       S3_BUCKET_PREFIX: ${{ vars.S3_BUCKET_PREFIX }}
       S3_BUCKET_NAME: ${{ vars.S3_BUCKET_PREFIX }}-${{ github.run_number }}
       S3_BUCKET2_NAME: ${{ vars.S3_BUCKET_PREFIX }}-worm-b2
-      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
       AGS_AWS_ACCESS_KEY_ID: ${{ secrets.AGS_AWS_ACCESS_KEY_ID }}
       AGS_AWS_SECRET_ACCESS_KEY: ${{ secrets.AGS_AWS_SECRET_ACCESS_KEY }}
     strategy:
@@ -888,11 +916,14 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@5d33aec6cf9ffd70982c404ebf5ebadedd7405d9 # v19.5.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
       - name: Setup Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:

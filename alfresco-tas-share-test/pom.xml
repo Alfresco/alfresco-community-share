@@ -13,14 +13,8 @@
    <packaging>jar</packaging>
 
    <distributionManagement>
-      <snapshotRepository>
-         <id>alfresco-internal-snapshots</id>
-         <url>
-            https://nexus.alfresco.com/nexus/contecheckAlfrescoOneLogoInVersiondialognt/repositories/internal-snapshots/
-         </url>
-      </snapshotRepository>
       <repository>
-         <id>alfresco-internal</id>
+         <id>alfresco-releases</id>
          <url>https://nexus.alfresco.com/nexus/content/repositories/internal-releases/</url>
       </repository>
    </distributionManagement>
@@ -33,7 +27,7 @@
       <maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
       <suiteXmlFile>src/test/resources/test-suites</suiteXmlFile>
       <suite-name />
-      <tas.utility.version>6.0.2</tas.utility.version>
+      <tas.utility.version>6.0.3-A.1</tas.utility.version>  <!-- please make sure to have GA version here, before GA release of enterprise share -->
       <apache.poi.version>4.1.2</apache.poi.version>
       <selenium.version>4.40.0</selenium.version>
    </properties>
