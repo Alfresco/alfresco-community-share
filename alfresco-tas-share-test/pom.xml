@@ -15,7 +15,8 @@
    <distributionManagement>
       <repository>
          <id>alfresco-releases</id>
-         <url>https://nexus.alfresco.com/nexus/content/repositories/internal-releases/</url>
+         <!-- TODO: switch to maven.artifacts.hyland.dev once its DNS record exists -->
+         <url>https://maven.cloudsmith.io/hyland/alfresco-internal-releases/</url>
       </repository>
    </distributionManagement>
 
