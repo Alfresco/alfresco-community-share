@@ -149,7 +149,7 @@ jobs:
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: Setup Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: 3.x
       - name: "Prepare before Test"
@@ -323,7 +323,7 @@ jobs:
       - name: Get build info
         uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
       - name: Setup Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: 3.x
       - name: "Init"
@@ -511,7 +511,7 @@ jobs:
       - name: Get build info
         uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
       - name: Setup Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: 3.x
       - name: "Init"
@@ -611,7 +611,7 @@ jobs:
       - name: Get build info
         uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
       - name: Setup Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: 3.x
       - name: "Init"
@@ -729,7 +729,7 @@ jobs:
       - name: Get build info
         uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
       - name: Setup Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: 3.x
       - name: Install google chrome version
