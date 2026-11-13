@@ -51,6 +51,8 @@
         <argLine>-Xmx2G -Duser.language=en -Dcom.sun.management.jmxremote</argLine>
 
         <!-- common dependencies-->
+        <!-- Keep aligned with dependency.spring.version / dependency.spring-security.version of alfresco-community-repo:
+             the Share WAR contains its alfresco-core, which brings Spring modules of that version -->
         <dependency.spring.version>7.0.10</dependency.spring.version>
         <dependency.yui.version>2.9.0-alfresco-20141223</dependency.yui.version>
 
@@ -81,7 +83,7 @@
         <dependency.jakarta-jaxb-api.version>2.3.3</dependency.jakarta-jaxb-api.version>
         <dependency.org-json.version>20231013</dependency.org-json.version>
         <dependency.xstream.version>1.4.11.1</dependency.xstream.version>
-        <spring.security.version>7.0.7</spring.security.version>
+        <spring.security.version>7.0.8</spring.security.version>
 
         <alfresco.googledrive.version>5.0.0</alfresco.googledrive.version>
 
@@ -129,6 +131,22 @@
                 <groupId>io.opentelemetry</groupId>
                 <artifactId>opentelemetry-bom</artifactId>
                 <version>${dependency.opentelemetry.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- All Spring modules in one version, also the ones that only come in transitively (e.g. spring-context,
+                 spring-aop, spring-tx via alfresco-core), so that the WAR never mixes Spring versions -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${dependency.spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-bom</artifactId>
+                <version>${spring.security.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
