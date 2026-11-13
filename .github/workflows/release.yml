@@ -23,7 +23,7 @@ env:
   ALFRESCO_URL: "http://localhost:8080/alfresco/"
   SHARE_URL: "http://localhost:8181/share"
   DISPLAY: :99.0
-  WEBDRIVER_ARGUMENTS: '-Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dwebdriver.localGrid=false -Dorg.alfresco.rm.timeout_seconds.MEDIUM=30'
+  WEBDRIVER_ARGUMENTS: '-Dwebdriver.local.grid=true -Dwebdriver.browser=RemoteFireFox -Dorg.alfresco.rm.timeout_seconds.MEDIUM=30'
   ALF_PWD: ${{ secrets.ALF_PWD }}
   ARTIFACTS_BUCKET: ${{ secrets.ARTIFACTS_BUCKET }}
   ARTIFACTS_KEY: ${{ secrets.ARTIFACTS_KEY }}
