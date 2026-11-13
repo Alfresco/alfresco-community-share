@@ -6,7 +6,7 @@ It is intended as the baseline before refactoring secrets from workflow-global `
 > Notes
 >
 > - Maven repository, Quay and DockerHub credentials are consumed via `.ci.settings.xml`.
-> - Maven dependencies resolve through the `alfresco-internal` mirror with short-lived credentials from the `cloudsmith-auth` step (GitHub OIDC, needs `id-token: write`). No long-lived secret is needed to pull.
+> - Maven dependencies resolve through the `alfresco-internal` mirror with short-lived credentials from the `cloudsmith-auth` step (GitHub OIDC, needs `id-token: write`). The same credentials deploy release artifacts to the Maven repository; no long-lived Maven secret is needed.
 > - `scripts/ci/init.sh` performs Docker logins to DockerHub and Quay; therefore any job that runs `init.sh` requires Docker/Quay creds.
 > - The current GitHub Actions pipelines upload/download test results using **GitHub Actions artifacts** (`actions/upload-artifact`, `actions/download-artifact`), not S3.
 
@@ -14,7 +14,7 @@ It is intended as the baseline before refactoring secrets from workflow-global `
 
 ### Maven (artifact repository)
 - Pull: `cloudsmith-auth` exports `CLOUDSMITH_USERNAME` / `CLOUDSMITH_API_KEY` (OIDC, no secret)
-- Deploy (release job only, until Phase 2): `NEXUS_USERNAME` / `NEXUS_PASSWORD` → exported as `MAVEN_USERNAME` / `MAVEN_PASSWORD`
+- Deploy (release job only): the same `CLOUDSMITH_USERNAME` / `CLOUDSMITH_API_KEY` credentials authenticate the `alfresco-releases` server in `.ci.settings.xml` (OIDC, no secret)
 
 ### Container registries
 - `QUAY_USERNAME` / `QUAY_PASSWORD`
@@ -94,8 +94,7 @@ Additional notes:
 
 | Secret (env or step input) | Source secret | Where used (job/step/script) |
 |---|---|---|
-| `MAVEN_USERNAME`, `MAVEN_PASSWORD` | `NEXUS_USERNAME`, `NEXUS_PASSWORD` | Job `release` (deploy, until Phase 2) |
-| `CLOUDSMITH_USERNAME`, `CLOUDSMITH_API_KEY` | none (OIDC via `cloudsmith-auth`) | Jobs `release` and `update_downstream` (Maven dependency resolution) |
+| `CLOUDSMITH_USERNAME`, `CLOUDSMITH_API_KEY` | none (OIDC via `cloudsmith-auth`) | Jobs `release` (Maven dependency resolution and deployment) and `update_downstream` (Maven dependency resolution) |
 | `QUAY_USERNAME`, `QUAY_PASSWORD` | `QUAY_USERNAME`, `QUAY_PASSWORD` | Jobs `release`, `update_downstream`, `mirroring` because they run `scripts/ci/init.sh` (Docker login) |
 | `DOCKERHUB_USERNAME`, `DOCKERHUB_PASSWORD` | `DOCKERHUB_USERNAME`, `DOCKERHUB_PASSWORD` | Jobs `release`, `update_downstream`, `mirroring` because they run `scripts/ci/init.sh` (Docker login) |
 | `GIT_USERNAME`, `GIT_PASSWORD` | `BOT_GITHUB_USERNAME`, `BOT_GITHUB_TOKEN` | Job `release` via `scripts/ci/maven_release.sh`; job `mirroring` via `scripts/ci/mirror-community-repo.sh` |

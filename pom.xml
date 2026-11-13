@@ -25,6 +25,10 @@
     </modules>
 
     <properties>
+        <!-- TODO: switch to maven.artifacts.hyland.dev once its DNS record exists -->
+        <maven.releases.url>https://maven.cloudsmith.io/hyland/alfresco-community-releases/</maven.releases.url>
+        <!-- TODO: switch to maven.artifacts.hyland.dev once its DNS record exists -->
+        <maven.enterprise.releases.url>https://maven.cloudsmith.io/hyland/alfresco-enterprise-releases/</maven.enterprise.releases.url>
         <version.major>26</version.major>
         <version.minor>3</version.minor>
         <version.revision>0</version.revision>
@@ -121,7 +125,7 @@
     <distributionManagement>
         <repository>
             <id>alfresco-releases</id>
-            <url>https://artifacts.alfresco.com/nexus/content/repositories/releases</url>
+            <url>${maven.releases.url}</url>
         </repository>
     </distributionManagement>
 
@@ -732,6 +736,15 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>prerelease</id>
+            <properties>
+                <!-- TODO: switch to maven.artifacts.hyland.dev once its DNS record exists -->
+                <maven.releases.url>https://maven.cloudsmith.io/hyland/alfresco-internal-releases/</maven.releases.url>
+                <!-- TODO: switch to maven.artifacts.hyland.dev once its DNS record exists -->
+                <maven.enterprise.releases.url>https://maven.cloudsmith.io/hyland/alfresco-internal-releases/</maven.enterprise.releases.url>
+            </properties>
+        </profile>
         <profile>
             <properties>
                 <!-- Filter solrcore.properties -->
