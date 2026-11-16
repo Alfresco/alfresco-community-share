@@ -8,4 +8,5 @@ public interface ShareGroups {
     String MISSING_STEPS ="MissingSteps";
     String SKIPPED_IN_ES = "SkippedInES";
     String TOBEDELETED = "tobedeleted";
+    String ABANDONED = "Abandoned";
 }

@@ -186,7 +186,7 @@ Alfresco.util.RichEditorManager.addEditor('tinyMCE', function(id, config)
          config.theme = 'silver';
          if (!config.toolbar)
          {
-            config.toolbar = 'blocks | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | ltr rtl | bullist numlist outdent indent | link image emoticons codesample | preview print fullscreen';
+            config.toolbar = 'blocks | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | ltr rtl | bullist numlist outdent indent | link emoticons codesample | preview print fullscreen';
          }
          if (!config.menu)
          {
@@ -194,7 +194,7 @@ Alfresco.util.RichEditorManager.addEditor('tinyMCE', function(id, config)
                // TODO: I18N
                file   : {title : 'File'  , items : 'newdocument | print'},
                edit   : {title : 'Edit'  , items : 'undo redo | cut copy paste pastetext | selectall | searchreplace'},
-               insert : {title : 'Insert', items : 'link image emoticons codesample | charmap hr anchor pagebreak insertdatetime nonbreaking'},
+               insert : {title : 'Insert', items : 'link emoticons codesample | charmap hr anchor pagebreak insertdatetime nonbreaking'},
                view   : {title : 'View'  , items : 'fullscreen preview visualblocks code'},
                format : {title : 'Format', items : 'bold italic underline strikethrough superscript subscript | blocks | ltr rtl | removeformat'},
                table  : {title : 'Table' , items : 'inserttable tableprops deletetable | cell row column'}
@@ -203,7 +203,7 @@ Alfresco.util.RichEditorManager.addEditor('tinyMCE', function(id, config)
          if (!config.plugins)
          {
             config.plugins = [
-               'advlist autolink link image lists charmap preview anchor pagebreak',
+               'advlist autolink link lists charmap preview anchor pagebreak',
                'searchreplace code fullscreen insertdatetime nonbreaking',
                'table visualblocks directionality emoticons',
                'wordcount tabfocus codesample'

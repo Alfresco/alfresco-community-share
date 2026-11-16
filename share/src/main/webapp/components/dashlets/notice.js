@@ -220,7 +220,7 @@
                            height: 150,
                            width: 404,
                            menu: {},
-                           toolbar: "bold italic underline | bullist numlist | forecolor backcolor | undo redo removeformat | link anchor image code",
+                           toolbar: "bold italic underline | bullist numlist | forecolor backcolor | undo redo removeformat | link anchor code",
                            language: 'en',
                            statusbar: false,
                            extended_valid_elements: "a[href|target|name],font[face|size|color|style],span[class|align|style],div[class|align|style]"

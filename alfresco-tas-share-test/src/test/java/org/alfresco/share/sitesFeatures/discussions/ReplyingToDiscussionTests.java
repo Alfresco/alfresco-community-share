@@ -166,8 +166,9 @@ public class ReplyingToDiscussionTests extends BaseTest
         assertEquals(topicViewPage.getTopicReplies(), "(1)", "Topic has 1 reply.");
     }
 
+    //NOTE: The Image upload feature in rich text editor is discarded from share, making this test case obsolete.
     @TestRail (id = "6217")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES,ShareGroups.ABANDONED })
     public void insertImageInReplyToDiscussion()
     {
         today = df.format(new Date());
