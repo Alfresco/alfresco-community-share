@@ -562,7 +562,7 @@ jobs:
               fi
 
               # Run the tests
-              bash scripts/ci/execute_share_web_docker.sh "$CURRENT_SUITE" -DexcludedGroups=bug,tobedeleted
+              bash scripts/ci/execute_share_web_docker.sh "$CURRENT_SUITE" -DexcludedGroups=bug,tobedeleted,Abandoned
 
               TEST_EXIT_CODE=$?
 

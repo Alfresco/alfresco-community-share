@@ -199,8 +199,9 @@ public class EditWikiPageTests extends BaseTest
 
     }
 
+    //NOTE: The Image upload feature in rich text editor is discarded from share, making this test case obsolete.
     @TestRail (id = "C5545")
-    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES })
+    @Test (groups = { TestGroup.SANITY, TestGroup.SITES_FEATURES, ShareGroups.ABANDONED })
     public void verifyInsertLibraryImageFeature() {
         wikiPageTitle = String.format("WikiPage%s", RandomData.getRandomAlphanumeric());
         log.info("Preconditions: create site and wiki page, upload image in document library");
