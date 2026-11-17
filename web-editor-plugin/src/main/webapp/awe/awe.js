@@ -1071,7 +1071,7 @@
 
       onHelp: function AWE_onHelp()
       {
-         window.open('https://support.hyland.com/p/alfresco','wefhelp');
+         window.open('https://docs.hyland.com/p/alfresco','wefhelp');
       },
 
       onQuickEditMouseOver: function AWE_onQuickEditMouseOver(e, args)
