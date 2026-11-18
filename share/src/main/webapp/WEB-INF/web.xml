@@ -65,15 +65,13 @@
       <filter-class>org.springframework.extensions.webscripts.servlet.SecurityHeadersFilter</filter-class>
    </filter>
 
-  <!--ResourcePathValidationFilter mappings -->
   <filter-mapping>
     <filter-name>ResourcePathValidationFilter</filter-name>
-    <url-pattern>/res/*</url-pattern>
-  </filter-mapping>
-
-  <filter-mapping>
-    <filter-name>ResourcePathValidationFilter</filter-name>
-    <url-pattern>/page/resource/*</url-pattern>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ASYNC</dispatcher>
   </filter-mapping>
 
    <!-- MTAuthenticationFilter mappings -->
