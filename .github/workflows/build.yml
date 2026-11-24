@@ -55,7 +55,7 @@ jobs:
         with:
           fetch-depth: 2
       - name: Get commit message
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@v19.16.0
         id: get-commit
         with:
           header-only: "true"
@@ -72,11 +72,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Setup Java
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: Pre-commit
-        uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@16298278308f674c76542d61658da190e975e31c # v19.16.0
 
   test_run_check:
     name: "Test run check"
@@ -125,7 +125,7 @@ jobs:
     steps:
       - name: "Generate GitHub App token"
         id: app-token
-        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
         with:
           client-id: ${{ vars.GH_APP_ENGINEERING_RO_CLIENT_ID }}
           private-key: ${{ secrets.GH_APP_ENGINEERING_RO_PRIVATE_KEY }}
@@ -137,19 +137,19 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
       - name: Setup Java
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: "Authenticate to the Maven repository"
-        uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
       - name: Get build info
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@16298278308f674c76542d61658da190e975e31c # v19.16.0
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: Setup Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: 3.x
       - name: "Prepare before Test"
@@ -193,7 +193,7 @@ jobs:
     steps:
       - name: "Generate GitHub App token"
         id: app-token
-        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
         with:
           client-id: ${{ vars.GH_APP_ENGINEERING_CONTRIB_CLIENT_ID }}
           private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
@@ -205,15 +205,15 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
       - name: Get build info
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@16298278308f674c76542d61658da190e975e31c # v19.16.0
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: Setup Java
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: "Authenticate to the Maven repository"
-        uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
       - name: "Build"
@@ -231,7 +231,7 @@ jobs:
           sudo rm -rf share.war
           sudo jar -cvf share.war *
       - name: Download Veracode baseline
-        uses: Alfresco/alfresco-build-tools/.github/actions/github-download-file@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/github-download-file@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           token: ${{ steps.app-token.outputs.token }}
           repository: "Alfresco/veracode-baseline-archive"
@@ -299,7 +299,7 @@ jobs:
     steps:
       - name: "Generate GitHub App token"
         id: app-token
-        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
         with:
           client-id: ${{ vars.GH_APP_ENGINEERING_RO_CLIENT_ID }}
           private-key: ${{ secrets.GH_APP_ENGINEERING_RO_PRIVATE_KEY }}
@@ -311,19 +311,19 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
       - name: Free disk space
-        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@16298278308f674c76542d61658da190e975e31c # v19.16.0
       - name: Setup Java
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: "Authenticate to the Maven repository"
-        uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
       - name: Get build info
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@16298278308f674c76542d61658da190e975e31c # v19.16.0
       - name: Setup Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: 3.x
       - name: "Init"
@@ -373,7 +373,7 @@ jobs:
     steps:
       - name: "Generate GitHub App token"
         id: app-token
-        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
         with:
           client-id: ${{ vars.GH_APP_ENGINEERING_RO_CLIENT_ID }}
           private-key: ${{ secrets.GH_APP_ENGINEERING_RO_PRIVATE_KEY }}
@@ -385,17 +385,17 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
       - name: Free disk space
-        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@16298278308f674c76542d61658da190e975e31c # v19.16.0
       - name: Setup Java
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: "Authenticate to the Maven repository"
-        uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
       - name: Get build info
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@16298278308f674c76542d61658da190e975e31c # v19.16.0
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
@@ -434,7 +434,7 @@ jobs:
     steps:
       - name: "Generate GitHub App token"
         id: app-token
-        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
         with:
           client-id: ${{ vars.GH_APP_ENGINEERING_RO_CLIENT_ID }}
           private-key: ${{ secrets.GH_APP_ENGINEERING_RO_PRIVATE_KEY }}
@@ -446,17 +446,17 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
       - name: Free disk space
-        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@16298278308f674c76542d61658da190e975e31c # v19.16.0
       - name: Setup Java
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: "Authenticate to the Maven repository"
-        uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
       - name: Get build info
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@16298278308f674c76542d61658da190e975e31c # v19.16.0
       - name: "Init"
         run: bash scripts/ci/init.sh
       - name: "Build"
@@ -488,7 +488,7 @@ jobs:
     steps:
       - name: "Generate GitHub App token"
         id: app-token
-        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
         with:
           client-id: ${{ vars.GH_APP_ENGINEERING_RO_CLIENT_ID }}
           private-key: ${{ secrets.GH_APP_ENGINEERING_RO_PRIVATE_KEY }}
@@ -499,19 +499,19 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
       - name: Free disk space
-        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@16298278308f674c76542d61658da190e975e31c # v19.16.0
       - name: Setup Java
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: "Authenticate to the Maven repository"
-        uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
       - name: Get build info
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@16298278308f674c76542d61658da190e975e31c # v19.16.0
       - name: Setup Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: 3.x
       - name: "Init"
@@ -601,17 +601,17 @@ jobs:
         with:
           persist-credentials: false
       - name: Setup Java
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: "Authenticate to the Maven repository"
-        uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
       - name: Get build info
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@16298278308f674c76542d61658da190e975e31c # v19.16.0
       - name: Setup Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: 3.x
       - name: "Init"
@@ -717,19 +717,19 @@ jobs:
         with:
           persist-credentials: false
       - name: Free disk space
-        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@16298278308f674c76542d61658da190e975e31c # v19.16.0
       - name: Setup Java
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: "Authenticate to the Maven repository"
-        uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@16298278308f674c76542d61658da190e975e31c # v19.16.0
         with:
           oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
       - name: Get build info
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@16298278308f674c76542d61658da190e975e31c # v19.16.0
       - name: Setup Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: 3.x
       - name: Install google chrome version
