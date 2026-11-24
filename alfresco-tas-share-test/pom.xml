@@ -13,15 +13,10 @@
    <packaging>jar</packaging>
 
    <distributionManagement>
-      <snapshotRepository>
-         <id>alfresco-internal-snapshots</id>
-         <url>
-            https://nexus.alfresco.com/nexus/contecheckAlfrescoOneLogoInVersiondialognt/repositories/internal-snapshots/
-         </url>
-      </snapshotRepository>
       <repository>
-         <id>alfresco-internal</id>
-         <url>https://nexus.alfresco.com/nexus/content/repositories/internal-releases/</url>
+         <id>alfresco-releases</id>
+         <!-- TODO: switch to maven.artifacts.hyland.dev once its DNS record exists -->
+         <url>https://maven.cloudsmith.io/hyland/alfresco-internal-releases/</url>
       </repository>
    </distributionManagement>
 
@@ -174,8 +169,8 @@
          <artifactId>log4j-core</artifactId>
       </dependency>
        <dependency>
-           <groupId>mysql</groupId>
-           <artifactId>mysql-connector-java</artifactId>
+           <groupId>com.mysql</groupId>
+           <artifactId>mysql-connector-j</artifactId>
            <version>8.0.33</version>
        </dependency>
        <dependency>

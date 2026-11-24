@@ -25,6 +25,10 @@
     </modules>
 
     <properties>
+        <!-- TODO: switch to maven.artifacts.hyland.dev once its DNS record exists -->
+        <maven.releases.url>https://maven.cloudsmith.io/hyland/alfresco-community-releases/</maven.releases.url>
+        <!-- TODO: switch to maven.artifacts.hyland.dev once its DNS record exists -->
+        <maven.enterprise.releases.url>https://maven.cloudsmith.io/hyland/alfresco-enterprise-releases/</maven.enterprise.releases.url>
         <version.major>26</version.major>
         <version.minor>2</version.minor>
         <version.revision>5</version.revision>
@@ -117,8 +121,8 @@
 
     <distributionManagement>
         <repository>
-            <id>alfresco-internal</id>
-            <url>https://artifacts.alfresco.com/nexus/content/repositories/releases</url>
+            <id>alfresco-releases</id>
+            <url>${maven.releases.url}</url>
         </repository>
     </distributionManagement>
 
