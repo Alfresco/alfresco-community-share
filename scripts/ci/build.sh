@@ -69,7 +69,7 @@ fi
 
 # Build the current project
 mvn -B -ntp -V install -DskipTests -Dmaven.javadoc.skip=true -Pags "-Dimage.tag=${TAG_NAME}" ${REPO_IMAGE} \
-  $([ "${JOB_NAME,,}" = "build" ] && echo "-Ppush-docker-images" || echo "-Pbuild-docker-images") \
+  $([ "${JOB_NAME,,}" = "build" ] && [ "${GITHUB_ACTOR}" != "dependabot[bot]" ] && echo "-Ppush-docker-images" || echo "-Pbuild-docker-images")
 
 popd
 set +vex

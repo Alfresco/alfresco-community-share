@@ -20,7 +20,19 @@ function cloneRepo() {
 
   rm -rf "$(basename "${REPO%.git}")"
 
-  git clone -b "${TAG_OR_BRANCH}" --depth=1 "https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO}"
+  { set +x; } 2>/dev/null
+  local AUTH
+  if [[ -n "${APP_TOKEN:-}" ]]; then
+    AUTH="x-access-token:${APP_TOKEN}@"
+  elif [[ -n "${GIT_USERNAME:-}" ]]; then
+    AUTH="${GIT_USERNAME}:${GIT_PASSWORD}@"
+  else
+    echo "ERROR: neither APP_TOKEN nor GIT_USERNAME is set - cannot authenticate" >&2
+    { set -x; } 2>/dev/null
+    return 1
+  fi
+  git clone -b "${TAG_OR_BRANCH}" --depth=1 "https://${AUTH}${REPO}"
+  { set -x; } 2>/dev/null
 
   popd >/dev/null
 }
@@ -76,7 +88,19 @@ function remoteBranchExists() {
   local REMOTE_REPO="${1}"
   local BRANCH="${2}"
 
-  git ls-remote --exit-code --heads "https://${GIT_USERNAME}:${GIT_PASSWORD}@${REMOTE_REPO}" "${BRANCH}" &>/dev/null
+  { set +x; } 2>/dev/null
+  local AUTH
+  if [[ -n "${APP_TOKEN:-}" ]]; then
+    AUTH="x-access-token:${APP_TOKEN}@"
+  elif [[ -n "${GIT_USERNAME:-}" ]]; then
+    AUTH="${GIT_USERNAME}:${GIT_PASSWORD}@"
+  else
+    echo "ERROR: neither APP_TOKEN nor GIT_USERNAME is set - cannot authenticate" >&2
+    { set -x; } 2>/dev/null
+    return 1
+  fi
+  git ls-remote --exit-code --heads "https://${AUTH}${REMOTE_REPO}" "${BRANCH}" &>/dev/null
+  { set -x; } 2>/dev/null
 }
 
 function identifyUpstreamSourceBranch() {
@@ -175,7 +199,19 @@ function retieveLatestTag() {
 
   local LOCAL_PATH="/tmp/$(basename "${REPO%.git}")"
 
-  git clone -q -b "${BRANCH}" "https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO}" "${LOCAL_PATH}"
+  { set +x; } 2>/dev/null
+  local AUTH
+  if [[ -n "${APP_TOKEN:-}" ]]; then
+    AUTH="x-access-token:${APP_TOKEN}@"
+  elif [[ -n "${GIT_USERNAME:-}" ]]; then
+    AUTH="${GIT_USERNAME}:${GIT_PASSWORD}@"
+  else
+    echo "ERROR: neither APP_TOKEN nor GIT_USERNAME is set - cannot authenticate" >&2
+    { set -x; } 2>/dev/null
+    return 1
+  fi
+  git clone -q -b "${BRANCH}" "https://${AUTH}${REPO}" "${LOCAL_PATH}"
+  { set -x; } 2>/dev/null
 
   pushd "${LOCAL_PATH}" >/dev/null
   git describe --abbrev=0 --tags
